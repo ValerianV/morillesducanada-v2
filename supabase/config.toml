@@ -1,0 +1,13 @@
+project_id = "eozbnwvirdilwslqnkab"
+
+[functions]
+  [functions.auth-email-hook]
+    verify_jwt = false
+  [functions.notify-contact]
+    verify_jwt = false
+  [functions.notify-order-status]
+    verify_jwt = false
+  [functions.generate-invoice]
+    verify_jwt = false
+  [functions.stripe-webhook]
+    verify_jwt = false

@@ -1,0 +1,4 @@
+ALTER TABLE public.orders
+  ADD COLUMN IF NOT EXISTS tracking_number text,
+  ADD COLUMN IF NOT EXISTS tracking_url text,
+  ADD COLUMN IF NOT EXISTS carrier text;

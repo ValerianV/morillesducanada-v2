@@ -1,0 +1,166 @@
+/* Fonts loaded via index.html with preload for better LCP */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 10% 8%;
+    --foreground: 40 30% 90%;
+
+    --card: 30 10% 12%;
+    --card-foreground: 40 30% 90%;
+
+    --popover: 30 10% 10%;
+    --popover-foreground: 40 30% 90%;
+
+    --primary: 40 60% 50%;
+    --primary-foreground: 30 10% 8%;
+
+    --secondary: 30 10% 16%;
+    --secondary-foreground: 40 30% 85%;
+
+    --muted: 30 8% 18%;
+    --muted-foreground: 30 15% 55%;
+
+    --accent: 40 60% 50%;
+    --accent-foreground: 30 10% 8%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 30 15% 20%;
+    --input: 30 15% 20%;
+    --ring: 40 60% 50%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 30 10% 10%;
+    --sidebar-foreground: 40 30% 90%;
+    --sidebar-primary: 40 60% 50%;
+    --sidebar-primary-foreground: 30 10% 8%;
+    --sidebar-accent: 30 10% 16%;
+    --sidebar-accent-foreground: 40 30% 90%;
+    --sidebar-border: 30 15% 20%;
+    --sidebar-ring: 40 60% 50%;
+
+    --gold: 40 60% 50%;
+    --gold-light: 40 50% 65%;
+    --gold-dark: 40 70% 35%;
+    --forest: 150 20% 18%;
+    --ember: 15 80% 45%;
+  }
+
+  .dark {
+    --background: 30 10% 8%;
+    --foreground: 40 30% 90%;
+    --card: 30 10% 12%;
+    --card-foreground: 40 30% 90%;
+    --popover: 30 10% 10%;
+    --popover-foreground: 40 30% 90%;
+    --primary: 40 60% 50%;
+    --primary-foreground: 30 10% 8%;
+    --secondary: 30 10% 16%;
+    --secondary-foreground: 40 30% 85%;
+    --muted: 30 8% 18%;
+    --muted-foreground: 30 15% 55%;
+    --accent: 40 60% 50%;
+    --accent-foreground: 30 10% 8%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 30 15% 20%;
+    --input: 30 15% 20%;
+    --ring: 40 60% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Raleway', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif;
+  }
+}
+
+@layer utilities {
+  .safari-safe-layer {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+
+  .supports-backdrop\:bg-background\/80 {
+    background-color: hsl(var(--background) / 0.8);
+  }
+
+  @supports ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
+    .supports-backdrop\:backdrop-blur-md {
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, hsl(40 60% 50%), hsl(40 50% 65%), hsl(40 60% 50%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-gradient-dark {
+    background: linear-gradient(180deg, hsl(30 10% 8%) 0%, hsl(30 10% 5%) 100%);
+  }
+
+  .bg-gradient-card {
+    background: linear-gradient(145deg, hsl(30 10% 14%) 0%, hsl(30 10% 10%) 100%);
+  }
+
+  .border-gold {
+    border-color: hsl(40 60% 50% / 0.3);
+  }
+
+  .shadow-gold {
+    box-shadow: 0 0 30px hsl(40 60% 50% / 0.1);
+  }
+
+  .divider-gold {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(40 60% 50% / 0.5), transparent);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: hsl(var(--background));
+}
+
+html, body, #root {
+  min-height: 100%;
+  background-color: hsl(var(--background));
+}
+
+body {
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+@supports (-webkit-touch-callout: none) {
+  body {
+    min-height: -webkit-fill-available;
+  }
+}
+
+img {
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
