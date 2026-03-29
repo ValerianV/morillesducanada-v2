@@ -8,7 +8,7 @@ import { useI18n } from "@/i18n/context";
 
 const ProductsSection = () => {
   const addItem = useCartStore((state) => state.addItem);
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const [vacuumWeight, setVacuumWeight] = useState(100);
 
   const handleAddToCart = (product: (typeof products)[0], e: React.MouseEvent) => {
@@ -65,7 +65,7 @@ const ProductsSection = () => {
                   <h3 className="font-serif text-lg mb-1">{product.name}</h3>
                   <p className="text-xs text-muted-foreground mb-2">{product.servings}</p>
                   <p className="font-serif text-2xl text-gradient-gold mb-3">{currentVacuumPrice.toFixed(2)} €</p>
-                  <p className="text-sm text-muted-foreground font-light leading-relaxed mb-4 line-clamp-2">{product.description}</p>
+                  <p className="text-sm text-muted-foreground font-light leading-relaxed mb-4 line-clamp-2">{locale === "en" ? product.descriptionEn : product.description}</p>
 
                   {isVacuum && (
                     <div className="mb-4">

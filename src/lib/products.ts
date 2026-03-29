@@ -8,6 +8,7 @@ export interface Product {
   name: string;
   slug: string;
   description: string;
+  descriptionEn: string;
   weight: string;
   price: number;
   priceId?: string;
@@ -27,7 +28,8 @@ export const products: Product[] = [
     id: "morilles-12g",
     name: "Découverte 12g",
     slug: "decouverte-12g",
-    description: "Pot de 12g de morilles de feu séchées. Idéal pour découvrir nos morilles sauvages du Canada. Parfait pour 2 personnes.",
+    description: "Format d'évaluation. Douze grammes suffisent pour tester le produit sur une sauce, un bouillon réduit, une garniture. Qualité constante, origine traçable. Pour décider avant de commander en volume.",
+    descriptionEn: "Evaluation format. Twelve grams — enough to test on a sauce, a reduced stock, a garnish. Consistent quality, traceable origin. To decide before ordering in volume.",
     weight: "12g",
     price: 10,
     priceId: "price_1TAc73EQBCcpAKNIN0IPxabl",
@@ -40,7 +42,8 @@ export const products: Product[] = [
     id: "morilles-30g",
     name: "Classique 30g",
     slug: "classique-30g",
-    description: "Pot de 30g de morilles de feu séchées. Le format idéal pour un repas entre amis. Parfait pour 4-6 personnes.",
+    description: "Le format de service courant. Trente grammes de morilles de feu séchées — assez pour travailler une sauce pour six couverts ou parfumer un fond. Réhydratation nette, chair ferme, arôme concentré.",
+    descriptionEn: "Standard service format. Thirty grams of dried fire morels — enough to build a sauce for six, or to deepen a stock. Clean rehydration, firm texture, concentrated aroma.",
     weight: "30g",
     price: 20,
     priceId: "price_1TAc7PEQBCcpAKNIjfQGkL1a",
@@ -53,7 +56,8 @@ export const products: Product[] = [
     id: "morilles-45g",
     name: "Prestige 45g",
     slug: "prestige-45g",
-    description: "Pot de 45g de morilles de feu séchées. Format généreux pour les amateurs de morilles ou idéal en cadeau gastronomique.",
+    description: "Format pour les coups de feu. Quarante-cinq grammes permettent de travailler en quantité sans rationner. Idéal en carte ou menu dégustation quand la morille est en position centrale.",
+    descriptionEn: "For high-volume service. Forty-five grams to work with without rationing. Ideal for à la carte or tasting menus where morel is the lead ingredient.",
     weight: "45g",
     price: 25,
     priceId: "price_1TAc7hEQBCcpAKNI5ZheSa9k",
@@ -66,7 +70,8 @@ export const products: Product[] = [
     id: "morilles-sous-vide",
     name: "Morilles sous vide",
     slug: "morilles-sous-vide",
-    description: "Conditionnement sous vide en grands formats. De 100g à 1kg.",
+    description: "Conditionnement professionnel. De 100g à 1kg selon le volume de service. Tarif dégressif à partir de 500g. Pour les cuisines qui travaillent la morille en régulier.",
+    descriptionEn: "Professional packaging. From 100g to 1kg depending on service volume. Tiered pricing from 500g. For kitchens that use morel on a regular basis.",
     weight: "100g à 1kg",
     price: 45,
     image: productVacuumBag,
