@@ -27,3 +27,4 @@ dist/
 .env
 .vercel
 src/assets/originals/
+supabase/.temp/
