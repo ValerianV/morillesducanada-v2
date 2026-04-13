@@ -12,6 +12,7 @@ export interface Product {
   weight: string;
   price: number;
   priceId?: string;
+  weightPriceIds?: Record<number, string>;
   image: string;
   servings: string;
   inStock: boolean;
@@ -32,7 +33,7 @@ export const products: Product[] = [
     descriptionEn: "Evaluation format. Twelve grams — enough to test on a sauce, a reduced stock, a garnish. Consistent quality, traceable origin. To decide before ordering in volume.",
     weight: "12g",
     price: 10,
-    priceId: "price_1TK10MEQBCcpAKNIQ8i7I6Lg",
+    priceId: "price_1TAc73EQBCcpAKNIN0IPxabl",
     image: product12g,
     servings: "2 personnes",
     inStock: true,
@@ -46,7 +47,7 @@ export const products: Product[] = [
     descriptionEn: "Standard service format. Thirty grams of dried fire morels — enough to build a sauce for six, or to deepen a stock. Clean rehydration, firm texture, concentrated aroma.",
     weight: "30g",
     price: 20,
-    priceId: "price_1TK10NEQBCcpAKNIaMUFXxU7",
+    priceId: "price_1TAc7PEQBCcpAKNIjfQGkL1a",
     image: product30g,
     servings: "4-6 personnes",
     inStock: true,
@@ -60,7 +61,7 @@ export const products: Product[] = [
     descriptionEn: "For high-volume service. Forty-five grams to work with without rationing. Ideal for à la carte or tasting menus where morel is the lead ingredient.",
     weight: "45g",
     price: 25,
-    priceId: "price_1TK10NEQBCcpAKNIH7UK3lHp",
+    priceId: "price_1TAc7hEQBCcpAKNI5ZheSa9k",
     image: product45g,
     servings: "6-8 personnes",
     inStock: true,
@@ -74,7 +75,12 @@ export const products: Product[] = [
     descriptionEn: "Professional packaging. From 100g to 1kg depending on service volume. Tiered pricing from 500g. For kitchens that use morel on a regular basis.",
     weight: "100g à 1kg",
     price: 45,
-    priceId: "price_1TK10OEQBCcpAKNIAZCHBEU4",
+    weightPriceIds: {
+      100: "price_1TCOGlEQBCcpAKNIUPXdRkus",
+      200: "price_1TCOHOEQBCcpAKNINtziHFem",
+      500: "price_1TCOHfEQBCcpAKNIjUFaDjmB",
+      1000: "price_1TCOHgEQBCcpAKNIOg33J6Hq",
+    },
     image: productVacuumBag,
     servings: "Format pro & passionnés",
     inStock: true,

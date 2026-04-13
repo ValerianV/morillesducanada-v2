@@ -16,18 +16,20 @@ export const CartDrawer = () => {
     if (items.length === 0) return;
     setCheckoutLoading(true);
     try {
-      const lineItems = items.map((item) =>
-        item.product.priceId
-          ? {
-              priceId: item.product.priceId,
-              quantity: item.quantity,
-            }
+      const lineItems = items.map((item) => {
+        const resolvedPriceId =
+          item.product.priceId ??
+          (item.selectedWeightGrams
+            ? item.product.weightPriceIds?.[item.selectedWeightGrams]
+            : undefined);
+        return resolvedPriceId
+          ? { priceId: resolvedPriceId, quantity: item.quantity }
           : {
               quantity: item.quantity,
               unitAmountCents: Math.round(item.unitPrice * 100),
               name: `${item.product.name}${item.selectedWeightGrams ? ` ${item.selectedWeightGrams}g` : ""}`,
-            }
-      );
+            };
+      });
 
       const { data, error } = await supabase.functions.invoke("create-checkout", {
         body: { lineItems },
