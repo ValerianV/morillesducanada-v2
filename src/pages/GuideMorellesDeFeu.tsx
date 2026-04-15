@@ -13,7 +13,7 @@ const guideJsonLd = {
     "Tout savoir sur les morilles de feu (fire morels) : origine, différences avec les morilles cultivées, comment les préparer, les conserver et les cuisiner.",
   author: { "@type": "Organization", name: "Morilles du Canada" },
   publisher: { "@type": "Organization", name: "Morilles du Canada" },
-  mainEntityOfPage: "https://morillesducanada.lovable.app/guide-morilles-de-feu",
+  mainEntityOfPage: "https://morillesducanada.com/guide-morilles-de-feu",
   datePublished: "2025-01-01",
   dateModified: new Date().toISOString().split("T")[0],
 };
@@ -28,7 +28,7 @@ const GuideMorellesDeFeu = () => {
           content="Tout savoir sur les morilles de feu (fire morels) du Canada : origine, variétés, différences avec les morilles cultivées, conservation, préparation et recettes."
         />
         <meta name="keywords" content="morille de feu, fire morel, morilles Canada, morilles séchées, morilles sauvages, Morchella tomentosa, champignon sauvage, morilles boréales" />
-        <link rel="canonical" href="https://morillesducanada.lovable.app/guide-morilles-de-feu" />
+        <link rel="canonical" href="https://morillesducanada.com/guide-morilles-de-feu" />
         <script type="application/ld+json">{JSON.stringify(guideJsonLd)}</script>
       </Helmet>
 

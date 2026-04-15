@@ -59,7 +59,7 @@ const Recettes = () => {
             "@type": "CollectionPage",
             name: "Recettes aux morilles de feu",
             description: "Collection de recettes gastronomiques aux morilles de feu séchées du Canada",
-            url: "https://morillesducanada.lovable.app/recettes",
+            url: "https://morillesducanada.com/recettes",
           })}
         </script>
       </Helmet>

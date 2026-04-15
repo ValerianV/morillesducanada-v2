@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 
-const siteUrl = "https://morillesducanada.lovable.app";
+const siteUrl = "https://morillesducanada.com";
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -46,6 +46,7 @@ const productSchemas = [
     offers: {
       "@type": "Offer",
       priceCurrency: "EUR",
+      price: "10.00",
       availability: "https://schema.org/InStock",
       seller: { "@type": "Organization", name: "Morilles du Canada" },
     },
@@ -62,6 +63,7 @@ const productSchemas = [
     offers: {
       "@type": "Offer",
       priceCurrency: "EUR",
+      price: "20.00",
       availability: "https://schema.org/InStock",
     },
   },
@@ -77,6 +79,7 @@ const productSchemas = [
     offers: {
       "@type": "Offer",
       priceCurrency: "EUR",
+      price: "25.00",
       availability: "https://schema.org/InStock",
     },
   },

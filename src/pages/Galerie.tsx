@@ -16,11 +16,11 @@ const Galerie = () => {
       <Helmet>
         <title>Galerie Photos de Morilles Sauvages | Morilles du Canada</title>
         <meta name="description" content="Découvrez nos plus belles photos de morilles sauvages cueillies en Colombie-Britannique et au Yukon. Morilles de feu, morilles noires et blondes dans leur habitat naturel." />
-        <link rel="canonical" href="https://morillesducanada.lovable.app/galerie" />
+        <link rel="canonical" href="https://morillesducanada.com/galerie" />
         <meta property="og:title" content="Galerie Photos de Morilles Sauvages | Morilles du Canada" />
         <meta property="og:description" content="Photos authentiques de morilles sauvages cueillies dans les forêts brûlées du Canada." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://morillesducanada.lovable.app/galerie" />
+        <meta property="og:url" content="https://morillesducanada.com/galerie" />
       </Helmet>
 
       <Navbar />

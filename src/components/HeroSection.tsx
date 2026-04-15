@@ -28,7 +28,7 @@ const HeroSection = () => {
   return (
     <section ref={sectionRef} className="relative flex items-center justify-center overflow-hidden min-h-screen safari-safe-layer" style={{ WebkitBackfaceVisibility: "hidden" as any }}>
       <motion.div className="absolute inset-0 safari-safe-layer" style={isSafari ? undefined : { y: imageY, scale: imageScale, willChange: "transform", WebkitBackfaceVisibility: "hidden" as any }}>
-        <img src={heroImage} alt="Morilles de feu séchées canadiennes" className="w-full h-full object-cover" decoding="async" />
+        <img src={heroImage} alt="Morilles de feu séchées canadiennes" className="w-full h-full object-cover" fetchPriority="high" decoding="async" />
       </motion.div>
       <motion.div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background safari-safe-layer" style={isSafari ? undefined : { opacity: overlayOpacity }} />
 

@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -6,6 +7,10 @@ import { BookOpen } from "lucide-react";
 const Journal = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Journal du cueilleur | Morilles du Canada</title>
+        <meta name="robots" content="noindex, follow" />
+      </Helmet>
       <Navbar />
       <main className="pt-32 pb-24">
         <div className="container mx-auto px-6">

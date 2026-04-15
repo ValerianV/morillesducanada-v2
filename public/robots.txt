@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://morillesducanada.lovable.app/sitemap.xml
+Sitemap: https://morillesducanada.com/sitemap.xml
