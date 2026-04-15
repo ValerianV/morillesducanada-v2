@@ -88,13 +88,16 @@ const GuideMorellesDeFeu = () => {
                 <ul className="space-y-2">
                   <li className="font-medium text-foreground mt-2">Morilles brunes :</li>
                   <li><strong><em>Morchella conica</em></strong> — La morille conique. Chapeau allongé et alvéoles régulières. Arôme boisé prononcé.</li>
-                  <li><strong><em>Morchella brunnea</em></strong> — La morille brune. Grande taille, couleur foncée. Saveur riche et terreuse.</li>
-                  <li><strong><em>Morchella septimelata</em></strong> et <strong><em>M. sextelata</em></strong> — Espèces plus rares, spécifiques aux zones de haute altitude.</li>
+                  <li><strong><em>Morchella brunnea</em></strong> — La morille brune. Grande taille, couleur foncée, reflets jaunes. Saveur riche et terreuse.</li>
+                  <li><strong><em>Morchella snyderi</em></strong> — Espèce brune à reflets jaunes dorés, spécifique aux forêts de conifères brûlées.</li>
                   <li className="font-medium text-foreground mt-2">Morilles blondes :</li>
+                  <li><strong><em>Morchella americana</em></strong> — La morille blonde américaine. Plus claire, souvent la plus grande. Juvénile, elle présente une teinte grisâtre.</li>
                   <li><strong><em>Morchella esculenta</em></strong> — La morille commune blonde. Goût délicat avec des notes de noisette.</li>
                   <li><strong><em>Morchella prava</em></strong> — Espèce blonde délicate, arôme subtil.</li>
-                  <li><strong><em>Morchella tomentosa</em></strong> — La « morille grise de feu ». Surface veloutée et grisâtre. Très parfumée.</li>
-                  <li><strong><em>Morchella americana</em></strong> — La morille blonde. Plus claire, souvent la plus grande.</li>
+                  <li className="font-medium text-foreground mt-2">Morille grise :</li>
+                  <li><strong><em>Morchella tomentosa</em></strong> — La morille grise de feu. Surface veloutée à poils fins, chapeau grisâtre. Très parfumée, notes fumées douces.</li>
+                  <li className="font-medium text-foreground mt-2">Morilles vertes (rares) :</li>
+                  <li><strong><em>Morchella sextelata</em></strong> et <strong><em>M. septimelata</em></strong> — Espèces rares de haute altitude, arôme profond et complexe.</li>
                 </ul>
                 <p>
                   Ce mélange de variétés est un atout : il offre une <strong>complexité aromatique</strong> que l'on ne retrouve pas avec une seule espèce. C'est la signature gustative des morilles de feu canadiennes.

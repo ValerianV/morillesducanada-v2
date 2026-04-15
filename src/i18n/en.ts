@@ -24,7 +24,7 @@ export const en = {
     titleHighlight: "fire",
     heading: "A legendary mushroom, forged by flames",
     p1: "Every summer, massive wildfires sweep through Canada's boreal forests. Thousands of hectares of conifers vanish in the flames. But within this destruction, nature prepares a miracle: the following spring, morels emerge by the thousands from the charred soil. These are <strong>fire morels</strong> — a rare, ephemeral phenomenon that foragers worldwide await with fervour.",
-    p2: "Unlike greenhouse-cultivated or European morels, fire morels develop a <strong>unique aromatic profile</strong>: intense smoky notes, a woody depth and a meaty texture that only fire can bestow. Several rare species are found — brown (<em>M. conica, M. brunnea, M. septimelata, M. sextelata</em>) and blonde (<em>M. esculenta, M. prava, M. tomentosa, M. americana</em>) — each with its own nuances.",
+    p2: "Unlike greenhouse-cultivated or European morels, fire morels develop a <strong>unique aromatic profile</strong>: intense smoky notes, a woody depth and a meaty texture that only fire can bestow. Four families are found — brown (<em>M. conica, M. brunnea, M. snyderi</em>), blonde (<em>M. americana, M. esculenta, M. prava</em>), grey (<em>M. tomentosa</em>) and green (<em>M. sextelata, M. septimelata</em>) — each with its own nuances.",
     p3: "Picking them is an adventure in itself. You must venture deep into burned forests, sometimes hours from civilisation, walk through ash and charred trunks, sleep in a tent, face bears and mosquitoes. It's a physical, solitary and unpredictable trade — but when you discover a <strong>field of morels stretching to the horizon</strong>, the magic happens.",
     stat1: "Wild",
     stat2: "Weeks/year",
