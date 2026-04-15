@@ -30,7 +30,7 @@ const ProfessionalSection = () => {
             return (
               <motion.div key={item.title}
                 initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
+                viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.5, delay: i * 0.12, ease: [0.25, 0.4, 0.25, 1] }}
                 className="text-center p-8"
               >
