@@ -1,6 +1,7 @@
 import { ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { products, getVacuumMorelPrice } from "@/lib/products";
 import { useCartStore } from "@/stores/cartStore";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -70,7 +71,15 @@ const ProductsSection = () => {
                   <h3 className="font-serif text-lg mb-1">{product.name}</h3>
                   <p className="text-xs text-muted-foreground mb-2">{product.servings}</p>
                   <p className="font-serif text-2xl text-gradient-gold mb-3">{currentVacuumPrice.toFixed(2)} €</p>
-                  <p className="text-sm text-muted-foreground font-light leading-relaxed mb-4 line-clamp-2">{locale === "en" ? product.descriptionEn : product.description}</p>
+                  <p className="text-sm text-muted-foreground font-light leading-relaxed mb-3 line-clamp-2">{locale === "en" ? product.descriptionEn : product.description}</p>
+
+                  <Link
+                    to={`/produits/${product.slug}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-xs text-primary hover:text-gold-light transition-colors font-medium mb-4 inline-block"
+                  >
+                    Voir le détail →
+                  </Link>
 
                   {isVacuum && (
                     <div className="mb-4">
