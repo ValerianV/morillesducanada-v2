@@ -14,7 +14,7 @@ const guideJsonLd = {
   author: { "@type": "Organization", name: "Morilles du Canada" },
   publisher: { "@type": "Organization", name: "Morilles du Canada" },
   mainEntityOfPage: "https://morillesducanada.com/guide-morilles-de-feu",
-  datePublished: "2025-01-01",
+  datePublished: "2026-01-01",
   dateModified: new Date().toISOString().split("T")[0],
 };
 

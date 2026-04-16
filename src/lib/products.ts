@@ -17,6 +17,7 @@ export interface Product {
   servings: string;
   inStock: boolean;
   stock: number;
+  badge?: string;
   variableWeight?: {
     minGrams: number;
     maxGrams: number;
@@ -52,6 +53,7 @@ export const products: Product[] = [
     servings: "4-6 personnes",
     inStock: true,
     stock: 50,
+    badge: "Populaire",
   },
   {
     id: "morilles-45g",

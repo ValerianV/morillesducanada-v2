@@ -52,6 +52,11 @@ const ProductsSection = () => {
               <div
                 className="relative border border-gold/15 rounded-sm bg-background/50 hover:border-gold/40 hover:shadow-gold hover:-translate-y-1.5 transition-all duration-500 group overflow-hidden"
               >
+                {product.badge && (
+                  <div className="absolute top-3 left-3 z-10 px-2.5 py-1 bg-primary text-primary-foreground text-[10px] font-medium tracking-widest uppercase rounded-sm">
+                    {product.badge}
+                  </div>
+                )}
                 <div className="aspect-square overflow-hidden">
                   <img
                     src={product.image}

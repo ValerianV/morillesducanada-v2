@@ -67,7 +67,22 @@ export const CartDrawer = () => {
             {count === 0 ? "Votre panier est vide" : `${count} article${count !== 1 ? "s" : ""}`}
           </SheetDescription>
         </SheetHeader>
-        <div className="flex flex-col flex-1 pt-6 min-h-0">
+        {/* Free shipping progress */}
+        {total < 80 && (
+          <div className="px-1 pt-4 pb-2">
+            <div className="flex justify-between text-[10px] text-muted-foreground mb-1.5">
+              <span>Livraison offerte dès 80 €</span>
+              <span className="text-primary font-medium">{(80 - total).toFixed(2)} € restants</span>
+            </div>
+            <div className="h-1 bg-secondary rounded-full overflow-hidden">
+              <div className="h-full bg-primary rounded-full transition-all duration-500" style={{ width: `${Math.min((total / 80) * 100, 100)}%` }} />
+            </div>
+          </div>
+        )}
+        {total >= 80 && items.length > 0 && (
+          <p className="text-[10px] text-primary text-center pt-3 pb-1 font-medium tracking-wide">Livraison offerte</p>
+        )}
+        <div className="flex flex-col flex-1 pt-4 min-h-0">
           {items.length === 0 ? (
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
