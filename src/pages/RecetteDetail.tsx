@@ -7,6 +7,18 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { supabase } from "@/integrations/supabase/client";
 import { Clock, Users, Lightbulb, ArrowLeft, Leaf } from "lucide-react";
 
+interface Ingredient {
+  quantity: string;
+  unit: string;
+  name: string;
+}
+
+interface Step {
+  step: number;
+  title: string;
+  description: string;
+}
+
 interface Recipe {
   id: string;
   slug: string;
@@ -19,8 +31,8 @@ interface Recipe {
   cook_time: number;
   servings: number;
   image_url: string | null;
-  ingredients: string[];
-  steps: string[];
+  ingredients: Ingredient[];
+  steps: Step[];
   tips: string | null;
   tags: string[];
   created_at: string;
@@ -85,11 +97,14 @@ const RecetteDetail = () => {
     cookTime: `PT${recipe.cook_time}M`,
     totalTime: `PT${totalTime}M`,
     recipeYield: `${recipe.servings} portions`,
-    recipeIngredient: recipe.ingredients,
-    recipeInstructions: recipe.steps.map((step, i) => ({
+    recipeIngredient: recipe.ingredients.map(
+      (ing) => `${ing.quantity}${ing.unit ? " " + ing.unit : ""} ${ing.name}`.trim()
+    ),
+    recipeInstructions: recipe.steps.map((step) => ({
       "@type": "HowToStep",
-      position: i + 1,
-      text: step,
+      position: step.step,
+      name: step.title,
+      text: step.description,
     })),
     recipeCategory: "Plat principal",
     recipeCuisine: "Française",
@@ -162,7 +177,11 @@ const RecetteDetail = () => {
                   {recipe.ingredients.map((ing, i) => (
                     <li key={i} className="flex items-start gap-3 text-sm text-secondary-foreground/80 font-light">
                       <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0" />
-                      {ing}
+                      <span>
+                        {ing.quantity && <span className="font-medium text-foreground">{ing.quantity}{ing.unit ? " " + ing.unit : ""}</span>}
+                        {ing.quantity && " "}
+                        {ing.name}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -175,14 +194,17 @@ const RecetteDetail = () => {
             <div className="mb-12">
               <h2 className="font-serif text-2xl text-foreground mb-6">Préparation</h2>
               <div className="space-y-6">
-                {recipe.steps.map((step, i) => (
-                  <div key={i} className="flex gap-4">
+                {recipe.steps.map((step) => (
+                  <div key={step.step} className="flex gap-4">
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center text-sm font-medium">
-                      {i + 1}
+                      {step.step}
                     </div>
-                    <p className="text-sm text-secondary-foreground/80 font-light leading-relaxed pt-1">
-                      {step}
-                    </p>
+                    <div className="pt-1 flex-1">
+                      <p className="font-medium text-foreground text-sm mb-1">{step.title}</p>
+                      <p className="text-sm text-secondary-foreground/80 font-light leading-relaxed">
+                        {step.description}
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>
