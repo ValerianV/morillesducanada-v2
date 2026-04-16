@@ -28,15 +28,35 @@ const difficultyColor: Record<string, string> = {
   Avancé: "bg-ember/20 text-orange-300",
 };
 
+type Filter = "tous" | "classiques" | "vegan" | "sauces" | "entrees";
+
+const filters: { key: Filter; label: string }[] = [
+  { key: "tous", label: "Tous" },
+  { key: "classiques", label: "Classiques" },
+  { key: "vegan", label: "Vegan" },
+  { key: "sauces", label: "Sauces" },
+  { key: "entrees", label: "Entrées" },
+];
+
+function matchesFilter(recipe: Recipe, filter: Filter): boolean {
+  if (filter === "tous") return true;
+  if (filter === "vegan") return recipe.tags?.includes("vegan") ?? false;
+  if (filter === "classiques") return !(recipe.tags?.includes("vegan") ?? false);
+  if (filter === "sauces") return recipe.tags?.includes("sauce") ?? false;
+  if (filter === "entrees") return recipe.tags?.includes("entrée") ?? false;
+  return true;
+}
+
 const Recettes = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeFilter, setActiveFilter] = useState<Filter>("tous");
 
   useEffect(() => {
     supabase
       .from("recipes")
       .select("id, slug, title, description, chef_name, chef_title, difficulty, prep_time, cook_time, servings, image_url, tags")
-      .order("created_at", { ascending: false })
+      .order("sort_order", { ascending: true })
       .then(({ data, error }) => {
         if (error) console.error("Error fetching recipes:", error);
         setRecipes((data as Recipe[]) || []);
@@ -44,6 +64,8 @@ const Recettes = () => {
       })
       .catch(() => setLoading(false));
   }, []);
+
+  const filtered = recipes.filter((r) => matchesFilter(r, activeFilter));
 
   return (
     <div className="min-h-screen bg-background">
@@ -72,7 +94,7 @@ const Recettes = () => {
           </Link>
 
           <ScrollReveal>
-            <div className="text-center mb-16">
+            <div className="text-center mb-12">
               <p className="text-sm tracking-[0.3em] uppercase text-primary/80 mb-4">
                 Inspirations culinaires
               </p>
@@ -88,6 +110,23 @@ const Recettes = () => {
             </div>
           </ScrollReveal>
 
+          {/* Filters */}
+          <div className="flex flex-wrap gap-2 justify-center mb-10">
+            {filters.map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => setActiveFilter(key)}
+                className={`px-4 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase transition-all duration-200 ${
+                  activeFilter === key
+                    ? "bg-primary text-primary-foreground"
+                    : "border border-gold/20 text-muted-foreground hover:border-gold/40 hover:text-foreground"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
           {loading ? (
             <div className="grid md:grid-cols-2 gap-8">
               {[1, 2, 3, 4].map((i) => (
@@ -98,10 +137,14 @@ const Recettes = () => {
                 </div>
               ))}
             </div>
+          ) : filtered.length === 0 ? (
+            <p className="text-center text-muted-foreground font-light py-16">
+              Aucune recette dans cette catégorie.
+            </p>
           ) : (
             <div className="grid md:grid-cols-2 gap-8">
-              {recipes.map((recipe, i) => (
-                <ScrollReveal key={recipe.id} delay={i * 0.1}>
+              {filtered.map((recipe, i) => (
+                <ScrollReveal key={recipe.id} delay={i * 0.08}>
                   <Link
                     to={`/recettes/${recipe.slug}`}
                     className="group block bg-card border border-border rounded-lg overflow-hidden hover:border-primary/40 transition-all duration-300 hover:shadow-gold h-full"
@@ -135,8 +178,11 @@ const Recettes = () => {
                         {recipe.description}
                       </p>
 
-                      <div className="flex items-center justify-end mt-auto pt-4 border-t border-border">
-                        <ArrowRight className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                      <div className="flex items-center justify-between mt-auto pt-4 border-t border-border">
+                        <span className="text-xs text-primary font-medium tracking-wider uppercase">
+                          Voir la recette
+                        </span>
+                        <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
                   </Link>
