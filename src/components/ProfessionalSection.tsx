@@ -1,4 +1,4 @@
-import { ChefHat, Truck, Phone, CalendarClock } from "lucide-react";
+import { ChefHat, Truck, Phone, CalendarClock, Download } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -68,9 +68,16 @@ const ProfessionalSection = () => {
                 <p className="text-sm text-muted-foreground font-light leading-relaxed" dangerouslySetInnerHTML={{ __html: t("professional.preorderDesc") }} />
               </div>
             </div>
-            <div className="mt-6 text-center">
+            <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link to="/pre-commande" className="inline-block px-8 py-3.5 bg-primary text-primary-foreground font-medium tracking-widest uppercase text-sm hover:bg-gold-light transition-colors duration-300 rounded-sm">
                 {t("professional.preorderCta")}
+              </Link>
+              <Link
+                to="/plaquette-pro"
+                className="inline-flex items-center gap-2 px-6 py-3.5 border border-primary/40 text-foreground font-light tracking-widest uppercase text-sm hover:border-primary hover:text-primary transition-colors duration-300 rounded-sm"
+              >
+                <Download className="w-4 h-4" />
+                Télécharger la plaquette
               </Link>
             </div>
           </div>

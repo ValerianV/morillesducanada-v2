@@ -40,11 +40,11 @@ const varieties = [
   },
 ];
 
-function getPricePerKg(isCommonVariety: boolean, quantityKg: number): number {
-  if (isCommonVariety) {
-    return quantityKg >= 5 ? 370 : 390;
+function getPricePerKg(variety: string, quantityKg: number): number {
+  if (variety === "brune") {
+    return quantityKg >= 5 ? 340 : 360;
   }
-  return quantityKg >= 5 ? 400 : 420;
+  return quantityKg >= 5 ? 370 : 390;
 }
 
 const PreOrder = () => {
@@ -60,8 +60,7 @@ const PreOrder = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const isCommonVariety = form.variety === "brune" || form.variety === "blonde";
-  const pricePerKg = getPricePerKg(isCommonVariety, form.quantityKg);
+  const pricePerKg = getPricePerKg(form.variety, form.quantityKg);
   const totalHT = form.quantityKg * pricePerKg;
 
   const update = (field: string, value: string | number) =>
@@ -75,7 +74,7 @@ const PreOrder = () => {
     }
     setLoading(true);
     try {
-      const message = `Sourcing direct saison 2025 — Demande de réservation
+      const message = `Sourcing direct saison 2026 — Demande de réservation
 
 Variété : ${form.variety} (${varieties.find(v => v.color.toLowerCase() === form.variety)?.species ?? ""})
 Quantité : ${form.quantityKg} kg
@@ -124,7 +123,7 @@ ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
             <div className="mb-14">
               <p className="text-sm tracking-[0.3em] uppercase text-primary mb-4">Professionnels</p>
               <h1 className="font-serif text-4xl md:text-5xl font-light mb-4">
-                Sourcing direct <span className="italic text-gradient-gold">saison 2025</span>
+                Sourcing direct <span className="italic text-gradient-gold">saison 2026</span>
               </h1>
               <p className="text-base text-muted-foreground font-light leading-relaxed">
                 Morilles de feu séchées — Colombie-Britannique & Yukon
@@ -211,7 +210,7 @@ ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
           {/* Tarifs */}
           <ScrollReveal delay={0.1}>
             <section className="mb-14">
-              <h2 className="font-serif text-2xl font-light mb-2">Tarifs HT — saison 2025</h2>
+              <h2 className="font-serif text-2xl font-light mb-2">Tarifs HT — saison 2026</h2>
               <p className="text-sm text-muted-foreground font-light mb-6">Paiement à la commande. Facture pro disponible.</p>
               <div className="border border-gold/15 rounded-sm overflow-hidden">
                 <table className="w-full text-sm">
@@ -225,13 +224,13 @@ ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
                   <tbody>
                     <tr className="border-b border-gold/10 bg-background/30">
                       <td className="py-3 px-4 font-light">1 – 4 kg</td>
+                      <td className="py-3 px-4 text-right font-serif text-foreground">360 €/kg</td>
                       <td className="py-3 px-4 text-right font-serif text-foreground">390 €/kg</td>
-                      <td className="py-3 px-4 text-right font-serif text-foreground">420 €/kg</td>
                     </tr>
                     <tr className="bg-background/10">
                       <td className="py-3 px-4 font-light">5 kg et +</td>
+                      <td className="py-3 px-4 text-right font-serif text-gradient-gold">340 €/kg</td>
                       <td className="py-3 px-4 text-right font-serif text-gradient-gold">370 €/kg</td>
-                      <td className="py-3 px-4 text-right font-serif text-gradient-gold">400 €/kg</td>
                     </tr>
                   </tbody>
                 </table>

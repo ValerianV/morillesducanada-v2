@@ -1,207 +1,741 @@
-import { useRef } from "react";
 import { Download } from "lucide-react";
 import logo from "@/assets/logo.webp";
+import landscapeCanada from "@/assets/landscape-canada.webp";
+import heroMorels from "@/assets/hero-morels.webp";
+import heroJars from "@/assets/hero-jars.webp";
+import productVacuumBag from "@/assets/product-vacuum-bag.webp";
+import valerianPortrait from "@/assets/valerian-portrait.webp";
+import landscapeFireweed from "@/assets/landscape-fireweed.webp";
 
-const VAT_RATE = 0.055; // 5.5% for food products in France
+const GOLD = "#c9a84c";
+const DARK = "#1a1612";
+const CREAM = "#fdfcf9";
+const VAT = 0.055;
 
-// Prix TTC du site convertis en HT (÷ 1.055 pour TVA 5.5%)
-const productsHT = [
-  { name: "Morilles de feu séchées — Pot 12g", ref: "MDF-12G", unitHT: 9.48, format: "Pot verre 12g" },
-  { name: "Morilles de feu séchées — Pot 30g", ref: "MDF-30G", unitHT: 18.96, format: "Pot verre 30g" },
-  { name: "Morilles de feu séchées — Pot 45g", ref: "MDF-45G", unitHT: 23.70, format: "Pot verre 45g" },
-  { name: "Morilles de feu séchées — Sous vide 100g", ref: "MDF-SV100", unitHT: 42.65, format: "Sachet sous vide 100g" },
-  { name: "Morilles de feu séchées — Sous vide 200g", ref: "MDF-SV200", unitHT: 85.31, format: "Sachet sous vide 200g" },
-  { name: "Morilles de feu séchées — Sous vide 500g", ref: "MDF-SV500", unitHT: 189.57, format: "Sachet sous vide 500g" },
-  { name: "Morilles de feu séchées — Sous vide 1kg", ref: "MDF-SV1K", unitHT: 379.15, format: "Sachet sous vide 1kg" },
-];
+const ht = (ttc: number) => ttc / (1 + VAT);
+const fmt = (n: number) => n.toFixed(2).replace(".", ",");
 
-const preorderOptions = [
-  { type: "Morilles brunes", desc: "Arôme fumé intense, notes profondes et boisées, reflets jaunes. Variétés : M. conica, M. brunnea, M. snyderi.", priceKg: 350 },
-  { type: "Morilles blondes", desc: "Plus douces, arôme délicat et subtil. Variétés : M. americana, M. esculenta, M. prava.", priceKg: 350 },
-];
+const band = (label: string) => (
+  <div
+    style={{
+      backgroundColor: DARK,
+      padding: "13px 56px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      flexShrink: 0,
+    }}
+  >
+    <div style={{ fontSize: 8, letterSpacing: "0.38em", textTransform: "uppercase", color: GOLD }}>
+      {label}
+    </div>
+    <div style={{ fontSize: 8, color: "rgba(255,255,255,0.35)", letterSpacing: "0.18em" }}>
+      Saison 2026
+    </div>
+  </div>
+);
 
-const PlaquettePro = () => {
-  const printRef = useRef<HTMLDivElement>(null);
+const PlaquettePro = () => (
+  <div style={{ backgroundColor: "#ddd9d0", minHeight: "100vh" }}>
+    {/* Download button */}
+    <div className="fixed top-6 right-6 z-50 print:hidden">
+      <button
+        onClick={() => window.print()}
+        style={{ background: DARK, color: GOLD }}
+        className="flex items-center gap-2 px-6 py-3 font-medium text-sm tracking-wider uppercase rounded shadow-xl hover:opacity-90 transition-opacity"
+      >
+        <Download className="w-4 h-4" />
+        Télécharger PDF
+      </button>
+    </div>
 
-  const handlePrint = () => {
-    window.print();
-  };
+    <div style={{ maxWidth: "210mm", margin: "0 auto" }}>
 
-  return (
-    <div className="min-h-screen bg-white">
-      {/* Print button - hidden on print */}
-      <div className="fixed top-6 right-6 z-50 print:hidden">
-        <button
-          onClick={handlePrint}
-          className="flex items-center gap-2 px-6 py-3 bg-[#1a1612] text-[#c9a84c] font-medium text-sm tracking-wider uppercase rounded hover:bg-[#2a2218] transition-colors shadow-lg"
+      {/* ═══════════════════════════════════════════════
+          PAGE 1 — COUVERTURE
+      ═══════════════════════════════════════════════ */}
+      <div
+        className="page"
+        style={{
+          minHeight: "297mm",
+          backgroundColor: DARK,
+          color: "white",
+          display: "flex",
+          flexDirection: "column",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {/* Background image */}
+        <img
+          src={landscapeCanada}
+          alt=""
+          aria-hidden
+          style={{
+            position: "absolute", inset: 0, width: "100%", height: "100%",
+            objectFit: "cover", opacity: 0.42,
+          }}
+        />
+        {/* Gradient overlay */}
+        <div
+          style={{
+            position: "absolute", inset: 0,
+            background: "linear-gradient(160deg, rgba(26,22,18,0.25) 0%, rgba(26,22,18,0.55) 45%, rgba(26,22,18,0.9) 100%)",
+          }}
+        />
+
+        <div
+          className="relative"
+          style={{
+            flex: 1, display: "flex", flexDirection: "column",
+            justifyContent: "space-between", padding: "48px 56px", minHeight: "297mm",
+          }}
         >
-          <Download className="w-4 h-4" />
-          Télécharger / Imprimer
-        </button>
-      </div>
-
-      <div ref={printRef} className="max-w-[210mm] mx-auto bg-white text-[#1a1612] print:max-w-none">
-        {/* Page 1: Cover + Products */}
-        <div className="p-10 md:p-16 print:p-12">
-          {/* Header */}
-          <div className="flex items-center justify-between border-b-2 border-[#c9a84c] pb-8 mb-10">
-            <div className="flex items-center gap-4">
-              <img src={logo} alt="Morilles du Canada" className="h-14 w-auto" />
+          {/* Top bar */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+              <img src={logo} alt="Morilles du Canada" style={{ height: 46, width: "auto" }} />
               <div>
-                <h1 className="text-2xl font-serif font-semibold tracking-wide text-[#1a1612]">Morilles du Canada</h1>
-                <p className="text-xs tracking-[0.25em] uppercase text-[#8a7a5a] mt-0.5">Morilles de feu sauvages · Colombie-Britannique & Yukon</p>
+                <div style={{ fontFamily: "Georgia, serif", fontSize: 17, fontWeight: 600, letterSpacing: "0.02em" }}>
+                  Morilles du Canada
+                </div>
+                <div style={{ fontSize: 8, letterSpacing: "0.35em", textTransform: "uppercase", color: GOLD, marginTop: 4 }}>
+                  Morilles de feu sauvages
+                </div>
               </div>
             </div>
-            <div className="text-right text-xs text-[#6a6a6a]">
-              <p>Catalogue professionnel</p>
-              <p className="font-medium text-[#1a1612]">Saison 2026</p>
+            <div style={{ textAlign: "right" }}>
+              <div style={{ fontSize: 9, color: "rgba(255,255,255,0.45)", letterSpacing: "0.18em", textTransform: "uppercase" }}>
+                Catalogue professionnel
+              </div>
+              <div style={{ fontSize: 11, color: GOLD, fontWeight: 700, letterSpacing: "0.12em", marginTop: 5 }}>
+                Saison 2026
+              </div>
             </div>
           </div>
 
-          {/* Intro */}
-          <div className="mb-10">
-            <h2 className="text-xl font-serif mb-3 text-[#1a1612]">Un produit d'exception pour les professionnels de la gastronomie</h2>
-            <p className="text-sm leading-relaxed text-[#4a4a4a] max-w-[600px]">
-              Nos morilles de feu sont récoltées à la main dans les forêts boréales calcinées du Canada. Achetées directement aux cueilleurs le soir même, séchées le jour de la récolte dans un séchoir professionnel sur place. Sans queue, sans traitement chimique, sans intermédiaire. Un circuit ultra-court qui garantit une <strong>fraîcheur et une traçabilité totales</strong>.
-            </p>
+          {/* Center title block */}
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 8, letterSpacing: "0.45em", textTransform: "uppercase", color: GOLD, marginBottom: 20 }}>
+              Colombie-Britannique &amp; Yukon, Canada
+            </div>
+            <div style={{ fontFamily: "Georgia, serif", fontSize: 54, fontWeight: 300, lineHeight: 1.1, marginBottom: 10 }}>
+              Morilles de Feu
+            </div>
+            <div style={{ fontFamily: "Georgia, serif", fontSize: 54, fontWeight: 300, fontStyle: "italic", color: GOLD, lineHeight: 1.1, marginBottom: 36 }}>
+              séchées sauvages
+            </div>
+            <div style={{ width: 60, height: 1, backgroundColor: GOLD, margin: "0 auto 30px" }} />
+            <div style={{ fontSize: 12, fontWeight: 300, letterSpacing: "0.07em", color: "rgba(255,255,255,0.7)", maxWidth: 380, margin: "0 auto", lineHeight: 1.8 }}>
+              Achetées directement aux cueilleurs · Séchées le jour de la récolte ·
+              Sans intermédiaire — du sol brûlé à votre assiette.
+            </div>
           </div>
 
-          {/* Key differentiators */}
-          <div className="grid grid-cols-3 gap-4 mb-10">
+          {/* Bottom: two client segments */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
             {[
-              { title: "Séchées le jour J", desc: "Achat en forêt chaque soir, séchage professionnel immédiat" },
-              { title: "Circuit ultra-court", desc: "3 cueilleurs de confiance, pas de grossiste ni de distributeur" },
-              { title: "100% sauvages", desc: "Aucun pesticide, aucune culture. Variétés rares de feu" },
-            ].map((item) => (
-              <div key={item.title} className="bg-[#faf8f3] border border-[#e8e0cc] p-4 rounded">
-                <h4 className="font-semibold text-sm text-[#1a1612] mb-1">{item.title}</h4>
-                <p className="text-xs text-[#6a6a6a] leading-relaxed">{item.desc}</p>
+              {
+                label: "Restaurateurs & Chefs",
+                desc: "Sachets sous vide 100g–1kg · Précommande directe saison · 4 variétés disponibles",
+              },
+              {
+                label: "Épiceries & Cavistes",
+                desc: "Pots verre premium 3 formats · Packaging storytelling · Revente au détail",
+              },
+            ].map((seg) => (
+              <div
+                key={seg.label}
+                style={{ border: `1px solid ${GOLD}45`, padding: "20px 24px", borderRadius: 2 }}
+              >
+                <div style={{ fontSize: 8, letterSpacing: "0.32em", textTransform: "uppercase", color: GOLD, marginBottom: 9 }}>
+                  Pour les
+                </div>
+                <div style={{ fontFamily: "Georgia, serif", fontSize: 15, marginBottom: 9 }}>
+                  {seg.label}
+                </div>
+                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}>
+                  {seg.desc}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ═══════════════════════════════════════════════
+          PAGE 2 — HISTOIRE & SOURCING
+      ═══════════════════════════════════════════════ */}
+      <div
+        className="page"
+        style={{ minHeight: "297mm", backgroundColor: CREAM, color: DARK, display: "flex", flexDirection: "column" }}
+      >
+        {band("Morilles du Canada · Sourcing & Engagement qualité")}
+
+        <div style={{ flex: 1, padding: "44px 56px" }}>
+          {/* Portrait + story */}
+          <div style={{ display: "grid", gridTemplateColumns: "200px 1fr", gap: 40, marginBottom: 38 }}>
+            <div>
+              <img
+                src={valerianPortrait}
+                alt="Valérian, fondateur de Morilles du Canada"
+                style={{ width: "100%", aspectRatio: "3/4", objectFit: "cover", borderRadius: 2 }}
+              />
+              <div style={{ borderTop: `1px solid ${GOLD}45`, paddingTop: 12, marginTop: 12 }}>
+                <div style={{ fontFamily: "Georgia, serif", fontSize: 13, fontWeight: 600 }}>Valérian</div>
+                <div style={{ fontSize: 8, letterSpacing: "0.22em", textTransform: "uppercase", color: "#8a7a5a", marginTop: 4 }}>
+                  Fondateur · Morilles du Canada
+                </div>
+                <div style={{ fontSize: 9, color: "#6a6a6a", marginTop: 9, lineHeight: 1.7 }}>
+                  3 saisons de cueillette en Colombie-Britannique et au Yukon · 2 ans de vente directe sur les marchés
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div style={{ fontSize: 8, letterSpacing: "0.38em", textTransform: "uppercase", color: GOLD, marginBottom: 13 }}>
+                Notre histoire
+              </div>
+              <div style={{ fontFamily: "Georgia, serif", fontSize: 23, fontWeight: 300, lineHeight: 1.3, marginBottom: 18 }}>
+                Pas un importateur.<br />Un cueilleur devenu fournisseur.
+              </div>
+              <div style={{ width: 36, height: 1, backgroundColor: GOLD, marginBottom: 22 }} />
+              <div style={{ fontSize: 11, color: "#4a4a4a", lineHeight: 1.85, marginBottom: 13 }}>
+                J'ai passé trois printemps dans les forêts brûlées du Canada — à marcher dans les cendres,
+                dormir sous la tente, ramasser les morilles aux côtés de cueilleurs que je considère
+                aujourd'hui comme des amis. Ce n'est pas un projet de bureau : j'y étais, sur le terrain.
+              </div>
+              <div style={{ fontSize: 11, color: "#4a4a4a", lineHeight: 1.85, marginBottom: 13 }}>
+                Ce terrain m'a appris deux choses. D'abord, la morille de feu canadienne n'a aucun
+                équivalent — ni en Europe, ni en culture. Ensuite, les cueilleurs méritent mieux
+                que les prix cassés que leur proposent les grossistes asiatiques.
+              </div>
+              <div style={{ fontSize: 11, color: "#4a4a4a", lineHeight: 1.85 }}>
+                Morilles du Canada, c'est ce lien direct : j'achète juste, je sèche dans les 24h,
+                j'expédie sans intermédiaire. Vous recevez un produit dont je connais l'origine
+                à la forêt près — et vous pouvez la raconter.
+              </div>
+            </div>
+          </div>
+
+          {/* 4 differentiators */}
+          <div style={{ borderTop: `1px solid ${GOLD}28`, paddingTop: 30 }}>
+            <div style={{ fontSize: 8, letterSpacing: "0.38em", textTransform: "uppercase", color: GOLD, marginBottom: 22 }}>
+              Ce qui nous différencie réellement
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "18px 44px" }}>
+              {[
+                {
+                  n: "01",
+                  t: "Séchage dans les 24h après récolte",
+                  d: "Les morilles sont achetées en forêt chaque soir et séchées le lendemain dans un séchoir professionnel sur place en Colombie-Britannique. Aucun concurrent ne peut garantir ça.",
+                },
+                {
+                  n: "02",
+                  t: "3 cueilleurs de confiance, pas de grossiste",
+                  d: "Je connais personnellement chaque cueilleur — des amis côtoyés pendant trois saisons. Pas de négociant intermédiaire, pas de chambre froide collective, pas de mélange de lots.",
+                },
+                {
+                  n: "03",
+                  t: "Traçabilité totale, lot par lot",
+                  d: "Chaque lot est identifiable : variété, cueilleur, zone de récolte, date de séchage. Vous pouvez raconter cette histoire à vos clients — c'est un argument de vente en soi.",
+                },
+                {
+                  n: "04",
+                  t: "4 variétés dont 2 introuvables ailleurs",
+                  d: "Brune, blonde, grise (M. tomentosa) et verte (M. septimelata) — les deux dernières sont quasi absentes des catalogues d'importateurs classiques.",
+                },
+              ].map((item) => (
+                <div key={item.n} style={{ display: "flex", gap: 14 }}>
+                  <div style={{ fontFamily: "Georgia, serif", fontSize: 20, color: GOLD, fontWeight: 300, flexShrink: 0, lineHeight: 1, paddingTop: 2, opacity: 0.8 }}>
+                    {item.n}
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: 11, marginBottom: 6, color: DARK }}>
+                      {item.t}
+                    </div>
+                    <div style={{ fontSize: 10, color: "#6a6a6a", lineHeight: 1.7 }}>
+                      {item.d}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Pull quote */}
+          <div
+            style={{
+              marginTop: 30, padding: "20px 28px",
+              backgroundColor: DARK, borderRadius: 2,
+              borderLeft: `3px solid ${GOLD}`,
+            }}
+          >
+            <div style={{ fontFamily: "Georgia, serif", fontSize: 13, fontStyle: "italic", color: "rgba(255,255,255,0.82)", lineHeight: 1.75 }}>
+              « Entre les cueilleurs qui risquent tout sur le terrain et les chefs qui paient le prix fort,
+              il manquait un lien juste. C'est ce que j'ai décidé de créer. »
+            </div>
+            <div style={{ fontSize: 8, color: GOLD, letterSpacing: "0.22em", textTransform: "uppercase", marginTop: 11 }}>
+              — Valérian, fondateur
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ═══════════════════════════════════════════════
+          PAGE 3 — RESTAURATEURS & CHEFS
+      ═══════════════════════════════════════════════ */}
+      <div
+        className="page"
+        style={{ minHeight: "297mm", backgroundColor: CREAM, color: DARK, display: "flex", flexDirection: "column" }}
+      >
+        {band("Morilles du Canada · Restaurateurs & Chefs")}
+
+        <div style={{ flex: 1, padding: "40px 56px" }}>
+          {/* Header with image */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 185px", gap: 32, marginBottom: 34, alignItems: "start" }}>
+            <div>
+              <div style={{ fontSize: 8, letterSpacing: "0.38em", textTransform: "uppercase", color: GOLD, marginBottom: 13 }}>
+                Conditionnement professionnel sous vide
+              </div>
+              <div style={{ fontFamily: "Georgia, serif", fontSize: 26, fontWeight: 300, lineHeight: 1.25, marginBottom: 16 }}>
+                Pour les cuisines qui travaillent la morille en régulier
+              </div>
+              <div style={{ fontSize: 11, color: "#4a4a4a", lineHeight: 1.85 }}>
+                Sachets sous vide thermoscellés. Morilles entières sans queue, triées à la main,
+                séchées à basse température. 4 formats selon le volume de service.
+                Conservation 2 ans minimum en conditions sèches.
+                Les morilles triplent de volume à la réhydratation.
+              </div>
+            </div>
+            <img
+              src={productVacuumBag}
+              alt="Sachet sous vide morilles de feu"
+              style={{ width: "100%", aspectRatio: "4/5", objectFit: "cover", borderRadius: 2 }}
+            />
+          </div>
+
+          {/* Pricing table sous vide */}
+          <div style={{ marginBottom: 30 }}>
+            <div style={{ fontSize: 9, letterSpacing: "0.28em", textTransform: "uppercase", color: GOLD, marginBottom: 12, paddingBottom: 10, borderBottom: `1px solid ${GOLD}28` }}>
+              Conditionnement sous vide — Tarifs HT (TVA 5,5%)
+            </div>
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
+              <thead>
+                <tr style={{ borderBottom: `1px solid ${GOLD}22`, textAlign: "left" }}>
+                  {[
+                    { l: "Format", r: false },
+                    { l: "Conditionnement", r: false },
+                    { l: "Prix HT", r: true },
+                    { l: "Prix TTC", r: true },
+                    { l: "€/kg HT", r: true },
+                  ].map(({ l, r }) => (
+                    <th
+                      key={l}
+                      style={{
+                        padding: "9px 0", fontWeight: 500, fontSize: 8,
+                        letterSpacing: "0.22em", textTransform: "uppercase",
+                        color: "#8a7a5a", textAlign: r ? "right" : "left",
+                      }}
+                    >
+                      {l}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { w: "100g", ttc: 59, kg: 0.1 },
+                  { w: "200g", ttc: 110, kg: 0.2 },
+                  { w: "500g", ttc: 240, kg: 0.5 },
+                  { w: "1 kg", ttc: 420, kg: 1 },
+                ].map((r, i) => {
+                  const htVal = ht(r.ttc);
+                  const kgHT = Math.round(htVal / r.kg);
+                  return (
+                    <tr
+                      key={r.w}
+                      style={{
+                        borderBottom: "1px solid #f0ece3",
+                        backgroundColor: i % 2 === 0 ? "#fdfcf9" : "transparent",
+                      }}
+                    >
+                      <td style={{ padding: "11px 0", fontFamily: "Georgia, serif", fontSize: 14 }}>{r.w}</td>
+                      <td style={{ padding: "11px 0", color: "#6a6a6a", fontSize: 10 }}>Sachet sous vide thermoscellé</td>
+                      <td style={{ padding: "11px 0", textAlign: "right", fontWeight: 700 }}>{fmt(htVal)} €</td>
+                      <td style={{ padding: "11px 0", textAlign: "right", color: "#6a6a6a" }}>{r.ttc} €</td>
+                      <td style={{ padding: "11px 0", textAlign: "right", color: GOLD, fontWeight: 700, fontFamily: "Georgia, serif" }}>
+                        {kgHT} €/kg
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Preorder sourcing box */}
+          <div style={{ backgroundColor: DARK, borderRadius: 2, padding: "26px 30px", color: "white" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 30, alignItems: "start" }}>
+              <div>
+                <div style={{ fontSize: 8, letterSpacing: "0.38em", textTransform: "uppercase", color: GOLD, marginBottom: 11 }}>
+                  Sourcing direct · Pré-commande saison 2026
+                </div>
+                <div style={{ fontFamily: "Georgia, serif", fontSize: 17, fontWeight: 300, lineHeight: 1.35, marginBottom: 14 }}>
+                  Réservez votre lot avant la cueillette
+                </div>
+                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, marginBottom: 14 }}>
+                  Achat direct aux cueilleurs · Séchage sur place ·
+                  Expédition sous vide. Délai : 6 à 8 semaines après confirmation.
+                  En cas de saison annulée (météo), remboursement intégral garanti.
+                </div>
+                <div style={{ fontSize: 9, color: "rgba(255,255,255,0.38)" }}>
+                  Commande minimum : 1 kg par variété · Pas de maximum
+                </div>
+              </div>
+              <div>
+                <div style={{ fontSize: 8, letterSpacing: "0.22em", textTransform: "uppercase", color: GOLD, marginBottom: 13 }}>
+                  Tarifs HT — Pré-commande
+                </div>
+                {[
+                  { variete: "Brune", s1: "360 €/kg", s5: "340 €/kg" },
+                  { variete: "Blonde", s1: "390 €/kg", s5: "370 €/kg" },
+                  { variete: "Grise & Verte", s1: "390 €/kg", s5: "370 €/kg", note: "Stock limité" },
+                ].map((v) => (
+                  <div
+                    key={v.variete}
+                    style={{ borderTop: `1px solid rgba(201,168,76,0.18)`, paddingTop: 10, marginTop: 10 }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                      <span style={{ fontFamily: "Georgia, serif", fontSize: 12, color: "rgba(255,255,255,0.82)" }}>
+                        {v.variete}
+                      </span>
+                      {v.note && (
+                        <span style={{ fontSize: 7, color: GOLD, border: `1px solid ${GOLD}50`, padding: "1px 5px", letterSpacing: "0.2em", textTransform: "uppercase" }}>
+                          {v.note}
+                        </span>
+                      )}
+                    </div>
+                    <div style={{ display: "flex", gap: 20, fontSize: 10 }}>
+                      <span style={{ color: "rgba(255,255,255,0.45)" }}>
+                        1–4 kg : <strong style={{ color: GOLD }}>{v.s1}</strong>
+                      </span>
+                      <span style={{ color: "rgba(255,255,255,0.45)" }}>
+                        5 kg+ : <strong style={{ color: GOLD }}>{v.s5}</strong>
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Varieties description */}
+          <div style={{ marginTop: 20, padding: "16px 20px", backgroundColor: "#f5f2eb", borderRadius: 2 }}>
+            <div style={{ fontSize: 8, letterSpacing: "0.28em", textTransform: "uppercase", color: "#8a7a5a", marginBottom: 10 }}>
+              Les 4 variétés de morilles de feu du Canada
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 40px" }}>
+              {[
+                { c: "Brune", s: "M. conica, M. brunnea, M. snyderi", p: "Arôme fumé intense, notes profondes et boisées" },
+                { c: "Blonde", s: "M. americana, M. esculenta, M. prava", p: "Arôme délicat et subtil, plus douce en bouche" },
+                { c: "Grise", s: "M. tomentosa", p: "Surface veloutée, notes fumées douces et terreuses" },
+                { c: "Verte", s: "M. sextelata, M. septimelata", p: "Espèces rares de haute altitude, arôme profond" },
+              ].map((v) => (
+                <div key={v.c} style={{ fontSize: 9, color: "#4a4a4a", lineHeight: 1.55 }}>
+                  <strong style={{ color: DARK }}>{v.c}</strong>{" "}
+                  <em style={{ color: "#8a7a5a" }}>{v.s}</em> — {v.p}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ═══════════════════════════════════════════════
+          PAGE 4 — ÉPICERIES FINES & CAVISTES
+      ═══════════════════════════════════════════════ */}
+      <div
+        className="page"
+        style={{ minHeight: "297mm", backgroundColor: CREAM, color: DARK, display: "flex", flexDirection: "column" }}
+      >
+        {band("Morilles du Canada · Épiceries fines & Cavistes")}
+
+        <div style={{ flex: 1, padding: "40px 56px" }}>
+          {/* Header with jars image */}
+          <div style={{ display: "grid", gridTemplateColumns: "185px 1fr", gap: 32, marginBottom: 34, alignItems: "start" }}>
+            <img
+              src={heroJars}
+              alt="Pots de morilles de feu du Canada"
+              style={{ width: "100%", aspectRatio: "1/1", objectFit: "cover", borderRadius: 2 }}
+            />
+            <div>
+              <div style={{ fontSize: 8, letterSpacing: "0.38em", textTransform: "uppercase", color: GOLD, marginBottom: 13 }}>
+                Gamme pots verre premium
+              </div>
+              <div style={{ fontFamily: "Georgia, serif", fontSize: 26, fontWeight: 300, lineHeight: 1.25, marginBottom: 16 }}>
+                Un produit qui se vend<br />en se racontant
+              </div>
+              <div style={{ fontSize: 11, color: "#4a4a4a", lineHeight: 1.85 }}>
+                Nos pots verre bouchon or s'imposent en rayon sans avoir besoin d'être poussés.
+                L'histoire — trois saisons de cueillette au Canada, sourcing direct, séchage artisanal —
+                est sur l'étiquette et dans la bouche du vendeur.
+                Les amateurs de produits rares les reconnaissent immédiatement. Les chefs amateurs les offrent.
+              </div>
+            </div>
+          </div>
+
+          {/* Jar pricing table */}
+          <div style={{ marginBottom: 28 }}>
+            <div style={{ fontSize: 9, letterSpacing: "0.28em", textTransform: "uppercase", color: GOLD, marginBottom: 12, paddingBottom: 10, borderBottom: `1px solid ${GOLD}28` }}>
+              Gamme pots verre — Prix de vente conseillé TTC (site morillesducanada.com)
+            </div>
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
+              <thead>
+                <tr style={{ borderBottom: `1px solid ${GOLD}22`, textAlign: "left" }}>
+                  {[
+                    { l: "Référence", r: false },
+                    { l: "Format", r: false },
+                    { l: "Usage", r: false },
+                    { l: "PVCT", r: true },
+                    { l: "Prix HT*", r: true },
+                  ].map(({ l, r }) => (
+                    <th
+                      key={l}
+                      style={{
+                        padding: "9px 0", fontWeight: 500, fontSize: 8,
+                        letterSpacing: "0.22em", textTransform: "uppercase",
+                        color: "#8a7a5a", textAlign: r ? "right" : "left",
+                      }}
+                    >
+                      {l}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { ref: "MDF-12G", name: "Découverte 12g", usage: "Vente d'impulsion · Offrir · Tester", ttc: 12 },
+                  { ref: "MDF-30G", name: "Classique 30g", usage: "Format cœur de gamme · Usage cuisine", ttc: 23 },
+                  { ref: "MDF-45G", name: "Prestige 45g", usage: "Cadeau premium · Coffret gastronomique", ttc: 29 },
+                ].map((p, i) => (
+                  <tr
+                    key={p.ref}
+                    style={{
+                      borderBottom: "1px solid #f0ece3",
+                      backgroundColor: i % 2 === 0 ? "#fdfcf9" : "transparent",
+                    }}
+                  >
+                    <td style={{ padding: "11px 0", fontFamily: "monospace", fontSize: 9, color: "#8a7a5a" }}>{p.ref}</td>
+                    <td style={{ padding: "11px 0", fontFamily: "Georgia, serif", fontSize: 13 }}>{p.name}</td>
+                    <td style={{ padding: "11px 0", fontSize: 9, color: "#8a7a5a" }}>{p.usage}</td>
+                    <td style={{ padding: "11px 0", textAlign: "right", fontWeight: 700, color: GOLD, fontFamily: "Georgia, serif" }}>
+                      {p.ttc},00 €
+                    </td>
+                    <td style={{ padding: "11px 0", textAlign: "right", color: "#6a6a6a" }}>{fmt(ht(p.ttc))} €</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div style={{ fontSize: 8, color: "#8a7a5a", marginTop: 8, lineHeight: 1.65 }}>
+              * Prix HT indicatifs (TVA 5,5% produits alimentaires). PVCT = prix public de vente sur morillesducanada.com.
+              Tarif grossiste et conditions de référencement disponibles sur devis.
+            </div>
+          </div>
+
+          {/* 4 selling arguments for épiceries */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 24 }}>
+            {[
+              {
+                t: "Storytelling clé en main",
+                d: "Chaque pot porte l'étiquette avec territoire, variété, mode de séchage. Vos vendeurs ont tout pour argumenter sans effort de formation.",
+              },
+              {
+                t: "Gamme 3 formats cohérente",
+                d: "12g, 30g et 45g couvrent impulsion, usage courant et coffret. Un seul fournisseur pour tout le rayon morilles.",
+              },
+              {
+                t: "Packaging premium identifiable",
+                d: "Pot verre, bouchon or mat, étiquette sobre et précise. S'intègre dans un rayon épicerie fine ou truffes sans détonner.",
+              },
+              {
+                t: "Rareté réelle, pas marketing",
+                d: "4 à 6 semaines de cueillette par an, stock limité. Ce n'est pas un argument inventé — c'est le calendrier de la forêt brûlée canadienne.",
+              },
+            ].map((a) => (
+              <div
+                key={a.t}
+                style={{ backgroundColor: "#f5f2eb", padding: "14px 18px", borderRadius: 2, borderLeft: `2px solid ${GOLD}60` }}
+              >
+                <div style={{ fontWeight: 700, fontSize: 11, marginBottom: 6, color: DARK }}>{a.t}</div>
+                <div style={{ fontSize: 10, color: "#6a6a6a", lineHeight: 1.65 }}>{a.d}</div>
               </div>
             ))}
           </div>
 
-          {/* Products table */}
-          <h3 className="text-lg font-serif mb-4 text-[#1a1612] border-b border-[#e8e0cc] pb-2">Tarifs détail — Prix HT</h3>
-          <table className="w-full text-sm mb-10">
-            <thead>
-              <tr className="border-b border-[#c9a84c]/40 text-left">
-                <th className="py-3 font-medium text-xs tracking-wider uppercase text-[#8a7a5a]">Référence</th>
-                <th className="py-3 font-medium text-xs tracking-wider uppercase text-[#8a7a5a]">Produit</th>
-                <th className="py-3 font-medium text-xs tracking-wider uppercase text-[#8a7a5a]">Conditionnement</th>
-                <th className="py-3 font-medium text-xs tracking-wider uppercase text-[#8a7a5a] text-right">Prix HT</th>
-                <th className="py-3 font-medium text-xs tracking-wider uppercase text-[#8a7a5a] text-right">Prix TTC*</th>
-              </tr>
-            </thead>
-            <tbody>
-              {productsHT.map((p, i) => {
-                const ttc = (p.unitHT * (1 + VAT_RATE)).toFixed(2);
-                return (
-                  <tr key={p.ref} className={`border-b border-[#f0ece3] ${i % 2 === 0 ? "bg-[#fdfcf9]" : ""}`}>
-                    <td className="py-3 font-mono text-xs text-[#8a7a5a]">{p.ref}</td>
-                    <td className="py-3 font-medium">{p.name}</td>
-                    <td className="py-3 text-[#6a6a6a]">{p.format}</td>
-                    <td className="py-3 text-right font-semibold">{p.unitHT.toFixed(2)} €</td>
-                    <td className="py-3 text-right text-[#6a6a6a]">{ttc} €</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <p className="text-xs text-[#8a7a5a] mb-2">* TVA applicable : 5,5% (produits alimentaires). Prix en euros, hors frais de livraison.</p>
-          <p className="text-xs text-[#8a7a5a] mb-10">Formats sous vide au-delà de 500g : tarif dégressif à 400 €/kg HT. En dessous de 500g : 450 €/kg HT.</p>
-
-          {/* Pre-order section */}
-          <div className="page-break-before print:break-before-page">
-            <h3 className="text-lg font-serif mb-4 text-[#1a1612] border-b border-[#e8e0cc] pb-2">Pré-commandes saison 2026 — Prix HT</h3>
-            <p className="text-sm text-[#4a4a4a] mb-6 leading-relaxed">
-              Réservez votre approvisionnement pour la saison de cueillette 2026 (juin-juillet). La récolte étant limitée et imprévisible, la pré-commande avec paiement intégral à l'avance est le seul moyen de <strong>garantir votre stock</strong>. Vous bénéficiez d'une priorité de livraison et d'un lot garanti.
-            </p>
-            
-            <div className="grid grid-cols-2 gap-6 mb-8">
-              {preorderOptions.map((opt) => (
-                <div key={opt.type} className="border-2 border-[#c9a84c]/30 rounded p-6 bg-[#fdfcf9]">
-                  <h4 className="font-serif text-lg font-semibold text-[#1a1612] mb-2">{opt.type}</h4>
-                  <p className="text-xs text-[#6a6a6a] leading-relaxed mb-4">{opt.desc}</p>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-3xl font-serif font-bold text-[#c9a84c]">{opt.priceKg}</span>
-                    <span className="text-sm text-[#8a7a5a]">€/kg HT</span>
-                  </div>
-                  <p className="text-xs text-[#8a7a5a] mt-1">Soit {(opt.priceKg * (1 + VAT_RATE)).toFixed(2)} €/kg TTC</p>
-                  <p className="text-xs text-[#8a7a5a] mt-2">Minimum : 0,5 kg · Pas de maximum</p>
-                </div>
-              ))}
-            </div>
-
-            {/* Morel varieties info */}
-            <div className="bg-[#faf8f3] border border-[#e8e0cc] p-6 rounded mb-8">
-              <h4 className="font-semibold text-sm mb-2 text-[#1a1612]">Les morilles de feu — un produit unique au monde</h4>
-              <p className="text-xs text-[#4a4a4a] leading-relaxed mb-3">
-                Nos morilles poussent exclusivement sur les sols calcinés des forêts boréales canadiennes, le printemps suivant un incendie. 
-                Elles développent un arôme fumé et boisé impossible à reproduire en culture. On distingue deux grandes familles selon la couleur :
-              </p>
-              <ul className="text-xs text-[#4a4a4a] leading-relaxed space-y-1">
-                <li>• <strong>Morilles brunes</strong> : M. conica, M. brunnea, M. snyderi — arôme puissant, notes fumées profondes, reflets jaunes</li>
-                <li>• <strong>Morilles blondes</strong> : M. americana, M. esculenta, M. prava — arôme plus doux et délicat</li>
-                <li>• <strong>Morilles grises</strong> : M. tomentosa — surface veloutée à poils fins, notes fumées douces</li>
-                <li>• <strong>Morilles vertes</strong> : M. sextelata, M. septimelata — espèces rares de haute altitude, arôme profond</li>
-              </ul>
-              <p className="text-xs text-[#4a4a4a] leading-relaxed mt-3">
-                Toutes sont vendues séchées, sans queue, sans traitement chimique. Elles se conservent 2 ans minimum en conditions sèches et triplent de volume à la réhydratation.
-              </p>
-            </div>
-
-            {/* Process / Trust */}
-            <h3 className="text-lg font-serif mb-4 text-[#1a1612] border-b border-[#e8e0cc] pb-2">Notre engagement qualité</h3>
-            <div className="grid grid-cols-2 gap-x-8 gap-y-4 mb-10 text-sm">
-              {[
-                { title: "Achat direct aux cueilleurs", desc: "3 cueilleurs de confiance, amis et partenaires de longue date de Valérian. Pas de grossiste, pas de distributeur." },
-                { title: "Séchage professionnel le jour J", desc: "Les morilles sont achetées en forêt chaque soir et immédiatement séchées dans un séchoir professionnel sur place." },
-                { title: "Traçabilité complète", desc: "Chaque lot est tracé du cueilleur au client final. Nous connaissons personnellement chaque personne de la chaîne." },
-                { title: "Approvisionnement garanti", desc: "Les pré-commandes sont honorées en priorité. En cas d'annulation de saison (météo), remboursement intégral garanti." },
-              ].map((item) => (
-                <div key={item.title}>
-                  <h4 className="font-semibold text-[#1a1612] mb-1">{item.title}</h4>
-                  <p className="text-xs text-[#6a6a6a] leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* Contact */}
-            <div className="border-t-2 border-[#c9a84c] pt-8 mt-10">
-              <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="font-serif text-lg font-semibold text-[#1a1612] mb-2">Commander ou pré-commander</h3>
-                  <p className="text-sm text-[#4a4a4a] mb-4 max-w-md">
-                    Pour passer commande, demander un devis personnalisé ou réserver votre lot pour la saison 2026, contactez-nous directement.
-                  </p>
-                  <div className="space-y-1 text-sm text-[#4a4a4a]">
-                    <p>📧 <strong>contact@morillesducanada.com</strong></p>
-                    <p>🌐 <strong>morillesducanada.com</strong></p>
-                    <p>📞 Sur demande</p>
-                  </div>
-                </div>
-                <div className="text-right text-xs text-[#8a7a5a]">
-                  <p className="mb-1">Morilles du Canada</p>
-                  <p>Valérian · Fondateur</p>
-                  <p className="mt-3 italic">« Du sol brûlé à votre assiette,</p>
-                  <p className="italic">la chaîne est courte et transparente. »</p>
-                </div>
+          {/* Fireweed landscape strip */}
+          <div style={{ borderRadius: 2, overflow: "hidden", height: 72, position: "relative" }}>
+            <img
+              src={landscapeFireweed}
+              alt="Forêt de Colombie-Britannique"
+              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 35%" }}
+            />
+            <div
+              style={{
+                position: "absolute", inset: 0,
+                background: "linear-gradient(to right, rgba(26,22,18,0.75), rgba(26,22,18,0.3))",
+                display: "flex", alignItems: "center", padding: "0 26px",
+              }}
+            >
+              <div style={{ fontFamily: "Georgia, serif", fontSize: 14, fontStyle: "italic", color: "white", fontWeight: 300 }}>
+                « Du sol brûlé à votre rayon — la chaîne est courte et transparente. »
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Print styles */}
-      <style>{`
-        @media print {
-          body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-          .print\\:hidden { display: none !important; }
-          @page { size: A4; margin: 0; }
-        }
-      `}</style>
+      {/* ═══════════════════════════════════════════════
+          PAGE 5 — CONTACT & COMMANDER
+      ═══════════════════════════════════════════════ */}
+      <div
+        className="page"
+        style={{
+          minHeight: "297mm", backgroundColor: DARK,
+          color: "white", display: "flex", flexDirection: "column",
+          position: "relative", overflow: "hidden",
+        }}
+      >
+        {/* Background morilles */}
+        <img
+          src={heroMorels}
+          alt=""
+          aria-hidden
+          style={{
+            position: "absolute", top: 0, left: 0, right: 0, height: "55%",
+            width: "100%", objectFit: "cover", objectPosition: "center 30%", opacity: 0.28,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute", top: 0, left: 0, right: 0, height: "65%",
+            background: "linear-gradient(to bottom, rgba(26,22,18,0.1) 0%, rgba(26,22,18,0.9) 80%, #1a1612 100%)",
+          }}
+        />
+
+        <div
+          className="relative"
+          style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "52px 56px 44px", minHeight: "297mm" }}
+        >
+          {/* Logo top */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <img src={logo} alt="Morilles du Canada" style={{ height: 38, width: "auto" }} />
+            <div style={{ fontSize: 8, letterSpacing: "0.35em", textTransform: "uppercase", color: GOLD }}>
+              Morilles du Canada · Catalogue professionnel 2026
+            </div>
+          </div>
+
+          {/* Center CTA */}
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 8, letterSpacing: "0.45em", textTransform: "uppercase", color: GOLD, marginBottom: 18 }}>
+              Commander · S'approvisionner · Pré-réserver
+            </div>
+            <div style={{ fontFamily: "Georgia, serif", fontSize: 42, fontWeight: 300, lineHeight: 1.15, marginBottom: 14 }}>
+              Travaillons ensemble
+            </div>
+            <div style={{ width: 52, height: 1, backgroundColor: GOLD, margin: "0 auto 26px" }} />
+            <div style={{ fontSize: 12, color: "rgba(255,255,255,0.62)", maxWidth: 400, margin: "0 auto", lineHeight: 1.85 }}>
+              Un appel suffit pour un devis, une commande sous vide ou une réservation
+              de lot saison 2026. Valérian est votre interlocuteur unique — pas de service
+              commercial, pas de formulaire à rallonge.
+            </div>
+          </div>
+
+          {/* Bottom contact block */}
+          <div>
+            {/* 3 contact points */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 20, marginBottom: 36 }}>
+              {[
+                { label: "Téléphone", value: "07 82 16 27 08", sub: "Valérian · Fondateur" },
+                { label: "Email", value: "contact@morillesducanada.com", sub: "Réponse sous 24–48h" },
+                { label: "Commande & plaquette", value: "morillesducanada.com", sub: "Boutique en ligne · PDF téléchargeable" },
+              ].map((c) => (
+                <div key={c.label} style={{ borderTop: `1px solid ${GOLD}38`, paddingTop: 16 }}>
+                  <div style={{ fontSize: 8, letterSpacing: "0.32em", textTransform: "uppercase", color: GOLD, marginBottom: 9 }}>
+                    {c.label}
+                  </div>
+                  <div style={{ fontSize: 11, fontWeight: 600 }}>{c.value}</div>
+                  <div style={{ fontSize: 9, color: "rgba(255,255,255,0.38)", marginTop: 5 }}>{c.sub}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Process steps */}
+            <div style={{ borderTop: `1px solid rgba(201,168,76,0.18)`, paddingTop: 22, marginBottom: 28 }}>
+              <div style={{ fontSize: 8, letterSpacing: "0.32em", textTransform: "uppercase", color: GOLD, marginBottom: 16 }}>
+                Comment commander
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 16 }}>
+                {[
+                  { n: "1", t: "Contactez-nous", d: "Téléphone ou email" },
+                  { n: "2", t: "Devis sous 24h", d: "Format · Volume · Variété" },
+                  { n: "3", t: "Paiement", d: "Virement ou CB en ligne" },
+                  { n: "4", t: "Expédition", d: "Sous vide · Colis suivi" },
+                ].map((s) => (
+                  <div key={s.n} style={{ textAlign: "center" }}>
+                    <div style={{ fontFamily: "Georgia, serif", fontSize: 22, color: GOLD, marginBottom: 8, opacity: 0.65 }}>{s.n}</div>
+                    <div style={{ fontSize: 10, fontWeight: 600, marginBottom: 5 }}>{s.t}</div>
+                    <div style={{ fontSize: 9, color: "rgba(255,255,255,0.38)" }}>{s.d}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Conditions */}
+            <div
+              style={{
+                padding: "14px 20px", border: `1px solid ${GOLD}22`,
+                borderRadius: 2, marginBottom: 24, fontSize: 9, color: "rgba(255,255,255,0.45)", lineHeight: 1.7,
+              }}
+            >
+              Paiement intégral à la réservation (pré-commandes) · TVA 5,5% sur produits alimentaires ·
+              Livraison France et Europe · En cas d'annulation de saison (météo), remboursement intégral garanti.
+            </div>
+
+            {/* Footer */}
+            <div
+              style={{
+                display: "flex", justifyContent: "space-between", alignItems: "center",
+                paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.07)",
+              }}
+            >
+              <div style={{ fontSize: 8, color: "rgba(255,255,255,0.25)", letterSpacing: "0.1em" }}>
+                © 2026 Morilles du Canada · Colombie-Britannique &amp; Yukon, Canada
+              </div>
+              <div style={{ fontSize: 8, color: "rgba(255,255,255,0.25)", letterSpacing: "0.1em" }}>
+                Document professionnel · Usage confidentiel · morillesducanada.com
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
-  );
-};
+
+    <style>{`
+      @media print {
+        body { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: white; margin: 0; }
+        .print\\:hidden { display: none !important; }
+        @page { size: A4 portrait; margin: 0; }
+        .page { page-break-after: always; break-after: page; }
+        .page:last-of-type { page-break-after: avoid; break-after: avoid; }
+        .relative { position: relative; }
+      }
+      @media screen {
+        .page { margin-bottom: 24px; box-shadow: 0 4px 28px rgba(0,0,0,0.22); }
+      }
+    `}</style>
+  </div>
+);
 
 export default PlaquettePro;

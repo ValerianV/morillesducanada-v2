@@ -69,18 +69,24 @@ const ProductsSection = () => {
 
                   {isVacuum && (
                     <div className="mb-4">
-                      <label className="block text-xs text-muted-foreground mb-2">Sélectionner la quantité souhaitée</label>
-                      <select
-                        value={vacuumWeight}
-                        onChange={(e) => setVacuumWeight(Number(e.target.value))}
-                        className="w-full bg-secondary text-secondary-foreground border border-border rounded-sm px-3 py-2 text-sm"
-                      >
-                        {Array.from({ length: 19 }, (_, index) => 100 + index * 50).filter((g) => g !== 450).map((grams) => (
-                          <option key={grams} value={grams}>
-                            {grams}g · {getVacuumMorelPrice(grams).toFixed(2)} €
-                          </option>
+                      <label className="block text-xs text-muted-foreground mb-2">Sélectionner le format</label>
+                      <div className="grid grid-cols-2 gap-2">
+                        {([100, 200, 500, 1000] as const).map((grams) => (
+                          <button
+                            key={grams}
+                            type="button"
+                            onClick={() => setVacuumWeight(grams)}
+                            className={`px-2 py-2 border rounded-sm text-xs transition-all duration-200 ${
+                              vacuumWeight === grams
+                                ? "border-primary bg-primary/10 text-foreground"
+                                : "border-gold/20 bg-secondary/20 text-muted-foreground hover:border-gold/40"
+                            }`}
+                          >
+                            <span className="font-serif block">{grams >= 1000 ? "1kg" : `${grams}g`}</span>
+                            <span className="text-primary font-medium">{getVacuumMorelPrice(grams)} €</span>
+                          </button>
                         ))}
-                      </select>
+                      </div>
                     </div>
                   )}
 
