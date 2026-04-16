@@ -6,41 +6,39 @@ import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
+import { useI18n } from "@/i18n/context";
 
-// Source: /plaquette-pro pour brune et blonde. Grise et verte = taxonomie BC/Yukon,
-// non documentées dans la plaquette — à valider avec le fournisseur.
 const varieties = [
   {
     color: "Brune",
+    value: "brune" as const,
     species: "M. conica, M. brunnea, M. snyderi",
     profile: "Arôme fumé intense, notes profondes et boisées, reflets jaunes",
     availability: "Bonne disponibilité",
     rare: false,
+    onRequestOnly: false,
   },
   {
-    color: "Blonde",
-    species: "M. americana, M. esculenta, M. prava",
-    profile: "Arôme délicat et subtil, plus douce en bouche",
+    color: "Blonde & Grise",
+    value: "blonde-grise" as const,
+    species: "M. americana, M. esculenta, M. prava, M. tomentosa",
+    profile: "Arôme délicat dominant avec notes fumées douces de la grise",
     availability: "Disponibilité correcte",
     rare: false,
-  },
-  {
-    color: "Grise",
-    species: "M. tomentosa",
-    profile: "Surface veloutée à poils fins, notes fumées douces et terreuses",
-    availability: "Stock limité — allocation prioritaire",
-    rare: true,
+    onRequestOnly: false,
   },
   {
     color: "Verte",
+    value: "verte" as const,
     species: "M. sextelata, M. septimelata",
     profile: "Espèces rares de haute altitude, arôme profond et complexe",
-    availability: "Très limitée — sur demande uniquement",
+    availability: "Sur demande — selon récolte, non garantie",
     rare: true,
+    onRequestOnly: true,
   },
 ];
 
-function getPricePerKg(variety: string, quantityKg: number): number {
+function getPricePerKg(variety: "brune" | "blonde-grise", quantityKg: number): number {
   if (variety === "brune") {
     return quantityKg >= 5 ? 340 : 360;
   }
@@ -48,12 +46,13 @@ function getPricePerKg(variety: string, quantityKg: number): number {
 }
 
 const PreOrder = () => {
+  const { t } = useI18n();
   const [form, setForm] = useState({
     companyName: "",
     contactName: "",
     email: "",
     phone: "",
-    variety: "brune" as "brune" | "blonde" | "grise" | "verte",
+    variety: "brune" as "brune" | "blonde-grise",
     quantityKg: 1,
     notes: "",
   });
@@ -72,15 +71,23 @@ const PreOrder = () => {
       toast.error("Veuillez remplir tous les champs obligatoires");
       return;
     }
+    if (form.quantityKg > 20) {
+      toast.error("Quantité maximale : 20 kg. Contactez-nous directement pour les commandes supérieures.");
+      return;
+    }
     setLoading(true);
     try {
-      const message = `Sourcing direct saison 2026 — Demande de réservation
+      const selectedVariety = varieties.find(v => v.value === form.variety);
+      const isPriority = form.quantityKg >= 15;
+      const messageBody = `Sourcing direct saison 2026 — Demande de réservation
+Horodatage : ${new Date().toISOString()}
 
-Variété : ${form.variety} (${varieties.find(v => v.color.toLowerCase() === form.variety)?.species ?? ""})
+Variété : ${selectedVariety?.color ?? form.variety} (${selectedVariety?.species ?? ""})
 Quantité : ${form.quantityKg} kg
-Prix indicatif : ${pricePerKg} €/kg HT · Total estimé : ${totalHT.toFixed(2)} € HT
+Prix indicatif : ${pricePerKg} €/kg · Total estimé : ${totalHT.toFixed(2)} € nets (TVA non applicable — art. 293 B CGI)
 Téléphone : ${form.phone || "Non renseigné"}
 ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
+      const message = isPriority ? `[PRIORITÉ HAUTE] ${messageBody}` : messageBody;
 
       const { data: insertData, error: insertError } = await supabase
         .from("contact_messages")
@@ -121,15 +128,15 @@ ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
           {/* Header */}
           <ScrollReveal blur>
             <div className="mb-14">
-              <p className="text-sm tracking-[0.3em] uppercase text-primary mb-4">Professionnels</p>
+              <p className="text-sm tracking-[0.3em] uppercase text-primary mb-4">{t("preorder.label")}</p>
               <h1 className="font-serif text-4xl md:text-5xl font-light mb-4">
-                Sourcing direct <span className="italic text-gradient-gold">saison 2026</span>
+                {t("preorder.title")} <span className="italic text-gradient-gold">{t("preorder.titleHighlight")}</span>
               </h1>
               <p className="text-base text-muted-foreground font-light leading-relaxed">
-                Morilles de feu séchées — Colombie-Britannique & Yukon
+                {t("preorder.subtitle")}
               </p>
               <p className="text-sm text-muted-foreground/70 font-light mt-1">
-                Achat aux cueilleurs · Séchage artisanal · Expédition sous vide
+                {t("preorder.subtitleSub")}
               </p>
               <div className="divider-gold w-20 mt-8" />
             </div>
@@ -138,7 +145,7 @@ ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
           {/* Fonctionnement */}
           <ScrollReveal delay={0.05}>
             <section className="mb-14">
-              <h2 className="font-serif text-2xl font-light mb-6">Fonctionnement</h2>
+              <h2 className="font-serif text-2xl font-light mb-6">{t("preorder.howItWorks")}</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 {[
                   {
@@ -173,7 +180,7 @@ ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
           {/* Variétés */}
           <ScrollReveal delay={0.08}>
             <section className="mb-14">
-              <h2 className="font-serif text-2xl font-light mb-6">Variétés disponibles</h2>
+              <h2 className="font-serif text-2xl font-light mb-6">{t("preorder.varieties")}</h2>
               <div className="border border-gold/15 rounded-sm overflow-hidden">
                 <table className="w-full text-sm">
                   <thead>
@@ -210,15 +217,25 @@ ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
           {/* Tarifs */}
           <ScrollReveal delay={0.1}>
             <section className="mb-14">
-              <h2 className="font-serif text-2xl font-light mb-2">Tarifs HT — saison 2026</h2>
-              <p className="text-sm text-muted-foreground font-light mb-6">Paiement à la commande. Facture pro disponible.</p>
+              <h2 className="font-serif text-2xl font-light mb-2">{t("preorder.pricing")}</h2>
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-sm text-muted-foreground font-light">{t("preorder.pricingNote")}</p>
+                <Link
+                  to="/fiche-technique"
+                  className="text-xs text-primary hover:text-gold-light transition-colors font-medium flex-shrink-0 ml-4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t("preorder.technicalSheet")}
+                </Link>
+              </div>
               <div className="border border-gold/15 rounded-sm overflow-hidden">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-gold/15 bg-background/80">
                       <th className="text-left py-3 px-4 text-xs tracking-[0.2em] uppercase text-muted-foreground font-light">Volume</th>
                       <th className="text-right py-3 px-4 text-xs tracking-[0.2em] uppercase text-muted-foreground font-light">Brune</th>
-                      <th className="text-right py-3 px-4 text-xs tracking-[0.2em] uppercase text-muted-foreground font-light">Blonde · Grise · Verte</th>
+                      <th className="text-right py-3 px-4 text-xs tracking-[0.2em] uppercase text-muted-foreground font-light">Blonde &amp; Grise</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -235,18 +252,21 @@ ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
                   </tbody>
                 </table>
               </div>
+              <p className="text-xs text-muted-foreground/60 font-light mt-3 italic">
+                {t("preorder.vatNote")}
+              </p>
             </section>
           </ScrollReveal>
 
           {/* Conditions */}
           <ScrollReveal delay={0.12}>
             <section className="mb-14">
-              <h2 className="font-serif text-2xl font-light mb-6">Conditions</h2>
+              <h2 className="font-serif text-2xl font-light mb-6">{t("preorder.conditions")}</h2>
               <ul className="space-y-3 text-sm text-muted-foreground font-light">
                 {[
                   "Paiement intégral à la réservation",
                   "Délai : 6 à 8 semaines à compter de l'achat aux cueilleurs",
-                  "Les variétés rares (grise, verte) sont allouées par ordre de commande",
+                  "La variété verte est proposée sur demande uniquement, sans garantie de disponibilité",
                   "Aucun réassort possible en cours de saison",
                 ].map((cond) => (
                   <li key={cond} className="flex items-start gap-3">
@@ -263,9 +283,9 @@ ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
           {/* Formulaire de réservation */}
           <ScrollReveal delay={0.15}>
             <section>
-              <h2 className="font-serif text-2xl font-light mb-2">Réservation et devis</h2>
+              <h2 className="font-serif text-2xl font-light mb-2">{t("preorder.form.title")}</h2>
               <p className="text-sm text-muted-foreground font-light mb-8">
-                Remplissez le formulaire ou contactez-nous directement à{" "}
+                {t("preorder.form.subtitle")}{" "}
                 <a href="mailto:contact@morillesducanada.com" className="text-primary hover:underline">
                   contact@morillesducanada.com
                 </a>
@@ -274,9 +294,9 @@ ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
               {success ? (
                 <div className="border border-primary/30 rounded-sm p-8 text-center bg-background/40">
                   <CheckCircle className="w-10 h-10 text-primary mx-auto mb-4" />
-                  <h3 className="font-serif text-xl mb-2">Demande envoyée</h3>
+                  <h3 className="font-serif text-xl mb-2">{t("preorder.form.success.title")}</h3>
                   <p className="text-sm text-muted-foreground font-light">
-                    Nous reviendrons vers vous sous 48h pour confirmer votre réservation et les modalités de paiement.
+                    {t("preorder.form.success.desc")}
                   </p>
                 </div>
               ) : (
@@ -284,7 +304,7 @@ ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs tracking-[0.2em] uppercase text-muted-foreground mb-2 font-light">
-                        Entreprise / Établissement *
+                        {t("preorder.form.company")} *
                       </label>
                       <input
                         type="text"
@@ -297,7 +317,7 @@ ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
                     </div>
                     <div>
                       <label className="block text-xs tracking-[0.2em] uppercase text-muted-foreground mb-2 font-light">
-                        Nom du contact *
+                        {t("preorder.form.contact")} *
                       </label>
                       <input
                         type="text"
@@ -341,39 +361,43 @@ ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
                   {/* Variety */}
                   <div>
                     <label className="block text-xs tracking-[0.2em] uppercase text-muted-foreground mb-3 font-light">
-                      Variété *
+                      {t("preorder.form.variety")} *
                     </label>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      {varieties.map((v) => (
+                    <div className="grid grid-cols-2 gap-3">
+                      {varieties.filter(v => !v.onRequestOnly).map((v) => (
                         <button
-                          key={v.color}
+                          key={v.value}
                           type="button"
-                          onClick={() => update("variety", v.color.toLowerCase())}
+                          onClick={() => update("variety", v.value)}
                           className={`p-3 border rounded-sm text-left transition-all duration-300 ${
-                            form.variety === v.color.toLowerCase()
+                            form.variety === v.value
                               ? "border-primary bg-primary/10"
                               : "border-gold/15 bg-secondary/20 hover:border-gold/40"
                           }`}
                         >
                           <span className="font-serif text-sm block">{v.color}</span>
-                          {v.rare && (
-                            <span className="text-[10px] text-primary/70 tracking-wider uppercase">rare</span>
-                          )}
                         </button>
                       ))}
                     </div>
+                    <p className="text-xs text-muted-foreground font-light mt-3">
+                      {t("preorder.form.verteNote")}{" "}
+                      <a href="mailto:contact@morillesducanada.com" className="text-primary hover:underline">
+                        contact@morillesducanada.com
+                      </a>{" "}
+                      {t("preorder.form.verteNoteEnd")}
+                    </p>
                   </div>
 
                   {/* Quantity + price preview */}
                   <div>
                     <label className="block text-xs tracking-[0.2em] uppercase text-muted-foreground mb-2 font-light">
-                      Quantité (kg) * — minimum 1 kg
+                      {t("preorder.form.quantity")} * — {t("preorder.form.quantityNote")}
                     </label>
                     <div className="flex items-center gap-4 flex-wrap">
                       <input
                         type="number"
                         min={1}
-                        max={500}
+                        max={20}
                         step={0.5}
                         required
                         value={form.quantityKg}
@@ -381,15 +405,20 @@ ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
                         className="w-28 px-4 py-3 bg-secondary/30 border border-gold/15 rounded-sm text-foreground focus:outline-none focus:border-primary transition-colors text-center font-serif text-lg"
                       />
                       <span className="text-muted-foreground font-light text-sm">
-                        kg × {pricePerKg} €/kg HT =
+                        kg × {pricePerKg} €/kg =
                       </span>
                       <span className="font-serif text-xl text-gradient-gold">
-                        {totalHT.toFixed(2)} € HT
+                        {totalHT.toFixed(2)} €
                       </span>
                     </div>
-                    {form.quantityKg >= 5 && (
+                    {form.quantityKg >= 5 && form.quantityKg < 15 && (
                       <p className="text-xs text-primary/70 mt-2 font-light">
-                        Tarif dégressif appliqué (5 kg et +)
+                        {t("preorder.form.discountApplied")}
+                      </p>
+                    )}
+                    {form.quantityKg >= 15 && (
+                      <p className="text-xs text-primary/70 mt-2 font-light">
+                        {t("preorder.form.discountApplied")} · {t("preorder.form.quantityInfo15")}
                       </p>
                     )}
                   </div>
@@ -397,23 +426,20 @@ ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
                   {/* Notes */}
                   <div>
                     <label className="block text-xs tracking-[0.2em] uppercase text-muted-foreground mb-2 font-light">
-                      Précisions / Notes
+                      {t("preorder.form.notes")}
                     </label>
                     <textarea
                       value={form.notes}
                       onChange={(e) => update("notes", e.target.value)}
                       rows={3}
                       className="w-full px-4 py-3 bg-secondary/30 border border-gold/15 rounded-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors resize-none"
-                      placeholder="Calibrage souhaité, dates de livraison, demande de devis formel…"
+                      placeholder={t("preorder.form.notesPlaceholder")}
                     />
                   </div>
 
                   <div className="flex items-start gap-3 text-xs text-muted-foreground font-light">
                     <ShieldCheck className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                    <p>
-                      En soumettant ce formulaire, vous recevrez une confirmation et les modalités de paiement sous 48h.
-                      En cas d'annulation de saison (météo, récolte insuffisante), remboursement intégral garanti.
-                    </p>
+                    <p>{t("preorder.form.vatInfo")}</p>
                   </div>
 
                   <button
@@ -424,7 +450,7 @@ ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
                     {loading ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
                     ) : (
-                      "Envoyer ma demande de réservation"
+                      t("preorder.form.submit")
                     )}
                   </button>
                 </form>

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -82,9 +81,15 @@ const Auth = () => {
 
   const handleGoogleLogin = async () => {
     setLoading(true);
-    const { error } = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+    // TODO: Configurer le provider Google dans le dashboard Supabase (Auth → Providers → Google)
+    // et ajouter l'URL de callback dans la console Google Cloud avant d'activer ce bouton.
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: window.location.origin,
+      },
     });
+    // signInWithOAuth redirige la page si succès — setLoading(false) n'est appelé qu'en cas d'erreur
     setLoading(false);
     if (error) {
       toast({ title: "Erreur Google", description: String(error), variant: "destructive" });

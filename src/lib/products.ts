@@ -1,3 +1,9 @@
+// Allocation saison 2026 :
+// - 25 kg au retail (réparti sur les 4 formats ci-dessous)
+// - 70 kg à la pré-commande pro (géré manuellement via /pre-commande)
+// - 5 kg de buffer (échantillons chefs, casse, remplacements)
+// Historique : le 45g est best-seller, le 30g offre la meilleure marge,
+// le 12g reste un produit d'appel pour découverte.
 import product12g from "@/assets/product-12g.webp";
 import product30g from "@/assets/product-30g.webp";
 import product45g from "@/assets/product-45g.webp";
@@ -38,7 +44,7 @@ export const products: Product[] = [
     image: product12g,
     servings: "2 personnes",
     inStock: true,
-    stock: 50,
+    stock: 200,
   },
   {
     id: "morilles-30g",
@@ -52,7 +58,7 @@ export const products: Product[] = [
     image: product30g,
     servings: "4-6 personnes",
     inStock: true,
-    stock: 50,
+    stock: 400,
     badge: "Populaire",
   },
   {
@@ -67,7 +73,7 @@ export const products: Product[] = [
     image: product45g,
     servings: "6-8 personnes",
     inStock: true,
-    stock: 50,
+    stock: 200,
   },
   {
     id: "morilles-sous-vide",
@@ -86,7 +92,10 @@ export const products: Product[] = [
     image: productVacuumBag,
     servings: "Format pro & passionnés",
     inStock: true,
-    stock: 50,
+    // Stock sous-vide = pool mutualisé (~2,5 kg alloués au format sous vide retail).
+    // La logique actuelle décrémente d'une unité par commande indépendamment du poids
+    // commandé. Un vrai décrément proportionnel nécessiterait un refactor du cartStore.
+    stock: 15,
   },
 ];
 

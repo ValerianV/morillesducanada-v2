@@ -22,13 +22,13 @@ const MentionsLegales = () => {
               <h2 className="font-serif text-xl text-foreground mb-3">1. Éditeur du site</h2>
               <p>
                 Le site <strong className="text-foreground">morillesducanada.com</strong> est édité par :<br />
-                [Nom / Raison sociale]<br />
-                [Forme juridique — ex. : Auto-entrepreneur / SASU / EURL]<br />
-                [Adresse du siège social]<br />
-                [SIRET : XXX XXX XXX XXXXX]<br />
-                [Numéro de TVA intracommunautaire, le cas échéant]<br />
-                Email : contact@morillesducanada.com<br />
-                Directeur de la publication : [Nom du responsable]
+                <strong className="text-foreground">Valérian Vilane</strong><br />
+                Forme juridique : Auto-entrepreneur (micro-entreprise)<br />
+                Adresse : 448 chemin de Patin, 84810 Aubignan, France<br />
+                SIRET : 802 861 948 00023<br />
+                TVA intracommunautaire : non applicable — franchise en base de TVA (article 293 B du CGI)<br />
+                Email : <a href="mailto:contact@morillesducanada.com" className="text-primary hover:text-gold-light transition-colors">contact@morillesducanada.com</a><br />
+                Directeur de la publication : Valérian Vilane
               </p>
             </section>
 
@@ -36,8 +36,9 @@ const MentionsLegales = () => {
               <h2 className="font-serif text-xl text-foreground mb-3">2. Hébergement</h2>
               <p>
                 Le site est hébergé par :<br />
-                Lovable (Lovable Technologies)<br />
-                Site web : <a href="https://lovable.dev" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-gold-light transition-colors">lovable.dev</a>
+                <strong className="text-foreground">Vercel Inc.</strong><br />
+                440 N Barranca Ave #4133, Covina, CA 91723, États-Unis<br />
+                Site web : <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-gold-light transition-colors">vercel.com</a>
               </p>
             </section>
 
@@ -76,6 +77,13 @@ const MentionsLegales = () => {
               <h2 className="font-serif text-xl text-foreground mb-3">7. Droit applicable</h2>
               <p>
                 Les présentes mentions légales sont soumises au droit français. En cas de litige, les tribunaux français seront seuls compétents.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="font-serif text-xl text-foreground mb-3">8. TVA et facturation</h2>
+              <p>
+                Valérian Vilane exerce en micro-entreprise et bénéficie de la franchise en base de TVA (article 293 B du CGI). Les factures émises ne font pas apparaître de TVA. Les clients professionnels ne peuvent pas déduire de TVA sur ces achats. Les tarifs affichés sont nets, sans TVA à ajouter.
               </p>
             </section>
           </div>

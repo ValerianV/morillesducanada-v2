@@ -8,7 +8,15 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const PRICE_PER_KG_CENTS = 35000; // 350€ per kg
+// Tarifs synchronisés avec PreOrder.tsx (getPricePerKg)
+// brune : 360€/kg (< 5kg), 340€/kg (≥ 5kg)
+// blonde-grise : 390€/kg (< 5kg), 370€/kg (≥ 5kg)
+function getPricePerKgCents(morelType: string, quantityKg: number): number {
+  if (morelType === "brune") {
+    return quantityKg >= 5 ? 34000 : 36000;
+  }
+  return quantityKg >= 5 ? 37000 : 39000;
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -22,15 +30,15 @@ serve(async (req) => {
       throw new Error("Missing required fields");
     }
 
-    if (!["brune", "blonde"].includes(morelType)) {
+    if (!["brune", "blonde-grise"].includes(morelType)) {
       throw new Error("Invalid morel type");
     }
 
-    if (quantityKg <= 0 || quantityKg > 100) {
+    if (quantityKg <= 0 || quantityKg > 20) {
       throw new Error("Invalid quantity");
     }
 
-    const totalAmountCents = Math.round(quantityKg * PRICE_PER_KG_CENTS);
+    const totalAmountCents = Math.round(quantityKg * getPricePerKgCents(morelType, quantityKg));
     const totalAmountEuros = totalAmountCents / 100;
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
@@ -76,7 +84,7 @@ serve(async (req) => {
     if (dbError) throw dbError;
 
     // Create Stripe checkout session
-    const morelLabel = morelType === "brune" ? "Morilles brunes" : "Morilles blondes";
+    const morelLabel = morelType === "brune" ? "Morilles brunes" : "Morilles blondes & grises";
 
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
@@ -86,7 +94,7 @@ serve(async (req) => {
             currency: "eur",
             product_data: {
               name: `Pré-commande ${morelLabel} — ${quantityKg} kg`,
-              description: `Pré-commande professionnelle saison 2026. ${morelLabel}, ${quantityKg} kg à 350€/kg.`,
+              description: `Pré-commande professionnelle saison 2026. ${morelLabel}, ${quantityKg} kg.`,
             },
             unit_amount: totalAmountCents,
           },

@@ -28,3 +28,4 @@ dist/
 .vercel
 src/assets/originals/
 supabase/.temp/
+.gstack/

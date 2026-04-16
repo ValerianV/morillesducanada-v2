@@ -70,7 +70,14 @@ const ProductsSection = () => {
                 <div className="p-6">
                   <h3 className="font-serif text-lg mb-1">{product.name}</h3>
                   <p className="text-xs text-muted-foreground mb-2">{product.servings}</p>
-                  <p className="font-serif text-2xl text-gradient-gold mb-3">{currentVacuumPrice.toFixed(2)} €</p>
+                  <div className="mb-3">
+                    <p className="font-serif text-2xl text-gradient-gold">{currentVacuumPrice.toFixed(2)} €</p>
+                    {isVacuum && (vacuumWeight === 500 || vacuumWeight === 1000) && (
+                      <p className="text-[10px] text-muted-foreground mt-0.5">
+                        Prix net · TVA non applicable (art. 293 B CGI)
+                      </p>
+                    )}
+                  </div>
                   <p className="text-sm text-muted-foreground font-light leading-relaxed mb-3 line-clamp-2">{locale === "en" ? product.descriptionEn : product.description}</p>
 
                   <Link

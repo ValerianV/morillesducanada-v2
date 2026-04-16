@@ -715,6 +715,16 @@ const PlaquettePro = () => (
               <div style={{ fontSize: 8, color: "rgba(255,255,255,0.25)", letterSpacing: "0.1em" }}>
                 Document professionnel · Usage confidentiel · morillesducanada.com
               </div>
+              <div style={{ fontSize: 8, color: GOLD, letterSpacing: "0.1em" }}>
+                <a
+                  href="/fiche-technique"
+                  style={{ color: GOLD, textDecoration: "none" }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Fiche technique produit →
+                </a>
+              </div>
             </div>
           </div>
         </div>

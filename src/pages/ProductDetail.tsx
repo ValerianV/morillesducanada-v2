@@ -151,6 +151,11 @@ const ProductDetail = () => {
                   <p className="font-serif text-4xl text-gradient-gold">
                     {currentPrice.toFixed(2)} €
                   </p>
+                  {isVacuum && (vacuumWeight === 500 || vacuumWeight === 1000) && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Prix net · TVA non applicable (art. 293 B CGI)
+                    </p>
+                  )}
                   <p className="text-xs text-muted-foreground mt-1">{product.servings}</p>
                 </div>
 
@@ -173,6 +178,11 @@ const ProductDetail = () => {
                         >
                           <span className="font-serif block">{g >= 1000 ? "1kg" : `${g}g`}</span>
                           <span className="text-primary font-medium">{getVacuumMorelPrice(g)} €</span>
+                          {(g === 500 || g === 1000) && (
+                            <span className="text-muted-foreground block text-[10px]">
+                              Prix net
+                            </span>
+                          )}
                         </button>
                       ))}
                     </div>
