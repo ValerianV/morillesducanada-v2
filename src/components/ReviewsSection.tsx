@@ -28,6 +28,7 @@ const StarRating = ({ rating, onRate, interactive = false }: { rating: number; o
 const ReviewsSection = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [firstName, setFirstName] = useState("");
+  const [email, setEmail] = useState("");
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -47,13 +48,19 @@ const ReviewsSection = () => {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!firstName.trim() || rating === 0 || !comment.trim()) {
       toast.error("Veuillez remplir tous les champs et donner une note.");
+      return;
+    }
+    if (!email.trim() || !emailRegex.test(email.trim())) {
+      toast.error("Veuillez saisir une adresse email valide.");
       return;
     }
     setSubmitting(true);
     const { error } = await supabase.from("reviews").insert({
       first_name: firstName.trim(),
+      email: email.trim().toLowerCase(),
       rating,
       comment: comment.trim(),
     });
@@ -62,8 +69,9 @@ const ReviewsSection = () => {
       toast.error("Erreur lors de l'envoi de votre avis.");
       return;
     }
-    toast.success("Merci pour votre avis !");
+    toast.success("Merci pour votre avis ! Il sera publié après validation.");
     setFirstName("");
+    setEmail("");
     setRating(0);
     setComment("");
     fetchReviews();
@@ -134,6 +142,17 @@ const ReviewsSection = () => {
                   <label className="block text-[10px] text-muted-foreground mb-1 tracking-wider uppercase">Note</label>
                   <StarRating rating={rating} onRate={setRating} interactive />
                 </div>
+              </div>
+              <div>
+                <label className="block text-[10px] text-muted-foreground mb-1 tracking-wider uppercase">Email <span className="normal-case text-muted-foreground/50">(non publié)</span></label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full bg-secondary/30 border border-gold/15 rounded-sm px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                  placeholder="votre@email.com"
+                />
               </div>
               <div>
                 <label className="block text-[10px] text-muted-foreground mb-1 tracking-wider uppercase">Votre avis</label>
