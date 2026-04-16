@@ -8,13 +8,24 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+// Free shipping threshold in cents
+const FREE_SHIPPING_THRESHOLD_CENTS = 5000; // 50€
+const SHIPPING_AMOUNT_CENTS = 690; // 6.90€
+
+// All EU countries + Switzerland + Norway
+const ALLOWED_COUNTRIES = [
+  "FR", "BE", "LU", "CH", "DE", "IT", "ES", "PT", "NL", "AT",
+  "PL", "CZ", "SK", "HU", "RO", "BG", "HR", "SI", "EE", "LV",
+  "LT", "DK", "SE", "FI", "IE", "GR", "CY", "MT", "NO",
+];
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { lineItems } = await req.json();
+    const { lineItems, subtotalCents } = await req.json();
 
     if (!lineItems || !Array.isArray(lineItems) || lineItems.length === 0) {
       throw new Error("No line items provided");
@@ -46,16 +57,49 @@ serve(async (req) => {
       }
     }
 
+    // Build Stripe line items — handle both priceId-based and custom price items
+    const stripeLineItems = lineItems.map((item: {
+      priceId?: string;
+      quantity: number;
+      unitAmountCents?: number;
+      name?: string;
+    }) => {
+      if (item.priceId) {
+        return { price: item.priceId, quantity: item.quantity };
+      }
+      return {
+        quantity: item.quantity,
+        price_data: {
+          currency: "eur",
+          unit_amount: item.unitAmountCents ?? 0,
+          product_data: { name: item.name || "Morilles de feu séchées" },
+        },
+      };
+    });
+
+    // Add shipping fee if below threshold
+    const needsShipping = typeof subtotalCents === "number"
+      ? subtotalCents < FREE_SHIPPING_THRESHOLD_CENTS
+      : false;
+
+    if (needsShipping) {
+      stripeLineItems.push({
+        quantity: 1,
+        price_data: {
+          currency: "eur",
+          unit_amount: SHIPPING_AMOUNT_CENTS,
+          product_data: { name: "Frais de livraison" },
+        },
+      });
+    }
+
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       customer_email: customerId ? undefined : customerEmail,
-      line_items: lineItems.map((item: { priceId: string; quantity: number }) => ({
-        price: item.priceId,
-        quantity: item.quantity,
-      })),
+      line_items: stripeLineItems,
       mode: "payment",
       shipping_address_collection: {
-        allowed_countries: ["FR"],
+        allowed_countries: ALLOWED_COUNTRIES as Stripe.Checkout.SessionCreateParams.ShippingAddressCollection.AllowedCountry[],
       },
       success_url: `${req.headers.get("origin")}/paiement-reussi`,
       cancel_url: `${req.headers.get("origin")}/paiement-annule`,

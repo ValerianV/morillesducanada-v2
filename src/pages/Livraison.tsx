@@ -8,25 +8,25 @@ const deliveryZones = [
   {
     zone: "France métropolitaine",
     delay: "3 à 5 jours ouvrés",
-    price: "Offerts dès 80 € · Sinon 6,90 €",
+    price: "Offerts dès 50 € · Sinon 6,90 €",
     icon: "🇫🇷",
   },
   {
     zone: "Belgique & Luxembourg",
     delay: "4 à 7 jours ouvrés",
-    price: "Offerts dès 100 € · Sinon 9,90 €",
+    price: "Offerts dès 80 € · Sinon 9,90 €",
     icon: "🇧🇪",
   },
   {
     zone: "Suisse",
     delay: "5 à 8 jours ouvrés",
-    price: "Offerts dès 120 € · Sinon 12,90 €",
+    price: "Offerts dès 100 € · Sinon 12,90 €",
     icon: "🇨🇭",
   },
   {
     zone: "Union Européenne",
     delay: "5 à 10 jours ouvrés",
-    price: "Offerts dès 120 € · Sinon 12,90 €",
+    price: "Offerts dès 100 € · Sinon 12,90 €",
     icon: "🇪🇺",
   },
 ];
@@ -137,8 +137,7 @@ const Livraison = () => {
                 ))}
               </div>
               <p className="text-xs text-muted-foreground mt-4">
-                * Délais indicatifs à compter de l'expédition. Les commandes
-                passées avant 14h (jours ouvrés) sont expédiées le jour même.
+                * Délais indicatifs à compter de l'expédition. Les commandes sont préparées et expédiées dans les 2 à 5 jours ouvrés suivant la confirmation du paiement. Vous recevrez un email avec votre numéro de suivi dès l'expédition.
               </p>
             </div>
           </ScrollReveal>

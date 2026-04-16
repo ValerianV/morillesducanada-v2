@@ -31,8 +31,10 @@ export const CartDrawer = () => {
             };
       });
 
+      const subtotalCents = Math.round(total * 100);
+
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { lineItems },
+        body: { lineItems, subtotalCents },
       });
 
       if (error) throw error;
@@ -68,14 +70,14 @@ export const CartDrawer = () => {
           </SheetDescription>
         </SheetHeader>
         {/* Free shipping progress */}
-        {total < 80 && (
+        {total < 50 && (
           <div className="px-1 pt-4 pb-2">
             <div className="flex justify-between text-[10px] text-muted-foreground mb-1.5">
-              <span>Livraison offerte dès 80 €</span>
-              <span className="text-primary font-medium">{(80 - total).toFixed(2)} € restants</span>
+              <span>Livraison offerte dès 50 €</span>
+              <span className="text-primary font-medium">{(50 - total).toFixed(2)} € restants</span>
             </div>
             <div className="h-1 bg-secondary rounded-full overflow-hidden">
-              <div className="h-full bg-primary rounded-full transition-all duration-500" style={{ width: `${Math.min((total / 80) * 100, 100)}%` }} />
+              <div className="h-full bg-primary rounded-full transition-all duration-500" style={{ width: `${Math.min((total / 50) * 100, 100)}%` }} />
             </div>
           </div>
         )}
