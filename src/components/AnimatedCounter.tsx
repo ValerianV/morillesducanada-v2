@@ -9,12 +9,11 @@ interface AnimatedCounterProps {
 const AnimatedCounter = ({ value, className }: AnimatedCounterProps) => {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
-  const [displayed, setDisplayed] = useState("0");
+  const [displayed, setDisplayed] = useState(value);
 
   useEffect(() => {
     if (!isInView) return;
 
-    // Parse numeric part
     const match = value.match(/^(\d+)/);
     if (!match) {
       setDisplayed(value);
@@ -22,7 +21,7 @@ const AnimatedCounter = ({ value, className }: AnimatedCounterProps) => {
     }
 
     const target = parseInt(match[1], 10);
-    const suffix = value.slice(match[1].length); // e.g. "%" or "-4"
+    const suffix = value.slice(match[1].length);
 
     if (target === 0) {
       setDisplayed(value);
@@ -32,6 +31,7 @@ const AnimatedCounter = ({ value, className }: AnimatedCounterProps) => {
     const steps = Math.min(target, 40);
     const stepDuration = 800 / steps;
     let current = 0;
+    setDisplayed(`0${suffix}`);
 
     const timer = setInterval(() => {
       current += Math.ceil(target / steps);

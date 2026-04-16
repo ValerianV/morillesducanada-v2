@@ -46,7 +46,7 @@ const productSchemas = [
     offers: {
       "@type": "Offer",
       priceCurrency: "EUR",
-      price: "10.00",
+      price: "12.00",
       availability: "https://schema.org/InStock",
       seller: { "@type": "Organization", name: "Morilles du Canada" },
     },
@@ -63,7 +63,7 @@ const productSchemas = [
     offers: {
       "@type": "Offer",
       priceCurrency: "EUR",
-      price: "20.00",
+      price: "23.00",
       availability: "https://schema.org/InStock",
     },
   },
@@ -79,7 +79,7 @@ const productSchemas = [
     offers: {
       "@type": "Offer",
       priceCurrency: "EUR",
-      price: "25.00",
+      price: "29.00",
       availability: "https://schema.org/InStock",
     },
   },

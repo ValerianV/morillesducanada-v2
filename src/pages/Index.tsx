@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import TrustBandeau from "@/components/TrustBandeau";
 import Footer from "@/components/Footer";
 import JsonLdSchemas from "@/components/JsonLdSchemas";
 
@@ -24,6 +25,7 @@ const Index = () => {
       <Navbar />
       <main>
         <HeroSection />
+        <TrustBandeau />
         <Suspense fallback={null}>
           <OriginSection />
           <ProductsSection />
