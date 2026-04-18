@@ -15,15 +15,13 @@ const ContactSection = () => {
     setIsSubmitting(true);
     setError(null);
     try {
-      const { data: insertData, error: insertError } = await supabase
+      const { error: insertError } = await supabase
         .from("contact_messages")
-        .insert({ name: formData.name, email: formData.email, type: formData.type, message: formData.message })
-        .select()
-        .single();
+        .insert({ name: formData.name, email: formData.email, type: formData.type, message: formData.message });
       if (insertError) throw insertError;
 
       // Trigger email notification to admin
-      supabase.functions.invoke("notify-contact", { body: { record: insertData } }).catch((err) => {
+      supabase.functions.invoke("notify-contact", { body: { record: { name: formData.name, email: formData.email, type: formData.type, message: formData.message, created_at: new Date().toISOString() } } }).catch((err) => {
         console.error("Failed to invoke notify-contact:", err);
       });
 

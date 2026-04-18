@@ -38,9 +38,9 @@ export const en = {
     title: "The story",
     titleHighlight: "behind our morels",
     heading: "Valérian — from forager to morel ambassador",
-    p1: "It was my younger brother who got me started. He'd already been picking morels for a year when he convinced me to join him in Canada's burned forests. I spent <strong>three seasons</strong> there — three springs walking through the ashes of British Columbia and the Yukon, sleeping in tents, hiking kilometres through charred trunks. Face-to-face encounters with bears, evenings around the fire with foragers from Québec, across Canada, and around the world. Stolen fishing moments between harvests. <strong>Unforgettable</strong> adventures.",
-    p2: "Three years in this trade opened my eyes: between the foragers who risk everything in the field and the customers who pay top price, there's a missing link. I decided to create it. For <strong>two years, I sold my morels at local markets</strong> — face to face, explaining the product, the terroir, the harvest. It was the enthusiastic feedback from those customers that gave me the confidence to launch online sales and reach out to professionals.",
-    p3: "Today, I buy my morels <strong>directly from the foragers</strong> I worked alongside — people I now consider friends and trust completely. No wholesaler, no middleman — just a short, honest supply chain. <strong>Morilles du Canada</strong> is a business born from adventure and matured through direct selling. Every jar, every pouch has a story — and I want to share it with you.",
+    p1: "My younger brother got me started. He'd done his first season in Canada in 2021, and the following year he told me \"come see for yourself.\" I went. I spent <strong>three springs</strong> there — 2022, 2023, 2024 — walking the burned forests of British Columbia and the Yukon, learning to read a charred soil, to spot the right zones, to work alongside pickers who've been doing this for years. My brother didn't carry on, neither did I. Those seasons were a <strong>chapter of our lives</strong>, a parenthesis we were lucky to share together. But they became the foundation of everything I do today.",
+    p2: "On the ground, a <strong>large Canadian wholesaler</strong> has gradually built a near-monopoly over what pickers get paid. Purchase prices have been driven down, season after season. The people who spend two months in the forest every spring earn far less today than they did ten years ago for the same work. When I stopped picking, I realised that where I could really add something was <strong>between Canada and France</strong>. Buying directly from pickers, at a fair price. Selecting what I bring back myself. Delivering to chefs and connoisseurs without going through a distributor.",
+    p3: "Today I work with a <strong>network of experienced Canadian pickers</strong>, some with more than ten years in the trade. I keep their names to myself — it's a competitive field, and their peace of mind comes before the marketing. <strong>Morilles du Canada</strong> is a short supply chain, hand to hand. I'm based in <strong>Avignon</strong>, with a working base in Piolenc during the season. Every jar, every pouch has a story — and I'd like to tell it to you.",
     blogLink: "Read the forager's journal",
   },
   products: {
@@ -58,7 +58,7 @@ export const en = {
     delivery: "Shipping to France & Europe",
     payment: "Secure payment",
     shipping: "Fast dispatch",
-    experience: "2 years of direct sales",
+    experience: "3 seasons picking in Canada",
   },
   why: {
     label: "Our morels",

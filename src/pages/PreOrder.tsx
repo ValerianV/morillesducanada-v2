@@ -89,20 +89,18 @@ Téléphone : ${form.phone || "Non renseigné"}
 ${form.notes ? `\nNotes : ${form.notes}` : ""}`;
       const message = isPriority ? `[PRIORITÉ HAUTE] ${messageBody}` : messageBody;
 
-      const { data: insertData, error: insertError } = await supabase
+      const { error: insertError } = await supabase
         .from("contact_messages")
         .insert({
           name: `${form.contactName} — ${form.companyName}`,
           email: form.email,
           type: "professionnel",
           message,
-        })
-        .select()
-        .single();
+        });
 
       if (insertError) throw insertError;
 
-      supabase.functions.invoke("notify-contact", { body: { record: insertData } }).catch(() => {});
+      supabase.functions.invoke("notify-contact", { body: { record: { name: `${form.contactName} — ${form.companyName}`, email: form.email, type: "professionnel", message, created_at: new Date().toISOString() } } }).catch(() => {});
 
       setSuccess(true);
     } catch (err) {

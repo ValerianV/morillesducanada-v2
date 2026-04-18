@@ -38,9 +38,9 @@ export const fr = {
     title: "L'histoire",
     titleHighlight: "derrière nos morilles",
     heading: "Valérian — de cueilleur à passeur de morilles",
-    p1: "C'est mon petit frère qui m'a mis le pied à l'étrier. Lui cueillait déjà la morille depuis un an quand il m'a convaincu de le rejoindre dans les forêts brûlées du Canada. J'y ai passé <strong>trois saisons</strong> — trois printemps à arpenter les cendres de la Colombie-Britannique et du Yukon, à dormir sous la tente, à marcher des kilomètres au milieu des troncs calcinés. Des face-à-face avec des ours, des soirées autour du feu entre cueilleurs venus du Québec, d'ailleurs au Canada, et du monde entier. Des moments de pêche volés entre deux récoltes. Des aventures <strong>inoubliables</strong>.",
-    p2: "Trois ans dans ce métier m'ont ouvert les yeux : entre les cueilleurs qui risquent tout sur le terrain et les clients qui paient le prix fort, il manque un lien juste. J'ai décidé de le créer. Pendant <strong>deux ans, j'ai vendu mes morilles sur les marchés</strong> — en direct, face aux clients, à expliquer le produit, le terroir, la cueillette. C'est cette expérience de terrain, ces retours enthousiastes, qui m'ont donné confiance pour lancer la vente en ligne et m'adresser aussi aux professionnels.",
-    p3: "Aujourd'hui, j'achète mes morilles <strong>directement auprès des cueilleurs</strong> que j'ai côtoyés, que je considère comme des amis et des gens de confiance. Pas de grossiste, pas d'intermédiaire — juste un circuit court, honnête. <strong>Morilles du Canada</strong>, c'est une entreprise née de l'aventure et mûrie par la vente directe. Chaque pot, chaque sachet a une histoire — et j'ai envie de vous la raconter.",
+    p1: "C'est mon petit frère qui m'a mis le pied à l'étrier. Il avait fait sa première saison au Canada en 2021, et l'année d'après, il m'a dit \"viens voir\". J'y suis allé. J'ai passé <strong>trois printemps</strong> sur place — 2022, 2023, 2024 — à arpenter les forêts brûlées de Colombie-Britannique et du Yukon, à apprendre à lire un sol calciné, à distinguer les bonnes zones, à travailler avec des cueilleurs qui font ce métier depuis longtemps. Mon frère n'a pas continué, moi non plus. Ces saisons étaient un <strong>cap de vie</strong>, une parenthèse qu'on a eu la chance de vivre ensemble. Mais elles sont devenues les fondations de tout ce que je fais aujourd'hui.",
+    p2: "Sur place, un <strong>gros grossiste canadien</strong> a progressivement construit un quasi-monopole sur l'achat aux cueilleurs. Les prix d'achat sont tirés vers le bas, saison après saison. Les gens qui passent deux mois en forêt chaque printemps gagnent aujourd'hui bien moins qu'il y a dix ans pour le même travail. Quand j'ai arrêté de cueillir, j'ai compris que l'endroit où je pouvais vraiment apporter quelque chose, c'était <strong>entre le Canada et la France</strong>. Acheter directement aux cueilleurs, au juste prix. Sélectionner moi-même ce que je ramène. Livrer aux chefs et aux amateurs sans passer par un distributeur.",
+    p3: "Aujourd'hui, je travaille avec un <strong>réseau de cueilleurs canadiens expérimentés</strong>, certains cueillent depuis plus de dix ans. Je garde leur identité pour moi — c'est un milieu concurrentiel, et leur tranquillité passe avant la mise en avant. <strong>Morilles du Canada</strong>, c'est une filière courte, de main en main. Je suis basé à <strong>Avignon</strong>, avec un point de travail à Piolenc pour la saison. Chaque pot, chaque sachet a une histoire — et j'ai envie de vous la raconter.",
     blogLink: "Lire le journal du cueilleur",
   },
   products: {
@@ -58,7 +58,7 @@ export const fr = {
     delivery: "Livraison France & Europe",
     payment: "Paiement sécurisé",
     shipping: "Expédition rapide",
-    experience: "2 ans de vente directe",
+    experience: "3 saisons de cueillette au Canada",
   },
   why: {
     label: "Nos morilles",
