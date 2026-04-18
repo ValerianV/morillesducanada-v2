@@ -9,7 +9,8 @@ Toggle: Navbar FR/EN switch (already in place)
 
 | Page / Component | Status | Notes |
 |---|---|---|
-| Homepage sections (Hero, Origin, About, Products, Why, Process, Gallery, Professional, FAQ, Contact, Footer) | Full FR + EN | Via existing keys in `fr.ts` / `en.ts` |
+| Homepage sections (Hero, About, Products, Why, Process, Gallery, Professional, FAQ, Contact, Footer) | Full FR + EN | Via existing keys in `fr.ts` / `en.ts` |
+| `OriginSection.tsx` ("Nées du feu") | Full FR + EN | Refonte courte et poétique — nouvelles clés `origin.*` (baseline, couplet1-3Bold/Italic, caption, transition, cta) |
 | `PreOrder.tsx` | Full FR + EN | Keys added under `preorder.*` — all visible labels, headings, form fields, success/error messages |
 | `ProductsSection.tsx` | Full FR + EN | Already used `useI18n()` |
 | `fr.ts` / `en.ts` professional section | Updated | Variety names corrected (Blonde & Grise), VAT notice added |
