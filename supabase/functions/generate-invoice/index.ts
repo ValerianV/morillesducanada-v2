@@ -1,5 +1,12 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import {
+  escapeHtml,
+  formatEuros,
+  itemLineTotalCents,
+  itemQuantity,
+  itemUnitAmountCents,
+} from "../_shared/format.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -21,16 +28,16 @@ function generateInvoiceHTML(order: any, invoiceNumber: string) {
       (item: any) => `
       <tr>
         <td style="padding: 12px 16px; border-bottom: 1px solid #2a2520; color: #e8dcc8; font-size: 14px;">
-          ${item.name || item.product?.name || "Morilles de feu séchées"}
+          ${escapeHtml(item.name || item.product?.name || "Morilles de feu séchées")}
         </td>
         <td style="padding: 12px 16px; border-bottom: 1px solid #2a2520; color: #e8dcc8; font-size: 14px; text-align: center;">
-          ${item.quantity || 1}
+          ${itemQuantity(item)}
         </td>
         <td style="padding: 12px 16px; border-bottom: 1px solid #2a2520; color: #e8dcc8; font-size: 14px; text-align: right;">
-          ${((item.price || item.unit_amount || 0)).toFixed(2)} €
+          ${formatEuros(itemUnitAmountCents(item))}
         </td>
         <td style="padding: 12px 16px; border-bottom: 1px solid #2a2520; color: #e8dcc8; font-size: 14px; text-align: right;">
-          ${((item.price || item.unit_amount || 0) * (item.quantity || 1)).toFixed(2)} €
+          ${formatEuros(itemLineTotalCents(item))}
         </td>
       </tr>
     `
@@ -43,9 +50,9 @@ function generateInvoiceHTML(order: any, invoiceNumber: string) {
       <div style="margin-top: 24px;">
         <p style="font-size: 12px; color: #8a7e6b; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.1em;">Adresse de livraison</p>
         <p style="font-size: 14px; color: #e8dcc8; margin: 0; line-height: 1.6;">
-          ${shipping.line1 || ""}${shipping.line2 ? "<br/>" + shipping.line2 : ""}<br/>
-          ${shipping.postal_code || ""} ${shipping.city || ""}<br/>
-          ${shipping.country || "France"}
+          ${escapeHtml(shipping.line1)}${shipping.line2 ? "<br/>" + escapeHtml(shipping.line2) : ""}<br/>
+          ${escapeHtml(shipping.postal_code)} ${escapeHtml(shipping.city)}<br/>
+          ${escapeHtml(shipping.country || "France")}
         </p>
       </div>
     `
@@ -90,8 +97,8 @@ function generateInvoiceHTML(order: any, invoiceNumber: string) {
     <div style="padding: 32px 40px; display: flex; justify-content: space-between;">
       <div>
         <p style="font-size: 12px; color: #8a7e6b; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.1em;">Facturé à</p>
-        <p style="font-size: 16px; color: #e8dcc8; margin: 0; font-weight: 500;">${order.customer_name}</p>
-        <p style="font-size: 14px; color: #e8dcc8; margin: 4px 0 0;">${order.email}</p>
+        <p style="font-size: 16px; color: #e8dcc8; margin: 0; font-weight: 500;">${escapeHtml(order.customer_name)}</p>
+        <p style="font-size: 14px; color: #e8dcc8; margin: 4px 0 0;">${escapeHtml(order.email)}</p>
         ${shippingBlock}
       </div>
       <div style="text-align: right;">
@@ -203,8 +210,9 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error("Invoice error:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: error.message === "Unauthorized" ? 403 : 400,
+    const message = error instanceof Error ? error.message : String(error);
+    return new Response(JSON.stringify({ error: message }), {
+      status: message === "Unauthorized" ? 403 : 400,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }

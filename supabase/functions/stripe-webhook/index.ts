@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { escapeHtml, formatEuros, itemLineTotalCents, itemQuantity } from "../_shared/format.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
   apiVersion: "2025-08-27.basil",
@@ -23,13 +24,13 @@ function buildInvoiceTable(items: any[], totalAmount: number) {
       (item: any) => `
       <tr>
         <td style="padding: 8px 12px; border-bottom: 1px solid #2a2520; color: #e8dcc8; font-size: 13px;">
-          ${item.name || "Morilles de feu séchées"}
+          ${escapeHtml(item.name || "Morilles de feu séchées")}
         </td>
         <td style="padding: 8px 12px; border-bottom: 1px solid #2a2520; color: #e8dcc8; font-size: 13px; text-align: center;">
-          ${item.quantity || 1}
+          ${itemQuantity(item)}
         </td>
         <td style="padding: 8px 12px; border-bottom: 1px solid #2a2520; color: #e8dcc8; font-size: 13px; text-align: right;">
-          ${(((item.unit_amount || 0) * (item.quantity || 1)) / 100).toFixed(2)} €
+          ${formatEuros(itemLineTotalCents(item))}
         </td>
       </tr>
     `
@@ -66,10 +67,10 @@ function buildConfirmationEmail(customerName: string, orderId: string, items: an
       <div style="background: #2a2520; border: 1px solid #cc9a2e33; border-radius: 4px; padding: 16px; margin-top: 16px;">
         <p style="font-size: 11px; color: #8a7e6b; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 8px;">Adresse de livraison</p>
         <p style="font-size: 14px; color: #e8dcc8; margin: 0; line-height: 1.5;">
-          ${shippingAddress.name || ""}<br/>
-          ${shippingAddress.line1 || ""}${shippingAddress.line2 ? "<br/>" + shippingAddress.line2 : ""}<br/>
-          ${shippingAddress.postal_code || ""} ${shippingAddress.city || ""}<br/>
-          ${shippingAddress.country || ""}
+          ${escapeHtml(shippingAddress.name)}<br/>
+          ${escapeHtml(shippingAddress.line1)}${shippingAddress.line2 ? "<br/>" + escapeHtml(shippingAddress.line2) : ""}<br/>
+          ${escapeHtml(shippingAddress.postal_code)} ${escapeHtml(shippingAddress.city)}<br/>
+          ${escapeHtml(shippingAddress.country)}
         </p>
       </div>
     `
@@ -83,7 +84,7 @@ function buildConfirmationEmail(customerName: string, orderId: string, items: an
         </h1>
       </div>
       <div style="padding: 32px; color: #e8dcc8;">
-        <p style="font-size: 16px; margin-bottom: 24px;">Bonjour ${customerName},</p>
+        <p style="font-size: 16px; margin-bottom: 24px;">Bonjour ${escapeHtml(customerName)},</p>
         <div style="background: #2a2520; border: 1px solid #cc9a2e33; border-radius: 4px; padding: 24px; margin-bottom: 24px;">
           <p style="font-size: 14px; color: #8a7e6b; margin: 0 0 8px;">Statut de votre commande</p>
           <p style="font-size: 24px; margin: 0; color: #cc9a2e;">
@@ -186,7 +187,7 @@ async function sendOrderConfirmationEmail(
   const adminMessageId = `admin-new-order-${orderId}-${ts}`;
   const adminUnsubToken = await getUnsubscribeToken("contact@morillesducanada.com");
   const adminHtml = `
-    <p>Nouvelle commande reçue de <strong>${customerName}</strong> (${customerEmail}).</p>
+    <p>Nouvelle commande reçue de <strong>${escapeHtml(customerName)}</strong> (${escapeHtml(customerEmail)}).</p>
     <p><strong>Commande :</strong> ${orderId.substring(0, 8).toUpperCase()}<br/>
     <strong>Total :</strong> ${(totalAmount / 100).toFixed(2)} €</p>
   `;
@@ -236,8 +237,9 @@ serve(async (req) => {
   try {
     event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
   } catch (err) {
-    console.error("Webhook signature verification failed:", err.message);
-    return new Response(`Webhook Error: ${err.message}`, { status: 400 });
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("Webhook signature verification failed:", message);
+    return new Response(`Webhook Error: ${message}`, { status: 400 });
   }
 
   if (event.type === "checkout.session.completed") {
@@ -265,15 +267,19 @@ serve(async (req) => {
       expand: ["data.price.product"],
     });
 
-    const items = lineItems.data.map((item) => ({
+    const items = lineItems.data.map((item: Stripe.LineItem) => ({
       name: item.description,
       quantity: item.quantity,
       unit_amount: item.price?.unit_amount,
       price_id: item.price?.id,
     }));
 
-    // Get shipping address
-    const shipping = session.shipping_details;
+    // API Stripe >= 2025-03-31.basil : l'adresse est dans collected_information.shipping_details.
+    // Repli sur l'ancien champ de premier niveau (sessions créées avec une version d'API antérieure).
+    type ShippingDetails = Stripe.Checkout.Session.CollectedInformation.ShippingDetails;
+    const legacyShipping = (session as unknown as { shipping_details?: ShippingDetails | null }).shipping_details;
+    const shipping: ShippingDetails | null =
+      session.collected_information?.shipping_details ?? legacyShipping ?? null;
     const shippingAddress = shipping
       ? {
           name: shipping.name,
