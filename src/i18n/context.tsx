@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react";
 import { fr } from "@/i18n/fr";
 import { en } from "@/i18n/en";
 
@@ -24,14 +24,25 @@ function getNestedValue(obj: Record<string, any>, path: string): string {
 
 export const I18nProvider = ({ children }: { children: ReactNode }) => {
   const [locale, setLocaleState] = useState<Locale>(() => {
-    const stored = localStorage.getItem("locale");
-    return (stored === "en" ? "en" : "fr") as Locale;
+    try {
+      return localStorage.getItem("locale") === "en" ? "en" : "fr";
+    } catch {
+      return "fr";
+    }
   });
+
+  // Aussi au premier rendu : un visiteur revenant en anglais gardait lang="fr".
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
 
   const setLocale = useCallback((l: Locale) => {
     setLocaleState(l);
-    localStorage.setItem("locale", l);
-    document.documentElement.lang = l;
+    try {
+      localStorage.setItem("locale", l);
+    } catch {
+      // stockage indisponible : la langue reste valable pour la session
+    }
   }, []);
 
   const currentTranslations = translationsMap[locale];

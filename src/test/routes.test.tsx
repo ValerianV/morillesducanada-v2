@@ -58,3 +58,11 @@ describe("espaces protégés sans connexion", () => {
     supabaseMock.getSession.mockResolvedValue({ data: { session: null }, error: null });
   });
 });
+
+describe("langue", () => {
+  it("applique lang=\"en\" dès le chargement quand l'anglais est mémorisé", async () => {
+    document.documentElement.lang = "fr";
+    await renderAt("/produits", "en");
+    expect(document.documentElement.lang).toBe("en");
+  });
+});
