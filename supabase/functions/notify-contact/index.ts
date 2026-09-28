@@ -27,6 +27,23 @@ serve(async (req) => {
 
     const { name, email, message, type, created_at } = record;
 
+    // Le trigger SQL (insert contact_messages) et l'appel direct du front notifient le même message :
+    // un seul envoi par couple email + message sur 10 minutes (migration 20260928090000).
+    const digest = await crypto.subtle.digest(
+      "SHA-256",
+      new TextEncoder().encode(`${String(email ?? "").toLowerCase()}\n${String(message ?? "")}`),
+    );
+    const dedupKey = `contact:${Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, "0")).join("")}`;
+    const { data: claimed, error: claimError } = await supabase.rpc("claim_notification", { _key: dedupKey });
+    if (claimError) {
+      console.warn("claim_notification unavailable, sending without dedup:", claimError.message);
+    } else if (claimed === false) {
+      return new Response(JSON.stringify({ skipped: true, reason: "duplicate" }), {
+        status: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     const typeLabel = type === 'professionnel' ? '🏢 Professionnel' : '👤 Particulier';
     const date = new Date(created_at).toLocaleString('fr-FR', {
       dateStyle: 'long',
