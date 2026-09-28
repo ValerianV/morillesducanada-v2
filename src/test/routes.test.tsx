@@ -21,3 +21,19 @@ describe("page 404", () => {
     errors.mockRestore();
   });
 });
+
+describe("pages de retour Stripe", () => {
+  it("/paiement-annule : traduite, rassure et renvoie vers les produits et l'offre pro", async () => {
+    await renderAt("/paiement-annule", "en");
+    expect(await screen.findByRole("heading", { level: 1 })).toHaveTextContent("Payment cancelled");
+    expect(screen.getByText(/You have not been charged/)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Back to products" })).toHaveAttribute("href", "/produits");
+    expect(screen.getByRole("link", { name: "trade prices and quotes" })).toHaveAttribute("href", "/professionnels");
+  });
+
+  it("/paiement-reussi : un client sans compte n'est pas envoyé vers /profil", async () => {
+    await renderAt("/paiement-reussi", "fr");
+    expect(await screen.findByRole("link", { name: "Continuer mes achats" })).toHaveAttribute("href", "/produits");
+    expect(screen.queryByRole("link", { name: "Voir ma commande" })).toBeNull();
+  });
+});

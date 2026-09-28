@@ -3,14 +3,23 @@ import { CheckCircle, Package, Mail } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCartStore } from "@/stores/cartStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useI18n } from "@/i18n/context";
 
 const PaymentSuccess = () => {
   const clearCart = useCartStore((state) => state.clearCart);
+  const { t } = useI18n();
+  const [signedIn, setSignedIn] = useState(false);
 
   useEffect(() => {
     clearCart();
   }, [clearCart]);
+
+  // Le paiement se fait aussi sans compte : /profil n'est proposé qu'aux clients connectés.
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => setSignedIn(Boolean(session)));
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -19,41 +28,41 @@ const PaymentSuccess = () => {
         <div className="text-center max-w-lg px-6">
           <CheckCircle className="w-16 h-16 text-primary mx-auto mb-6" />
           <h1 className="font-serif text-3xl md:text-4xl font-light mb-4">
-            Merci pour votre <span className="italic text-gradient-gold">commande</span>
+            {t("paymentSuccess.title")} <span className="italic text-gradient-gold">{t("paymentSuccess.titleHighlight")}</span>
           </h1>
           <p className="text-muted-foreground font-light mb-8">
-            Votre paiement a été confirmé. Un email de confirmation vient d'être envoyé avec le détail de votre commande et votre facture.
+            {t("paymentSuccess.text")}
           </p>
 
           <div className="grid sm:grid-cols-2 gap-4 mb-8 text-left">
             <div className="flex items-start gap-3 p-4 border border-gold/15 rounded-sm bg-card">
               <Mail className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
               <div>
-                <p className="text-sm font-medium text-foreground">Email de confirmation</p>
-                <p className="text-xs text-muted-foreground font-light mt-0.5">Vérifiez votre boîte de réception (et vos spams).</p>
+                <p className="text-sm font-medium text-foreground">{t("paymentSuccess.emailTitle")}</p>
+                <p className="text-xs text-muted-foreground font-light mt-0.5">{t("paymentSuccess.emailText")}</p>
               </div>
             </div>
             <div className="flex items-start gap-3 p-4 border border-gold/15 rounded-sm bg-card">
               <Package className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
               <div>
-                <p className="text-sm font-medium text-foreground">Suivi de commande</p>
-                <p className="text-xs text-muted-foreground font-light mt-0.5">Vous recevrez un email dès l'expédition avec le numéro de suivi.</p>
+                <p className="text-sm font-medium text-foreground">{t("paymentSuccess.trackingTitle")}</p>
+                <p className="text-xs text-muted-foreground font-light mt-0.5">{t("paymentSuccess.trackingText")}</p>
               </div>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
-              to="/profil"
+              to={signedIn ? "/profil" : "/produits"}
               className="inline-block px-8 py-3 bg-primary text-primary-foreground font-medium tracking-widest uppercase text-sm hover:bg-gold-light transition-colors duration-300 rounded-sm"
             >
-              Voir ma commande
+              {signedIn ? t("paymentSuccess.viewOrder") : t("paymentSuccess.continue")}
             </Link>
             <Link
               to="/"
               className="inline-block px-8 py-3 border border-gold/20 text-foreground font-light tracking-widest uppercase text-sm hover:border-primary hover:text-primary transition-colors duration-300 rounded-sm"
             >
-              Retour à l'accueil
+              {t("paymentSuccess.home")}
             </Link>
           </div>
         </div>
