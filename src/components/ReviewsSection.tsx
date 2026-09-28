@@ -79,6 +79,9 @@ const ReviewsSection = () => {
 
   const avgRating = reviews.length > 0 ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1) : null;
 
+  // Pas d'avis publié : la section entière est masquée (y compris pendant le chargement).
+  if (reviews.length === 0) return null;
+
   return (
     <section id="avis" className="py-12 md:py-16">
       <div className="container mx-auto px-6">
