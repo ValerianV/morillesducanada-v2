@@ -2,7 +2,7 @@ import { ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { products, getVacuumMorelPrice } from "@/lib/products";
+import { products, getVacuumMorelPrice, localizeProduct } from "@/lib/products";
 import { useCartStore } from "@/stores/cartStore";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useI18n } from "@/i18n/context";
@@ -19,14 +19,14 @@ const ProductsSection = () => {
       const price = getVacuumMorelPrice(vacuumWeight);
       addItem(product, 1, { selectedWeightGrams: vacuumWeight, unitPriceOverride: price });
       toast.success(t("products.addedToCart"), {
-        description: `${product.name} · ${vacuumWeight}g`,
+        description: `${localizeProduct(product, locale).name} · ${vacuumWeight}g`,
         position: "top-center",
       });
       return;
     }
 
     addItem(product);
-    toast.success(t("products.addedToCart"), { description: product.name, position: "top-center" });
+    toast.success(t("products.addedToCart"), { description: localizeProduct(product, locale).name, position: "top-center" });
   };
 
   return (
@@ -47,50 +47,51 @@ const ProductsSection = () => {
           {products.map((product, i) => {
             const isVacuum = product.id === "morilles-sous-vide";
             const currentVacuumPrice = isVacuum ? getVacuumMorelPrice(vacuumWeight) : product.price;
+            const label = localizeProduct(product, locale);
 
             return (
               <ScrollReveal key={product.id} delay={i * 0.1} direction="up">
               <div
                 className="relative border border-gold/15 rounded-sm bg-background/50 hover:border-gold/40 hover:shadow-gold hover:-translate-y-1.5 transition-all duration-500 group overflow-hidden"
               >
-                {product.badge && (
+                {label.badge && (
                   <div className="absolute top-3 left-3 z-10 px-2.5 py-1 bg-primary text-primary-foreground text-[10px] font-medium tracking-widest uppercase rounded-sm">
-                    {product.badge}
+                    {label.badge}
                   </div>
                 )}
                 <div className="aspect-square overflow-hidden">
                   <img
                     src={product.image}
-                    alt={product.name}
+                    alt={label.name}
                     loading="lazy"
                     decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                 </div>
                 <div className="p-6">
-                  <h3 className="font-serif text-lg mb-1">{product.name}</h3>
-                  <p className="text-xs text-muted-foreground mb-2">{product.servings}</p>
+                  <h3 className="font-serif text-lg mb-1">{label.name}</h3>
+                  <p className="text-xs text-muted-foreground mb-2">{label.servings}</p>
                   <div className="mb-3">
                     <p className="font-serif text-2xl text-gradient-gold">{currentVacuumPrice.toFixed(2)} €</p>
                     {isVacuum && (vacuumWeight === 500 || vacuumWeight === 1000) && (
                       <p className="text-[10px] text-muted-foreground mt-0.5">
-                        Prix net · TVA non applicable (art. 293 B CGI)
+                        {t("products.netPrice")}
                       </p>
                     )}
                   </div>
-                  <p className="text-sm text-muted-foreground font-light leading-relaxed mb-3 line-clamp-2">{locale === "en" ? product.descriptionEn : product.description}</p>
+                  <p className="text-sm text-muted-foreground font-light leading-relaxed mb-3 line-clamp-2">{label.description}</p>
 
                   <Link
                     to={`/produits/${product.slug}`}
                     onClick={(e) => e.stopPropagation()}
                     className="text-xs text-primary hover:text-gold-light transition-colors font-medium mb-4 inline-block"
                   >
-                    Voir le détail →
+                    {t("products.viewDetail")}
                   </Link>
 
                   {isVacuum && (
                     <div className="mb-4">
-                      <label className="block text-xs text-muted-foreground mb-2">Sélectionner le format</label>
+                      <label className="block text-xs text-muted-foreground mb-2">{t("products.selectFormat")}</label>
                       <div className="grid grid-cols-2 gap-2">
                         {([100, 200, 500, 1000] as const).map((grams) => (
                           <button
