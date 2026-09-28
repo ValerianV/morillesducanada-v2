@@ -6,7 +6,7 @@ project_id = "oeweykyazadobobjncfg"
   [functions.notify-contact]
     verify_jwt = false
   [functions.notify-order-status]
-    verify_jwt = false
+    verify_jwt = true
   [functions.generate-invoice]
     verify_jwt = false
   [functions.stripe-webhook]

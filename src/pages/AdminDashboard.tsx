@@ -101,6 +101,23 @@ const AdminDashboard = () => {
     }
   }
 
+  // notify-order-status exige le JWT d'un admin : la fonction relit la ligne en base à partir de l'id.
+  async function notifyStatusChange(type: "order" | "preorder", id: string, oldStatus?: string) {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      toast.error("Session expirée : email de statut non envoyé");
+      return;
+    }
+    const { error } = await supabase.functions.invoke("notify-order-status", {
+      body: { type, id, old_status: oldStatus },
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    });
+    if (error) {
+      console.error("Failed to send status notification:", error);
+      toast.error("Statut mis à jour, mais l'email au client n'a pas pu être envoyé");
+    }
+  }
+
   async function updateOrderStatus(id: string, newStatus: string) {
     // If changing to "shipped", open tracking modal first
     if (newStatus === "shipped") {
@@ -117,16 +134,8 @@ const AdminDashboard = () => {
     const oldStatus = order?.status;
     const { error } = await supabase.from("orders").update({ status: newStatus, updated_at: new Date().toISOString() }).eq("id", id);
     if (error) { toast.error("Erreur lors de la mise à jour"); return; }
-    const updatedOrder = { ...order, status: newStatus };
     setOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status: newStatus } : o)));
-    // Send status notification email
-    try {
-      await supabase.functions.invoke("notify-order-status", {
-        body: { type: "order", record: updatedOrder, old_status: oldStatus },
-      });
-    } catch (e) {
-      console.error("Failed to send status notification:", e);
-    }
+    await notifyStatusChange("order", id, oldStatus);
   }
 
   async function submitShipping() {
@@ -145,20 +154,12 @@ const AdminDashboard = () => {
       toast.error("Erreur lors de la mise à jour");
       return;
     }
-    const updatedOrder = { ...order, status: "shipped", carrier, tracking_number: trackingNumber, tracking_url: trackingUrl };
     setOrders((prev) => prev.map((o) =>
       o.id === orderId ? { ...o, status: "shipped", carrier, tracking_number: trackingNumber, tracking_url: trackingUrl } : o
     ));
     setTrackingModal(null);
     toast.success("Commande expédiée — email de suivi envoyé au client");
-    // Send shipping notification with tracking info
-    try {
-      await supabase.functions.invoke("notify-order-status", {
-        body: { type: "order", record: updatedOrder, old_status: oldStatus },
-      });
-    } catch (e) {
-      console.error("Failed to send shipping notification:", e);
-    }
+    await notifyStatusChange("order", orderId, oldStatus);
   }
 
   async function updatePreOrderStatus(id: string, status: string) {
@@ -166,15 +167,8 @@ const AdminDashboard = () => {
     const oldStatus = preOrder?.status;
     const { error } = await supabase.from("pre_orders").update({ status, updated_at: new Date().toISOString() }).eq("id", id);
     if (error) { toast.error("Erreur lors de la mise à jour"); return; }
-    const updatedPreOrder = { ...preOrder, status };
     setPreOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status } : o)));
-    try {
-      await supabase.functions.invoke("notify-order-status", {
-        body: { type: "preorder", record: updatedPreOrder, old_status: oldStatus },
-      });
-    } catch (e) {
-      console.error("Failed to send pre-order status notification:", e);
-    }
+    await notifyStatusChange("preorder", id, oldStatus);
   }
 
   async function deleteReview(id: string) {
