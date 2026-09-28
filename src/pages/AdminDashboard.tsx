@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, ShieldAlert, Download, RefreshCw, Truck } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import ProLeadsTab from "@/components/admin/ProLeadsTab";
+import { exportCsv } from "@/lib/csv";
 import { toast } from "sonner";
 
 type Order = {
@@ -47,21 +49,11 @@ type Review = {
 const STATUS_OPTIONS = ["pending", "paid", "shipped", "delivered", "cancelled"];
 const PRE_STATUS_OPTIONS = ["pending", "paid", "confirmed", "delivered", "cancelled"];
 
-function exportCsv(filename: string, headers: string[], rows: string[][]) {
-  const csv = [headers.join(","), ...rows.map((r) => r.map((c) => `"${String(c ?? "").replace(/"/g, '""')}"`).join(","))].join("\n");
-  const blob = new Blob([csv], { type: "text/csv" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
-  const [tab, setTab] = useState<"orders" | "preorders" | "reviews">("orders");
+  const [tab, setTab] = useState<"leads" | "orders" | "preorders" | "reviews">("leads");
+  const [leadsRefresh, setLeadsRefresh] = useState(0);
   const [orders, setOrders] = useState<Order[]>([]);
   const [preOrders, setPreOrders] = useState<PreOrder[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -84,6 +76,7 @@ const AdminDashboard = () => {
 
   async function fetchData() {
     setLoading(true);
+    setLeadsRefresh((n) => n + 1);
     try {
       const [ordersRes, preOrdersRes, reviewsRes] = await Promise.all([
         supabase.from("orders").select("*").order("created_at", { ascending: false }),
@@ -229,7 +222,7 @@ const AdminDashboard = () => {
           <div className="flex items-center justify-between mb-8">
             <div>
               <h1 className="font-serif text-3xl text-gradient-gold">Dashboard Admin</h1>
-              <p className="text-sm text-muted-foreground font-light mt-1">Gestion des commandes et pré-commandes</p>
+              <p className="text-sm text-muted-foreground font-light mt-1">Leads pro, commandes, pré-commandes et avis</p>
             </div>
             <button onClick={fetchData} disabled={loading} className="flex items-center gap-2 px-4 py-2 border border-gold/20 rounded-sm text-sm text-muted-foreground hover:text-primary hover:border-primary transition-colors">
               <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} /> Actualiser
@@ -253,14 +246,14 @@ const AdminDashboard = () => {
 
           {/* Tabs + filter */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-            <div className="flex gap-2">
-              {(["orders", "preorders", "reviews"] as const).map((t) => (
+            <div className="flex flex-wrap gap-2">
+              {(["leads", "orders", "preorders", "reviews"] as const).map((t) => (
                 <button key={t} onClick={() => { setTab(t); setStatusFilter("all"); }}
                   className={`px-4 py-2 text-sm tracking-wider uppercase rounded-sm transition-colors ${tab === t ? "bg-primary text-primary-foreground" : "border border-gold/20 text-muted-foreground hover:text-primary"}`}
-                >{t === "orders" ? "Commandes" : t === "preorders" ? "Pré-commandes" : "Avis"}</button>
+                >{t === "leads" ? "Leads pro" : t === "orders" ? "Commandes" : t === "preorders" ? "Pré-commandes" : "Avis"}</button>
               ))}
             </div>
-            {tab !== "reviews" && (
+            {(tab === "orders" || tab === "preorders") && (
             <div className="flex items-center gap-3">
               <select
                 value={statusFilter}
@@ -280,7 +273,9 @@ const AdminDashboard = () => {
             )}
           </div>
 
-          {loading ? (
+          {tab === "leads" ? (
+            <ProLeadsTab refreshToken={leadsRefresh} />
+          ) : loading ? (
             <div className="flex justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
           ) : tab === "orders" ? (
             <div className="overflow-x-auto">
