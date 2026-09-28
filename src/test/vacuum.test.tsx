@@ -1,8 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { cleanup, fireEvent, screen, waitFor, within } from "@testing-library/react";
-import { installBrowserStubs, renderAt, supabaseModule } from "./qaHarness";
+import { installBrowserStubs, renderAt, supabaseModule, supabaseLazyModule } from "./qaHarness";
 
 vi.mock("@/integrations/supabase/client", () => supabaseModule);
+vi.mock("@/integrations/supabase/lazy", () => supabaseLazyModule);
 
 import { cheapestSmallFormat, getVacuumMorelPrice, pricePerKg, vacuumSaving } from "@/lib/products";
 import { useCartStore } from "@/stores/cartStore";
@@ -99,7 +100,7 @@ describe("fiches produit", () => {
 
   it("petit format : prix au kilo et renvoi vers le sous vide avec l'économie chiffrée", async () => {
     await renderAt("/produits/decouverte-12g", "fr");
-    await screen.findByRole("heading", { level: 1, name: "Découverte 12g" });
+    await screen.findByRole("heading", { level: 1, name: /Découverte 12g$/ });
     const text = plain(document.body.textContent);
     expect(text).toContain("1 000 €/kg");
     expect(text).toContain("En sous vide 500 g, la morille revient à 480 €/kg, soit 52 % de moins au kilo qu'avec ce format.");

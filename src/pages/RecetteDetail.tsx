@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import Seo from "@/components/Seo";
+import { breadcrumbSchema, recipeSchema } from "@/lib/seo/schema";
+import { getPrerenderData, recipeKey } from "@/lib/prerenderData";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -38,10 +40,23 @@ interface Recipe {
   created_at: string;
 }
 
+// ingredients / steps sont des colonnes jsonb (type Json) : on garantit des tableaux.
+function normalizeRecipe(data: Record<string, unknown>): Recipe {
+  return {
+    ...data,
+    ingredients: Array.isArray(data.ingredients) ? data.ingredients : [],
+    steps: Array.isArray(data.steps) ? data.steps : [],
+  } as unknown as Recipe;
+}
+
 const RecetteDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [initial] = useState(() => {
+    const data = slug ? getPrerenderData<Record<string, unknown>>(recipeKey(slug)) : undefined;
+    return data ? normalizeRecipe(data) : null;
+  });
+  const [recipe, setRecipe] = useState<Recipe | null>(initial);
+  const [loading, setLoading] = useState(!initial);
 
   useEffect(() => {
     if (!slug) return;
@@ -51,19 +66,11 @@ const RecetteDetail = () => {
       .eq("slug", slug)
       .single()
       .then(({ data }) => {
-        // ingredients / steps sont des colonnes jsonb (type Json) : on garantit des tableaux.
-        setRecipe(
-          data
-            ? ({
-                ...data,
-                ingredients: Array.isArray(data.ingredients) ? data.ingredients : [],
-                steps: Array.isArray(data.steps) ? data.steps : [],
-              } as unknown as Recipe)
-            : null,
-        );
+        if (data) setRecipe(normalizeRecipe(data as Record<string, unknown>));
+        else if (!initial) setRecipe(null);
         setLoading(false);
       });
-  }, [slug]);
+  }, [slug, initial]);
 
   if (loading) {
     return (
@@ -83,6 +90,7 @@ const RecetteDetail = () => {
   if (!recipe) {
     return (
       <div className="min-h-screen bg-background">
+        <Seo title="Recette introuvable | Morilles du Canada" robots="noindex, follow" />
         <Navbar />
         <main className="pt-32 pb-24 text-center">
           <h1 className="font-serif text-3xl text-foreground mb-4">Recette introuvable</h1>
@@ -95,38 +103,22 @@ const RecetteDetail = () => {
     );
   }
 
-  const totalTime = recipe.prep_time + recipe.cook_time;
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Recipe",
-    name: recipe.title,
-    description: recipe.description,
-    author: { "@type": "Person", name: recipe.chef_name },
-    prepTime: `PT${recipe.prep_time}M`,
-    cookTime: `PT${recipe.cook_time}M`,
-    totalTime: `PT${totalTime}M`,
-    recipeYield: `${recipe.servings} portions`,
-    recipeIngredient: recipe.ingredients.map(
-      (ing) => `${ing.quantity}${ing.unit ? " " + ing.unit : ""} ${ing.name}`.trim()
-    ),
-    recipeInstructions: recipe.steps.map((step) => ({
-      "@type": "HowToStep",
-      position: step.step,
-      name: step.title,
-      text: step.description,
-    })),
-    recipeCategory: "Plat principal",
-    recipeCuisine: "Française",
-    keywords: recipe.tags?.join(", "),
-  };
-
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>{recipe.title} | Recettes Morilles du Canada</title>
-        <meta name="description" content={recipe.description} />
-        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-      </Helmet>
+      <Seo
+        title={`${recipe.title} | Recette aux morilles`}
+        description={recipe.description}
+        path={`/recettes/${recipe.slug}`}
+        type="article"
+        image={recipe.image_url ? { url: recipe.image_url, alt: recipe.title } : undefined}
+        jsonLd={[
+          recipeSchema(recipe),
+          breadcrumbSchema([
+            { name: "Recettes", path: "/recettes" },
+            { name: recipe.title, path: `/recettes/${recipe.slug}` },
+          ]),
+        ]}
+      />
 
       <Navbar />
       <main className="pt-32 pb-24">

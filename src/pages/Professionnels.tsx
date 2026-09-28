@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import { FileText, Mail, Phone } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -10,8 +9,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { useI18n } from "@/i18n/context";
 import type { ProLeadKind } from "@/lib/proLead";
 import productVacuumBag from "@/assets/product-vacuum-bag.webp";
-
-const CANONICAL = "https://www.morillesducanada.com/professionnels";
+import Seo from "@/components/Seo";
+import { breadcrumbSchema, faqPageSchema, lowestProPricePerKg, proOfferSchema } from "@/lib/seo/schema";
+import { formatEurosLocale } from "@/lib/proPricing";
 
 const SectionHeading = ({ label, title }: { label: string; title: string }) => (
   <div className="mb-8">
@@ -21,7 +21,7 @@ const SectionHeading = ({ label, title }: { label: string; title: string }) => (
 );
 
 const Professionnels = () => {
-  const { t, translations } = useI18n();
+  const { t, translations, locale } = useI18n();
   const pro = translations.pro;
   const location = useLocation();
   const [kind, setKind] = useState<ProLeadKind>(location.hash === "#echantillon" ? "echantillon" : "devis");
@@ -44,14 +44,17 @@ const Professionnels = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>{t("pro.metaTitle")}</title>
-        <meta name="description" content={t("pro.metaDescription")} />
-        <link rel="canonical" href={CANONICAL} />
-        <meta property="og:title" content={t("pro.metaTitle")} />
-        <meta property="og:description" content={t("pro.metaDescription")} />
-        <meta property="og:url" content={CANONICAL} />
-      </Helmet>
+      <Seo
+        title={t("pro.metaTitle")}
+        description={t("pro.metaDescription").replace("{minPrice}", formatEurosLocale(lowestProPricePerKg() * 100, locale))}
+        path="/professionnels"
+        preloadImage={productVacuumBag}
+        jsonLd={[
+          proOfferSchema(),
+          faqPageSchema(pro.faq.items),
+          breadcrumbSchema([{ name: "Professionnels", path: "/professionnels" }]),
+        ]}
+      />
       <Navbar />
 
       <main className="pt-24">
@@ -101,6 +104,8 @@ const Professionnels = () => {
               src={productVacuumBag}
               alt="Morilles séchées entières et équeutées"
               className="w-full max-w-sm mx-auto aspect-[4/5] object-cover rounded-sm border border-gold/15"
+              width={600}
+              height={900}
               loading="eager"
             />
           </section>

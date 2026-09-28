@@ -62,6 +62,8 @@ const ProductsSection = () => {
               <img
                 src={vacuumProduct.image}
                 alt={vacuumLabel.name}
+                width={600}
+                height={900}
                 loading="lazy"
                 decoding="async"
                 className="absolute inset-0 w-full h-full object-cover"
@@ -149,6 +151,8 @@ const ProductsSection = () => {
                     <img
                       src={product.image}
                       alt={label.name}
+                      width={600}
+                      height={900}
                       loading="lazy"
                       decoding="async"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"

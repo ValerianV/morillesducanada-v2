@@ -1,3 +1,5 @@
+import Seo from "@/components/Seo";
+import { breadcrumbSchema } from "@/lib/seo/schema";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
@@ -5,6 +7,12 @@ import { Link } from "react-router-dom";
 const CGV = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="Conditions générales de vente | Morilles du Canada"
+        description="Conditions générales de vente de Morilles du Canada : produits, prix, commande, paiement, livraison, rétractation et réclamations."
+        path="/cgv"
+        jsonLd={breadcrumbSchema([{ name: "CGV", path: "/cgv" }])}
+      />
       <Navbar />
       <main className="pt-32 pb-24">
         <div className="container mx-auto px-6 max-w-3xl">

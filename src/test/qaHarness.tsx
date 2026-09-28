@@ -42,6 +42,11 @@ export const supabaseModule = {
   },
 };
 
+// Navbar et panier passent par le chargement différé : même client factice, sans import dynamique.
+export const supabaseLazyModule = {
+  loadSupabase: async () => supabaseModule.supabase,
+};
+
 export function installBrowserStubs() {
   class IO {
     observe() {}

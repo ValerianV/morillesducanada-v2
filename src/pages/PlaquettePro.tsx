@@ -1,3 +1,5 @@
+import Seo from "@/components/Seo";
+import { breadcrumbSchema } from "@/lib/seo/schema";
 import { Download } from "lucide-react";
 import logo from "@/assets/logo.webp";
 import landscapeCanada from "@/assets/landscape-canada.webp";
@@ -44,6 +46,15 @@ const band = (label: string) => (
 
 const PlaquettePro = () => (
   <div style={{ backgroundColor: "#ddd9d0", minHeight: "100vh" }}>
+    <Seo
+      title="Plaquette pro : morilles séchées au kilo | Morilles du Canada"
+      description="Catalogue pro Morilles du Canada : morilles sauvages du Canada séchées, entières et équeutées, tarifs nets au kilo, stock en France, conditions de vente."
+      path="/plaquette-pro"
+      jsonLd={breadcrumbSchema([
+        { name: "Professionnels", path: "/professionnels" },
+        { name: "Plaquette professionnelle", path: "/plaquette-pro" },
+      ])}
+    />
     {/* Download button */}
     <div className="fixed top-6 right-6 z-50 print:hidden">
       <button
@@ -126,12 +137,14 @@ const PlaquettePro = () => (
             <div style={{ fontSize: 8, letterSpacing: "0.45em", textTransform: "uppercase", color: GOLD, marginBottom: 20 }}>
               Colombie-Britannique &amp; Yukon, Canada
             </div>
-            <div style={{ fontFamily: "Georgia, serif", fontSize: 54, fontWeight: 300, lineHeight: 1.1, marginBottom: 10 }}>
-              Morilles de Feu
-            </div>
-            <div style={{ fontFamily: "Georgia, serif", fontSize: 54, fontWeight: 300, fontStyle: "italic", color: GOLD, lineHeight: 1.1, marginBottom: 36 }}>
-              séchées sauvages
-            </div>
+            <h1 style={{ margin: 0, fontWeight: 300 }}>
+              <span style={{ display: "block", fontFamily: "Georgia, serif", fontSize: 54, fontWeight: 300, lineHeight: 1.1, marginBottom: 10 }}>
+                Morilles de Feu
+              </span>{" "}
+              <span style={{ display: "block", fontFamily: "Georgia, serif", fontSize: 54, fontWeight: 300, fontStyle: "italic", color: GOLD, lineHeight: 1.1, marginBottom: 36 }}>
+                séchées sauvages
+              </span>
+            </h1>
             <div style={{ width: 60, height: 1, backgroundColor: GOLD, margin: "0 auto 30px" }} />
             <div style={{ fontSize: 12, fontWeight: 300, letterSpacing: "0.07em", color: "rgba(255,255,255,0.7)", maxWidth: 380, margin: "0 auto", lineHeight: 1.8 }}>
               Achetées directement aux cueilleurs · Séchées le jour de la récolte ·

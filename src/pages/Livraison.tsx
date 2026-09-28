@@ -1,3 +1,5 @@
+import Seo from "@/components/Seo";
+import { breadcrumbSchema } from "@/lib/seo/schema";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
@@ -80,6 +82,12 @@ const faqItems = [
 const Livraison = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="Livraison des morilles séchées et retours | Morilles du Canada"
+        description="Livraison des morilles séchées en France et en Europe : zones, délais, frais de port, emballage et conditions de retour."
+        path="/livraison"
+        jsonLd={breadcrumbSchema([{ name: "Livraison et retours", path: "/livraison" }])}
+      />
       <Navbar />
       <main className="pt-32 pb-24">
         <div className="container mx-auto px-6 max-w-4xl">

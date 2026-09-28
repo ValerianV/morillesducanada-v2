@@ -26,7 +26,10 @@ const AboutSection = () => {
               <img
                 src={valerianPortrait}
                 alt="Valérian, fondateur de Morilles du Canada"
+                width={400}
+                height={600}
                 loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover object-top"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent pointer-events-none" />

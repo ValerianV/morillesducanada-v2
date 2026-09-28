@@ -1,8 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { cleanup, fireEvent, screen, waitFor } from "@testing-library/react";
-import { RAW_KEY, installBrowserStubs, renderAt, supabaseMock, supabaseModule } from "./qaHarness";
+import { RAW_KEY, installBrowserStubs, renderAt, supabaseMock, supabaseModule, supabaseLazyModule } from "./qaHarness";
 
 vi.mock("@/integrations/supabase/client", () => supabaseModule);
+vi.mock("@/integrations/supabase/lazy", () => supabaseLazyModule);
 
 beforeEach(() => {
   installBrowserStubs();

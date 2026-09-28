@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ShoppingCart, Minus, Plus, Trash2, Loader2, CreditCard } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
-import { supabase } from "@/integrations/supabase/client";
+import { loadSupabase } from "@/integrations/supabase/lazy";
 import { toast } from "sonner";
 import { FREE_SHIPPING_THRESHOLD_CENTS, MAX_QUANTITY_PER_LINE, computeShippingCents, formatGrams, localizeProduct } from "@/lib/products";
 import { useI18n } from "@/i18n/context";
@@ -14,7 +14,10 @@ export const CartDrawer = () => {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const { t, locale } = useI18n();
   const { items, updateQuantity, removeItem, totalItems, totalPrice } = useCartStore();
-  const count = totalItems();
+  // Le HTML prérendu n'a pas de panier : le badge n'apparaît qu'après l'hydratation.
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+  const count = hydrated ? totalItems() : 0;
   const total = totalPrice();
   const shipping = computeShippingCents(Math.round(total * 100)) / 100;
   const freeShippingThreshold = FREE_SHIPPING_THRESHOLD_CENTS / 100;
@@ -30,6 +33,7 @@ export const CartDrawer = () => {
         quantity: item.quantity,
       }));
 
+      const supabase = await loadSupabase();
       const { data, error } = await supabase.functions.invoke("create-checkout", {
         body: { items: checkoutItems },
       });

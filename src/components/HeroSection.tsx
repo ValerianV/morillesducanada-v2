@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { LazyMotion, m, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-jars.webp";
 import { useI18n } from "@/i18n/context";
+
+// Composant `m` + LazyMotion : les animations sont chargées après le premier rendu
+// au lieu d'embarquer tout framer-motion dans le bundle initial.
+const loadMotionFeatures = () => import("@/lib/motionFeatures").then((mod) => mod.default);
 
 const HeroSection = () => {
   const { t } = useI18n();
@@ -27,74 +31,76 @@ const HeroSection = () => {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   return (
-    <section ref={sectionRef} className="relative flex items-center justify-center overflow-hidden min-h-screen safari-safe-layer" style={{ WebkitBackfaceVisibility: "hidden" as any }}>
-      <motion.div className="absolute inset-0 safari-safe-layer" style={isSafari ? undefined : { y: imageY, scale: imageScale, willChange: "transform", WebkitBackfaceVisibility: "hidden" as any }}>
-        <img src={heroImage} alt="Morilles de feu séchées canadiennes" className="w-full h-full object-cover" fetchPriority="high" decoding="async" />
-      </motion.div>
-      <motion.div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background safari-safe-layer" style={isSafari ? undefined : { opacity: overlayOpacity }} />
+    <LazyMotion features={loadMotionFeatures}>
+      <section ref={sectionRef} className="relative flex items-center justify-center overflow-hidden min-h-screen safari-safe-layer" style={{ WebkitBackfaceVisibility: "hidden" as any }}>
+        <m.div className="absolute inset-0 safari-safe-layer" style={isSafari ? undefined : { y: imageY, scale: imageScale, willChange: "transform", WebkitBackfaceVisibility: "hidden" as any }}>
+          <img src={heroImage} alt="Morilles séchées sauvages du Canada, entières et équeutées, en bocaux" className="w-full h-full object-cover" width={1440} height={960} fetchPriority="high" decoding="async" />
+        </m.div>
+        <m.div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background safari-safe-layer" style={isSafari ? undefined : { opacity: overlayOpacity }} />
 
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {[...Array(6)].map((_, i) => (
-          <motion.div key={i} className="absolute w-1 h-1 rounded-full bg-primary/30"
-            style={{ left: `${15 + i * 14}%`, top: `${20 + (i % 3) * 25}%` }}
-            animate={{ y: [-20, 20, -20], opacity: [0.2, 0.6, 0.2] }}
-            transition={{ duration: 4 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.8 }}
-          />
-        ))}
-      </div>
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {[...Array(6)].map((_, i) => (
+            <m.div key={i} className="absolute w-1 h-1 rounded-full bg-primary/30"
+              style={{ left: `${15 + i * 14}%`, top: `${20 + (i % 3) * 25}%` }}
+              animate={{ y: [-20, 20, -20], opacity: [0.2, 0.6, 0.2] }}
+              transition={{ duration: 4 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.8 }}
+            />
+          ))}
+        </div>
 
-      <motion.div className="relative z-10 container mx-auto px-4 sm:px-6 text-center max-w-4xl safari-safe-layer" style={isSafari ? undefined : { y: contentY, opacity: contentOpacity }}>
-        <motion.p className="text-sm tracking-[0.4em] uppercase text-primary/80 mb-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
-        >{t("hero.subtitle")}</motion.p>
+        <m.div className="relative z-10 container mx-auto px-4 sm:px-6 text-center max-w-4xl safari-safe-layer" style={isSafari ? undefined : { y: contentY, opacity: contentOpacity }}>
+          <m.p className="text-sm tracking-[0.4em] uppercase text-primary/80 mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
+          >{t("hero.subtitle")}</m.p>
 
-        <motion.h1 className="font-serif text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-light leading-tight mb-6 md:mb-8"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
-        >
-          {t("hero.title")}
-          <motion.span className="block text-gradient-gold italic mt-2"
-            initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.9, ease: [0.25, 0.4, 0.25, 1] }}
-          >{t("hero.titleHighlight")}</motion.span>
-        </motion.h1>
-
-        <motion.p className="text-lg md:text-xl text-foreground/90 font-light max-w-2xl mx-auto mb-12 leading-relaxed"
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-        >{t("hero.description")}</motion.p>
-
-        <motion.div className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.1 }}
-        >
-          <Link to="/professionnels"
-            className="px-10 py-4 bg-primary text-primary-foreground font-medium tracking-widest uppercase text-sm rounded-sm hover:bg-gold-light transition-colors duration-300"
+          <m.h1 className="font-serif text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-light leading-tight mb-6 md:mb-8"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
           >
-            {t("hero.proCta")}
-          </Link>
-          <motion.a href="#produits"
-            className="px-10 py-4 border border-primary/60 text-foreground font-medium tracking-widest uppercase text-sm rounded-sm"
-            whileHover={{ borderColor: "hsl(40 60% 50%)", color: "hsl(40 60% 50%)", scale: 1.03 }}
-            whileTap={{ scale: 0.97 }} transition={{ duration: 0.3 }}
-          >{t("hero.cta")}</motion.a>
-        </motion.div>
-        <motion.p className="mt-6 text-base text-foreground/85"
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1.3 }}
-        >{t("hero.proLine")}</motion.p>
-      </motion.div>
+            {t("hero.title")}{" "}
+            <m.span className="block text-gradient-gold italic mt-2"
+              initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.9, ease: [0.25, 0.4, 0.25, 1] }}
+            >{t("hero.titleHighlight")}</m.span>
+          </m.h1>
 
-      <motion.div className="absolute bottom-8 left-1/2 -translate-x-1/2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}>
-        <motion.div className="w-px h-16 bg-gradient-to-b from-primary/60 to-transparent mx-auto"
-          animate={{ scaleY: [1, 0.6, 1], opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </motion.div>
-    </section>
+          <m.p className="text-lg md:text-xl text-foreground/90 font-light max-w-2xl mx-auto mb-12 leading-relaxed"
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >{t("hero.description")}</m.p>
+
+          <m.div className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.1 }}
+          >
+            <Link to="/professionnels"
+              className="px-10 py-4 bg-primary text-primary-foreground font-medium tracking-widest uppercase text-sm rounded-sm hover:bg-gold-light transition-colors duration-300"
+            >
+              {t("hero.proCta")}
+            </Link>
+            <m.a href="#produits"
+              className="px-10 py-4 border border-primary/60 text-foreground font-medium tracking-widest uppercase text-sm rounded-sm"
+              whileHover={{ borderColor: "hsl(40 60% 50%)", color: "hsl(40 60% 50%)", scale: 1.03 }}
+              whileTap={{ scale: 0.97 }} transition={{ duration: 0.3 }}
+            >{t("hero.cta")}</m.a>
+          </m.div>
+          <m.p className="mt-6 text-base text-foreground/85"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1.3 }}
+          >{t("hero.proLine")}</m.p>
+        </m.div>
+
+        <m.div className="absolute bottom-8 left-1/2 -translate-x-1/2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}>
+          <m.div className="w-px h-16 bg-gradient-to-b from-primary/60 to-transparent mx-auto"
+            animate={{ scaleY: [1, 0.6, 1], opacity: [0.6, 1, 0.6] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </m.div>
+      </section>
+    </LazyMotion>
   );
 };
 

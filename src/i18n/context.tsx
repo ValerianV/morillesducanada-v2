@@ -22,14 +22,26 @@ function getNestedValue(obj: Record<string, any>, path: string): string {
   return typeof value === "string" ? value : path;
 }
 
+function readStoredLocale(): Locale {
+  try {
+    return localStorage.getItem("locale") === "en" ? "en" : "fr";
+  } catch {
+    return "fr";
+  }
+}
+
+// Le HTML prérendu est en français : on hydrate d'abord en « fr », puis on applique la langue
+// mémorisée après le montage, sinon l'hydratation échouerait pour les visiteurs en anglais.
+function isHydratingPrerender(): boolean {
+  return typeof document !== "undefined" && Boolean(document.getElementById("root")?.hasAttribute("data-prerendered"));
+}
+
 export const I18nProvider = ({ children }: { children: ReactNode }) => {
-  const [locale, setLocaleState] = useState<Locale>(() => {
-    try {
-      return localStorage.getItem("locale") === "en" ? "en" : "fr";
-    } catch {
-      return "fr";
-    }
-  });
+  const [locale, setLocaleState] = useState<Locale>(() => (isHydratingPrerender() ? "fr" : readStoredLocale()));
+
+  useEffect(() => {
+    setLocaleState(readStoredLocale());
+  }, []);
 
   // Aussi au premier rendu : un visiteur revenant en anglais gardait lang="fr".
   useEffect(() => {

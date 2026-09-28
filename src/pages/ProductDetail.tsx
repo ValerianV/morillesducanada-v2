@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import Seo from "@/components/Seo";
+import { breadcrumbSchema, productSchema } from "@/lib/seo/schema";
+import { productMetaDescription, productMetaTitle } from "@/lib/seo/meta";
 import { toast } from "sonner";
 import { ShoppingCart, ArrowLeft, ArrowRight, CheckCircle, ChevronDown, ChevronUp } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -41,6 +43,7 @@ const ProductDetail = () => {
   if (!product || !detail || !view) {
     return (
       <div className="min-h-screen bg-background">
+        <Seo title="Produit introuvable | Morilles du Canada" robots="noindex, follow" />
         <Navbar />
         <main className="pt-32 pb-24 text-center">
           <h1 className="font-serif text-3xl text-foreground mb-4">{t("productPage.notFound")}</h1>
@@ -79,51 +82,22 @@ const ProductDetail = () => {
     detail.relatedProductIds.includes(p.id)
   );
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name,
-    description: detail.longDescription[0],
-    image: `https://www.morillesducanada.com${product.image}`,
-    brand: { "@type": "Brand", name: "Morilles du Canada" },
-    offers: isVacuum
-      ? ([100, 200, 500, 1000] as const).map((g) => ({
-          "@type": "Offer",
-          price: getVacuumMorelPrice(g).toFixed(2),
-          priceCurrency: "EUR",
-          availability: product.inStock
-            ? "https://schema.org/InStock"
-            : "https://schema.org/OutOfStock",
-          name: `${product.name} ${g >= 1000 ? "1kg" : `${g}g`}`,
-          url: `https://www.morillesducanada.com/produits/${product.slug}`,
-        }))
-      : {
-          "@type": "Offer",
-          price: product.price.toFixed(2),
-          priceCurrency: "EUR",
-          availability: product.inStock
-            ? "https://schema.org/InStock"
-            : "https://schema.org/OutOfStock",
-          url: `https://www.morillesducanada.com/produits/${product.slug}`,
-        },
-    additionalProperty: detail.highlights.map((h) => ({
-      "@type": "PropertyValue",
-      name: h.label,
-      value: h.value,
-    })),
-  };
-
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>{product.name} — Morilles de feu séchées | Morilles du Canada</title>
-        <meta
-          name="description"
-          content={`${detail.tagline} ${detail.longDescription[0].slice(0, 120)}…`}
-        />
-        <link rel="canonical" href={`https://www.morillesducanada.com/produits/${product.slug}`} />
-        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-      </Helmet>
+      <Seo
+        title={productMetaTitle(product)}
+        description={productMetaDescription(product)}
+        path={`/produits/${product.slug}`}
+        type="product"
+        preloadImage={product.image}
+        jsonLd={[
+          productSchema(product, detail.longDescription[0]),
+          breadcrumbSchema([
+            { name: "Produits", path: "/produits" },
+            { name: product.name, path: `/produits/${product.slug}` },
+          ]),
+        ]}
+      />
 
       <Navbar />
       <main className="pt-32 pb-24">
@@ -144,6 +118,9 @@ const ProductDetail = () => {
                 <img
                   src={product.image}
                   alt={label.name}
+                  width={600}
+                  height={900}
+                  fetchPriority="high"
                   className="w-full h-full object-cover"
                 />
                 {label.badge && (
@@ -157,10 +134,10 @@ const ProductDetail = () => {
             {/* Info & buy */}
             <ScrollReveal direction="right">
               <div className="flex flex-col h-full justify-center">
-                <p className="text-xs tracking-[0.3em] uppercase text-primary mb-3">
-                  {t("productPage.eyebrow")}
-                </p>
                 <h1 className="font-serif text-3xl md:text-4xl font-light mb-3 leading-tight">
+                  <span className="block font-normal text-xs tracking-[0.3em] uppercase text-primary mb-3" style={{ fontFamily: "Raleway, sans-serif" }}>
+                    {t("productPage.eyebrow")}
+                  </span>{" "}
                   {label.name}
                 </h1>
                 <p className="text-secondary-foreground/70 font-light mb-6 leading-relaxed">
@@ -357,6 +334,10 @@ const ProductDetail = () => {
                         <img
                           src={rp.image}
                           alt={rpLabel.name}
+                          width={600}
+                          height={900}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>

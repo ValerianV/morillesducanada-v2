@@ -2,9 +2,10 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { I18nProvider } from "@/i18n/context";
-import { installBrowserStubs, supabaseModule } from "./qaHarness";
+import { installBrowserStubs, supabaseModule, supabaseLazyModule } from "./qaHarness";
 
 vi.mock("@/integrations/supabase/client", () => supabaseModule);
+vi.mock("@/integrations/supabase/lazy", () => supabaseLazyModule);
 
 import { CartDrawer } from "@/components/CartDrawer";
 import { useCartStore } from "@/stores/cartStore";

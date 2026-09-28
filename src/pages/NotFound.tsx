@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Seo from "@/components/Seo";
 import { useI18n } from "@/i18n/context";
 
 const NotFound = () => {
@@ -8,6 +9,7 @@ const NotFound = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Seo title="Page introuvable | Morilles du Canada" robots="noindex, follow" />
       <Navbar />
       <main className="pt-24 pb-16 flex items-center justify-center min-h-[70vh]">
         <div className="text-center max-w-lg px-6">

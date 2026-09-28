@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet-async";
+import Seo from "@/components/Seo";
+import { breadcrumbSchema } from "@/lib/seo/schema";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, X } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -13,15 +14,12 @@ const Galerie = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Galerie Photos de Morilles Sauvages | Morilles du Canada</title>
-        <meta name="description" content="Découvrez nos plus belles photos de morilles sauvages cueillies en Colombie-Britannique et au Yukon. Morilles de feu, morilles noires et blondes dans leur habitat naturel." />
-        <link rel="canonical" href="https://morillesducanada.com/galerie" />
-        <meta property="og:title" content="Galerie Photos de Morilles Sauvages | Morilles du Canada" />
-        <meta property="og:description" content="Photos authentiques de morilles sauvages cueillies dans les forêts brûlées du Canada." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://morillesducanada.com/galerie" />
-      </Helmet>
+      <Seo
+        title="Photos de morilles sauvages du Canada | Morilles du Canada"
+        description="Galerie photo de morilles sauvages du Canada prises sur les zones de cueillette : morilles brunes, blondes et grises dans leur milieu naturel."
+        path="/galerie"
+        jsonLd={breadcrumbSchema([{ name: "Galerie", path: "/galerie" }])}
+      />
 
       <Navbar />
 
@@ -62,6 +60,8 @@ const Galerie = () => {
                   src={photo.src}
                   alt={photo.alt}
                   title={photo.title}
+                  width={photo.width}
+                  height={photo.height}
                   loading="lazy"
                   decoding="async"
                   className="w-full object-cover transition-transform duration-700 group-hover:scale-110"
