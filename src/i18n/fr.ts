@@ -323,7 +323,6 @@ export const fr = {
     back: "Tous les produits",
     eyebrow: "Morilles de feu séchées",
     chooseFormat: "Choisir le format",
-    netPriceShort: "Prix net",
     reassurance: "Paiement sécurisé · Livraison France & Europe · Expédition sous 5 jours ouvrés",
     about: "À propos de ce format",
     idealFor: "Ce format est fait pour vous si…",

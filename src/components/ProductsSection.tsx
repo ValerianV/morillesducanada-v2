@@ -73,11 +73,7 @@ const ProductsSection = () => {
                   <p className="text-xs text-muted-foreground mb-2">{label.servings}</p>
                   <div className="mb-3">
                     <p className="font-serif text-2xl text-gradient-gold">{currentVacuumPrice.toFixed(2)} €</p>
-                    {isVacuum && (vacuumWeight === 500 || vacuumWeight === 1000) && (
-                      <p className="text-[10px] text-muted-foreground mt-0.5">
-                        {t("products.netPrice")}
-                      </p>
-                    )}
+                    <p className="text-[10px] text-muted-foreground mt-0.5">{t("products.netPrice")}</p>
                   </div>
                   <p className="text-sm text-muted-foreground font-light leading-relaxed mb-3 line-clamp-2">{label.description}</p>
 

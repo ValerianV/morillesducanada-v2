@@ -323,7 +323,6 @@ export const en = {
     back: "All products",
     eyebrow: "Dried fire morels",
     chooseFormat: "Choose a size",
-    netPriceShort: "Net price",
     reassurance: "Secure payment · Shipping to France & Europe · Dispatched within 5 business days",
     about: "About this size",
     idealFor: "This size is for you if…",
