@@ -6,29 +6,33 @@ import { ShoppingCart, ArrowLeft, CheckCircle, ChevronDown, ChevronUp } from "lu
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
-import { getProductBySlug, getVacuumMorelPrice, products } from "@/lib/products";
+import { getProductBySlug, getVacuumMorelPrice, localizeProduct, products } from "@/lib/products";
+import { useI18n } from "@/i18n/context";
 import { getProductPageContent } from "@/lib/productDetails";
 import { useCartStore } from "@/stores/cartStore";
 
 const ProductDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const addItem = useCartStore((state) => state.addItem);
+  const { t, locale } = useI18n();
 
   const product = slug ? getProductBySlug(slug) : undefined;
+  // `detail` (FR) alimente les balises head et le JSON-LD ; `view` est le contenu affiché dans la langue choisie.
   const detail = product ? getProductPageContent(product.id) : undefined;
+  const view = product ? getProductPageContent(product.id, locale) : undefined;
 
   const isVacuum = product?.id === "morilles-sous-vide";
   const [vacuumWeight, setVacuumWeight] = useState<100 | 200 | 500 | 1000>(100);
   const [rehydrationOpen, setRehydrationOpen] = useState(false);
 
-  if (!product || !detail) {
+  if (!product || !detail || !view) {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
         <main className="pt-32 pb-24 text-center">
-          <h1 className="font-serif text-3xl text-foreground mb-4">Produit introuvable</h1>
+          <h1 className="font-serif text-3xl text-foreground mb-4">{t("productPage.notFound")}</h1>
           <Link to="/produits" className="text-primary hover:text-gold-light transition-colors">
-            ← Retour aux produits
+            {t("productPage.backToProducts")}
           </Link>
         </main>
         <Footer />
@@ -37,18 +41,19 @@ const ProductDetail = () => {
   }
 
   const currentPrice = isVacuum ? getVacuumMorelPrice(vacuumWeight) : product.price;
+  const label = localizeProduct(product, locale);
 
   const handleAddToCart = () => {
     if (isVacuum) {
       addItem(product, 1, { selectedWeightGrams: vacuumWeight, unitPriceOverride: currentPrice });
-      toast.success("Ajouté au panier", {
-        description: `${product.name} · ${vacuumWeight}g`,
+      toast.success(t("products.addedToCart"), {
+        description: `${label.name} · ${vacuumWeight}g`,
         position: "top-center",
       });
     } else {
       addItem(product);
-      toast.success("Ajouté au panier", {
-        description: product.name,
+      toast.success(t("products.addedToCart"), {
+        description: label.name,
         position: "top-center",
       });
     }
@@ -112,7 +117,7 @@ const ProductDetail = () => {
             className="text-sm text-primary hover:text-gold-light transition-colors mb-8 inline-flex items-center gap-1.5"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            Tous les produits
+            {t("productPage.back")}
           </Link>
 
           {/* Hero grid */}
@@ -122,12 +127,12 @@ const ProductDetail = () => {
               <div className="relative aspect-square rounded-sm overflow-hidden border border-gold/15">
                 <img
                   src={product.image}
-                  alt={product.name}
+                  alt={label.name}
                   className="w-full h-full object-cover"
                 />
-                {product.badge && (
+                {label.badge && (
                   <div className="absolute top-4 left-4 px-3 py-1 bg-primary text-primary-foreground text-[10px] font-medium tracking-widest uppercase rounded-sm">
-                    {product.badge}
+                    {label.badge}
                   </div>
                 )}
               </div>
@@ -137,13 +142,13 @@ const ProductDetail = () => {
             <ScrollReveal direction="right">
               <div className="flex flex-col h-full justify-center">
                 <p className="text-xs tracking-[0.3em] uppercase text-primary mb-3">
-                  Morilles de feu séchées
+                  {t("productPage.eyebrow")}
                 </p>
                 <h1 className="font-serif text-3xl md:text-4xl font-light mb-3 leading-tight">
-                  {product.name}
+                  {label.name}
                 </h1>
                 <p className="text-secondary-foreground/70 font-light mb-6 leading-relaxed">
-                  {detail.tagline}
+                  {view.tagline}
                 </p>
 
                 {/* Price */}
@@ -153,17 +158,17 @@ const ProductDetail = () => {
                   </p>
                   {isVacuum && (vacuumWeight === 500 || vacuumWeight === 1000) && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      Prix net · TVA non applicable (art. 293 B CGI)
+                      {t("products.netPrice")}
                     </p>
                   )}
-                  <p className="text-xs text-muted-foreground mt-1">{product.servings}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{label.servings}</p>
                 </div>
 
                 {/* Vacuum weight selector */}
                 {isVacuum && (
                   <div className="mb-6">
                     <label className="block text-xs text-muted-foreground mb-2 tracking-wider uppercase">
-                      Choisir le format
+                      {t("productPage.chooseFormat")}
                     </label>
                     <div className="grid grid-cols-4 gap-2">
                       {([100, 200, 500, 1000] as const).map((g) => (
@@ -180,7 +185,7 @@ const ProductDetail = () => {
                           <span className="text-primary font-medium">{getVacuumMorelPrice(g)} €</span>
                           {(g === 500 || g === 1000) && (
                             <span className="text-muted-foreground block text-[10px]">
-                              Prix net
+                              {t("productPage.netPriceShort")}
                             </span>
                           )}
                         </button>
@@ -196,15 +201,15 @@ const ProductDetail = () => {
                   className="w-full py-4 bg-primary text-primary-foreground font-medium tracking-widest uppercase text-sm hover:bg-gold-light transition-colors duration-300 rounded-sm disabled:opacity-50 flex items-center justify-center gap-2 mb-4"
                 >
                   <ShoppingCart className="w-4 h-4" />
-                  Ajouter au panier
+                  {t("products.addToCart")}
                 </button>
                 <p className="text-[10px] text-muted-foreground text-center font-light">
-                  Paiement sécurisé · Livraison France &amp; Europe · Expédition sous 5 jours ouvrés
+                  {t("productPage.reassurance")}
                 </p>
 
                 {/* Quick highlights */}
                 <div className="mt-8 grid grid-cols-2 gap-3">
-                  {detail.highlights.slice(0, 4).map((h) => (
+                  {view.highlights.slice(0, 4).map((h) => (
                     <div key={h.label} className="p-3 border border-gold/10 rounded-sm bg-card">
                       <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-0.5">{h.label}</p>
                       <p className="text-sm text-foreground font-medium">{h.value}</p>
@@ -218,9 +223,9 @@ const ProductDetail = () => {
           {/* Long description */}
           <ScrollReveal>
             <div className="mb-16 max-w-3xl">
-              <h2 className="font-serif text-2xl text-foreground mb-6">À propos de ce format</h2>
+              <h2 className="font-serif text-2xl text-foreground mb-6">{t("productPage.about")}</h2>
               <div className="space-y-5">
-                {detail.longDescription.map((para, i) => (
+                {view.longDescription.map((para, i) => (
                   <p key={i} className="text-secondary-foreground/80 font-light leading-relaxed">
                     {para}
                   </p>
@@ -232,9 +237,9 @@ const ProductDetail = () => {
           {/* Ideal for */}
           <ScrollReveal>
             <div className="mb-16">
-              <h2 className="font-serif text-2xl text-foreground mb-6">Ce format est fait pour vous si…</h2>
+              <h2 className="font-serif text-2xl text-foreground mb-6">{t("productPage.idealFor")}</h2>
               <ul className="space-y-3">
-                {detail.idealFor.map((item, i) => (
+                {view.idealFor.map((item, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <CheckCircle className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                     <span className="text-sm text-secondary-foreground/80 font-light leading-relaxed">{item}</span>
@@ -252,9 +257,9 @@ const ProductDetail = () => {
                 className="w-full flex items-center justify-between p-6 text-left hover:bg-card/50 transition-colors"
               >
                 <div>
-                  <p className="font-serif text-lg text-foreground">Guide de réhydratation et de cuisson</p>
+                  <p className="font-serif text-lg text-foreground">{t("productPage.rehydrationTitle")}</p>
                   <p className="text-xs text-muted-foreground font-light mt-0.5">
-                    Comment libérer les arômes de la morille de feu
+                    {t("productPage.rehydrationSubtitle")}
                   </p>
                 </div>
                 {rehydrationOpen ? (
@@ -266,7 +271,7 @@ const ProductDetail = () => {
               {rehydrationOpen && (
                 <div className="px-6 pb-6 border-t border-gold/10">
                   <ol className="space-y-4 mt-4">
-                    {detail.rehydrationGuide.map((step, i) => (
+                    {view.rehydrationGuide.map((step, i) => (
                       <li key={i} className="flex gap-4">
                         <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-medium">
                           {i + 1}
@@ -279,8 +284,8 @@ const ProductDetail = () => {
                   </ol>
                   <div className="mt-6 p-4 bg-primary/5 border border-primary/15 rounded-sm">
                     <p className="text-xs text-muted-foreground font-light leading-relaxed">
-                      <span className="font-medium text-primary">Conservation après ouverture : </span>
-                      {detail.conservation}
+                      <span className="font-medium text-primary">{t("productPage.conservationAfterOpening")}</span>
+                      {view.conservation}
                     </p>
                   </div>
                 </div>
@@ -291,13 +296,13 @@ const ProductDetail = () => {
           {/* All highlights */}
           <ScrollReveal>
             <div className="mb-16">
-              <h2 className="font-serif text-2xl text-foreground mb-6">Caractéristiques</h2>
+              <h2 className="font-serif text-2xl text-foreground mb-6">{t("productPage.specs")}</h2>
               <div className="border border-gold/15 rounded-sm overflow-hidden">
-                {detail.highlights.map((h, i) => (
+                {view.highlights.map((h, i) => (
                   <div
                     key={h.label}
                     className={`flex items-center justify-between px-6 py-4 ${
-                      i !== detail.highlights.length - 1 ? "border-b border-gold/10" : ""
+                      i !== view.highlights.length - 1 ? "border-b border-gold/10" : ""
                     }`}
                   >
                     <span className="text-sm text-muted-foreground font-light">{h.label}</span>
@@ -312,9 +317,11 @@ const ProductDetail = () => {
           {relatedProducts.length > 0 && (
             <ScrollReveal>
               <div className="mb-16">
-                <h2 className="font-serif text-2xl text-foreground mb-6">Autres formats disponibles</h2>
+                <h2 className="font-serif text-2xl text-foreground mb-6">{t("productPage.related")}</h2>
                 <div className="grid sm:grid-cols-2 gap-6">
-                  {relatedProducts.map((rp) => (
+                  {relatedProducts.map((rp) => {
+                    const rpLabel = localizeProduct(rp, locale);
+                    return (
                     <Link
                       key={rp.id}
                       to={`/produits/${rp.slug}`}
@@ -323,23 +330,24 @@ const ProductDetail = () => {
                       <div className="w-20 h-20 rounded-sm overflow-hidden flex-shrink-0">
                         <img
                           src={rp.image}
-                          alt={rp.name}
+                          alt={rpLabel.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-serif text-base text-foreground group-hover:text-primary transition-colors mb-1">
-                          {rp.name}
+                          {rpLabel.name}
                         </p>
-                        <p className="text-xs text-muted-foreground font-light mb-2">{rp.servings}</p>
+                        <p className="text-xs text-muted-foreground font-light mb-2">{rpLabel.servings}</p>
                         <p className="font-serif text-lg text-gradient-gold">
                           {rp.id === "morilles-sous-vide"
-                            ? `dès ${getVacuumMorelPrice(100)} €`
+                            ? t("productPage.from").replace("{price}", `${getVacuumMorelPrice(100)} €`)
                             : `${rp.price.toFixed(2)} €`}
                         </p>
                       </div>
                     </Link>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </ScrollReveal>
@@ -349,16 +357,16 @@ const ProductDetail = () => {
           <ScrollReveal>
             <div className="text-center bg-card border border-border rounded-sm p-10">
               <p className="font-serif text-2xl text-foreground mb-3">
-                Comment cuisiner ce format ?
+                {t("productPage.recipesTitle")}
               </p>
               <p className="text-sm text-muted-foreground mb-6 font-light">
-                Découvrez nos recettes développées pour sublimer les morilles de feu — risotto, velouté, sauce forestière, fondue et plus encore.
+                {t("productPage.recipesText")}
               </p>
               <Link
                 to="/recettes"
                 className="inline-block px-8 py-3 bg-primary text-primary-foreground font-medium tracking-widest uppercase text-sm hover:bg-gold-light transition-colors rounded-sm"
               >
-                Voir les recettes
+                {t("productPage.recipesCta")}
               </Link>
             </div>
           </ScrollReveal>
