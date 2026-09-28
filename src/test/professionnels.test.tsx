@@ -56,6 +56,7 @@ describe("page /professionnels", () => {
     expect(headings).toEqual([
       "Prix des morilles séchées au kilo",
       "Pour les professionnels de bouche",
+      "Une morille sauvage, cueillie après le feu",
       "Pourquoi des morilles équeutées",
       "De la forêt brûlée à votre cuisine",
       "Goûtez avant de commander",

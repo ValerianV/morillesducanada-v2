@@ -4,15 +4,16 @@ import { absoluteUrl, DEFAULT_OG_IMAGE, LOGO_URL, SITE_NAME } from "@/lib/seo/si
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
+import WildVsCultivated from "@/components/WildVsCultivated";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Flame, TreePine, ChefHat, AlertTriangle, Thermometer, Clock } from "lucide-react";
+import { ArrowLeft, Flame, TreePine, ChefHat, AlertTriangle, Thermometer, Clock, Mountain } from "lucide-react";
 
 const guideJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
   headline: "Guide complet des morilles de feu du Canada",
   description:
-    "Tout savoir sur les morilles de feu (fire morels) : origine, différences avec les morilles cultivées, comment les préparer, les conserver et les cuisiner.",
+    "Tout savoir sur les morilles de feu (fire morels) : origine, cueillette sauvage, différence avec les morilles de culture, préparation, conservation et cuisine.",
   author: { "@type": "Organization", name: SITE_NAME },
   publisher: { "@type": "Organization", name: SITE_NAME, logo: { "@type": "ImageObject", url: LOGO_URL } },
   mainEntityOfPage: absoluteUrl("/guide-morilles-de-feu"),
@@ -26,7 +27,7 @@ const GuideMorellesDeFeu = () => {
     <div className="min-h-screen bg-background">
       <Seo
         title="Morilles de feu du Canada : le guide complet | Morilles du Canada"
-        description="Tout savoir sur les morilles de feu du Canada : origine, variétés, différences avec les morilles cultivées, conservation, préparation et recettes."
+        description="Tout savoir sur les morilles de feu du Canada : cueillette sauvage après incendie, différence avec la morille de culture, conservation, préparation et recettes."
         path="/guide-morilles-de-feu"
         type="article"
         jsonLd={[guideJsonLd, breadcrumbSchema([{ name: "Guide des morilles de feu", path: "/guide-morilles-de-feu" }])]}
@@ -47,7 +48,7 @@ const GuideMorellesDeFeu = () => {
                 Les morilles de feu <span className="italic text-gradient-gold">du Canada</span>
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                Tout ce qu'il faut savoir sur ce champignon sauvage d'exception : origine, variétés, préparation, conservation et utilisation en cuisine.
+                Ce qu'il faut savoir sur ce champignon sauvage : origine, cueillette, différence avec la morille de culture, préparation, conservation et utilisation en cuisine.
               </p>
               <div className="divider-gold w-24 mx-auto mt-8" />
             </header>
@@ -62,13 +63,10 @@ const GuideMorellesDeFeu = () => {
               </div>
               <div className="prose prose-lg text-muted-foreground leading-relaxed space-y-4">
                 <p>
-                  La <strong>morille de feu</strong> (en anglais <em>fire morel</em> ou <em>burn morel</em>) est un champignon sauvage du genre <em>Morchella</em> qui pousse exclusivement sur les <strong>sols calcinés</strong> après un feu de forêt. C'est un phénomène naturel fascinant : l'été, d'immenses incendies ravagent les forêts boréales du Canada. Le printemps suivant, des morilles surgissent par milliers des cendres.
+                  La <strong>morille de feu</strong> (en anglais <em>fire morel</em> ou <em>burn morel</em>) est une morille sauvage, du genre <em>Morchella</em>, qui pousse au printemps sur les <strong>forêts brûlées l'année précédente</strong>. Au Canada, les feux de forêt de l'été laissent des sols noirs de cendre ; le printemps suivant, les morilles y apparaissent d'elles-mêmes.
                 </p>
                 <p>
-                  Ce lien avec le feu n'est pas un hasard. Le mycélium de la morille, présent dans le sol forestier, est stimulé par le choc thermique et les nutriments libérés par la combustion. Le résultat : des champignons d'une <strong>taille exceptionnelle</strong> et d'un <strong>arôme fumé unique</strong>, impossible à reproduire en culture ou dans d'autres environnements.
-                </p>
-                <p>
-                  La saison de cueillette est extrêmement courte : <strong>4 à 6 semaines par an</strong>, généralement entre fin mai et début juillet, selon les conditions météorologiques. Cette rareté, combinée à la qualité gustative exceptionnelle, fait de la morille de feu l'un des champignons les plus prisés au monde par les gastronomes et les chefs.
+                  Personne ne la sème : elle se cueille à la main, à pied, dans la forêt brûlée. La cueillette dépend donc des feux de l'année précédente et de la saison, et les zones changent d'une année à l'autre.
                 </p>
               </div>
             </section>
@@ -83,52 +81,37 @@ const GuideMorellesDeFeu = () => {
               </div>
               <div className="prose prose-lg text-muted-foreground leading-relaxed space-y-4">
                 <p>
-                  Les forêts boréales du Canada abritent plusieurs espèces de morilles qui poussent après un feu. Nos récoltes sont un <strong>mélange naturel</strong> de ces variétés sauvages :
-                </p>
-                <ul className="space-y-2">
-                  <li className="font-medium text-foreground mt-2">Morilles brunes :</li>
-                  <li><strong><em>Morchella conica</em></strong> — La morille conique. Chapeau allongé et alvéoles régulières. Arôme boisé prononcé.</li>
-                  <li><strong><em>Morchella brunnea</em></strong> — La morille brune. Grande taille, couleur foncée, reflets jaunes. Saveur riche et terreuse.</li>
-                  <li><strong><em>Morchella snyderi</em></strong> — Espèce brune à reflets jaunes dorés, spécifique aux forêts de conifères brûlées.</li>
-                  <li className="font-medium text-foreground mt-2">Morilles blondes :</li>
-                  <li><strong><em>Morchella americana</em></strong> — La morille blonde américaine. Plus claire, souvent la plus grande. Juvénile, elle présente une teinte grisâtre.</li>
-                  <li><strong><em>Morchella esculenta</em></strong> — La morille commune blonde. Goût délicat avec des notes de noisette.</li>
-                  <li><strong><em>Morchella prava</em></strong> — Espèce blonde délicate, arôme subtil.</li>
-                  <li className="font-medium text-foreground mt-2">Morille grise :</li>
-                  <li><strong><em>Morchella tomentosa</em></strong> — La morille grise de feu. Surface veloutée à poils fins, chapeau grisâtre. Très parfumée, notes fumées douces.</li>
-                  <li className="font-medium text-foreground mt-2">Morilles vertes (rares) :</li>
-                  <li><strong><em>Morchella sextelata</em></strong> et <strong><em>M. septimelata</em></strong> — Espèces rares de haute altitude, arôme profond et complexe.</li>
-                </ul>
-                <p>
-                  Ce mélange de variétés est un atout : il offre une <strong>complexité aromatique</strong> que l'on ne retrouve pas avec une seule espèce. C'est la signature gustative des morilles de feu canadiennes.
+                  Plusieurs espèces de morilles poussent après un feu de forêt au Canada, en morilles noires, brunes, blondes ou grises. Nos morilles sont vendues en <strong>variétés mélangées</strong>, sans tri par espèce, <strong>entières et équeutées</strong> : le pied est retiré, vous achetez le chapeau alvéolé.
                 </p>
               </div>
             </section>
           </ScrollReveal>
 
-          {/* Section 3: Comparaison */}
+          {/* Section 3: Sauvage ou cultivée */}
           <ScrollReveal>
             <section className="mb-16" id="comparaison">
-              <h2 className="font-serif text-2xl md:text-3xl font-light mb-6">Morilles de feu vs. morilles cultivées vs. morilles européennes</h2>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse text-sm">
-                  <thead>
-                    <tr className="border-b border-primary/20">
-                      <th className="text-left py-3 px-4 font-serif font-light text-foreground"></th>
-                      <th className="text-left py-3 px-4 font-serif font-light text-primary">Morilles de feu (Canada)</th>
-                      <th className="text-left py-3 px-4 font-serif font-light text-foreground">Morilles sauvages (Europe)</th>
-                      <th className="text-left py-3 px-4 font-serif font-light text-foreground">Morilles cultivées (Chine)</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-muted-foreground">
-                    <tr className="border-b border-border/50"><td className="py-3 px-4 font-medium text-foreground">Arôme</td><td className="py-3 px-4">Fumé, intense, boisé</td><td className="py-3 px-4">Terreux, délicat</td><td className="py-3 px-4">Neutre, fade</td></tr>
-                    <tr className="border-b border-border/50"><td className="py-3 px-4 font-medium text-foreground">Taille</td><td className="py-3 px-4">Grande à très grande</td><td className="py-3 px-4">Petite à moyenne</td><td className="py-3 px-4">Variable</td></tr>
-                    <tr className="border-b border-border/50"><td className="py-3 px-4 font-medium text-foreground">Texture</td><td className="py-3 px-4">Charnue, ferme</td><td className="py-3 px-4">Fine, fragile</td><td className="py-3 px-4">Spongieuse</td></tr>
-                    <tr className="border-b border-border/50"><td className="py-3 px-4 font-medium text-foreground">Saison</td><td className="py-3 px-4">4-6 semaines/an</td><td className="py-3 px-4">~2 mois/an</td><td className="py-3 px-4">Toute l'année</td></tr>
-                    <tr className="border-b border-border/50"><td className="py-3 px-4 font-medium text-foreground">Traitement</td><td className="py-3 px-4">Aucun</td><td className="py-3 px-4">Aucun</td><td className="py-3 px-4">Souvent traité</td></tr>
-                    <tr><td className="py-3 px-4 font-medium text-foreground">Rareté</td><td className="py-3 px-4">Très rare</td><td className="py-3 px-4">Rare</td><td className="py-3 px-4">Abondant</td></tr>
-                  </tbody>
-                </table>
+              <h2 className="font-serif text-2xl md:text-3xl font-light mb-6">Morille sauvage ou morille de culture</h2>
+              <p className="text-muted-foreground leading-relaxed mb-8">
+                Une morille séchée peut venir de la nature ou d'une culture. La différence tient à son origine : cueillette après incendie d'un côté, production en serre ou en plein champ de l'autre.
+              </p>
+              <WildVsCultivated />
+            </section>
+          </ScrollReveal>
+
+          {/* Section 3 bis: Notre cueillette */}
+          <ScrollReveal>
+            <section className="mb-16" id="cueillette">
+              <div className="flex items-center gap-3 mb-6">
+                <Mountain className="w-6 h-6 text-primary" />
+                <h2 className="font-serif text-2xl md:text-3xl font-light">D'où viennent nos morilles</h2>
+              </div>
+              <div className="prose prose-lg text-muted-foreground leading-relaxed space-y-4">
+                <p>
+                  Valérian, fondateur de Morilles du Canada, a cueilli lui-même des morilles de feu pendant <strong>trois saisons</strong>, en 2022, 2023 et 2024, en Colombie-Britannique et au Yukon, sur des forêts brûlées l'année précédente.
+                </p>
+                <p>
+                  Il travaille aujourd'hui avec un <strong>réseau de cueilleurs</strong> sur les feux de forêt canadiens, qui sèchent les morilles sur place. Le stock est en France, d'où les commandes sont expédiées sous 5 jours ouvrés.
+                </p>
               </div>
             </section>
           </ScrollReveal>
@@ -142,10 +125,9 @@ const GuideMorellesDeFeu = () => {
               </div>
               <div className="prose prose-lg text-muted-foreground leading-relaxed space-y-4">
                 <p>
-                  Nos morilles sont séchées lentement à <strong>basse température</strong> pour préserver leurs arômes. Une fois séchées, elles se conservent facilement :
+                  Nos morilles sont séchées sur place par les cueilleurs. Une fois séchées, elles se conservent facilement :
                 </p>
                 <ul className="space-y-2">
-                  <li><strong>Durée</strong> : 2 ans minimum sans perte d'arôme</li>
                   <li><strong>Contenant</strong> : Récipient hermétique (bocal en verre, boîte métallique ou sachet zip refermable)</li>
                   <li><strong>Lieu</strong> : À l'abri de la lumière et de l'humidité, à température ambiante</li>
                   <li><strong>À éviter</strong> : Ne pas réfrigérer (l'humidité du frigo les détériore)</li>
@@ -211,7 +193,7 @@ const GuideMorellesDeFeu = () => {
               </div>
               <div className="prose prose-lg text-muted-foreground leading-relaxed space-y-4">
                 <p>
-                  La morille de feu a un arôme <strong>fumé et boisé</strong> qui se marie parfaitement avec des ingrédients doux et crémeux. Voici les accords classiques :
+                  La morille se marie avec des ingrédients doux et crémeux. Voici les accords classiques :
                 </p>
                 <ul className="space-y-2">
                   <li><strong>Matières grasses</strong> : Beurre, crème fraîche épaisse, huile de truffe</li>
@@ -234,10 +216,10 @@ const GuideMorellesDeFeu = () => {
           <ScrollReveal>
             <div className="text-center mt-20 p-10 bg-gradient-card rounded-sm border border-primary/10">
               <h2 className="font-serif text-2xl md:text-3xl font-light mb-4">
-                Prêt à goûter la <span className="italic text-gradient-gold">différence</span> ?
+                Goûtez la <span className="italic text-gradient-gold">morille sauvage</span>
               </h2>
               <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
-                Découvrez nos morilles de feu séchées du Canada, récoltées à la main et livrées directement chez vous.
+                Morilles de feu sauvages du Canada, cueillies à la main, séchées sur place, entières et équeutées. Stock en France.
               </p>
               <a
                 href="/#produits"

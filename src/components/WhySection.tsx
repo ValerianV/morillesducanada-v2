@@ -1,13 +1,13 @@
 import { Flame, Mountain, Leaf, Award, Timer, ShieldCheck } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useI18n } from "@/i18n/context";
+import WildVsCultivated from "@/components/WildVsCultivated";
 
 const icons = [Flame, Mountain, Timer, Leaf, Award, ShieldCheck];
 
 const WhySection = () => {
   const { t, translations } = useI18n();
   const reasons = translations.why.reasons;
-  const rows = translations.why.rows;
 
   return (
     <section id="pourquoi" className="py-24 md:py-32">
@@ -40,31 +40,7 @@ const WhySection = () => {
         </div>
 
         <ScrollReveal delay={0.2} blur>
-          <div className="mt-20 max-w-4xl mx-auto">
-            <h3 className="font-serif text-2xl text-center mb-10">{t("why.compTitle")}</h3>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-gold/20">
-                    <th className="text-left py-4 px-4 font-light tracking-widest uppercase text-muted-foreground text-xs"></th>
-                    <th className="py-4 px-4 font-light tracking-widest uppercase text-primary text-xs whitespace-pre-line">{translations.why.headers[1]}</th>
-                    <th className="py-4 px-4 font-light tracking-widest uppercase text-muted-foreground text-xs whitespace-pre-line">{translations.why.headers[2]}</th>
-                    <th className="py-4 px-4 font-light tracking-widest uppercase text-muted-foreground text-xs whitespace-pre-line">{translations.why.headers[3]}</th>
-                  </tr>
-                </thead>
-                <tbody className="font-light">
-                  {rows.map(([label, fire, euro, china]) => (
-                    <tr key={label} className="border-b border-gold/10">
-                      <td className="py-3 px-2 md:px-4 text-muted-foreground whitespace-nowrap">{label}</td>
-                      <td className="py-3 px-2 md:px-4 text-center text-foreground">{fire}</td>
-                      <td className="py-3 px-2 md:px-4 text-center text-muted-foreground">{euro}</td>
-                      <td className="py-3 px-2 md:px-4 text-center text-muted-foreground">{china}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <WildVsCultivated className="mt-20 max-w-4xl mx-auto" />
         </ScrollReveal>
       </div>
     </section>

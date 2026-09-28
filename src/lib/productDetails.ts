@@ -19,21 +19,21 @@ const content: ProductPageContent[] = [
     productId: "morilles-12g",
     tagline: "Le format pour décider avant de s'engager.",
     longDescription: [
-      "La morille de feu n'est pas un champignon ordinaire. Son arôme — boisé, légèrement fumé, avec une profondeur que peu d'ingrédients atteignent — se révèle différemment selon la qualité du lot. Ce format de 12g existe pour que vous puissiez le vérifier vous-même avant tout achat en volume.",
+      "La morille de feu n'est pas un champignon ordinaire. Son arôme — boisé, légèrement fumé, avec une profondeur que peu d'ingrédients atteignent — se découvre en cuisine. Ce format de 12g existe pour que vous puissiez le vérifier vous-même avant tout achat en volume.",
       "Douze grammes suffisent pour construire une sauce légère pour deux personnes, aromatiser un fond, ou tester la réhydratation. Vous verrez le gonflement, sentirez l'arôme libéré dans l'eau de trempage, et jugerez la fermeté de la chair après cuisson.",
-      "Nos morilles de feu sont récoltées au Canada après les feux de forêt naturels qui déclenchent leur fructification. Séchées dans les 24h suivant la cueillette pour fixer les arômes, triées à la main, conditionnées par lot traçable. Ce sachet représente la même qualité que nos formats professionnels.",
+      "Nos morilles de feu sont sauvages : cueillies à la main au Canada, au printemps, sur des forêts brûlées l'année précédente, puis séchées sur place. Ce sachet contient les mêmes morilles que nos formats professionnels.",
     ],
     highlights: [
       { label: "Poids net", value: "12g" },
-      { label: "Origine", value: "Canada — zones post-feu" },
-      { label: "Séchage", value: "Artisanal, < 24h après cueillette" },
+      { label: "Origine", value: "Canada — forêts brûlées, cueillette sauvage" },
+      { label: "Séchage", value: "Sur place, par les cueilleurs" },
       { label: "Rendement réhydraté", value: "~60–70g" },
       { label: "Pour", value: "2 personnes (1 sauce légère)" },
-      { label: "Conservation", value: "24 mois au sec et à l'abri de la lumière" },
+      { label: "Conservation", value: "Au sec et à l'abri de la lumière" },
     ],
     idealFor: [
       "Premier achat — découvrir la morille de feu avant de commander en volume",
-      "Test comparatif avec un lot déjà en stock",
+      "Test comparatif avec les morilles que vous utilisez déjà",
       "Cuisinier amateur souhaitant explorer une nouvelle saveur",
       "Cadeau gastronomique d'initiation",
     ],
@@ -45,7 +45,7 @@ const content: ProductPageContent[] = [
       "Incorporez l'eau de trempage filtrée en fin de cuisson ou dans votre fond, laissez réduire. C'est à ce moment que la morille de feu exprime le mieux sa signature fumée.",
     ],
     conservation:
-      "Conserver dans un endroit sec, à l'abri de la lumière et de l'humidité. Ne pas réfrigérer avant ouverture. Une fois ouvert, reconditionner dans un bocal hermétique. Durée de conservation : 24 mois.",
+      "Conserver dans un endroit sec, à l'abri de la lumière et de l'humidité. Ne pas réfrigérer avant ouverture. Une fois ouvert, reconditionner dans un bocal hermétique.",
     relatedProductIds: ["morilles-30g", "morilles-45g"],
     recipeTags: ["sauce", "entrée"],
   },
@@ -53,17 +53,17 @@ const content: ProductPageContent[] = [
     productId: "morilles-30g",
     tagline: "Le format de référence — assez pour travailler sérieusement.",
     longDescription: [
-      "Trente grammes, c'est le format que la majorité de nos clients choisissent dès le deuxième achat. Suffisant pour construire une sauce pour six, aromatiser un fond de veau, ou composer un risotto généreux. Pas de rationnement, pas de calcul au gramme près.",
-      "La morille de feu séchée a une densité aromatique bien supérieure à la morille de culture. Cela tient au terroir — ces champignons poussent sur des sols brûlés, riches en minéraux libérés par les cendres, dans des conditions qui n'existent pas en culture contrôlée. Le séchage artisanal dans les 24h après la cueillette fixe cet arôme au lieu de le dissiper.",
-      "Ce format est conditionné dans un sachet refermable pour faciliter une utilisation en plusieurs fois. À chaque ouverture, l'arôme libéré confirme que rien n'a été perdu. Le lot est identifiable sur l'emballage — traçabilité jusqu'à la zone de récolte.",
+      "Trente grammes : suffisant pour construire une sauce pour six, aromatiser un fond de veau, ou composer un risotto généreux. Pas de rationnement, pas de calcul au gramme près.",
+      "La morille de feu est une morille sauvage : elle pousse d'elle-même sur les sols brûlés des forêts canadiennes, là où la morille de culture est produite en serre ou en plein champ. Elle est cueillie à la main, puis séchée sur place.",
+      "Ce format est conditionné dans un sachet refermable pour faciliter une utilisation en plusieurs fois.",
     ],
     highlights: [
       { label: "Poids net", value: "30g" },
-      { label: "Origine", value: "Canada — zones post-feu" },
-      { label: "Séchage", value: "Artisanal, < 24h après cueillette" },
+      { label: "Origine", value: "Canada — forêts brûlées, cueillette sauvage" },
+      { label: "Séchage", value: "Sur place, par les cueilleurs" },
       { label: "Rendement réhydraté", value: "~150–180g" },
       { label: "Pour", value: "4 à 6 personnes (sauce, risotto, fond)" },
-      { label: "Conservation", value: "24 mois au sec et à l'abri de la lumière" },
+      { label: "Conservation", value: "Au sec et à l'abri de la lumière" },
     ],
     idealFor: [
       "Cuisinier amateur passionné — morilles plusieurs fois par saison",
@@ -79,7 +79,7 @@ const content: ProductPageContent[] = [
       "Incorporez l'eau de trempage filtrée en fin de cuisson ou dans votre fond, laissez réduire. C'est à ce moment que la morille de feu exprime le mieux sa signature fumée.",
     ],
     conservation:
-      "Conserver dans un endroit sec, à l'abri de la lumière et de l'humidité. Ne pas réfrigérer avant ouverture. Une fois ouvert, reconditionner dans un bocal hermétique. Durée de conservation : 24 mois.",
+      "Conserver dans un endroit sec, à l'abri de la lumière et de l'humidité. Ne pas réfrigérer avant ouverture. Une fois ouvert, reconditionner dans un bocal hermétique.",
     relatedProductIds: ["morilles-12g", "morilles-45g", "morilles-sous-vide"],
     recipeTags: ["sauce", "risotto", "plat"],
   },
@@ -89,15 +89,15 @@ const content: ProductPageContent[] = [
     longDescription: [
       "Quarante-cinq grammes pour ne jamais être à court. Ce format s'adresse aux cuisiniers qui font de la morille un élément structurant de leur assiette — pas une touche décorative, mais l'ingrédient principal autour duquel tout s'organise. Risotto où les morilles dominent, filet en croûte avec une sauce morille concentrée, menu dégustation avec un temps fort champignon.",
       "Au prix de 29€, ce format offre le meilleur rapport qualité-quantité de nos sachets. Les 15g supplémentaires par rapport au Classique font une différence réelle en cuisine : vous pouvez garnir généreusement, goûter en cours de préparation, ajuster sans compter.",
-      "La morille de feu développe ses arômes en deux temps : une première note boisée et légèrement terrienne à la réhydratation, puis la signature fumée caractéristique qui se révèle à la chaleur dans le beurre ou l'huile. C'est cette complexité en deux actes qui distingue la morille post-feu de toute autre variété.",
+      "La morille de feu développe ses arômes en deux temps : une première note boisée et légèrement terrienne à la réhydratation, puis la signature fumée caractéristique qui se révèle à la chaleur dans le beurre ou l'huile. C'est ce qui fait le caractère de la morille de feu.",
     ],
     highlights: [
       { label: "Poids net", value: "45g" },
-      { label: "Origine", value: "Canada — zones post-feu" },
-      { label: "Séchage", value: "Artisanal, < 24h après cueillette" },
+      { label: "Origine", value: "Canada — forêts brûlées, cueillette sauvage" },
+      { label: "Séchage", value: "Sur place, par les cueilleurs" },
       { label: "Rendement réhydraté", value: "~220–270g" },
       { label: "Pour", value: "6 à 8 personnes (plat principal, morille centrale)" },
-      { label: "Conservation", value: "24 mois au sec et à l'abri de la lumière" },
+      { label: "Conservation", value: "Au sec et à l'abri de la lumière" },
     ],
     idealFor: [
       "Repas gastronomique où la morille est l'ingrédient vedette",
@@ -113,7 +113,7 @@ const content: ProductPageContent[] = [
       "Incorporez l'eau de trempage filtrée en fin de cuisson ou dans votre fond, laissez réduire. C'est à ce moment que la morille de feu exprime le mieux sa signature fumée.",
     ],
     conservation:
-      "Conserver dans un endroit sec, à l'abri de la lumière et de l'humidité. Ne pas réfrigérer avant ouverture. Une fois ouvert, reconditionner dans un bocal hermétique. Durée de conservation : 24 mois.",
+      "Conserver dans un endroit sec, à l'abri de la lumière et de l'humidité. Ne pas réfrigérer avant ouverture. Une fois ouvert, reconditionner dans un bocal hermétique.",
     relatedProductIds: ["morilles-30g", "morilles-sous-vide"],
     recipeTags: ["plat", "sauce"],
   },
@@ -123,15 +123,15 @@ const content: ProductPageContent[] = [
     longDescription: [
       "Quatre formats — 100g, 200g, 500g, 1kg — sous vide pour une conservation optimale et un usage en cuisine professionnelle. Le sous vide élimine l'oxydation et la prise d'humidité qui dégradent progressivement les arômes dans les sachets simples. C'est le choix logique quand la morille est un ingrédient permanent de votre cuisine.",
       "Pour les restaurants, ce format réduit la fréquence des commandes et garantit un stock constant. Pour les épiceries fines, il permet une rotation maîtrisée avec une date de péremption clairement identifiable. Pour les cuisiniers passionnés qui consomment régulièrement, c'est l'option la plus économique au gramme.",
-      "Le 1kg représente une économie significative par rapport aux achats fractionnés. La qualité est identique à notre gamme en sachet — même lot, même séchage, même traçabilité. Seul l'emballage change pour s'adapter aux volumes professionnels.",
+      "Le 1kg représente une économie significative par rapport aux achats fractionnés. Ce sont les mêmes morilles que dans notre gamme en sachet, séchées de la même façon. Seul l'emballage change pour s'adapter aux volumes professionnels.",
     ],
     highlights: [
       { label: "Formats disponibles", value: "100g · 200g · 500g · 1kg" },
       { label: "Conditionnement", value: "Sous vide — conservation prolongée" },
-      { label: "Origine", value: "Canada — zones post-feu" },
-      { label: "Séchage", value: "Artisanal, < 24h après cueillette" },
+      { label: "Origine", value: "Canada — forêts brûlées, cueillette sauvage" },
+      { label: "Séchage", value: "Sur place, par les cueilleurs" },
       { label: "Rendement réhydraté", value: "~5× le poids sec" },
-      { label: "Conservation", value: "36 mois sous vide non ouvert" },
+      { label: "Conservation", value: "Sous vide, au sec et à l'abri de la lumière" },
     ],
     idealFor: [
       "Restaurant gastronomique ou bistronomique avec morilles à la carte en continu",
@@ -147,7 +147,7 @@ const content: ProductPageContent[] = [
       "Incorporez l'eau de trempage filtrée en fin de cuisson ou dans votre fond, laissez réduire. C'est à ce moment que la morille de feu exprime le mieux sa signature fumée.",
     ],
     conservation:
-      "Sous vide non ouvert : 36 mois à l'abri de la lumière. Une fois ouvert, reconditionner dans un bocal hermétique et utiliser dans les 6 mois. Ne pas réfrigérer avant ouverture.",
+      "Sous vide non ouvert : à conserver au sec, à l'abri de la lumière. Une fois ouvert, reconditionner dans un bocal hermétique. Ne pas réfrigérer avant ouverture.",
     relatedProductIds: ["morilles-45g", "morilles-30g"],
     recipeTags: ["sauce", "risotto", "plat"],
   },
@@ -164,19 +164,19 @@ const rehydrationGuideEn = [
 ];
 
 const pouchConservationEn =
-  "Store in a dry place, away from light and humidity. Do not refrigerate before opening. Once opened, transfer to an airtight jar. Shelf life: 24 months.";
+  "Store in a dry place, away from light and humidity. Do not refrigerate before opening. Once opened, transfer to an airtight jar.";
 
-const originEn = { label: "Origin", value: "Canada — post-fire areas" };
-const dryingEn = { label: "Drying", value: "Artisanal, < 24h after picking" };
-const pouchStorageEn = { label: "Storage", value: "24 months, dry and away from light" };
+const originEn = { label: "Origin", value: "Canada — burned forests, wild harvest" };
+const dryingEn = { label: "Drying", value: "On site, by the pickers" };
+const pouchStorageEn = { label: "Storage", value: "Dry and away from light" };
 
 const contentEn: Record<string, LocalizedFields> = {
   "morilles-12g": {
     tagline: "The size to decide before you commit.",
     longDescription: [
-      "The fire morel is no ordinary mushroom. Its aroma — woody, lightly smoky, with a depth few ingredients reach — shows differently depending on the quality of the batch. This 12g size exists so you can check it for yourself before buying in volume.",
+      "The fire morel is no ordinary mushroom. Its aroma — woody, lightly smoky, with a depth few ingredients reach — reveals itself in the kitchen. This 12g size exists so you can check it for yourself before buying in volume.",
       "Twelve grams are enough for a light sauce for two, to flavour a stock, or to test rehydration. You will see the morels swell, smell the aroma released into the soaking water, and judge how firm the flesh is after cooking.",
-      "Our fire morels are harvested in Canada after the natural forest fires that trigger their fruiting. Dried within 24 hours of picking to lock in the aromas, sorted by hand, packed by traceable batch. This pouch is the same quality as our professional sizes.",
+      "Our fire morels are wild: picked by hand in Canada, in spring, in forests burned the year before, then dried on site. This pouch holds the same morels as our professional sizes.",
     ],
     highlights: [
       { label: "Net weight", value: "12g" },
@@ -188,7 +188,7 @@ const contentEn: Record<string, LocalizedFields> = {
     ],
     idealFor: [
       "First purchase — discover the fire morel before ordering in volume",
-      "Side-by-side test against a batch you already stock",
+      "Side-by-side test against the morels you already use",
       "Home cook keen to explore a new flavour",
       "An introductory gourmet gift",
     ],
@@ -198,9 +198,9 @@ const contentEn: Record<string, LocalizedFields> = {
   "morilles-30g": {
     tagline: "The reference size — enough to cook seriously.",
     longDescription: [
-      "Thirty grams is the size most of our customers choose from their second order. Enough for a sauce for six, to flavour a veal stock, or for a generous risotto. No rationing, no counting every gram.",
-      "Dried fire morels have a far greater aromatic density than cultivated morels. It comes down to terroir — these mushrooms grow on burned soil, rich in minerals released by the ash, in conditions that do not exist in controlled cultivation. Artisanal drying within 24 hours of picking locks that aroma in instead of letting it fade.",
-      "This size comes in a resealable pouch so you can use it over several sessions. Each time you open it, the aroma confirms nothing has been lost. The batch is identified on the packaging — traceable back to the harvest area.",
+      "Thirty grams: enough for a sauce for six, to flavour a veal stock, or for a generous risotto. No rationing, no counting every gram.",
+      "The fire morel is a wild morel: it comes up on its own on the burned soil of Canadian forests, whereas cultivated morels are grown in greenhouses or open fields. It is picked by hand, then dried on site.",
+      "This size comes in a resealable pouch so you can use it over several sessions.",
     ],
     highlights: [
       { label: "Net weight", value: "30g" },
@@ -224,7 +224,7 @@ const contentEn: Record<string, LocalizedFields> = {
     longDescription: [
       "Forty-five grams so you never run short. This size is for cooks who make the morel a structuring element of the plate — not a decorative touch, but the main ingredient everything is built around. A risotto where the morels dominate, a fillet en croûte with a concentrated morel sauce, a tasting menu with a mushroom highlight.",
       "At €29, this size offers the best value of our pouches. The extra 15g over the Classic make a real difference in the kitchen: you can garnish generously, taste as you go, and adjust without counting.",
-      "The fire morel develops its aromas in two stages: a first woody, slightly earthy note on rehydration, then the characteristic smoky signature that emerges with heat in butter or oil. This two-act complexity is what sets the post-fire morel apart from any other variety.",
+      "The fire morel develops its aromas in two stages: a first woody, slightly earthy note on rehydration, then the characteristic smoky signature that emerges with heat in butter or oil. This is what gives the fire morel its character.",
     ],
     highlights: [
       { label: "Net weight", value: "45g" },
@@ -248,7 +248,7 @@ const contentEn: Record<string, LocalizedFields> = {
     longDescription: [
       "Four sizes — 100g, 200g, 500g, 1kg — vacuum-packed for optimal storage and professional kitchen use. Vacuum packing eliminates the oxidation and moisture uptake that gradually degrade aromas in ordinary pouches. It is the logical choice when the morel is a permanent ingredient in your kitchen.",
       "For restaurants, this format means fewer orders and a steady stock. For delicatessens, it allows controlled rotation with a clearly identifiable best-before date. For passionate cooks who use morels regularly, it is the most economical option per gram.",
-      "The 1kg represents a significant saving compared with buying smaller packs. The quality is identical to our pouch range — same batch, same drying, same traceability. Only the packaging changes to suit professional volumes.",
+      "The 1kg represents a significant saving compared with buying smaller packs. These are the same morels as in our pouch range, dried the same way. Only the packaging changes to suit professional volumes.",
     ],
     highlights: [
       { label: "Sizes available", value: "100g · 200g · 500g · 1kg" },
@@ -256,7 +256,7 @@ const contentEn: Record<string, LocalizedFields> = {
       originEn,
       dryingEn,
       { label: "Rehydrated yield", value: "~5× the dry weight" },
-      { label: "Storage", value: "36 months, vacuum-sealed and unopened" },
+      { label: "Storage", value: "Vacuum-sealed, dry and away from light" },
     ],
     idealFor: [
       "Gourmet or bistronomy restaurant with morels on the menu continuously",
@@ -266,7 +266,7 @@ const contentEn: Record<string, LocalizedFields> = {
     ],
     rehydrationGuide: rehydrationGuideEn,
     conservation:
-      "Unopened vacuum pack: 36 months away from light. Once opened, transfer to an airtight jar and use within 6 months. Do not refrigerate before opening.",
+      "Unopened vacuum pack: keep dry and away from light. Once opened, transfer to an airtight jar. Do not refrigerate before opening.",
   },
 };
 

@@ -1,63 +1,52 @@
 # Morilles du Canada
 
-> Morilles sauvages de feu séchées, récoltées à la main dans les forêts boréales du Canada (Colombie-Britannique et Yukon). Vente directe aux particuliers et professionnels en France.
+> Morilles sauvages du Canada, séchées, entières et équeutées. Cueillies à la main au printemps sur des forêts canadiennes brûlées l'année précédente, séchées sur place, stockées en France. Vente aux particuliers et aux professionnels.
 
 ## À propos
 
-Morilles du Canada est une micro-entreprise française spécialisée dans la vente de morilles de feu séchées (fire morels) récoltées dans les forêts boréales canadiennes. Les morilles de feu sont des champignons sauvages qui poussent exclusivement sur les sols calcinés après un feu de forêt. Elles sont reconnues pour leur arôme fumé intense et unique, impossible à reproduire en culture.
+Morilles du Canada est une micro-entreprise française. Son fondateur, Valérian, a cueilli lui-même des morilles de feu pendant trois saisons (2022, 2023 et 2024) en Colombie-Britannique et au Yukon, sur des forêts brûlées l'année précédente. Il travaille aujourd'hui avec un réseau de cueilleurs sur les feux de forêt canadiens, qui sèchent les morilles sur place.
 
-Éditeur : Valérian Vilane — SIRET 802 861 948 00023. TVA non applicable (art. 293 B CGI).
+Éditeur : Valérian Vilane — SIRET 802 861 948 00023. TVA non applicable (art. 293 B du CGI).
 
 ## Produit
 
-- **Type** : Morilles séchées sans queue (tête uniquement)
-- **Origine** : Colombie-Britannique et Yukon, Canada
-- **Variétés** : Brune (M. conica, M. brunnea, M. snyderi) et Blonde & Grise (M. americana, M. esculenta, M. prava, M. tomentosa)
-- **Traitement** : Aucun — 100% naturelles, sans pesticide, sans additif
-- **Séchage** : Air chaud contrôlé, <48h après récolte
-- **Conservation** : 24 mois sous vide en récipient hermétique
-- **Formats** : 12g, 30g, 45g, 100g, 200g, 500g, 1 kg (sous vide)
+- **Type** : morilles de feu sauvages, séchées, entières et équeutées (pied retiré)
+- **Origine** : Canada, forêts brûlées l'année précédente
+- **Variétés** : variétés sauvages mélangées, sans tri par espèce
+- **Séchage** : sur place, par les cueilleurs
+- **Formats** : sachets 12 g, 30 g, 45 g ; sous vide 100 g, 200 g, 500 g, 1 kg ; au kilo pour les professionnels (dès 1 kg)
 
-## Différences avec les autres morilles
+## Sauvage ou cultivée ?
 
-Les morilles de feu du Canada se distinguent des morilles cultivées (Chine) et des morilles sauvages européennes :
-- **Arôme** : Fumé, intense, boisé (vs. terreux/délicat pour l'Europe, neutre/fade pour la Chine)
-- **Taille** : Grande à très grande
-- **Texture** : Charnue et ferme
-- **Saison** : 4 à 6 semaines par an uniquement (juin-juillet)
-- **Rareté** : Très rare — dépend des feux de forêt de l'année précédente
+- **Morille sauvage (la nôtre)** : cueillie à la main dans la nature, pousse d'elle-même au printemps sur une forêt brûlée l'année précédente ; disponibilité liée aux feux et à la saison.
+- **Morille de culture** : produite en serre ou en plein champ, selon un calendrier de production.
+
+## Prix et livraison
+
+- Prix nets — TVA non applicable, art. 293 B du CGI.
+- France : 6,90 €, livraison offerte dès 50 € d'achats.
+- Union européenne (particuliers) : 9,90 €, offerte dès 100 € d'achats.
+- Expédition sous 5 jours ouvrés depuis la France. Paiement sécurisé via Stripe.
+- Professionnels : 1 kg = 350 €/kg ; 3 kg et plus = 330 €/kg ; 5 kg et plus = 310 €/kg ; 10 kg et plus = 290 €/kg. De 1 à 45 kg, par tranche de 500 g. Livraison en France, port inclus.
+
+## Précommande saison 2027
+
+300 €/kg, acompte de 50 % à la commande, de 1 à 15 kg. Livraison garantie en octobre 2027, solde facturé avant expédition, acompte intégralement remboursé s'il est impossible de fournir. Ouverte aux particuliers et aux professionnels : https://www.morillesducanada.com/precommande-2027
 
 ## Utilisation culinaire
 
-- Réhydrater dans l'eau tiède (~70°C) pendant 20 minutes
-- Conserver le jus de trempage (concentré de saveur pour sauces et risottos)
-- Cuisson minimum 15 minutes (les morilles crues sont toxiques)
-- Dosage : 5 à 8g de morilles séchées par personne
-- Accompagnements idéaux : crème, beurre, échalotes, cognac, vin blanc
-
-## Recettes populaires
-
-- Risotto aux morilles de feu et parmesan affiné
-- Côte de bœuf aux morilles de feu
-- Sauce forestière aux morilles de feu
-- Velouté de morilles de feu, crème légère à la truffe
-- Pâtes fraîches aux morilles de feu, sauce au cognac
-- Omelette aux morilles de feu et fines herbes
-- Fondue savoyarde aux morilles de feu
-
-## Informations pratiques
-
-- **Livraison** : France métropolitaine et Europe
-- **Paiement** : Sécurisé via Stripe
-- **Circuit** : Direct du cueilleur, sans intermédiaire ni grossiste
-- **Professionnels** : Tarifs nets (TVA non applicable). Devis sur demande pour restaurateurs, chefs, traiteurs.
-- **Pré-commande pro** : Réservation de lot saison 2026 via /pre-commande
+- Réhydrater 20 à 30 minutes dans une eau tiède (jamais bouillante)
+- Conserver et filtrer le jus de trempage pour les sauces et risottos
+- Toujours cuire les morilles (minimum 15 minutes) : crues, elles sont toxiques
+- Dosage : 5 à 8 g de morilles séchées par personne
 
 ## Liens
 
 - Page d'accueil : https://www.morillesducanada.com/
-- Recettes : https://www.morillesducanada.com/recettes
-- Guide des morilles de feu : https://www.morillesducanada.com/guide-morilles-de-feu
-- Contact : https://www.morillesducanada.com/#contact
+- Produits : https://www.morillesducanada.com/produits
 - Espace professionnels (tarifs au kilo, devis, échantillon) : https://www.morillesducanada.com/professionnels
+- Précommande saison 2027 : https://www.morillesducanada.com/precommande-2027
+- Guide des morilles de feu : https://www.morillesducanada.com/guide-morilles-de-feu
+- Recettes : https://www.morillesducanada.com/recettes
+- Livraison : https://www.morillesducanada.com/livraison
 - Fiche technique : https://www.morillesducanada.com/fiche-technique

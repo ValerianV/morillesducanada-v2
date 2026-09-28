@@ -238,7 +238,7 @@ const RecetteDetail = () => {
                 Envie de préparer cette recette ?
               </p>
               <p className="text-sm text-muted-foreground mb-6 font-light">
-                Commandez nos morilles de feu séchées pour un résultat exceptionnel.
+                Morilles de feu sauvages du Canada, séchées, entières et équeutées.
               </p>
               <a
                 href="/#produits"

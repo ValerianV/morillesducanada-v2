@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProPriceTable from "@/components/pro/ProPriceTable";
 import ProLeadForm from "@/components/pro/ProLeadForm";
+import WildVsCultivated from "@/components/WildVsCultivated";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useI18n } from "@/i18n/context";
 import type { ProLeadKind } from "@/lib/proLead";
@@ -129,6 +130,16 @@ const Professionnels = () => {
                 </div>
               ))}
             </div>
+          </section>
+
+          {/* Récit : cueillette sauvage */}
+          <section id="histoire" className={section}>
+            <SectionHeading label={pro.story.label} title={pro.story.title} />
+            <div className="max-w-3xl space-y-4 text-lg text-foreground/90 leading-relaxed">
+              <p>{pro.story.p1}</p>
+              <p>{pro.story.p2}</p>
+            </div>
+            <WildVsCultivated className="mt-10 max-w-4xl" />
           </section>
 
           {/* 4. Pourquoi équeutées */}

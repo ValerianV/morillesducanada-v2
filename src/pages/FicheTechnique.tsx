@@ -114,7 +114,7 @@ const FicheTechnique = () => (
             Morilles de feu séchées sauvages
           </h1>
           <div style={{ fontSize: 9, color: GOLD, marginTop: 6, letterSpacing: "0.15em" }}>
-            Colombie-Britannique & Yukon — Canada
+            Forêts brûlées du Canada — cueillette sauvage
           </div>
         </div>
 
@@ -122,23 +122,15 @@ const FicheTechnique = () => (
         <Section title="Identification">
           <Row label="Dénomination commerciale" value="Morilles de feu séchées sauvages" />
           <Row label="Famille botanique" value="Morchellaceae" />
-          <Row
-            label="Espèces (variété brune)"
-            value={<span><em>Morchella conica, M. brunnea, M. snyderi</em></span>}
-          />
-          <Row
-            label="Espèces (variété blonde & grise)"
-            value={<span><em>M. americana, M. esculenta, M. prava, M. tomentosa</em></span>}
-          />
-          <Row label="Origine géographique" value="Colombie-Britannique / Yukon, Canada" />
+          <Row label="Espèces" value={<span><em>Morchella</em> spp., variétés sauvages mélangées</span>} />
+          <Row label="Origine géographique" value="Canada — forêts brûlées l'année précédente" />
           <Row label="Écosystème" value="Forêt boréale post-incendie (morilles de feu)" />
         </Section>
 
         {/* Récolte & Transformation */}
         <Section title="Récolte & Transformation">
           <Row label="Mode de récolte" value="Cueillette sauvage manuelle, forêt post-incendie" />
-          <Row label="Séchage" value="Air chaud contrôlé, < 48h après récolte" />
-          <Row label="Taux d'humidité résiduel" value="Entre 8 et 12% (séchage air chaud contrôlé sous vide)" />
+          <Row label="Séchage" value="Sur place, par les cueilleurs" />
           <Row label="Sans additifs ni conservateurs" value="Oui" />
         </Section>
 
@@ -146,14 +138,14 @@ const FicheTechnique = () => (
         <Section title="Conditionnement">
           <Row
             label="Formats disponibles"
-            value="Sous vide : 12g · 30g · 45g · 100g · 200g · 500g · 1 kg"
+            value="Sachets 12 g · 30 g · 45 g — sous vide 100 g · 200 g · 500 g · 1 kg — au kilo pour les professionnels, dès 1 kg"
           />
           <Row label="Matériau" value="Sachet sous vide (PA/PE)" />
           <Row label="Stockage" value="Température ambiante, sec et sombre" />
-          <Row label="DLUO" value="24 mois à compter de la date de séchage (sous vide, à l'abri de la lumière)" />
+          <Row label="Date de durabilité" value="Indiquée sur l'emballage" />
           <Row
             label="Après ouverture"
-            value="Consommer sous 6 mois en bocal hermétique"
+            value="Conserver en bocal hermétique, au sec et à l'abri de la lumière"
           />
         </Section>
 
@@ -161,7 +153,7 @@ const FicheTechnique = () => (
         <Section title="Utilisation">
           <Row
             label="Réhydratation"
-            value="20 min dans eau tiède (70°C) — filtrer le jus de trempage et le réutiliser (très aromatique)"
+            value="20 à 30 min dans une eau tiède — filtrer le jus de trempage et le réutiliser"
           />
           <Row label="Rapport séché / frais" value="Environ 1 pour 8 à 10 en poids" />
         </Section>
@@ -175,7 +167,7 @@ const FicheTechnique = () => (
           />
           <Row
             label="Agréments / Certifications"
-            value="Cueillette sauvage en forêt publique canadienne. Pas de certification bio (récolte hors agriculture). Traçabilité par lot via le cueilleur partenaire."
+            value="Cueillette sauvage au Canada. Pas de certification bio (récolte hors agriculture)."
           />
         </Section>
 

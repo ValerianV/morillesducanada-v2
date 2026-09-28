@@ -128,7 +128,7 @@ const PlaquettePro = () => (
                 Catalogue professionnel
               </div>
               <div style={{ fontSize: 11, color: GOLD, fontWeight: 700, letterSpacing: "0.12em", marginTop: 5 }}>
-                Saison 2026
+                Stock en France
               </div>
             </div>
           </div>
@@ -136,7 +136,7 @@ const PlaquettePro = () => (
           {/* Center title block */}
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: 8, letterSpacing: "0.45em", textTransform: "uppercase", color: GOLD, marginBottom: 20 }}>
-              Colombie-Britannique &amp; Yukon, Canada
+              Forêts brûlées du Canada
             </div>
             <h1 style={{ margin: 0, fontWeight: 300 }}>
               <span style={{ display: "block", fontFamily: "Georgia, serif", fontSize: 54, fontWeight: 300, lineHeight: 1.1, marginBottom: 10 }}>
@@ -148,8 +148,8 @@ const PlaquettePro = () => (
             </h1>
             <div style={{ width: 60, height: 1, backgroundColor: GOLD, margin: "0 auto 30px" }} />
             <div style={{ fontSize: 12, fontWeight: 300, letterSpacing: "0.07em", color: "rgba(255,255,255,0.7)", maxWidth: 380, margin: "0 auto", lineHeight: 1.8 }}>
-              Achetées directement aux cueilleurs · Séchées le jour de la récolte ·
-              Sans intermédiaire — du sol brûlé à votre assiette.
+              Cueillette sauvage après incendie · Séchées sur place ·
+              Entières et équeutées · Stock en France.
             </div>
           </div>
 
@@ -208,7 +208,7 @@ const PlaquettePro = () => (
                   Fondateur · Morilles du Canada
                 </div>
                 <div style={{ fontSize: 9, color: "#6a6a6a", marginTop: 9, lineHeight: 1.7 }}>
-                  3 saisons de cueillette en Colombie-Britannique et au Yukon · 2 ans de vente directe sur les marchés
+                  3 saisons de cueillette (2022, 2023, 2024) en Colombie-Britannique et au Yukon
                 </div>
               </div>
             </div>
@@ -218,23 +218,20 @@ const PlaquettePro = () => (
                 Notre histoire
               </div>
               <div style={{ fontFamily: "Georgia, serif", fontSize: 23, fontWeight: 300, lineHeight: 1.3, marginBottom: 18 }}>
-                Pas un importateur.<br />Un cueilleur devenu fournisseur.
+                Une morille sauvage,<br />cueillie après le feu.
               </div>
               <div style={{ width: 36, height: 1, backgroundColor: GOLD, marginBottom: 22 }} />
               <div style={{ fontSize: 11, color: "#4a4a4a", lineHeight: 1.85, marginBottom: 13 }}>
-                J'ai passé trois printemps dans les forêts brûlées du Canada — à marcher dans les cendres,
-                dormir sous la tente, ramasser les morilles aux côtés de cueilleurs que je considère
-                aujourd'hui comme des amis. Ce n'est pas un projet de bureau : j'y étais, sur le terrain.
+                Pendant trois saisons, en 2022, 2023 et 2024, j'ai cueilli moi-même des morilles de feu
+                en Colombie-Britannique et au Yukon, sur des forêts brûlées l'année précédente.
               </div>
               <div style={{ fontSize: 11, color: "#4a4a4a", lineHeight: 1.85, marginBottom: 13 }}>
-                Ce terrain m'a appris deux choses. D'abord, la morille de feu canadienne n'a aucun
-                équivalent — ni en Europe, ni en culture. Ensuite, les cueilleurs méritent mieux
-                que les prix cassés que leur proposent les grossistes asiatiques.
+                Aujourd'hui, je travaille avec un réseau de cueilleurs sur les feux de forêt canadiens,
+                qui sèchent les morilles sur place. Le stock est en France, d'où je vous expédie.
               </div>
               <div style={{ fontSize: 11, color: "#4a4a4a", lineHeight: 1.85 }}>
-                Morilles du Canada, c'est ce lien direct : j'achète juste, je sèche dans les 24h,
-                j'expédie sans intermédiaire. Vous recevez un produit dont je connais l'origine
-                à la forêt près — et vous pouvez la raconter.
+                Une morille sauvage, cueillie à la main, sans rapport avec la morille de culture :
+                c'est cette histoire que vous pouvez raconter à vos clients.
               </div>
             </div>
           </div>
@@ -242,24 +239,24 @@ const PlaquettePro = () => (
           {/* 4 differentiators */}
           <div style={{ borderTop: `1px solid ${GOLD}28`, paddingTop: 30 }}>
             <div style={{ fontSize: 8, letterSpacing: "0.38em", textTransform: "uppercase", color: GOLD, marginBottom: 22 }}>
-              Ce qui nous différencie réellement
+              Ce qui nous différencie
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "18px 44px" }}>
               {[
                 {
                   n: "01",
-                  t: "Séchage dans les 24h après récolte",
-                  d: "Les morilles sont achetées en forêt chaque soir et séchées le lendemain dans un séchoir professionnel sur place en Colombie-Britannique.",
+                  t: "Cueillette sauvage",
+                  d: "À la main, au printemps, sur des forêts canadiennes brûlées l'année précédente. Jamais semées ni cultivées.",
                 },
                 {
                   n: "02",
-                  t: "3 cueilleurs de confiance, pas de grossiste",
-                  d: "Je connais personnellement chaque cueilleur — des amis côtoyés pendant trois saisons. Pas de négociant intermédiaire, pas de chambre froide collective, pas de mélange de lots.",
+                  t: "Séchées sur place",
+                  d: "Les cueilleurs de notre réseau sèchent les morilles sur place, près des zones de cueillette.",
                 },
                 {
                   n: "03",
-                  t: "Traçabilité totale, lot par lot",
-                  d: "Chaque lot est identifiable : zone de récolte, date de séchage. Vous pouvez raconter cette histoire à vos clients — c'est un argument de vente en soi.",
+                  t: "Sauvage, pas cultivée",
+                  d: "La morille de culture est produite en serre ou en plein champ. La nôtre pousse d'elle-même après un incendie.",
                 },
                 {
                   n: "04",
@@ -284,22 +281,6 @@ const PlaquettePro = () => (
             </div>
           </div>
 
-          {/* Pull quote */}
-          <div
-            style={{
-              marginTop: 30, padding: "20px 28px",
-              backgroundColor: DARK, borderRadius: 2,
-              borderLeft: `3px solid ${GOLD}`,
-            }}
-          >
-            <div style={{ fontFamily: "Georgia, serif", fontSize: 13, fontStyle: "italic", color: "rgba(255,255,255,0.82)", lineHeight: 1.75 }}>
-              « Entre les cueilleurs qui risquent tout sur le terrain et les chefs qui paient le prix fort,
-              il manquait un lien juste. C'est ce que j'ai décidé de créer. »
-            </div>
-            <div style={{ fontSize: 8, color: GOLD, letterSpacing: "0.22em", textTransform: "uppercase", marginTop: 11 }}>
-              — Valérian, fondateur
-            </div>
-          </div>
         </div>
       </div>
 
@@ -323,9 +304,8 @@ const PlaquettePro = () => (
                 Pour les cuisines qui travaillent la morille en régulier
               </div>
               <div style={{ fontSize: 11, color: "#4a4a4a", lineHeight: 1.85 }}>
-                Sachets sous vide thermoscellés. Morilles entières sans queue, triées à la main,
-                séchées à basse température. Vendues au kilo, de {PRO_MIN_KG} kg à {PRO_STOCK_KG} kg, par tranche de 500 g.
-                Conservation 2 ans minimum en conditions sèches.
+                Sachets sous vide. Morilles sauvages entières et équeutées, séchées sur place,
+                variétés mélangées. Vendues au kilo, de {PRO_MIN_KG} kg à {PRO_STOCK_KG} kg, par tranche de 500 g.
                 Les morilles triplent de volume à la réhydratation.
               </div>
             </div>
@@ -448,10 +428,8 @@ const PlaquettePro = () => (
                 Un produit qui se vend<br />en se racontant
               </div>
               <div style={{ fontSize: 11, color: "#4a4a4a", lineHeight: 1.85 }}>
-                Nos pots verre bouchon or s'imposent en rayon sans avoir besoin d'être poussés.
-                L'histoire — trois saisons de cueillette au Canada, sourcing direct, séchage artisanal —
-                est sur l'étiquette et dans la bouche du vendeur.
-                Les amateurs de produits rares les reconnaissent immédiatement. Les chefs amateurs les offrent.
+                L'histoire se raconte simplement : une morille sauvage du Canada, cueillie à la main
+                sur des forêts brûlées l'année précédente, séchée sur place.
               </div>
             </div>
           </div>
@@ -516,8 +494,8 @@ const PlaquettePro = () => (
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 24 }}>
             {[
               {
-                t: "Storytelling clé en main",
-                d: "Chaque pot porte l'étiquette avec territoire, variété, mode de séchage. Vos vendeurs ont tout pour argumenter sans effort de formation.",
+                t: "Une histoire vraie à raconter",
+                d: "Cueillette sauvage après incendie, séchage sur place, fondateur qui a cueilli lui-même trois saisons au Canada.",
               },
               {
                 t: "Gamme 3 formats cohérente",
@@ -528,8 +506,8 @@ const PlaquettePro = () => (
                 d: "Pot verre, bouchon or mat, étiquette sobre et précise. S'intègre dans un rayon épicerie fine ou truffes sans détonner.",
               },
               {
-                t: "Rareté réelle, pas marketing",
-                d: "4 à 6 semaines de cueillette par an, stock limité. Ce n'est pas un argument inventé — c'est le calendrier de la forêt brûlée canadienne.",
+                t: "Sauvage, pas cultivée",
+                d: "La cueillette dépend des feux de l'année précédente et de la saison : une disponibilité liée à la nature, pas à un calendrier de production.",
               },
             ].map((a) => (
               <div
@@ -667,7 +645,7 @@ const PlaquettePro = () => (
               }}
             >
               {PRO_TAX_MENTION.fr} · Expédition sous {PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés ·
-              Paiement par virement ou carte bancaire · Livraison France et Europe.
+              Paiement par virement ou carte bancaire · Livraison en France, port inclus.
             </div>
 
             {/* Footer */}

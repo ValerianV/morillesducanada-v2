@@ -122,8 +122,8 @@ const Recettes = () => {
                 <span className="italic text-gradient-gold">morilles séchées</span>
               </h1>
               <p className="text-secondary-foreground/70 font-light text-lg max-w-2xl mx-auto leading-relaxed">
-                Découvrez nos meilleures recettes pour sublimer
-                l'arôme fumé unique de nos morilles sauvages canadiennes.
+                Des recettes pour cuisiner nos morilles sauvages du Canada,
+                séchées, entières et équeutées.
               </p>
               <div className="divider-gold w-24 mx-auto mt-6" />
             </div>
