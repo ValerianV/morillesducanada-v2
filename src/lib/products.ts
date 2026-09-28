@@ -127,6 +127,42 @@ export function getVacuumMorelPrice(weightGrams: number): number {
   return vacuumPrices[weightGrams] ?? 59;
 }
 
+export const VACUUM_WEIGHTS = [100, 200, 500, 1000] as const;
+export type VacuumWeight = (typeof VACUUM_WEIGHTS)[number];
+export const DEFAULT_VACUUM_WEIGHT: VacuumWeight = 500;
+
+export function pricePerKg(price: number, grams: number): number {
+  return (price * 1000) / grams;
+}
+
+// Poids net d'un format fixe (« 12g » → 12).
+export function fixedProductGrams(product: Product): number | null {
+  if (product.weightPriceIds) return null;
+  const grams = parseInt(product.weight, 10);
+  return Number.isFinite(grams) && grams > 0 ? grams : null;
+}
+
+// Petit format au meilleur prix au kilo : référence honnête pour chiffrer l'économie du sous vide.
+export function cheapestSmallFormat(): { product: Product; grams: number; perKg: number } {
+  const candidates = products.flatMap((product) => {
+    const grams = fixedProductGrams(product);
+    return grams ? [{ product, grams, perKg: pricePerKg(product.price, grams) }] : [];
+  });
+  return candidates.reduce((best, c) => (c.perKg < best.perKg ? c : best));
+}
+
+// Économie du sous vide par rapport au même poids acheté dans un format de référence.
+// Arrondis vers le bas pour ne jamais surestimer.
+export function vacuumSaving(grams: number, reference: { grams: number; price: number }) {
+  const referencePerKg = pricePerKg(reference.price, reference.grams);
+  const perKg = pricePerKg(getVacuumMorelPrice(grams), grams);
+  return {
+    perKg,
+    percent: Math.floor((1 - perKg / referencePerKg) * 100),
+    amount: Math.floor((referencePerKg * grams) / 1000 - getVacuumMorelPrice(grams)),
+  };
+}
+
 export function localizeProduct(product: Product, locale: "fr" | "en") {
   const en = locale === "en";
   return {

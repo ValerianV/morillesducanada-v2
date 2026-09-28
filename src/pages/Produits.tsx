@@ -3,9 +3,22 @@ import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
-import { products, getVacuumMorelPrice, localizeProduct } from "@/lib/products";
+import {
+  VACUUM_WEIGHTS,
+  fixedProductGrams,
+  getVacuumMorelPrice,
+  localizeProduct,
+  pricePerKg,
+  products,
+} from "@/lib/products";
+import { formatEurosLocale } from "@/lib/proPricing";
+import { fill } from "@/components/VacuumFormatPicker";
 import { useI18n } from "@/i18n/context";
 import { ArrowRight } from "lucide-react";
+
+// Le sous vide (meilleur prix au kilo) en tête de la grille ; le JSON-LD garde l'ordre du catalogue.
+const displayOrder = [...products].sort((a, b) => Number(Boolean(b.weightPriceIds)) - Number(Boolean(a.weightPriceIds)));
+const bestVacuumPerKg = Math.min(...VACUUM_WEIGHTS.map((g) => pricePerKg(getVacuumMorelPrice(g), g)));
 
 const Produits = () => {
   const { t, locale } = useI18n();
@@ -57,12 +70,18 @@ const Produits = () => {
           </ScrollReveal>
 
           <div className="grid sm:grid-cols-2 gap-8">
-            {products.map((product, i) => {
+            {displayOrder.map((product, i) => {
               const isVacuum = product.id === "morilles-sous-vide";
               const label = localizeProduct(product, locale);
               const displayPrice = isVacuum
                 ? t("productPage.from").replace("{price}", `${getVacuumMorelPrice(100)} €`)
                 : `${product.price.toFixed(2)} €`;
+              const grams = fixedProductGrams(product);
+              const perKg = isVacuum
+                ? fill(t("vacuum.from"), { price: formatEurosLocale(Math.round(bestVacuumPerKg * 100), locale) })
+                : grams
+                  ? fill(t("vacuum.perKg"), { price: formatEurosLocale(Math.round(pricePerKg(product.price, grams) * 100), locale) })
+                  : null;
 
               return (
                 <ScrollReveal key={product.id} delay={i * 0.1}>
@@ -88,7 +107,11 @@ const Produits = () => {
                         {label.name}
                       </h2>
                       <p className="text-xs text-muted-foreground mb-3">{label.servings}</p>
-                      <p className="font-serif text-2xl text-gradient-gold mb-3">{displayPrice}</p>
+                      <div className="mb-3">
+                        <p className="font-serif text-2xl text-gradient-gold">{displayPrice}</p>
+                        {perKg && <p className="text-xs text-muted-foreground mt-0.5">{perKg}</p>}
+                        {isVacuum && <p className="text-xs font-medium text-gold-light mt-0.5">{t("vacuum.bestPerKg")}</p>}
+                      </div>
                       <p className="text-sm text-muted-foreground font-light leading-relaxed mb-5 line-clamp-2">
                         {label.description}
                       </p>
@@ -113,12 +136,12 @@ const Produits = () => {
               <p className="text-sm text-muted-foreground mb-6 font-light max-w-lg mx-auto">
                 {t("productsPage.bulkText")}
               </p>
-              <a
-                href="/#contact"
+              <Link
+                to="/professionnels"
                 className="inline-block px-8 py-3 border border-primary/40 text-foreground font-medium tracking-widest uppercase text-sm hover:border-primary hover:text-primary transition-colors rounded-sm"
               >
                 {t("productsPage.bulkCta")}
-              </a>
+              </Link>
             </div>
           </ScrollReveal>
         </div>

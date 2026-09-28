@@ -2,11 +2,24 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { toast } from "sonner";
-import { ShoppingCart, ArrowLeft, CheckCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { ShoppingCart, ArrowLeft, ArrowRight, CheckCircle, ChevronDown, ChevronUp } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
-import { getProductBySlug, getVacuumMorelPrice, localizeProduct, products } from "@/lib/products";
+import {
+  DEFAULT_VACUUM_WEIGHT,
+  fixedProductGrams,
+  formatGrams,
+  getProductBySlug,
+  getVacuumMorelPrice,
+  localizeProduct,
+  pricePerKg,
+  products,
+  vacuumSaving,
+  type VacuumWeight,
+} from "@/lib/products";
+import { formatEurosLocale } from "@/lib/proPricing";
+import VacuumFormatPicker, { fill } from "@/components/VacuumFormatPicker";
 import { useI18n } from "@/i18n/context";
 import { getProductPageContent } from "@/lib/productDetails";
 import { useCartStore } from "@/stores/cartStore";
@@ -22,7 +35,7 @@ const ProductDetail = () => {
   const view = product ? getProductPageContent(product.id, locale) : undefined;
 
   const isVacuum = product?.id === "morilles-sous-vide";
-  const [vacuumWeight, setVacuumWeight] = useState<100 | 200 | 500 | 1000>(100);
+  const [vacuumWeight, setVacuumWeight] = useState<VacuumWeight>(DEFAULT_VACUUM_WEIGHT);
   const [rehydrationOpen, setRehydrationOpen] = useState(false);
 
   if (!product || !detail || !view) {
@@ -42,12 +55,15 @@ const ProductDetail = () => {
 
   const currentPrice = isVacuum ? getVacuumMorelPrice(vacuumWeight) : product.price;
   const label = localizeProduct(product, locale);
+  const currentGrams = isVacuum ? vacuumWeight : fixedProductGrams(product);
+  const fixedGrams = fixedProductGrams(product);
+  const upsell = fixedGrams ? vacuumSaving(DEFAULT_VACUUM_WEIGHT, { grams: fixedGrams, price: product.price }) : null;
 
   const handleAddToCart = () => {
     if (isVacuum) {
       addItem(product, 1, { selectedWeightGrams: vacuumWeight, unitPriceOverride: currentPrice });
       toast.success(t("products.addedToCart"), {
-        description: `${label.name} · ${vacuumWeight}g`,
+        description: `${label.name} · ${formatGrams(vacuumWeight)}`,
         position: "top-center",
       });
     } else {
@@ -156,32 +172,18 @@ const ProductDetail = () => {
                   <p className="font-serif text-4xl text-gradient-gold">
                     {currentPrice.toFixed(2)} €
                   </p>
+                  {currentGrams && (
+                    <p className="text-sm text-foreground/80 mt-1">
+                      {fill(t("vacuum.perKg"), { price: formatEurosLocale(Math.round(pricePerKg(currentPrice, currentGrams) * 100), locale) })}
+                    </p>
+                  )}
                   <p className="text-xs text-muted-foreground mt-1">{t("products.netPrice")}</p>
                   <p className="text-xs text-muted-foreground mt-1">{label.servings}</p>
                 </div>
 
-                {/* Vacuum weight selector */}
                 {isVacuum && (
                   <div className="mb-6">
-                    <label className="block text-xs text-muted-foreground mb-2 tracking-wider uppercase">
-                      {t("productPage.chooseFormat")}
-                    </label>
-                    <div className="grid grid-cols-4 gap-2">
-                      {([100, 200, 500, 1000] as const).map((g) => (
-                        <button
-                          key={g}
-                          onClick={() => setVacuumWeight(g)}
-                          className={`py-3 border rounded-sm text-xs transition-all duration-200 ${
-                            vacuumWeight === g
-                              ? "border-primary bg-primary/10 text-foreground"
-                              : "border-gold/20 bg-secondary/20 text-muted-foreground hover:border-gold/40"
-                          }`}
-                        >
-                          <span className="font-serif block">{g >= 1000 ? "1kg" : `${g}g`}</span>
-                          <span className="text-primary font-medium">{getVacuumMorelPrice(g)} €</span>
-                        </button>
-                      ))}
-                    </div>
+                    <VacuumFormatPicker value={vacuumWeight} onChange={setVacuumWeight} />
                   </div>
                 )}
 
@@ -192,11 +194,44 @@ const ProductDetail = () => {
                   className="w-full py-4 bg-primary text-primary-foreground font-medium tracking-widest uppercase text-sm hover:bg-gold-light transition-colors duration-300 rounded-sm disabled:opacity-50 flex items-center justify-center gap-2 mb-4"
                 >
                   <ShoppingCart className="w-4 h-4" />
-                  {t("products.addToCart")}
+                  {isVacuum ? fill(t("vacuum.add"), { format: formatGrams(vacuumWeight) }) : t("products.addToCart")}
                 </button>
                 <p className="text-[10px] text-muted-foreground text-center font-light">
                   {t("productPage.reassurance")}
                 </p>
+
+                {isVacuum ? (
+                  <div className="mt-6 p-4 border border-primary/30 rounded-sm bg-primary/5 text-sm">
+                    <p className="text-foreground/85">
+                      <span className="font-medium text-foreground">{t("vacuum.proTitle")}</span> {t("vacuum.proText")}
+                    </p>
+                    <Link
+                      to="/professionnels"
+                      className="mt-2 inline-flex items-center gap-1.5 text-primary hover:text-gold-light font-medium"
+                    >
+                      {t("vacuum.proCta")} <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                ) : (
+                  upsell && (
+                    <div className="mt-6 p-4 border border-primary/30 rounded-sm bg-primary/5 text-sm">
+                      <p className="font-medium text-foreground mb-1">{t("vacuum.upsellTitle")}</p>
+                      <p className="text-foreground/85">
+                        {fill(t("vacuum.upsell"), {
+                          format: formatGrams(DEFAULT_VACUUM_WEIGHT),
+                          perKg: fill(t("vacuum.perKg"), { price: formatEurosLocale(Math.round(upsell.perKg * 100), locale) }),
+                          percent: upsell.percent,
+                        })}
+                      </p>
+                      <Link
+                        to="/produits/morilles-sous-vide"
+                        className="mt-2 inline-flex items-center gap-1.5 text-primary hover:text-gold-light font-medium"
+                      >
+                        {t("vacuum.upsellCta")} <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    </div>
+                  )
+                )}
 
                 {/* Quick highlights */}
                 <div className="mt-8 grid grid-cols-2 gap-3">
