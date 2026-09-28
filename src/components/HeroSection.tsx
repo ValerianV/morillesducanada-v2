@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { LazyMotion, m, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
-import heroImage from "@/assets/hero-jars.webp";
+import heroImage from "@/assets/landscape-canada.webp";
 import { useI18n } from "@/i18n/context";
 
 // Composant `m` + LazyMotion : les animations sont chargées après le premier rendu
@@ -34,7 +34,7 @@ const HeroSection = () => {
     <LazyMotion features={loadMotionFeatures}>
       <section ref={sectionRef} className="relative flex items-center justify-center overflow-hidden min-h-screen safari-safe-layer" style={{ WebkitBackfaceVisibility: "hidden" as any }}>
         <m.div className="absolute inset-0 safari-safe-layer" style={isSafari ? undefined : { y: imageY, scale: imageScale, willChange: "transform", WebkitBackfaceVisibility: "hidden" as any }}>
-          <img src={heroImage} alt="Morilles séchées sauvages du Canada, entières et équeutées, en bocaux" className="w-full h-full object-cover" width={1440} height={960} fetchPriority="high" decoding="async" />
+          <img src={heroImage} alt="Forêt brûlée au Canada, là où poussent les morilles de feu" className="w-full h-full object-cover" width={1200} height={675} fetchPriority="high" decoding="async" />
         </m.div>
         <m.div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background safari-safe-layer" style={isSafari ? undefined : { opacity: overlayOpacity }} />
 
@@ -49,13 +49,13 @@ const HeroSection = () => {
         </div>
 
         <m.div className="relative z-10 container mx-auto px-4 sm:px-6 text-center max-w-4xl safari-safe-layer" style={isSafari ? undefined : { y: contentY, opacity: contentOpacity }}>
-          <m.p className="text-sm tracking-[0.4em] uppercase text-primary/80 mb-6"
+          <m.p className="text-sm tracking-[0.3em] uppercase text-primary mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
           >{t("hero.subtitle")}</m.p>
 
-          <m.h1 className="font-serif text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-light leading-tight mb-6 md:mb-8"
+          <m.h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light leading-tight mb-6 md:mb-8"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
@@ -67,7 +67,7 @@ const HeroSection = () => {
             >{t("hero.titleHighlight")}</m.span>
           </m.h1>
 
-          <m.p className="text-lg md:text-xl text-foreground/90 font-light max-w-2xl mx-auto mb-12 leading-relaxed"
+          <m.p className="text-lg md:text-xl text-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >{t("hero.description")}</m.p>
@@ -76,18 +76,18 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.1 }}
           >
-            <Link to="/professionnels"
+            <Link to="/professionnels#devis"
               className="px-10 py-4 bg-primary text-primary-foreground font-medium tracking-widest uppercase text-sm rounded-sm hover:bg-gold-light transition-colors duration-300"
             >
               {t("hero.proCta")}
             </Link>
-            <m.a href="#produits"
+            <m.a href="#offre"
               className="px-10 py-4 border border-primary/60 text-foreground font-medium tracking-widest uppercase text-sm rounded-sm"
               whileHover={{ borderColor: "hsl(40 60% 50%)", color: "hsl(40 60% 50%)", scale: 1.03 }}
               whileTap={{ scale: 0.97 }} transition={{ duration: 0.3 }}
             >{t("hero.cta")}</m.a>
           </m.div>
-          <m.p className="mt-6 text-base text-foreground/85"
+          <m.p className="mt-6 text-base text-foreground"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.3 }}
           >{t("hero.proLine")}</m.p>

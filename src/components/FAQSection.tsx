@@ -31,10 +31,10 @@ const FAQSection = () => {
                 <AccordionItem key={i} value={`faq-${i}`}
                   className="border border-gold/10 rounded-sm px-6 data-[state=open]:border-gold/30 transition-colors"
                 >
-                  <AccordionTrigger className="text-left font-serif text-base md:text-lg font-light hover:no-underline hover:text-primary py-5">
+                  <AccordionTrigger className="text-left font-serif text-lg md:text-xl hover:no-underline hover:text-primary py-5">
                     {faq.q}
                   </AccordionTrigger>
-                  <AccordionContent className="text-sm text-muted-foreground font-light leading-relaxed pb-5">
+                  <AccordionContent className="text-base text-foreground/85 leading-relaxed pb-5">
                     {faq.a}
                   </AccordionContent>
                 </AccordionItem>

@@ -38,6 +38,7 @@ const submitButton = (name: string) =>
 function fillCommon() {
   fireEvent.click(screen.getByRole("radio", { name: "Restaurant" }));
   fireEvent.change(screen.getByLabelText(/Établissement/), { target: { value: "Le Gourmet" } });
+  fireEvent.change(screen.getByLabelText(/^SIRET/), { target: { value: "802 861 948 00023" } });
   fireEvent.change(screen.getByLabelText(/Nom et prénom/), { target: { value: "Jean Dupont" } });
   fireEvent.change(screen.getByLabelText(/^Email/), { target: { value: "jean@restaurant.fr" } });
   fireEvent.change(screen.getByLabelText(/Code postal/), { target: { value: "69002" } });
@@ -68,7 +69,7 @@ describe("page /professionnels", () => {
     expect(screen.getByText("45 kg en stock")).toBeInTheDocument();
   });
 
-  it("affiche la grille nette et la mention fiscale, sans HT ni 48/72 h", () => {
+  it("affiche la grille nette et la mention fiscale, sans HT ni expédition en 48/72 h", () => {
     const { container } = renderPage();
     const text = plain(container.textContent);
     for (const price of ["350 €/kg", "330 €/kg", "310 €/kg", "290 €/kg"]) expect(text).toContain(price);
@@ -76,17 +77,28 @@ describe("page /professionnels", () => {
     expect(text).not.toContain("190 €");
     expect(text).toContain("De 1 kg à 45 kg");
     expect(text).toContain("TVA non applicable, art. 293 B du CGI");
-    expect(text).not.toMatch(/\bHT\b|5,5 ?%|48 ?h|72 ?h|280/);
+    expect(text).not.toMatch(/\bHT\b|5,5 ?%|280/);
+    expect(text).not.toMatch(/(exp[ée]di\w*|livr\w*|ship\w*|dispatch\w*)[^.]{0,40}(24|48|72) ?h/i);
   });
 
-  it("raconte la même grille que la boutique : 1 kg à 350 € partout, sans l'ancien 420 €", () => {
+  it("annonce la vente réservée aux professionnels, les sachets de 250 g et les liens de paiement", () => {
     const { container } = renderPage();
     const text = plain(container.textContent);
-    expect(text).toContain(
-      "le sous vide 1 kg y coûte aussi 350 €. Moins de 1 kg : sous vide 100 g à 59 €, 200 g à 110 € et 500 g à 240 €.",
-    );
-    expect(screen.getByRole("link", { name: /Voir le sous vide/ })).toHaveAttribute("href", "/produits/morilles-sous-vide");
-    expect(text).not.toContain("420");
+    expect(text).toContain("Vente réservée aux professionnels — SIRET demandé à la commande.");
+    expect(text).toContain("sachets sous vide de 250 g");
+    expect(text).toContain("Sous 48 h ouvrées.");
+    expect(text).not.toMatch(/particuliers comme|sous vide 1 kg y coûte|420/);
+    const links = [...container.querySelectorAll("a")].filter((a) => a.href.startsWith("https://buy.stripe.com/"));
+    expect(links).toHaveLength(4);
+  });
+
+  it("refuse un SIRET invalide avant tout envoi", () => {
+    renderPage();
+    fillCommon();
+    fireEvent.change(screen.getByLabelText(/^SIRET/), { target: { value: "12345678901234" } });
+    fireEvent.click(submitButton("Envoyer ma demande de devis"));
+    expect(invoke).not.toHaveBeenCalled();
+    expect(screen.getByText(/SIRET invalide/)).toBeInTheDocument();
   });
 
   it("calcule l'estimation en direct avec quote()", () => {

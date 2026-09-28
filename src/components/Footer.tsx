@@ -1,34 +1,51 @@
 import { Link } from "react-router-dom";
 import { useI18n } from "@/i18n/context";
+import { EDITEUR } from "@/lib/legal";
+import { PRO_TAX_MENTION } from "@/lib/proPricing";
+
+const LINKS = [
+  { to: "/professionnels", key: "footer.pro" },
+  { to: "/precommande-2027", key: "footer.preorder" },
+  { to: "/fiche-technique", key: "footer.sheet" },
+  { to: "/plaquette-pro", key: "footer.brochure" },
+  { to: "/guide-morilles-de-feu", key: "footer.guide" },
+  { to: "/recettes", key: "footer.recipes" },
+  { to: "/livraison", key: "footer.delivery" },
+  { to: "/cgv", key: "footer.terms" },
+  { to: "/mentions-legales", key: "footer.legal" },
+] as const;
 
 const Footer = () => {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   return (
     <footer className="py-12 border-t border-gold/10">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="font-serif text-xl text-gradient-gold">Morilles du Canada</p>
-          <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground tracking-wide">
-            <Link to="/produits" className="hover:text-primary transition-colors">{t("footer.products")}</Link>
-            <span className="hidden md:inline">·</span>
-            <Link to="/professionnels" className="hover:text-primary transition-colors">{t("footer.pro")}</Link>
-            <span className="hidden md:inline">·</span>
-            <Link to="/precommande-2027" className="hover:text-primary transition-colors">{t("footer.preorder")}</Link>
-            <span className="hidden md:inline">·</span>
-            <Link to="/guide-morilles-de-feu" className="hover:text-primary transition-colors">{t("footer.guide")}</Link>
-            <span className="hidden md:inline">·</span>
-            <Link to="/mentions-legales" className="hover:text-primary transition-colors">{t("footer.legal")}</Link>
-            <span className="hidden md:inline">·</span>
-            <Link to="/cgv" className="hover:text-primary transition-colors">{t("footer.terms")}</Link>
-            <span className="hidden md:inline">·</span>
-            <Link to="/livraison" className="hover:text-primary transition-colors">{t("footer.delivery")}</Link>
-            <span className="hidden md:inline">·</span>
-            <Link to="/recettes" className="hover:text-primary transition-colors">{t("footer.recipes")}</Link>
-            <span className="hidden md:inline">·</span>
-            <span>© {new Date().getFullYear()} Morilles du Canada</span>
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
+          <div className="text-center md:text-left">
+            <p className="font-serif text-xl text-gradient-gold">Morilles du Canada</p>
+            <p className="mt-2 text-sm text-foreground/80">{t("footer.proOnly")}</p>
+            <p className="mt-1 text-sm text-foreground/80">
+              <a href={EDITEUR.telephoneHref} className="hover:text-primary transition-colors">
+                {locale === "en" ? EDITEUR.telephoneInternational : EDITEUR.telephone}
+              </a>{" "}
+              ·{" "}
+              <a href={`mailto:${EDITEUR.email}`} className="hover:text-primary transition-colors">
+                {EDITEUR.email}
+              </a>
+            </p>
           </div>
+          <nav aria-label="Pied de page" className="flex flex-wrap items-center justify-center md:justify-end gap-x-5 gap-y-3 text-sm text-foreground/80 max-w-2xl">
+            {LINKS.map((link) => (
+              <Link key={link.to} to={link.to} className="hover:text-primary transition-colors">
+                {t(link.key)}
+              </Link>
+            ))}
+          </nav>
         </div>
+        <p className="mt-8 text-center md:text-left text-sm text-foreground/70">
+          {PRO_TAX_MENTION[locale]} · © {new Date().getFullYear()} Morilles du Canada · {EDITEUR.ville}
+        </p>
       </div>
     </footer>
   );

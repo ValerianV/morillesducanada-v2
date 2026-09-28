@@ -5,7 +5,7 @@ import type { HelmetServerState } from "react-helmet-async";
 import App from "./App";
 import { setPrerenderData } from "@/lib/prerenderData";
 
-export { STATIC_ROUTES, PRODUCT_ROUTES, recipeRoute } from "@/lib/seo/routes";
+export { STATIC_ROUTES, recipeRoute } from "@/lib/seo/routes";
 export { NOINDEX_PREFIXES } from "@/lib/seo/noindex";
 export { SITE_URL } from "@/lib/seo/site";
 export { RECIPES_KEY, recipeKey } from "@/lib/prerenderData";

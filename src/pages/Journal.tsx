@@ -7,7 +7,7 @@ import { BookOpen } from "lucide-react";
 const Journal = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Seo title="Journal du cueilleur | Morilles du Canada" path="/journal" robots="noindex, follow" />
+      <Seo title="Journal du cueilleur | Morilles du Canada" path="/journal" />
       <Navbar />
       <main className="pt-32 pb-24">
         <div className="container mx-auto px-6">

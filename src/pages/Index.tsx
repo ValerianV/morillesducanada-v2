@@ -6,13 +6,12 @@ import TrustBandeau from "@/components/TrustBandeau";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import { useI18n } from "@/i18n/context";
-import { faqPageSchema, organizationSchema, websiteSchema } from "@/lib/seo/schema";
-import heroImage from "@/assets/hero-jars.webp";
+import { faqPageSchema, lowestProPricePerKg, organizationSchema, websiteSchema } from "@/lib/seo/schema";
+import { formatEurosLocale } from "@/lib/proPricing";
+import heroImage from "@/assets/landscape-canada.webp";
 
 const OriginSection = lazy(() => import("@/components/OriginSection"));
-const ProductsSection = lazy(() => import("@/components/ProductsSection"));
 const ReviewsSection = lazy(() => import("@/components/ReviewsSection"));
-const TrustBadges = lazy(() => import("@/components/TrustBadges"));
 const WildVsCultivatedSection = lazy(() => import("@/components/WildVsCultivatedSection"));
 const GallerySection = lazy(() => import("@/components/GallerySection"));
 const AboutSection = lazy(() => import("@/components/AboutSection"));
@@ -21,9 +20,9 @@ const FAQSection = lazy(() => import("@/components/FAQSection"));
 const ContactSection = lazy(() => import("@/components/ContactSection"));
 const FloatingCTA = lazy(() => import("@/components/FloatingCTA"));
 
-const TITLE = "Morilles séchées sauvages du Canada | Morilles du Canada";
+const TITLE = "Morilles séchées sauvages du Canada au kilo, pour les professionnels | Morilles du Canada";
 const DESCRIPTION =
-  "Morilles sauvages du Canada, séchées, entières et équeutées. Stock en France, expédition sous 5 jours ouvrés. Pots en verre, sous vide et prix au kilo.";
+  `Morilles de feu sauvages du Canada, séchées, entières et équeutées, au kilo pour les restaurants, épiceries fines et traiteurs. 45 kg en stock en France, port inclus, prix nets dès ${formatEurosLocale(lowestProPricePerKg() * 100)}/kg.`;
 
 // Arrivée depuis une autre page sur /#produits, /#contact… : les sections sont chargées à la
 // demande, donc absentes quand le navigateur tente le défilement natif vers l'ancre.
@@ -69,15 +68,13 @@ const Index = () => {
         <TrustBandeau />
         <Suspense fallback={null}>
           <OriginSection />
-          <ProductsSection />
-          <ReviewsSection />
-          <TrustBadges />
-          <WildVsCultivatedSection />
-          <GallerySection />
           <AboutSection />
+          <WildVsCultivatedSection />
           <ProfessionalSection />
+          <GallerySection />
           <FAQSection />
           <ContactSection />
+          <ReviewsSection />
         </Suspense>
       </main>
       <Footer />

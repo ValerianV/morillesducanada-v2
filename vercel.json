@@ -2,7 +2,10 @@
   "trailingSlash": false,
   "redirects": [
     { "source": "/pre-commande", "destination": "/precommande-2027", "permanent": false },
-    { "source": "/pre-commande/", "destination": "/precommande-2027", "permanent": false }
+    { "source": "/pre-commande/", "destination": "/precommande-2027", "permanent": false },
+    { "source": "/produits", "destination": "/professionnels", "permanent": true },
+    { "source": "/produits/:path*", "destination": "/professionnels", "permanent": true },
+    { "source": "/profil", "destination": "/", "permanent": true }
   ],
   "headers": [
     {
@@ -10,11 +13,12 @@
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     },
     {
-      "source": "/:path(admin|auth|profil|reset-password|paiement-reussi|paiement-annule|precommande-confirmee)",
+      "source": "/:path(admin|auth|reset-password|paiement-reussi|paiement-annule|precommande-confirmee|journal)",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     }
   ],
   "rewrites": [
-    { "source": "/(.*)", "destination": "/spa.html" }
+    { "source": "/:path(admin|auth|reset-password|paiement-reussi|paiement-annule|precommande-confirmee|journal)", "destination": "/spa.html" },
+    { "source": "/recettes/:slug", "destination": "/spa.html" }
   ]
 }

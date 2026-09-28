@@ -8,7 +8,8 @@ import { useI18n } from "@/i18n/context";
 import { loadSupabase } from "@/integrations/supabase/lazy";
 import { breadcrumbSchema, preorderSchema } from "@/lib/seo/schema";
 import { PREORDER_2027, preorderAmounts } from "@/lib/preorder";
-import { PRO_TAX_MENTION, formatEurosLocale } from "@/lib/proPricing";
+import { PRO_ONLY_MENTION, PRO_TAX_MENTION, formatEurosLocale } from "@/lib/proPricing";
+import harvestPhoto from "@/assets/morels/caisses-recolte-morilles-canada.webp";
 
 const KG_OPTIONS = Array.from(
   { length: PREORDER_2027.maxKg - PREORDER_2027.minKg + 1 },
@@ -58,12 +59,23 @@ const Precommande2027 = () => {
 
       <main className="pt-28 pb-24">
         <div className="container mx-auto px-5 sm:px-6 max-w-[1100px]">
-          <section className="py-8 md:py-12 max-w-3xl">
-            <p className="text-sm tracking-[0.25em] uppercase text-primary mb-4">{copy.label}</p>
-            <h1 className="font-serif text-4xl md:text-6xl font-light leading-tight mb-6">
-              {copy.title} <span className="italic text-gradient-gold">{copy.titleHighlight}</span>
-            </h1>
-            <p className="text-lg text-foreground/90 leading-relaxed">{copy.intro}</p>
+          <section className="py-8 md:py-12 grid md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-10 items-center">
+            <div>
+              <p className="text-sm tracking-[0.25em] uppercase text-primary mb-4">{copy.label}</p>
+              <h1 className="font-serif text-4xl md:text-6xl font-light leading-tight mb-6">
+                {copy.title} <span className="italic text-gradient-gold">{copy.titleHighlight}</span>
+              </h1>
+              <p className="text-lg text-foreground/90 leading-relaxed">{copy.intro}</p>
+              <p className="mt-4 text-base font-medium text-primary">{PRO_ONLY_MENTION[locale]}</p>
+            </div>
+            <img
+              src={harvestPhoto}
+              alt="Caisses de morilles fraîches cueillies au Canada"
+              width={600}
+              height={338}
+              loading="eager"
+              className="w-full rounded-sm border border-gold/15 object-cover"
+            />
           </section>
 
           <div className="grid lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-10 py-8 border-t border-gold/10">
@@ -77,7 +89,7 @@ const Precommande2027 = () => {
                   </div>
                 ))}
               </dl>
-              <p className="mt-8 text-sm text-foreground/70">{PRO_TAX_MENTION[locale]}.</p>
+              <p className="mt-8 text-base text-foreground/85">{PRO_TAX_MENTION[locale]}.</p>
             </section>
 
             <section aria-labelledby="precommande-form" className="p-6 md:p-8 border border-primary/40 rounded-sm bg-card/40 h-fit">
@@ -156,7 +168,7 @@ const Precommande2027 = () => {
                   {error}
                 </p>
               )}
-              <p className="mt-3 text-xs text-muted-foreground">{copy.secure}</p>
+              <p className="mt-3 text-sm text-foreground/80">{copy.secure}</p>
             </section>
           </div>
 
@@ -166,12 +178,6 @@ const Precommande2027 = () => {
               <p className="text-base text-foreground/85 max-w-xl">{copy.stockText}</p>
             </div>
             <div className="mt-6 md:mt-0 flex flex-col sm:flex-row gap-3 shrink-0">
-              <Link
-                to="/produits"
-                className="px-6 py-3 border border-primary/60 text-foreground text-sm tracking-wider uppercase rounded-sm hover:border-primary hover:text-primary transition-colors text-center"
-              >
-                {copy.stockShop}
-              </Link>
               <Link
                 to="/professionnels"
                 className="px-6 py-3 border border-primary/60 text-foreground text-sm tracking-wider uppercase rounded-sm hover:border-primary hover:text-primary transition-colors text-center"

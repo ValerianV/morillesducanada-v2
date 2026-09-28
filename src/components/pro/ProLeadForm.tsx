@@ -29,6 +29,7 @@ const labelClass = "block text-sm font-medium text-foreground/90 mb-2";
 const emptyForm = {
   establishment_type: "" as EstablishmentType | "",
   company: "",
+  siret: "",
   contact_name: "",
   email: "",
   phone: "",
@@ -67,6 +68,7 @@ const ProLeadForm = ({ kind, onKindChange }: Props) => {
     if (!errors[field]) return null;
     if (field === "kg") return t("pro.form.errors.quantity");
     if (field === "email") return t("pro.form.errors.email");
+    if (field === "siret") return t("pro.form.errors.siret");
     if (field === "phone" || field === "postal_code") return t("pro.form.errors.invalid");
     return t("pro.form.errors.required");
   };
@@ -115,6 +117,7 @@ const ProLeadForm = ({ kind, onKindChange }: Props) => {
     const payload = {
       kind,
       company: form.company,
+      siret: form.siret,
       contact_name: form.contact_name,
       email: form.email,
       phone: form.phone,
@@ -240,8 +243,9 @@ const ProLeadForm = ({ kind, onKindChange }: Props) => {
 
       <div className="grid md:grid-cols-2 gap-4">
         {field("company", t("pro.form.company"), textInput("company", { autoComplete: "organization" }), true)}
-        {field("contact_name", t("pro.form.contactName"), textInput("contact_name", { autoComplete: "name" }), true)}
+        {field("siret", t("pro.form.siret"), textInput("siret", { inputMode: "numeric", autoComplete: "off", placeholder: t("pro.form.siretPlaceholder") }), true)}
       </div>
+      {field("contact_name", t("pro.form.contactName"), textInput("contact_name", { autoComplete: "name" }), true)}
       <div className="grid md:grid-cols-2 gap-4">
         {field("email", t("pro.form.email"), textInput("email", { type: "email", autoComplete: "email", inputMode: "email" }), true)}
         {field("phone", t("pro.form.phone"), textInput("phone", { type: "tel", autoComplete: "tel", inputMode: "tel" }))}
@@ -391,7 +395,8 @@ const ProLeadForm = ({ kind, onKindChange }: Props) => {
                     {formatTierPrice(liveQuote.tier, locale)}
                   </p>
                   <p className="mt-2 text-base text-foreground">
-                    {t("pro.form.total")} :{" "}
+                    {t("pro.form.total")}
+                    {locale === "fr" ? "\u00a0:" : ":"}{" "}
                     <span className="font-serif text-2xl text-primary">
                       {formatEurosLocale(liveQuote.totalCents, locale)}
                     </span>

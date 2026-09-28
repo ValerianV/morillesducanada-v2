@@ -7,6 +7,8 @@ export const NOINDEX_PREFIXES = [
   "/reset-password",
   "/paiement-",
   "/precommande-confirmee",
+  // Journal du cueilleur : vide tant que les récits ne sont pas écrits (hors sitemap, noindex).
+  "/journal",
 ] as const;
 
 export function isNoindexPath(path: string): boolean {

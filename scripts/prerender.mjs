@@ -132,6 +132,11 @@ function checkPage(route, doc, siteUrl) {
   if (!doc.includes(`<link data-rh="true" rel="canonical" href="${expected}"/>`)) problems.push(`canonical ≠ ${expected}`);
   if (count(/<h1[\s>]/g) !== 1) problems.push(`${count(/<h1[\s>]/g)} balise(s) h1`);
   if (/name="robots" content="noindex/.test(doc)) problems.push("page publique en noindex");
+  // Pages légales : aucun crochet (placeholder « [Nom du médiateur] » oublié) dans le texte visible.
+  if (["/cgv", "/mentions-legales", "/livraison"].includes(route)) {
+    const body = doc.replace(/^[\s\S]*?<div id="root"[^>]*>/, "").replace(/<script[\s\S]*?<\/script>/g, "").replace(/<[^>]+>/g, " ");
+    if (/[[\]]/.test(body)) problems.push("crochet [ ou ] dans le texte d'une page légale");
+  }
   if (problems.length) throw new Error(`[prerender] ${route} : ${problems.join(", ")}`);
 }
 
@@ -148,7 +153,6 @@ async function main() {
 
   const pages = [
     ...server.STATIC_ROUTES.map((route) => ({ route, data: route.path === "/recettes" && recipes.length ? listData : undefined })),
-    ...server.PRODUCT_ROUTES.map((route) => ({ route })),
     ...recipes.map((recipe) => ({
       route: server.recipeRoute(recipe.slug),
       data: { [server.recipeKey(recipe.slug)]: recipe },
@@ -194,7 +198,12 @@ async function main() {
   ].join("\n");
   await writeFile(path.join(distDir, "robots.txt"), robots);
 
-  console.log(`[prerender] ${pages.length} pages, sitemap.xml (${sitemap.length} URL), robots.txt`);
+  // Page 404 statique : Vercel la sert avec le code HTTP 404 pour toute adresse inconnue
+  // (vercel.json ne réécrit plus tout vers spa.html, seulement les routes applicatives connues).
+  const notFound = await server.render("/page-introuvable-404");
+  await writeFile(path.join(distDir, "404.html"), renderDocument(template, notFound));
+
+  console.log(`[prerender] ${pages.length} pages, 404.html, sitemap.xml (${sitemap.length} URL), robots.txt`);
 }
 
 try {

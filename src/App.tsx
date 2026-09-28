@@ -17,7 +17,6 @@ const CGV = lazy(() => import("./pages/CGV"));
 const Livraison = lazy(() => import("./pages/Livraison"));
 const Recettes = lazy(() => import("./pages/Recettes"));
 const RecetteDetail = lazy(() => import("./pages/RecetteDetail"));
-const Profil = lazy(() => import("./pages/Profil"));
 const GuideMorellesDeFeu = lazy(() => import("./pages/GuideMorellesDeFeu"));
 const Professionnels = lazy(() => import("./pages/Professionnels"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
@@ -29,8 +28,6 @@ const Galerie = lazy(() => import("./pages/Galerie"));
 const Journal = lazy(() => import("./pages/Journal"));
 const PlaquettePro = lazy(() => import("./pages/PlaquettePro"));
 const FicheTechnique = lazy(() => import("./pages/FicheTechnique"));
-const Produits = lazy(() => import("./pages/Produits"));
-const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 
 const queryClient = new QueryClient();
 
@@ -94,7 +91,7 @@ const App = ({ ssrPath, helmetContext }: AppProps = {}) => {
           <Route path="/livraison" element={<Livraison />} />
           <Route path="/recettes" element={<Recettes />} />
           <Route path="/recettes/:slug" element={<RecetteDetail />} />
-          <Route path="/profil" element={<Profil />} />
+          <Route path="/profil" element={<Navigate to="/" replace />} />
           <Route path="/guide-morilles-de-feu" element={<GuideMorellesDeFeu />} />
           <Route path="/professionnels" element={<Professionnels />} />
           <Route path="/pre-commande" element={<Navigate to="/precommande-2027" replace />} />
@@ -107,8 +104,9 @@ const App = ({ ssrPath, helmetContext }: AppProps = {}) => {
           <Route path="/journal" element={<Journal />} />
           <Route path="/plaquette-pro" element={<PlaquettePro />} />
           <Route path="/fiche-technique" element={<FicheTechnique />} />
-          <Route path="/produits" element={<Produits />} />
-          <Route path="/produits/:slug" element={<ProductDetail />} />
+          {/* Vente au détail fermée (site réservé aux professionnels) : 301 dans vercel.json. */}
+          <Route path="/produits" element={<Navigate to="/professionnels" replace />} />
+          <Route path="/produits/*" element={<Navigate to="/professionnels" replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

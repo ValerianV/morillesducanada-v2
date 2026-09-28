@@ -1,8 +1,10 @@
 // Données structurées schema.org (JSON-LD). Fonctions pures, testées dans src/test/seo.test.ts.
-// Aucun AggregateRating/Review : il n'existe pas encore d'avis réels publiés.
-import { getVacuumMorelPrice, type Product } from "@/lib/products";
+// Aucun AggregateRating/Review : les rares avis publiés viennent de particuliers, avant le passage
+// à la vente aux professionnels ; ils ne sont pas balisés.
+// Site réservé aux professionnels : plus d'Offer de détail, seulement l'offre au kilo et la précommande.
 import {
   PRO_MAX_KG,
+  PRO_PACK_GRAMS,
   PRO_SHIPPING_BUSINESS_DAYS,
   PRO_STOCK_KG,
   PRO_TAX_MENTION,
@@ -23,11 +25,8 @@ export type JsonLd = Record<string, unknown>;
 const ORG_ID = `${SITE_URL}/#organization`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
 const IN_STOCK = "https://schema.org/InStock";
-const OUT_OF_STOCK = "https://schema.org/OutOfStock";
 const NEW_CONDITION = "https://schema.org/NewCondition";
 const BUSINESS_CUSTOMER = "http://purl.org/goodrelations/v1#Business";
-
-export const VACUUM_WEIGHTS_GRAMS = [100, 200, 500, 1000] as const;
 
 const euros = (value: number) => value.toFixed(2);
 const orgRef = { "@id": ORG_ID };
@@ -43,7 +42,7 @@ export function organizationSchema(): JsonLd {
     email: CONTACT_EMAIL,
     telephone: CONTACT_PHONE,
     description:
-      "Morilles sauvages du Canada séchées, entières et équeutées, en stock en France. Vente aux particuliers et aux professionnels.",
+      "Morilles sauvages du Canada séchées, entières et équeutées, en stock en France. Vente au kilo réservée aux professionnels.",
     areaServed: { "@type": "Country", name: "France" },
     contactPoint: {
       "@type": "ContactPoint",
@@ -98,76 +97,6 @@ export function faqPageSchema(items: readonly { q: string; a: string }[]): JsonL
   };
 }
 
-export function productUrl(product: Product): string {
-  return absoluteUrl(`/produits/${product.slug}`);
-}
-
-function gramsOf(product: Product): number | undefined {
-  const match = /^(\d+)\s*g$/i.exec(product.weight.trim());
-  return match ? Number(match[1]) : undefined;
-}
-
-export function formatGrams(grams: number): string {
-  return grams >= 1000 ? `${grams / 1000} kg` : `${grams} g`;
-}
-
-// Offres d'un produit, avec les prix de src/lib/products.ts (les mêmes que le panier).
-export function productOffers(product: Product): JsonLd[] {
-  const availability = product.inStock ? IN_STOCK : OUT_OF_STOCK;
-  const base = {
-    "@type": "Offer",
-    priceCurrency: "EUR",
-    availability,
-    itemCondition: NEW_CONDITION,
-    url: productUrl(product),
-    seller: orgRef,
-  };
-  if (product.weightPriceIds) {
-    return VACUUM_WEIGHTS_GRAMS.map((g) => ({
-      ...base,
-      name: `${product.name} ${formatGrams(g)}`,
-      sku: `${product.id}-${g}`,
-      price: euros(getVacuumMorelPrice(g)),
-      eligibleQuantity: { "@type": "QuantitativeValue", value: g, unitCode: "GRM" },
-    }));
-  }
-  return [{ ...base, sku: product.id, price: euros(product.price) }];
-}
-
-export function productSchema(product: Product, description: string): JsonLd {
-  const grams = gramsOf(product);
-  return {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "@id": `${productUrl(product)}#product`,
-    name: `${product.name} — morilles séchées sauvages du Canada`,
-    sku: product.id,
-    description,
-    image: [absoluteUrl(product.image)],
-    url: productUrl(product),
-    brand: { "@type": "Brand", name: SITE_NAME },
-    category: "Champignons séchés",
-    countryOfOrigin: { "@type": "Country", name: "Canada" },
-    ...(grams ? { weight: { "@type": "QuantitativeValue", value: grams, unitCode: "GRM" } } : {}),
-    offers: productOffers(product),
-  };
-}
-
-export function productListSchema(list: Product[]): JsonLd {
-  return {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: "Morilles séchées — tous les formats",
-    url: absoluteUrl("/produits"),
-    itemListElement: list.map((p, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      url: productUrl(p),
-      name: p.name,
-    })),
-  };
-}
-
 const cents = (value: number) => euros(value / 100);
 
 // Offre professionnelle au kilo : une Offer par palier de la grille src/lib/proPricing.ts.
@@ -202,7 +131,7 @@ export function proOfferSchema(): JsonLd {
     "@type": "Product",
     "@id": `${absoluteUrl("/professionnels")}#offre-pro`,
     name: "Morilles séchées au kilo — offre professionnelle",
-    description: `Morilles sauvages du Canada, séchées, entières et équeutées, variétés mélangées. ${PRO_STOCK_KG} kg en stock en France, expédition sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés. ${PRO_TAX_MENTION.fr}.`,
+    description: `Morilles sauvages du Canada, séchées, entières et équeutées, variétés mélangées. ${PRO_STOCK_KG} kg en stock en France, sachets sous vide de ${PRO_PACK_GRAMS} g, expédition sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés, port inclus en France. Vente réservée aux professionnels. ${PRO_TAX_MENTION.fr}.`,
     brand: { "@type": "Brand", name: SITE_NAME },
     category: "Champignons séchés",
     countryOfOrigin: { "@type": "Country", name: "Canada" },
@@ -219,7 +148,7 @@ export function preorderSchema(): JsonLd {
     "@type": "Product",
     "@id": `${absoluteUrl("/precommande-2027")}#precommande`,
     name: `Morilles sauvages du Canada séchées — précommande saison ${PREORDER_2027.season}`,
-    description: `Morilles sauvages du Canada, séchées, saison ${PREORDER_2027.season}. ${PREORDER_2027.pricePerKgCents / 100} €/kg, acompte de 50 % à la commande, de ${PREORDER_2027.minKg} à ${PREORDER_2027.maxKg} kg, livraison garantie en ${PREORDER_2027.delivery.fr}. ${PRO_TAX_MENTION.fr}.`,
+    description: `Morilles sauvages du Canada, séchées, saison ${PREORDER_2027.season}. ${PREORDER_2027.pricePerKgCents / 100} €/kg, acompte de 50 % à la commande, de ${PREORDER_2027.minKg} à ${PREORDER_2027.maxKg} kg, livraison garantie en ${PREORDER_2027.delivery.fr}, port inclus en France. Réservée aux professionnels. ${PRO_TAX_MENTION.fr}.`,
     brand: { "@type": "Brand", name: SITE_NAME },
     category: "Champignons séchés",
     countryOfOrigin: { "@type": "Country", name: "Canada" },
@@ -242,6 +171,8 @@ export function preorderSchema(): JsonLd {
       },
       availability: "https://schema.org/PreOrder",
       availabilityStarts: "2027-10-01",
+      eligibleCustomerType: BUSINESS_CUSTOMER,
+      areaServed: { "@type": "Country", name: "France" },
       itemCondition: NEW_CONDITION,
       url: absoluteUrl("/precommande-2027"),
       seller: orgRef,

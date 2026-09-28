@@ -10,9 +10,13 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { useI18n } from "@/i18n/context";
 import type { ProLeadKind } from "@/lib/proLead";
 import productVacuumBag from "@/assets/product-vacuum-bag.webp";
+import valerianPortrait from "@/assets/valerian-portrait.webp";
+import terrainPhoto from "@/assets/morels/morels-group-golden.webp";
+import closeUpPhoto from "@/assets/morels/gros-plan-alveoles-morille.webp";
 import Seo from "@/components/Seo";
 import { breadcrumbSchema, faqPageSchema, lowestProPricePerKg, proOfferSchema } from "@/lib/seo/schema";
-import { formatEurosLocale } from "@/lib/proPricing";
+import { PRO_ONLY_MENTION, formatEurosLocale } from "@/lib/proPricing";
+import { EDITEUR } from "@/lib/legal";
 
 const SectionHeading = ({ label, title }: { label: string; title: string }) => (
   <div className="mb-8">
@@ -77,7 +81,8 @@ const Professionnels = () => {
                   </li>
                 ))}
               </ul>
-              <p className="text-lg text-foreground/90 leading-relaxed mb-8 max-w-2xl">{pro.hero.description}</p>
+              <p className="text-lg text-foreground/90 leading-relaxed mb-4 max-w-2xl">{pro.hero.description}</p>
+              <p className="text-base font-medium text-primary mb-8">{PRO_ONLY_MENTION[locale]}</p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   type="button"
@@ -96,8 +101,8 @@ const Professionnels = () => {
               </div>
               <p className="mt-6 text-base text-foreground/80">
                 {pro.hero.contact} ·{" "}
-                <a href="tel:+33782162708" className="text-primary hover:underline whitespace-nowrap">
-                  07 82 16 27 08
+                <a href={EDITEUR.telephoneHref} className="text-primary hover:underline whitespace-nowrap">
+                  {locale === "en" ? EDITEUR.telephoneInternational : EDITEUR.telephone}
                 </a>
               </p>
             </div>
@@ -135,9 +140,37 @@ const Professionnels = () => {
           {/* Récit : cueillette sauvage */}
           <section id="histoire" className={section}>
             <SectionHeading label={pro.story.label} title={pro.story.title} />
-            <div className="max-w-3xl space-y-4 text-lg text-foreground/90 leading-relaxed">
-              <p>{pro.story.p1}</p>
-              <p>{pro.story.p2}</p>
+            <div className="grid md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-10 items-start">
+              <div className="space-y-4 text-lg text-foreground/90 leading-relaxed">
+                <p>{pro.story.p1}</p>
+                <p>{pro.story.p2}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <figure>
+                  <img
+                    src={valerianPortrait}
+                    alt="Valérian, fondateur de Morilles du Canada"
+                    width={400}
+                    height={600}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full aspect-[3/4] object-cover object-top rounded-sm border border-gold/15"
+                  />
+                  <figcaption className="mt-2 text-sm text-foreground/80">Valérian, fondateur</figcaption>
+                </figure>
+                <figure>
+                  <img
+                    src={terrainPhoto}
+                    alt="Morilles de feu sur sol brûlé en Colombie-Britannique"
+                    width={600}
+                    height={338}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full aspect-[3/4] object-cover rounded-sm border border-gold/15"
+                  />
+                  <figcaption className="mt-2 text-sm text-foreground/80">Colombie-Britannique</figcaption>
+                </figure>
+              </div>
             </div>
             <WildVsCultivated className="mt-10 max-w-4xl" />
           </section>
@@ -145,9 +178,20 @@ const Professionnels = () => {
           {/* 4. Pourquoi équeutées */}
           <section className={section}>
             <SectionHeading label={pro.stemless.label} title={pro.stemless.title} />
-            <div className="max-w-3xl space-y-4 text-lg text-foreground/90 leading-relaxed">
-              <p>{pro.stemless.p1}</p>
-              <p>{pro.stemless.p2}</p>
+            <div className="grid md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-10 items-start">
+              <div className="space-y-4 text-lg text-foreground/90 leading-relaxed">
+                <p>{pro.stemless.p1}</p>
+                <p>{pro.stemless.p2}</p>
+              </div>
+              <img
+                src={closeUpPhoto}
+                alt="Gros plan sur les alvéoles du chapeau d'une morille sauvage"
+                width={600}
+                height={1067}
+                loading="lazy"
+                decoding="async"
+                className="w-full max-w-xs aspect-[4/5] object-cover rounded-sm border border-gold/15"
+              />
             </div>
           </section>
 
@@ -238,8 +282,8 @@ const Professionnels = () => {
               <aside className="lg:pt-12">
                 <div className="p-6 border border-gold/15 rounded-sm bg-card/40 space-y-4">
                   <p className="font-serif text-lg text-foreground">{pro.hero.contact}</p>
-                  <a href="tel:+33782162708" className="flex items-center gap-3 text-base text-foreground hover:text-primary">
-                    <Phone className="w-5 h-5 text-primary" /> 07 82 16 27 08
+                  <a href={EDITEUR.telephoneHref} className="flex items-center gap-3 text-base text-foreground hover:text-primary">
+                    <Phone className="w-5 h-5 text-primary" /> {locale === "en" ? EDITEUR.telephoneInternational : EDITEUR.telephone}
                   </a>
                   <a
                     href="mailto:contact@morillesducanada.com"

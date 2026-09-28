@@ -1,5 +1,4 @@
 import { describe, it, expect } from "vitest";
-import { products, getVacuumMorelPrice } from "@/lib/products";
 import { PRO_TIERS } from "@/lib/proPricing";
 import { fr } from "@/i18n/fr";
 import { absoluteUrl, SITE_URL } from "@/lib/seo/site";
@@ -8,15 +7,13 @@ import {
   faqPageSchema,
   lowestProPricePerKg,
   organizationSchema,
-  productOffers,
-  productSchema,
+  preorderSchema,
   proOfferSchema,
   recipeSchema,
   serializeJsonLd,
   websiteSchema,
 } from "@/lib/seo/schema";
-import { productMetaDescription, productMetaTitle } from "@/lib/seo/meta";
-import { PRODUCT_ROUTES, STATIC_ROUTES } from "@/lib/seo/routes";
+import { STATIC_ROUTES } from "@/lib/seo/routes";
 import { isNoindexPath } from "@/lib/seo/noindex";
 
 type Offer = { price: string; priceCurrency: string; eligibleCustomerType?: string; priceSpecification?: { price: string } };
@@ -30,23 +27,19 @@ describe("URLs canoniques", () => {
   });
 });
 
-describe("JSON-LD produits", () => {
-  it("reprend les prix de src/lib/products.ts", () => {
-    for (const product of products) {
-      const offers = productOffers(product) as unknown as Offer[];
-      if (product.weightPriceIds) {
-        expect(offers.map((o) => Number(o.price))).toEqual([100, 200, 500, 1000].map(getVacuumMorelPrice));
-      } else {
-        expect(offers).toHaveLength(1);
-        expect(Number(offers[0].price)).toBe(product.price);
-      }
-      offers.forEach((o) => expect(o.priceCurrency).toBe("EUR"));
-    }
+describe("site réservé aux professionnels", () => {
+  it("n'a plus d'offre de détail : seulement l'offre au kilo et la précommande, pour les entreprises", () => {
+    const pro = proOfferSchema() as { offers: Offer[]; description: string };
+    const pre = preorderSchema() as { offers: Offer; description: string };
+    pro.offers.forEach((o) => expect(o.eligibleCustomerType).toContain("Business"));
+    expect(pre.offers.eligibleCustomerType).toContain("Business");
+    expect(pro.description).toContain("réservée aux professionnels");
+    expect(pre.description).toContain("Réservée aux professionnels");
+    expect(JSON.stringify(organizationSchema())).toContain("réservée aux professionnels");
   });
 
-  it("pointe vers la page produit www", () => {
-    const schema = productSchema(products[0], "desc");
-    expect(schema.url).toBe(`${SITE_URL}/produits/${products[0].slug}`);
+  it("ne liste plus /produits dans le sitemap", () => {
+    expect(STATIC_ROUTES.map((r) => r.path).some((p) => p.startsWith("/produits"))).toBe(false);
   });
 });
 
@@ -88,7 +81,7 @@ describe("aucune note ni avis inventés", () => {
       organizationSchema(),
       websiteSchema(),
       proOfferSchema(),
-      ...products.map((p) => productSchema(p, "x")),
+      preorderSchema(),
     ]);
     expect(all).not.toMatch(/aggregateRating|"review"|Rating/i);
   });
@@ -134,26 +127,15 @@ describe("sérialisation", () => {
   });
 });
 
-describe("meta produits", () => {
-  it("titres et descriptions de longueur raisonnable, avec le prix", () => {
-    for (const product of products) {
-      expect(productMetaTitle(product).length).toBeLessThanOrEqual(65);
-      const description = productMetaDescription(product);
-      expect(description.length).toBeLessThanOrEqual(170);
-      if (!product.weightPriceIds) expect(description).toContain(`${product.price}`);
-    }
-  });
-});
-
 describe("routes du sitemap", () => {
   it("ne contiennent aucune page noindex ni doublon", () => {
-    const paths = [...STATIC_ROUTES, ...PRODUCT_ROUTES].map((r) => r.path);
+    const paths = STATIC_ROUTES.map((r) => r.path);
     expect(new Set(paths).size).toBe(paths.length);
     paths.forEach((p) => expect(isNoindexPath(p)).toBe(false));
   });
 
   it("marque les pages privées en noindex", () => {
-    ["/admin", "/auth", "/profil", "/paiement-reussi", "/paiement-annule", "/reset-password"].forEach((p) =>
+    ["/admin", "/auth", "/profil", "/paiement-reussi", "/paiement-annule", "/reset-password", "/journal"].forEach((p) =>
       expect(isNoindexPath(p)).toBe(true),
     );
     expect(isNoindexPath("/professionnels")).toBe(false);

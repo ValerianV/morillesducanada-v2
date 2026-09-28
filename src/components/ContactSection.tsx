@@ -7,7 +7,7 @@ import { EDITEUR } from "@/lib/legal";
 
 const ContactSection = () => {
   const { t, locale } = useI18n();
-  const [formData, setFormData] = useState({ name: "", email: "", type: "particulier", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", type: "professionnel", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -28,7 +28,7 @@ const ContactSection = () => {
       });
 
       setIsSuccess(true);
-      setFormData({ name: "", email: "", type: "particulier", message: "" });
+      setFormData({ name: "", email: "", type: "professionnel", message: "" });
     } catch (err: any) {
       console.error("Contact form error:", err);
       setError(t("contact.form.error"));
@@ -77,11 +77,11 @@ const ContactSection = () => {
                 {t("contact.proLink")}
               </Link>
               <a
-                href="tel:+33782162708"
+                href={EDITEUR.telephoneHref}
                 className="inline-flex items-center gap-2 text-primary hover:text-gold-light transition-colors duration-300 font-medium text-sm"
               >
                 <Phone className="w-4 h-4" />
-                {t("contact.phoneLabel")} — 07 82 16 27 08
+                {t("contact.phoneLabel")} — {locale === "en" ? EDITEUR.telephoneInternational : EDITEUR.telephone}
               </a>
             </div>
           </div>

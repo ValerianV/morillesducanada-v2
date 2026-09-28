@@ -16,7 +16,7 @@ describe("page 404", () => {
     const errors = vi.spyOn(console, "error").mockImplementation(() => {});
     await renderAt("/page-inexistante", "en");
     expect(await screen.findByRole("heading", { name: "Page not found" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "See our morels" })).toHaveAttribute("href", "/produits");
+    expect([...document.querySelectorAll("main a")].find((a) => a.textContent === "Prices & quotes")).toHaveAttribute("href", "/professionnels");
     expect(document.querySelector("nav")).not.toBeNull();
     expect(errors.mock.calls.filter((c) => String(c[0]).includes("404"))).toEqual([]);
     errors.mockRestore();
@@ -24,18 +24,18 @@ describe("page 404", () => {
 });
 
 describe("pages de retour Stripe", () => {
-  it("/paiement-annule : traduite, rassure et renvoie vers les produits et l'offre pro", async () => {
+  it("/paiement-annule : traduite, rassure et renvoie vers l'offre pro", async () => {
     await renderAt("/paiement-annule", "en");
     expect(await screen.findByRole("heading", { level: 1 })).toHaveTextContent("Payment cancelled");
     expect(screen.getByText(/You have not been charged/)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Back to products" })).toHaveAttribute("href", "/produits");
-    expect(screen.getByRole("link", { name: "trade prices and quotes" })).toHaveAttribute("href", "/professionnels");
+    expect(screen.getByRole("link", { name: "prices and quotes" })).toHaveAttribute("href", "/professionnels");
   });
 
-  it("/paiement-reussi : un client sans compte n'est pas envoyé vers /profil", async () => {
+  it("/paiement-reussi : renvoie vers l'offre pro, jamais vers un compte client", async () => {
     await renderAt("/paiement-reussi", "fr");
-    expect(await screen.findByRole("link", { name: "Continuer mes achats" })).toHaveAttribute("href", "/produits");
-    expect(screen.queryByRole("link", { name: "Voir ma commande" })).toBeNull();
+    await screen.findByRole("heading", { level: 1 });
+    expect([...document.querySelectorAll("main a")].find((a) => a.textContent === "Tarifs et devis")).toHaveAttribute("href", "/professionnels");
+    expect(document.querySelector('a[href="/profil"]')).toBeNull();
   });
 });
 
@@ -63,7 +63,7 @@ describe("espaces protégés sans connexion", () => {
 describe("langue", () => {
   it("applique lang=\"en\" dès le chargement quand l'anglais est mémorisé", async () => {
     document.documentElement.lang = "fr";
-    await renderAt("/produits", "en");
+    await renderAt("/professionnels", "en");
     expect(document.documentElement.lang).toBe("en");
   });
 });
@@ -72,8 +72,7 @@ const ROUTES = [
   "/", "/auth", "/reset-password", "/mentions-legales", "/cgv", "/livraison", "/recettes", "/recettes/inconnue",
   "/profil", "/guide-morilles-de-feu", "/professionnels", "/pre-commande", "/paiement-reussi", "/paiement-annule",
   "/precommande-confirmee", "/precommande-2027", "/admin", "/galerie", "/journal", "/plaquette-pro", "/fiche-technique", "/produits",
-  "/produits/decouverte-12g", "/produits/classique-30g", "/produits/prestige-45g", "/produits/morilles-sous-vide",
-  "/produits/inconnu", "/page-inexistante",
+  "/produits/morilles-sous-vide", "/page-inexistante",
 ];
 
 // Avertissements React propres au mode développement / à jsdom, absents du build de production.
@@ -99,13 +98,13 @@ describe("toutes les routes de App.tsx", () => {
   }
 });
 
-const FRENCH_LEFTOVERS = /Ajouter au panier|Voir le détail|Voir le produit|Retour aux|Livraison offerte|Prix net|Sélectionner|Choisissez|personnes|Populaire|Paiement interrompu|Aucun montant|Nous contacter|Page introuvable/;
+const FRENCH_LEFTOVERS = /Voir le détail|Retour aux|Prix nets|Tarifs et devis|Demander un devis|Témoignages|Voir toute la galerie|Paiement interrompu|Aucun montant|Nous contacter|Page introuvable|réservée aux professionnels/;
 
 describe("version anglaise des pages clés", () => {
-  for (const route of ["/", "/produits", "/produits/decouverte-12g", "/produits/morilles-sous-vide", "/professionnels", "/precommande-2027", "/precommande-confirmee", "/paiement-annule", "/page-inexistante"]) {
+  for (const route of ["/", "/professionnels", "/precommande-2027", "/precommande-confirmee", "/paiement-annule", "/galerie", "/page-inexistante"]) {
     it(`${route} : aucun libellé d'interface resté en français`, async () => {
       await renderAt(route, "en");
-      if (route === "/") await waitFor(() => expect(document.getElementById("produits")).not.toBeNull());
+      if (route === "/") await waitFor(() => expect(document.getElementById("offre")).not.toBeNull());
       expect((document.body.textContent ?? "").match(FRENCH_LEFTOVERS)).toBeNull();
     });
   }
@@ -150,28 +149,38 @@ describe("page /precommande-2027", () => {
 });
 
 describe("menu mobile", () => {
-  it("s'ouvre, propose l'espace pro et les sections, puis se referme au clic sur un lien", async () => {
-    await renderAt("/produits", "fr");
+  it("s'ouvre, propose les tarifs et les sections, sans panier ni compte, puis se referme", async () => {
+    await renderAt("/guide-morilles-de-feu", "fr");
+    expect(screen.queryByRole("button", { name: /panier/i })).toBeNull();
+    expect(document.querySelector('[title="Se connecter"]')).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "Menu" }));
-    const proLinks = screen.getAllByRole("link", { name: "Professionnels" });
+    const nav = document.querySelector("nav")!;
+    const proLinks = [...nav.querySelectorAll("a")].filter((a) => a.textContent === "Tarifs et devis");
     expect(proLinks.length).toBe(2);
-    const mobileRecipes = screen.getAllByRole("link", { name: "Recettes" }).find((a) => a.closest(".md\\:hidden"))!;
-    expect(screen.getAllByRole("link", { name: "Nos Morilles" }).some((a) => a.getAttribute("href") === "/#produits")).toBe(true);
+    const mobileRecipes = [...nav.querySelectorAll("a")].find((a) => a.textContent === "Recettes" && a.closest(".md\\:hidden"))!;
+    expect([...nav.querySelectorAll("a")].some((a) => a.textContent === "L'offre" && a.getAttribute("href") === "/#offre")).toBe(true);
     fireEvent.click(mobileRecipes);
     await waitFor(() => expect(window.location.pathname).toBe("/recettes"));
-    expect(screen.getAllByRole("link", { name: "Professionnels" }).length).toBe(1);
+    expect([...document.querySelector("nav")!.querySelectorAll("a")].filter((a) => a.textContent === "Tarifs et devis").length).toBe(1);
+  });
+});
+
+describe("vente au détail fermée", () => {
+  it("/produits et les anciennes fiches renvoient vers /professionnels", async () => {
+    await renderAt("/produits/morilles-sous-vide", "fr");
+    await waitFor(() => expect(window.location.pathname).toBe("/professionnels"));
   });
 });
 
 describe("ancres de l'accueil depuis une autre page", () => {
-  it("/#produits défile jusqu'à la section produits une fois chargée", async () => {
+  it("/#offre défile jusqu'à l'offre au kilo une fois chargée", async () => {
     const scrolled: string[] = [];
-    await renderAt("/produits", "fr");
+    await renderAt("/guide-morilles-de-feu", "fr");
     cleanup();
     window.HTMLElement.prototype.scrollIntoView = vi.fn(function (this: HTMLElement) {
       scrolled.push(this.id);
     });
-    await renderAt("/#produits", "fr");
-    await waitFor(() => expect(scrolled).toContain("produits"));
+    await renderAt("/#offre", "fr");
+    await waitFor(() => expect(scrolled).toContain("offre"));
   });
 });

@@ -13,7 +13,7 @@ const OriginSection = () => {
   ];
 
   const scrollToProducts = () => {
-    document.getElementById("produits")?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById("offre")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -60,7 +60,7 @@ const OriginSection = () => {
                   {couplet.bold}
                 </p>
                 <div className="w-8 h-px bg-primary/25 mx-auto my-4" />
-                <p className="font-serif text-base md:text-lg italic text-muted-foreground font-light leading-relaxed">
+                <p className="font-serif text-lg md:text-xl italic text-foreground/85 leading-relaxed">
                   {couplet.italic}
                 </p>
               </motion.div>
@@ -99,7 +99,7 @@ const OriginSection = () => {
             </p>
             <motion.button
               onClick={scrollToProducts}
-              className="inline-flex items-center gap-2 px-10 py-4 border border-primary/40 text-foreground font-light tracking-widest uppercase text-sm rounded-sm"
+              className="inline-flex items-center gap-2 px-10 py-4 border border-primary/40 text-foreground font-medium tracking-widest uppercase text-sm rounded-sm"
               whileHover={{ borderColor: "hsl(40 60% 50%)", color: "hsl(40 60% 50%)", scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.3 }}
