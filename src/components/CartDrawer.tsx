@@ -6,13 +6,13 @@ import { loadSupabase } from "@/integrations/supabase/lazy";
 import { toast } from "sonner";
 import { MAX_QUANTITY_PER_LINE, SHIPPING_ZONES, computeShippingCents, formatGrams, localizeProduct, type ShippingZone } from "@/lib/products";
 import { useI18n } from "@/i18n/context";
-
-const formatPrice = (euros: number) => `${euros.toFixed(2)} €`;
+import { formatEurosLocale } from "@/lib/proPricing";
 
 export const CartDrawer = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const { t, locale } = useI18n();
+  const formatPrice = (euros: number) => formatEurosLocale(Math.round(euros * 100), locale);
   const { items, updateQuantity, removeItem, totalItems, totalPrice, shippingZone, setShippingZone } = useCartStore();
   // Le HTML prérendu n'a pas de panier : le badge n'apparaît qu'après l'hydratation.
   const [hydrated, setHydrated] = useState(false);

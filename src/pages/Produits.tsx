@@ -63,8 +63,8 @@ const Produits = () => {
               const isVacuum = product.id === "morilles-sous-vide";
               const label = localizeProduct(product, locale);
               const displayPrice = isVacuum
-                ? t("productPage.from").replace("{price}", `${getVacuumMorelPrice(100)} €`)
-                : `${product.price.toFixed(2)} €`;
+                ? t("productPage.from").replace("{price}", formatEurosLocale(Math.round((getVacuumMorelPrice(100)) * 100), locale))
+                : formatEurosLocale(Math.round((product.price) * 100), locale);
               const grams = fixedProductGrams(product);
               const perKg = isVacuum
                 ? fill(t("vacuum.from"), { price: formatEurosLocale(Math.round(bestVacuumPerKg * 100), locale) })

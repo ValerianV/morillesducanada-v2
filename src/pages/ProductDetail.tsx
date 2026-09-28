@@ -147,7 +147,7 @@ const ProductDetail = () => {
                 {/* Price */}
                 <div className="mb-6">
                   <p className="font-serif text-4xl text-gradient-gold">
-                    {currentPrice.toFixed(2)} €
+                    {formatEurosLocale(Math.round((currentPrice) * 100), locale)}
                   </p>
                   {currentGrams && (
                     <p className="text-sm text-foreground/80 mt-1">
@@ -348,8 +348,8 @@ const ProductDetail = () => {
                         <p className="text-xs text-muted-foreground font-light mb-2">{rpLabel.servings}</p>
                         <p className="font-serif text-lg text-gradient-gold">
                           {rp.id === "morilles-sous-vide"
-                            ? t("productPage.from").replace("{price}", `${getVacuumMorelPrice(100)} €`)
-                            : `${rp.price.toFixed(2)} €`}
+                            ? t("productPage.from").replace("{price}", formatEurosLocale(Math.round((getVacuumMorelPrice(100)) * 100), locale))
+                            : formatEurosLocale(Math.round((rp.price) * 100), locale)}
                         </p>
                       </div>
                     </Link>

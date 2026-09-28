@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
+import { formatEurosLocale } from "@/lib/proPricing";
 import type { Session } from "@supabase/supabase-js";
 
 interface Profile {
@@ -405,7 +406,7 @@ const Profil = () => {
 
                         <div className="flex items-center justify-between pt-3 border-t border-border/30">
                           <p className="text-sm font-medium text-primary">
-                            {(order.total_amount / 100).toFixed(2)} €
+                            {formatEurosLocale(order.total_amount)}
                           </p>
                           {canDownloadInvoice && (
                             <motion.button

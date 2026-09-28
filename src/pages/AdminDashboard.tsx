@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import ProLeadsTab from "@/components/admin/ProLeadsTab";
 import Preorders2027Tab from "@/components/admin/Preorders2027Tab";
 import { exportCsv } from "@/lib/csv";
+import { formatEurosLocale } from "@/lib/proPricing";
 import { toast } from "sonner";
 
 type Order = {
@@ -269,7 +270,7 @@ const AdminDashboard = () => {
                       <td className="py-3 px-3 text-muted-foreground">{new Date(order.created_at).toLocaleDateString("fr-FR")}</td>
                       <td className="py-3 px-3 font-medium">{order.customer_name}</td>
                       <td className="py-3 px-3 text-muted-foreground">{order.email}</td>
-                      <td className="py-3 px-3 text-primary">{(order.total_amount / 100).toFixed(2)} €</td>
+                      <td className="py-3 px-3 text-primary">{formatEurosLocale(order.total_amount)}</td>
                       <td className="py-3 px-3">
                         {order.tracking_number ? (
                           <div className="flex items-center gap-1.5">

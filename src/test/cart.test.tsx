@@ -38,10 +38,10 @@ describe("panier : frais de port alignés sur create-checkout", () => {
     act(() => useCartStore.getState().addItem(byId("morilles-30g"), 2));
     const dialog = openCart();
     const text = plain(dialog.textContent);
-    expect(text).toContain("Sous-total46.00 €");
-    expect(text).toContain("Livraison6.90 €");
-    expect(text).toContain("Total52.90 €");
-    expect(text).toContain("4.00 € restants");
+    expect(text).toContain("Sous-total46 €");
+    expect(text).toContain("Livraison6,90 €");
+    expect(text).toContain("Total52,90 €");
+    expect(text).toContain("4 € restants");
   });
 
   it("offre la livraison dès 50 € (et pas seulement dès 80 €)", () => {
@@ -52,7 +52,7 @@ describe("panier : frais de port alignés sur create-checkout", () => {
     const dialog = openCart();
     const text = plain(dialog.textContent);
     expect(within(dialog).getAllByText("Livraison offerte").length).toBeGreaterThan(0);
-    expect(text).toContain("Total52.00 €");
+    expect(text).toContain("Total52 €");
     expect(text).not.toContain("restants");
   });
 
@@ -64,7 +64,7 @@ describe("panier : frais de port alignés sur create-checkout", () => {
     expect(text).toContain("Your cart");
     expect(text).toContain("Vacuum-packed morels");
     expect(text).toContain("1 kg");
-    expect(text).toContain("Subtotal420.00 €");
+    expect(text).toContain("Subtotal€420");
     expect(text).not.toMatch(/Panier|Livraison|Sous-total|Payer/);
   });
 });
@@ -78,14 +78,14 @@ describe("panier : zone Union européenne", () => {
     const dialog = openCart();
     fireEvent.click(within(dialog).getByRole("radio", { name: /Union européenne/ }));
     let text = plain(dialog.textContent);
-    expect(text).toContain("Livraison9.90 €");
-    expect(text).toContain("Total61.90 €");
-    expect(text).toContain("48.00 € restants");
+    expect(text).toContain("Livraison9,90 €");
+    expect(text).toContain("Total61,90 €");
+    expect(text).toContain("48 € restants");
     expect(useCartStore.getState().shippingZone).toBe("EU");
 
     act(() => useCartStore.getState().addItem(byId("morilles-45g"), 2));
     text = plain(dialog.textContent);
-    expect(text).toContain("Total110.00 €");
+    expect(text).toContain("Total110 €");
 
     // Pas d'URL renvoyée par le mock : le panier affiche l'erreur, on ne vérifie que la requête.
     const errors = vi.spyOn(console, "error").mockImplementation(() => {});
