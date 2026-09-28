@@ -1,5 +1,5 @@
 import { vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import { fr } from "@/i18n/fr";
 
 // Client Supabase factice : aucune requête réseau, requêtes vides, utilisateur non connecté.
@@ -61,8 +61,8 @@ export async function renderAt(path: string, locale: "fr" | "en" = "fr") {
   window.history.pushState({}, "", path);
   const { default: App } = await import("@/App");
   const utils = render(<App />);
-  await waitFor(() => expect(document.querySelector("footer, main, h1")).not.toBeNull(), { timeout: 5000 });
-  await waitFor(() => expect(screen.queryAllByText(/./).length).toBeGreaterThan(0));
+  // Attend la fin du Suspense des routes chargées à la demande.
+  await waitFor(() => expect(document.querySelector("h1, h2")).not.toBeNull(), { timeout: 5000 });
   return utils;
 }
 

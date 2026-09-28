@@ -1,22 +1,36 @@
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { useI18n } from "@/i18n/context";
 
 const NotFound = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-  }, [location.pathname]);
+  const { t } = useI18n();
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="mb-4 text-xl text-muted-foreground">Oops! Page not found</p>
-        <a href="/" className="text-primary underline hover:text-primary/90">
-          Return to Home
-        </a>
-      </div>
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <main className="pt-24 pb-16 flex items-center justify-center min-h-[70vh]">
+        <div className="text-center max-w-lg px-6">
+          <p className="font-serif text-6xl text-gradient-gold mb-4">404</p>
+          <h1 className="font-serif text-3xl md:text-4xl font-light mb-4">{t("notFound.title")}</h1>
+          <p className="text-muted-foreground font-light mb-8">{t("notFound.text")}</p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              to="/produits"
+              className="inline-block px-8 py-3 bg-primary text-primary-foreground font-medium tracking-widest uppercase text-sm hover:bg-gold-light transition-colors duration-300 rounded-sm"
+            >
+              {t("notFound.products")}
+            </Link>
+            <Link
+              to="/"
+              className="inline-block px-8 py-3 border border-gold/20 text-foreground font-light tracking-widest uppercase text-sm hover:border-primary hover:text-primary transition-colors duration-300 rounded-sm"
+            >
+              {t("notFound.home")}
+            </Link>
+          </div>
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 };

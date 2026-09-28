@@ -350,6 +350,12 @@ export const en = {
     bulkText: "Restaurants, delicatessens, caterers — we offer pricing suited to professional orders and a dedicated contact.",
     bulkCta: "Contact us",
   },
+  notFound: {
+    title: "Page not found",
+    text: "This page does not exist or has been moved.",
+    products: "See our morels",
+    home: "Back to home",
+  },
   footer: {
     legal: "Legal notice",
     terms: "Terms & Conditions",

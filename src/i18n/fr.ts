@@ -350,6 +350,12 @@ export const fr = {
     bulkText: "Restaurants, épiceries fines, traiteurs — nous proposons des tarifs adaptés aux commandes professionnelles et un interlocuteur dédié.",
     bulkCta: "Nous contacter",
   },
+  notFound: {
+    title: "Page introuvable",
+    text: "Cette page n'existe pas ou a été déplacée.",
+    products: "Voir nos morilles",
+    home: "Retour à l'accueil",
+  },
   footer: {
     legal: "Mentions légales",
     terms: "CGV",
