@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { I18nProvider } from "@/i18n/context";
 import { lazy, Suspense, useEffect, useState } from "react";
@@ -18,7 +18,7 @@ const Recettes = lazy(() => import("./pages/Recettes"));
 const RecetteDetail = lazy(() => import("./pages/RecetteDetail"));
 const Profil = lazy(() => import("./pages/Profil"));
 const GuideMorellesDeFeu = lazy(() => import("./pages/GuideMorellesDeFeu"));
-const PreOrder = lazy(() => import("./pages/PreOrder"));
+const Professionnels = lazy(() => import("./pages/Professionnels"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const PaymentCancelled = lazy(() => import("./pages/PaymentCancelled"));
 const PreOrderSuccess = lazy(() => import("./pages/PreOrderSuccess"));
@@ -83,7 +83,8 @@ const App = () => {
                   <Route path="/recettes/:slug" element={<RecetteDetail />} />
                   <Route path="/profil" element={<Profil />} />
                   <Route path="/guide-morilles-de-feu" element={<GuideMorellesDeFeu />} />
-                  <Route path="/pre-commande" element={<PreOrder />} />
+                  <Route path="/professionnels" element={<Professionnels />} />
+                  <Route path="/pre-commande" element={<Navigate to="/professionnels#devis" replace />} />
                   <Route path="/paiement-reussi" element={<PaymentSuccess />} />
                   <Route path="/paiement-annule" element={<PaymentCancelled />} />
                   <Route path="/precommande-confirmee" element={<PreOrderSuccess />} />

@@ -1,4 +1,8 @@
 {
+  "redirects": [
+    { "source": "/pre-commande", "destination": "/professionnels", "permanent": true },
+    { "source": "/pre-commande/", "destination": "/professionnels", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
