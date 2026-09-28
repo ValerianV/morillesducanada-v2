@@ -129,7 +129,7 @@ function generateInvoiceHTML(order: any, invoiceNumber: string) {
     <!-- Total -->
     <div style="padding: 24px 40px; text-align: right;">
       <div style="display: inline-block; background: #2a2520; border: 1px solid #cc9a2e33; border-radius: 4px; padding: 16px 32px;">
-        <p style="font-size: 12px; color: #8a7e6b; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.1em;">Total TTC</p>
+        <p style="font-size: 12px; color: #8a7e6b; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.1em;">Total net</p>
         <p style="font-size: 28px; color: #cc9a2e; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; margin: 0;">${totalEur} €</p>
       </div>
     </div>
@@ -140,7 +140,7 @@ function generateInvoiceHTML(order: any, invoiceNumber: string) {
         Morilles du Canada · contact@morillesducanada.com
       </p>
       <p style="color: #8a7e6b; font-size: 10px; margin: 8px 0 0;">
-        © ${new Date().getFullYear()} Morilles du Canada · Non assujetti à la TVA (micro-entreprise)
+        © ${new Date().getFullYear()} Morilles du Canada · TVA non applicable, art. 293 B du CGI
       </p>
     </div>
   </div>

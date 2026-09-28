@@ -3,13 +3,18 @@ import { breadcrumbSchema } from "@/lib/seo/schema";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
+import { SHIPPING_ZONES } from "@/lib/products";
+import { PREORDER_2027 } from "@/lib/preorder";
+import { formatEurosLocale } from "@/lib/proPricing";
+
+const eur = (cents: number) => formatEurosLocale(cents, "fr");
 
 const CGV = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
         title="Conditions générales de vente | Morilles du Canada"
-        description="Conditions générales de vente de Morilles du Canada : produits, prix, commande, paiement, livraison, rétractation et réclamations."
+        description="Conditions générales de vente de Morilles du Canada : prix nets (TVA non applicable, art. 293 B du CGI), frais de port France et Union européenne, précommande, paiement, rétractation et réclamations."
         path="/cgv"
         jsonLd={breadcrumbSchema([{ name: "CGV", path: "/cgv" }])}
       />
@@ -29,7 +34,7 @@ const CGV = () => {
             <section>
               <h2 className="font-serif text-xl text-foreground mb-3">Article 1 — Objet</h2>
               <p>
-                Les présentes conditions générales de vente (CGV) régissent les relations contractuelles entre le vendeur, [Nom / Raison sociale], et tout acheteur (ci-après « le Client ») passant commande sur le site <strong className="text-foreground">morillesducanada.com</strong>.
+                Les présentes conditions générales de vente (CGV) régissent les relations contractuelles entre le vendeur, Valérian Vilane, entrepreneur individuel (micro-entreprise), SIRET 802 861 948 00023, 448 chemin de Patin, 84810 Aubignan, France, et tout acheteur (ci-après « le Client ») passant commande sur le site <strong className="text-foreground">morillesducanada.com</strong>.
               </p>
               <p className="mt-2">
                 Toute commande implique l'acceptation pleine et entière des présentes CGV.
@@ -39,14 +44,20 @@ const CGV = () => {
             <section>
               <h2 className="font-serif text-xl text-foreground mb-3">Article 2 — Produits</h2>
               <p>
-                Les produits proposés à la vente sont des morilles de feu séchées, cueillies à la main dans les forêts boréales du Canada (Colombie-Britannique et Yukon). Les photographies et descriptions sont aussi fidèles que possible mais ne constituent pas un engagement contractuel. Les morilles étant un produit naturel, de légères variations de taille, de forme et de couleur sont possibles.
+                Les produits proposés à la vente sont des morilles sauvages du Canada, cueillies à la main sur des forêts brûlées l'année précédente, séchées, vendues entières et équeutées, en variétés mélangées. Les photographies et descriptions sont aussi fidèles que possible mais ne constituent pas un engagement contractuel. Les morilles étant un produit naturel, de légères variations de taille, de forme et de couleur sont possibles.
               </p>
             </section>
 
             <section>
               <h2 className="font-serif text-xl text-foreground mb-3">Article 3 — Prix</h2>
               <p>
-                Les prix sont indiqués en euros (€) toutes taxes comprises (TTC). Les frais de livraison sont indiqués avant la validation de la commande. Le vendeur se réserve le droit de modifier ses prix à tout moment ; les produits seront facturés au prix en vigueur au moment de la commande.
+                Les prix sont indiqués en euros (€). <strong className="text-foreground">Prix nets — TVA non applicable, art. 293 B du CGI.</strong> Le vendeur bénéficie de la franchise en base de TVA : aucune TVA n'est facturée ni récupérable.
+              </p>
+              <p className="mt-2">
+                Frais de port pour les particuliers : France, {eur(SHIPPING_ZONES.FR.amountCents)}, offerts dès {eur(SHIPPING_ZONES.FR.freeFromCents)} d'achats ; Union européenne, {eur(SHIPPING_ZONES.EU.amountCents)}, offerts dès {eur(SHIPPING_ZONES.EU.freeFromCents)} d'achats. Les frais de port sont indiqués au panier avant la validation de la commande. Les commandes professionnelles au kilo sont livrées en France, port inclus.
+              </p>
+              <p className="mt-2">
+                Le vendeur se réserve le droit de modifier ses prix à tout moment ; les produits sont facturés au prix en vigueur au moment de la commande.
               </p>
             </section>
 
@@ -60,17 +71,30 @@ const CGV = () => {
             <section>
               <h2 className="font-serif text-xl text-foreground mb-3">Article 5 — Paiement</h2>
               <p>
-                Le paiement s'effectue en ligne par carte bancaire via la plateforme sécurisée Shopify Payments. Le paiement est débité au moment de la commande. Toutes les transactions sont sécurisées et chiffrées.
+                Le paiement s'effectue en ligne par carte bancaire via la plateforme de paiement sécurisée Stripe. Le paiement est débité au moment de la commande. Toutes les transactions sont sécurisées et chiffrées.
               </p>
             </section>
 
             <section>
               <h2 className="font-serif text-xl text-foreground mb-3">Article 6 — Livraison</h2>
               <p>
-                Les produits sont expédiés en France métropolitaine et dans l'Union Européenne. Les délais de livraison sont donnés à titre indicatif (généralement 3 à 7 jours ouvrés pour la France). Le vendeur ne saurait être tenu responsable des retards imputables au transporteur.
+                Les produits sont expédiés en France métropolitaine et dans les pays de l'Union européenne. Le Client choisit la zone de livraison (France ou Union européenne) dans le panier ; seule une adresse située dans la zone choisie peut être saisie au paiement. Les commandes sont expédiées sous 5 jours ouvrés après la confirmation du paiement. Le vendeur ne saurait être tenu responsable des retards imputables au transporteur.
               </p>
               <p className="mt-2">
-                Les produits sont conditionnés sous vide et envoyés en colis suivi. En cas de colis endommagé à la réception, le Client doit émettre des réserves auprès du transporteur et nous contacter dans les 48 heures.
+                Les produits sont envoyés en colis suivi. En cas de colis endommagé à la réception, le Client doit émettre des réserves auprès du transporteur et nous contacter dans les 48 heures.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="font-serif text-xl text-foreground mb-3">Article 6 bis — Précommande saison {PREORDER_2027.season}</h2>
+              <p>
+                La précommande porte sur des morilles de la saison {PREORDER_2027.season}, au prix de {eur(PREORDER_2027.pricePerKgCents)} le kilo, de {PREORDER_2027.minKg} à {PREORDER_2027.maxKg} kg par précommande, par kilo entier. Elle est ouverte aux particuliers et aux professionnels.
+              </p>
+              <p className="mt-2">
+                Un acompte de 50 %, soit {eur(PREORDER_2027.depositPerKgCents)} par kilo, est payé en ligne à la commande. Le solde est facturé avant l'expédition. La livraison est garantie en {PREORDER_2027.delivery.fr}, en France ou dans l'Union européenne.
+              </p>
+              <p className="mt-2">
+                S'il est impossible au vendeur de fournir tout ou partie de la quantité précommandée, l'acompte correspondant est intégralement remboursé.
               </p>
             </section>
 
@@ -101,7 +125,7 @@ const CGV = () => {
             <section>
               <h2 className="font-serif text-xl text-foreground mb-3">Article 10 — Médiation</h2>
               <p>
-                En cas de litige non résolu à l'amiable, le Client peut recourir gratuitement au service de médiation de la consommation. Conformément à l'article L612-1 du Code de la consommation, le médiateur compétent est : [Nom du médiateur / plateforme de médiation]. Le Client peut également utiliser la plateforme européenne de règlement en ligne des litiges : <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-gold-light transition-colors">ec.europa.eu/consumers/odr</a>.
+                En cas de litige non résolu à l'amiable, le Client peut recourir gratuitement au service de médiation de la consommation. Conformément à l'article L612-1 du Code de la consommation, le médiateur compétent est : [Nom du médiateur / plateforme de médiation].
               </p>
             </section>
 
@@ -113,7 +137,7 @@ const CGV = () => {
             </section>
 
             <p className="pt-6 border-t border-gold/10 text-xs text-muted-foreground">
-              Dernière mise à jour : mars 2026
+              Dernière mise à jour : septembre 2026
             </p>
           </div>
         </div>

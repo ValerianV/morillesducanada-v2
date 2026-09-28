@@ -13,7 +13,7 @@ const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? ''
 const SEND_EMAIL_HOOK_SECRET = (Deno.env.get('SEND_EMAIL_HOOK_SECRET') ?? '').replace('v1,whsec_', '')
 const FROM = 'Morilles du Canada <noreply@morillesducanada.com>'
 const SITE_NAME = 'Morilles du Canada'
-const SITE_URL = 'https://morillesducanada.com'
+const SITE_URL = 'https://www.morillesducanada.com'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
