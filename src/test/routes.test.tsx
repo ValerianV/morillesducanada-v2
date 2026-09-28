@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { cleanup, screen, waitFor } from "@testing-library/react";
-import { installBrowserStubs, renderAt, supabaseMock, supabaseModule } from "./qaHarness";
+import { cleanup, fireEvent, screen, waitFor } from "@testing-library/react";
+import { RAW_KEY, installBrowserStubs, renderAt, supabaseMock, supabaseModule } from "./qaHarness";
 
 vi.mock("@/integrations/supabase/client", () => supabaseModule);
 
@@ -64,5 +64,70 @@ describe("langue", () => {
     document.documentElement.lang = "fr";
     await renderAt("/produits", "en");
     expect(document.documentElement.lang).toBe("en");
+  });
+});
+
+const ROUTES = [
+  "/", "/auth", "/reset-password", "/mentions-legales", "/cgv", "/livraison", "/recettes", "/recettes/inconnue",
+  "/profil", "/guide-morilles-de-feu", "/professionnels", "/pre-commande", "/paiement-reussi", "/paiement-annule",
+  "/precommande-confirmee", "/admin", "/galerie", "/journal", "/plaquette-pro", "/fiche-technique", "/produits",
+  "/produits/decouverte-12g", "/produits/classique-30g", "/produits/prestige-45g", "/produits/morilles-sous-vide",
+  "/produits/inconnu", "/page-inexistante",
+];
+
+// Avertissements React propres au mode développement / à jsdom, absents du build de production.
+const DEV_ONLY = /not wrapped in act|React does not recognize the `%s` prop|fetchPriority/;
+
+describe("toutes les routes de App.tsx", () => {
+  for (const locale of ["fr", "en"] as const) {
+    for (const route of ROUTES) {
+      it(`${locale} ${route} : rendu sans erreur ni clé i18n brute`, async () => {
+        const errors: string[] = [];
+        const spy = vi.spyOn(console, "error").mockImplementation((...args) => {
+          const message = args.map(String).join(" ");
+          if (!DEV_ONLY.test(message)) errors.push(message);
+        });
+        await renderAt(route, locale);
+        await new Promise((resolve) => setTimeout(resolve, 50));
+        const text = document.body.textContent ?? "";
+        expect(text.match(new RegExp(RAW_KEY, "g"))).toBeNull();
+        expect(errors).toEqual([]);
+        spy.mockRestore();
+      });
+    }
+  }
+});
+
+const FRENCH_LEFTOVERS = /Ajouter au panier|Voir le détail|Voir le produit|Retour aux|Livraison offerte|Prix net|Sélectionner|Choisissez|personnes|Populaire|Paiement interrompu|Aucun montant|Nous contacter|Page introuvable/;
+
+describe("version anglaise des pages clés", () => {
+  for (const route of ["/", "/produits", "/produits/decouverte-12g", "/produits/morilles-sous-vide", "/professionnels", "/paiement-annule", "/page-inexistante"]) {
+    it(`${route} : aucun libellé d'interface resté en français`, async () => {
+      await renderAt(route, "en");
+      if (route === "/") await waitFor(() => expect(document.getElementById("produits")).not.toBeNull());
+      expect((document.body.textContent ?? "").match(FRENCH_LEFTOVERS)).toBeNull();
+    });
+  }
+});
+
+describe("redirection /pre-commande", () => {
+  it("arrive sur l'onglet devis de /professionnels", async () => {
+    await renderAt("/pre-commande", "fr");
+    await waitFor(() => expect(window.location.pathname + window.location.hash).toBe("/professionnels#devis"));
+    expect(await screen.findByRole("tab", { name: "Devis au kilo", selected: true })).toBeInTheDocument();
+  });
+});
+
+describe("menu mobile", () => {
+  it("s'ouvre, propose l'espace pro et les sections, puis se referme au clic sur un lien", async () => {
+    await renderAt("/produits", "fr");
+    fireEvent.click(screen.getByRole("button", { name: "Menu" }));
+    const proLinks = screen.getAllByRole("link", { name: "Professionnels" });
+    expect(proLinks.length).toBe(2);
+    const mobileRecipes = screen.getAllByRole("link", { name: "Recettes" }).find((a) => a.closest(".md\\:hidden"))!;
+    expect(screen.getAllByRole("link", { name: "Nos Morilles" }).some((a) => a.getAttribute("href") === "/#produits")).toBe(true);
+    fireEvent.click(mobileRecipes);
+    await waitFor(() => expect(window.location.pathname).toBe("/recettes"));
+    expect(screen.getAllByRole("link", { name: "Professionnels" }).length).toBe(1);
   });
 });

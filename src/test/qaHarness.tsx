@@ -63,10 +63,10 @@ export async function renderAt(path: string, locale: "fr" | "en" = "fr") {
   const { default: App } = await import("@/App");
   const utils = render(<App />);
   // Attend la fin du Suspense des routes chargées à la demande.
-  await waitFor(() => expect(document.querySelector("h1, h2")).not.toBeNull(), { timeout: 5000 });
+  await waitFor(() => expect((document.body.textContent ?? "").trim().length).toBeGreaterThan(20), { timeout: 5000 });
   return utils;
 }
 
 const NAMESPACES = Object.keys(fr).join("|");
-// Une clé i18n non résolue ressort telle quelle : « products.addToCart ».
-export const RAW_KEY = new RegExp(`\\b(?:${NAMESPACES})\\.[a-zA-Z][\\w.]*[a-zA-Z0-9]\\b`);
+// Une clé i18n non résolue ressort telle quelle : « products.addToCart », « pro.form.errors.email ».
+export const RAW_KEY = new RegExp(`\\b(?:${NAMESPACES})(?:\\.[a-z][a-zA-Z0-9]*)+\\b`);
