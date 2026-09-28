@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter, MemoryRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { isNoindexPath } from "@/lib/seo/noindex";
 import { I18nProvider } from "@/i18n/context";
@@ -43,7 +43,13 @@ const RobotsGuard = () => {
   );
 };
 
-const App = () => {
+interface AppProps {
+  // Prérendu (src/entry-server.tsx) : chemin à rendre et contexte Helmet à remplir.
+  ssrPath?: string;
+  helmetContext?: Record<string, unknown>;
+}
+
+const App = ({ ssrPath, helmetContext }: AppProps = {}) => {
   const [isSafari, setIsSafari] = useState(false);
 
   useEffect(() => {
@@ -108,13 +114,17 @@ const App = () => {
   );
 
   return (
-    <HelmetProvider>
+    <HelmetProvider context={helmetContext}>
       <I18nProvider>
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
             <Toaster />
             <Sonner />
-            <BrowserRouter>{routes}</BrowserRouter>
+            {ssrPath ? (
+              <MemoryRouter initialEntries={[ssrPath]}>{routes}</MemoryRouter>
+            ) : (
+              <BrowserRouter>{routes}</BrowserRouter>
+            )}
           </TooltipProvider>
         </QueryClientProvider>
       </I18nProvider>

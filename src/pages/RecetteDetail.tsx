@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { breadcrumbSchema, recipeSchema } from "@/lib/seo/schema";
+import { getPrerenderData, recipeKey } from "@/lib/prerenderData";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -50,8 +51,12 @@ function normalizeRecipe(data: Record<string, unknown>): Recipe {
 
 const RecetteDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [initial] = useState(() => {
+    const data = slug ? getPrerenderData<Record<string, unknown>>(recipeKey(slug)) : undefined;
+    return data ? normalizeRecipe(data) : null;
+  });
+  const [recipe, setRecipe] = useState<Recipe | null>(initial);
+  const [loading, setLoading] = useState(!initial);
 
   useEffect(() => {
     if (!slug) return;
@@ -61,10 +66,11 @@ const RecetteDetail = () => {
       .eq("slug", slug)
       .single()
       .then(({ data }) => {
-        setRecipe(data ? normalizeRecipe(data as Record<string, unknown>) : null);
+        if (data) setRecipe(normalizeRecipe(data as Record<string, unknown>));
+        else if (!initial) setRecipe(null);
         setLoading(false);
       });
-  }, [slug]);
+  }, [slug, initial]);
 
   if (loading) {
     return (

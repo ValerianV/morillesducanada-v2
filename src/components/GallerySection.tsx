@@ -1,10 +1,10 @@
-import { useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useI18n } from "@/i18n/context";
-import { getRandomPhotos, type GalleryPhoto } from "@/lib/galleryPhotos";
+import { galleryPhotos, getRandomPhotos, type GalleryPhoto } from "@/lib/galleryPhotos";
 
 const DISPLAY_COUNT = 6;
 
@@ -12,8 +12,9 @@ const GallerySection = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
   const { t } = useI18n();
 
-  // Random selection on each mount / page refresh
-  const photos: GalleryPhoto[] = useMemo(() => getRandomPhotos(DISPLAY_COUNT), []);
+  // Sélection fixe au premier rendu (identique au HTML prérendu), puis tirage aléatoire après montage.
+  const [photos, setPhotos] = useState<GalleryPhoto[]>(() => galleryPhotos.slice(0, DISPLAY_COUNT));
+  useEffect(() => setPhotos(getRandomPhotos(DISPLAY_COUNT)), []);
 
   return (
     <section id="galerie" className="py-24 md:py-32 overflow-x-hidden">

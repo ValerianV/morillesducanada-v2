@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react";
 import { fr } from "@/i18n/fr";
 import { en } from "@/i18n/en";
 
@@ -22,11 +22,28 @@ function getNestedValue(obj: Record<string, any>, path: string): string {
   return typeof value === "string" ? value : path;
 }
 
+function readStoredLocale(): Locale {
+  try {
+    return localStorage.getItem("locale") === "en" ? "en" : "fr";
+  } catch {
+    return "fr";
+  }
+}
+
+// Le HTML prérendu est en français : on hydrate d'abord en « fr », puis on applique la langue
+// mémorisée après le montage, sinon l'hydratation échouerait pour les visiteurs en anglais.
+function isHydratingPrerender(): boolean {
+  return typeof document !== "undefined" && Boolean(document.getElementById("root")?.hasAttribute("data-prerendered"));
+}
+
 export const I18nProvider = ({ children }: { children: ReactNode }) => {
-  const [locale, setLocaleState] = useState<Locale>(() => {
-    const stored = localStorage.getItem("locale");
-    return (stored === "en" ? "en" : "fr") as Locale;
-  });
+  const [locale, setLocaleState] = useState<Locale>(() => (isHydratingPrerender() ? "fr" : readStoredLocale()));
+
+  useEffect(() => {
+    const stored = readStoredLocale();
+    setLocaleState(stored);
+    document.documentElement.lang = stored;
+  }, []);
 
   const setLocale = useCallback((l: Locale) => {
     setLocaleState(l);

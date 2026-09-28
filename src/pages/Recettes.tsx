@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { breadcrumbSchema } from "@/lib/seo/schema";
 import { absoluteUrl } from "@/lib/seo/site";
+import { getPrerenderData, RECIPES_KEY } from "@/lib/prerenderData";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -50,8 +51,8 @@ function matchesFilter(recipe: Recipe, filter: Filter): boolean {
 }
 
 const Recettes = () => {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [recipes, setRecipes] = useState<Recipe[]>(() => getPrerenderData<Recipe[]>(RECIPES_KEY) ?? []);
+  const [loading, setLoading] = useState(() => !getPrerenderData<Recipe[]>(RECIPES_KEY));
   const [activeFilter, setActiveFilter] = useState<Filter>("tous");
 
   useEffect(() => {

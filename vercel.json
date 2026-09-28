@@ -1,9 +1,20 @@
 {
+  "trailingSlash": false,
   "redirects": [
     { "source": "/pre-commande", "destination": "/professionnels", "permanent": true },
     { "source": "/pre-commande/", "destination": "/professionnels", "permanent": true }
   ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/:path(admin|auth|profil|reset-password|paiement-reussi|paiement-annule|precommande-confirmee)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    }
+  ],
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/(.*)", "destination": "/spa.html" }
   ]
 }
