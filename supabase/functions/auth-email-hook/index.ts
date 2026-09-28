@@ -1,5 +1,6 @@
 import * as React from 'npm:react@18.3.1'
 import { renderAsync } from 'npm:@react-email/components@0.0.22'
+import { Webhook } from 'npm:standardwebhooks@1.0.0'
 import { SignupEmail } from '../_shared/email-templates/signup.tsx'
 import { InviteEmail } from '../_shared/email-templates/invite.tsx'
 import { MagicLinkEmail } from '../_shared/email-templates/magic-link.tsx'
@@ -8,6 +9,8 @@ import { EmailChangeEmail } from '../_shared/email-templates/email-change.tsx'
 import { ReauthenticationEmail } from '../_shared/email-templates/reauthentication.tsx'
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? ''
+// Secret du hook « Send Email » (Dashboard → Auth → Hooks), format « v1,whsec_... »
+const SEND_EMAIL_HOOK_SECRET = (Deno.env.get('SEND_EMAIL_HOOK_SECRET') ?? '').replace('v1,whsec_', '')
 const FROM = 'Morilles du Canada <noreply@morillesducanada.com>'
 const SITE_NAME = 'Morilles du Canada'
 const SITE_URL = 'https://morillesducanada.com'
@@ -40,20 +43,24 @@ Deno.serve(async (req) => {
     return new Response(null, { headers: corsHeaders })
   }
 
-  if (!RESEND_API_KEY) {
-    console.error('RESEND_API_KEY not configured')
+  if (!RESEND_API_KEY || !SEND_EMAIL_HOOK_SECRET) {
+    console.error('RESEND_API_KEY or SEND_EMAIL_HOOK_SECRET not configured')
     return new Response(JSON.stringify({ error: 'Server configuration error' }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
   }
 
+  // Standard Webhooks : seul Supabase Auth, qui connaît le secret, peut déclencher un envoi.
+  const payload = await req.text()
   let body: any
   try {
-    body = await req.json()
-  } catch {
-    return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
-      status: 400,
+    const wh = new Webhook(SEND_EMAIL_HOOK_SECRET)
+    body = wh.verify(payload, Object.fromEntries(req.headers))
+  } catch (err) {
+    console.warn('Invalid webhook signature', { error: err instanceof Error ? err.message : String(err) })
+    return new Response(JSON.stringify({ error: 'Invalid signature' }), {
+      status: 401,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
   }
