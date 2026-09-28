@@ -185,6 +185,81 @@ export type Database = {
         }
         Relationships: []
       }
+      pro_leads: {
+        Row: {
+          address: string | null
+          admin_notified_at: string | null
+          city: string
+          company: string
+          contact_name: string
+          created_at: string
+          email: string
+          establishment_type: string
+          id: string
+          ip_hash: string | null
+          kg: number | null
+          kind: string
+          locale: string
+          message: string | null
+          phone: string | null
+          postal_code: string
+          price_tier: string | null
+          status: string
+          total_cents: number | null
+          unit_price_cents: number | null
+          updated_at: string
+          utm: Json | null
+        }
+        Insert: {
+          address?: string | null
+          admin_notified_at?: string | null
+          city: string
+          company: string
+          contact_name: string
+          created_at?: string
+          email: string
+          establishment_type: string
+          id?: string
+          ip_hash?: string | null
+          kg?: number | null
+          kind: string
+          locale?: string
+          message?: string | null
+          phone?: string | null
+          postal_code: string
+          price_tier?: string | null
+          status?: string
+          total_cents?: number | null
+          unit_price_cents?: number | null
+          updated_at?: string
+          utm?: Json | null
+        }
+        Update: {
+          address?: string | null
+          admin_notified_at?: string | null
+          city?: string
+          company?: string
+          contact_name?: string
+          created_at?: string
+          email?: string
+          establishment_type?: string
+          id?: string
+          ip_hash?: string | null
+          kg?: number | null
+          kind?: string
+          locale?: string
+          message?: string | null
+          phone?: string | null
+          postal_code?: string
+          price_tier?: string | null
+          status?: string
+          total_cents?: number | null
+          unit_price_cents?: number | null
+          updated_at?: string
+          utm?: Json | null
+        }
+        Relationships: []
+      }
       pre_orders: {
         Row: {
           company_name: string

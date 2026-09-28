@@ -11,3 +11,5 @@ project_id = "oeweykyazadobobjncfg"
     verify_jwt = false
   [functions.stripe-webhook]
     verify_jwt = false
+  [functions.submit-pro-lead]
+    verify_jwt = false
