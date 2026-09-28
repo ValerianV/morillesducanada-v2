@@ -6,14 +6,21 @@ import heroJars from "@/assets/hero-jars.webp";
 import productVacuumBag from "@/assets/product-vacuum-bag.webp";
 import valerianPortrait from "@/assets/valerian-portrait.webp";
 import landscapeFireweed from "@/assets/landscape-fireweed.webp";
+import {
+  PRO_SAMPLE_GRAMS,
+  PRO_SHIPPING_BUSINESS_DAYS,
+  PRO_STOCK_KG,
+  PRO_TAX_MENTION,
+  PRO_TIERS,
+  formatEurosLocale,
+  formatKg,
+  formatTierPrice,
+  quote,
+} from "@/lib/proPricing";
 
 const GOLD = "#c9a84c";
 const DARK = "#1a1612";
 const CREAM = "#fdfcf9";
-const VAT = 0.055;
-
-const ht = (ttc: number) => ttc / (1 + VAT);
-const fmt = (n: number) => n.toFixed(2).replace(".", ",");
 
 const band = (label: string) => (
   <div
@@ -137,7 +144,7 @@ const PlaquettePro = () => (
             {[
               {
                 label: "Restaurateurs & Chefs",
-                desc: "Sachets sous vide 100g–1kg · Précommande directe saison · 4 variétés disponibles",
+                desc: `Au kilo, de 500 g à ${PRO_STOCK_KG} kg · Entières et équeutées · ${PRO_STOCK_KG} kg en stock en France`,
               },
               {
                 label: "Épiceries & Cavistes",
@@ -228,7 +235,7 @@ const PlaquettePro = () => (
                 {
                   n: "01",
                   t: "Séchage dans les 24h après récolte",
-                  d: "Les morilles sont achetées en forêt chaque soir et séchées le lendemain dans un séchoir professionnel sur place en Colombie-Britannique. Aucun concurrent ne peut garantir ça.",
+                  d: "Les morilles sont achetées en forêt chaque soir et séchées le lendemain dans un séchoir professionnel sur place en Colombie-Britannique.",
                 },
                 {
                   n: "02",
@@ -238,12 +245,12 @@ const PlaquettePro = () => (
                 {
                   n: "03",
                   t: "Traçabilité totale, lot par lot",
-                  d: "Chaque lot est identifiable : variété, cueilleur, zone de récolte, date de séchage. Vous pouvez raconter cette histoire à vos clients — c'est un argument de vente en soi.",
+                  d: "Chaque lot est identifiable : zone de récolte, date de séchage. Vous pouvez raconter cette histoire à vos clients — c'est un argument de vente en soi.",
                 },
                 {
                   n: "04",
-                  t: "4 variétés dont 2 introuvables ailleurs",
-                  d: "Brune, blonde, grise (M. tomentosa) et verte (M. septimelata) — les deux dernières sont quasi absentes des catalogues d'importateurs classiques.",
+                  t: "Entières et équeutées",
+                  d: "Morilles vendues sans pied : le poids payé est du chapeau, la partie qui porte l'arôme. Variétés sauvages mélangées.",
                 },
               ].map((item) => (
                 <div key={item.n} style={{ display: "flex", gap: 14 }}>
@@ -303,7 +310,7 @@ const PlaquettePro = () => (
               </div>
               <div style={{ fontSize: 11, color: "#4a4a4a", lineHeight: 1.85 }}>
                 Sachets sous vide thermoscellés. Morilles entières sans queue, triées à la main,
-                séchées à basse température. 4 formats selon le volume de service.
+                séchées à basse température. Vendues au kilo, de 500 g à {PRO_STOCK_KG} kg.
                 Conservation 2 ans minimum en conditions sèches.
                 Les morilles triplent de volume à la réhydratation.
               </div>
@@ -315,20 +322,18 @@ const PlaquettePro = () => (
             />
           </div>
 
-          {/* Pricing table sous vide */}
+          {/* Grille pro au kilo (source : src/lib/proPricing.ts) */}
           <div style={{ marginBottom: 30 }}>
             <div style={{ fontSize: 9, letterSpacing: "0.28em", textTransform: "uppercase", color: GOLD, marginBottom: 12, paddingBottom: 10, borderBottom: `1px solid ${GOLD}28` }}>
-              Conditionnement sous vide — Tarifs HT (TVA 5,5%)
+              Tarifs professionnels au kilo — prix nets
             </div>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
               <thead>
                 <tr style={{ borderBottom: `1px solid ${GOLD}22`, textAlign: "left" }}>
                   {[
-                    { l: "Format", r: false },
-                    { l: "Conditionnement", r: false },
-                    { l: "Prix HT", r: true },
-                    { l: "Prix TTC", r: true },
-                    { l: "€/kg HT", r: true },
+                    { l: "Quantité", r: false },
+                    { l: "Prix net", r: true },
+                    { l: "Exemple", r: true },
                   ].map(({ l, r }) => (
                     <th
                       key={l}
@@ -344,109 +349,61 @@ const PlaquettePro = () => (
                 </tr>
               </thead>
               <tbody>
-                {[
-                  { w: "100g", ttc: 59, kg: 0.1 },
-                  { w: "200g", ttc: 110, kg: 0.2 },
-                  { w: "500g", ttc: 240, kg: 0.5 },
-                  { w: "1 kg", ttc: 420, kg: 1 },
-                ].map((r, i) => {
-                  const htVal = ht(r.ttc);
-                  const kgHT = Math.round(htVal / r.kg);
+                {PRO_TIERS.map((tier, i) => {
+                  const example = quote(tier.minKg);
                   return (
                     <tr
-                      key={r.w}
+                      key={tier.id}
                       style={{
                         borderBottom: "1px solid #f0ece3",
                         backgroundColor: i % 2 === 0 ? "#fdfcf9" : "transparent",
                       }}
                     >
-                      <td style={{ padding: "11px 0", fontFamily: "Georgia, serif", fontSize: 14 }}>{r.w}</td>
-                      <td style={{ padding: "11px 0", color: "#6a6a6a", fontSize: 10 }}>Sachet sous vide thermoscellé</td>
-                      <td style={{ padding: "11px 0", textAlign: "right", fontWeight: 700 }}>{fmt(htVal)} €</td>
-                      <td style={{ padding: "11px 0", textAlign: "right", color: "#6a6a6a" }}>{r.ttc} €</td>
-                      <td style={{ padding: "11px 0", textAlign: "right", color: GOLD, fontWeight: 700, fontFamily: "Georgia, serif" }}>
-                        {kgHT} €/kg
+                      <td style={{ padding: "11px 0", fontFamily: "Georgia, serif", fontSize: 14 }}>{tier.label.fr}</td>
+                      <td style={{ padding: "11px 0", textAlign: "right", color: GOLD, fontWeight: 700, fontFamily: "Georgia, serif", fontSize: 14 }}>
+                        {formatTierPrice(tier)}
+                      </td>
+                      <td style={{ padding: "11px 0", textAlign: "right", color: "#4a4a4a" }}>
+                        {example ? `${formatKg(example.kg)} = ${formatEurosLocale(example.totalCents)}` : ""}
                       </td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
+            <div style={{ fontSize: 10, color: "#4a4a4a", marginTop: 10, lineHeight: 1.65 }}>
+              {PRO_TAX_MENTION.fr}. Le prix du palier atteint s'applique à toute la quantité commandée.
+            </div>
           </div>
 
-          {/* Preorder sourcing box */}
+          {/* Offre en stock */}
           <div style={{ backgroundColor: DARK, borderRadius: 2, padding: "26px 30px", color: "white" }}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 30, alignItems: "start" }}>
               <div>
                 <div style={{ fontSize: 8, letterSpacing: "0.38em", textTransform: "uppercase", color: GOLD, marginBottom: 11 }}>
-                  Sourcing direct · Pré-commande saison 2026
+                  En stock en France
                 </div>
                 <div style={{ fontFamily: "Georgia, serif", fontSize: 17, fontWeight: 300, lineHeight: 1.35, marginBottom: 14 }}>
-                  Réservez votre lot avant la cueillette
+                  {PRO_STOCK_KG} kg disponibles, entières et équeutées
                 </div>
-                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, marginBottom: 14 }}>
-                  Achat direct aux cueilleurs · Séchage sur place ·
-                  Expédition sous vide. Délai : 6 à 8 semaines après confirmation.
-                  En cas de saison annulée (météo), remboursement intégral garanti.
-                </div>
-                <div style={{ fontSize: 9, color: "rgba(255,255,255,0.38)" }}>
-                  Commande minimum : 1 kg par variété · Pas de maximum
+                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.75)", lineHeight: 1.75 }}>
+                  Morilles sauvages du Canada, séchées, variétés mélangées.
+                  Expédition sous {PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés, en colis suivi.
                 </div>
               </div>
               <div>
-                <div style={{ fontSize: 8, letterSpacing: "0.22em", textTransform: "uppercase", color: GOLD, marginBottom: 13 }}>
-                  Tarifs HT — Pré-commande
+                <div style={{ fontSize: 8, letterSpacing: "0.22em", textTransform: "uppercase", color: GOLD, marginBottom: 11 }}>
+                  Échantillon offert
                 </div>
-                {[
-                  { variete: "Brune", s1: "360 €/kg", s5: "340 €/kg" },
-                  { variete: "Blonde", s1: "390 €/kg", s5: "370 €/kg" },
-                  { variete: "Grise & Verte", s1: "390 €/kg", s5: "370 €/kg", note: "Stock limité" },
-                ].map((v) => (
-                  <div
-                    key={v.variete}
-                    style={{ borderTop: `1px solid rgba(201,168,76,0.18)`, paddingTop: 10, marginTop: 10 }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                      <span style={{ fontFamily: "Georgia, serif", fontSize: 12, color: "rgba(255,255,255,0.82)" }}>
-                        {v.variete}
-                      </span>
-                      {v.note && (
-                        <span style={{ fontSize: 7, color: GOLD, border: `1px solid ${GOLD}50`, padding: "1px 5px", letterSpacing: "0.2em", textTransform: "uppercase" }}>
-                          {v.note}
-                        </span>
-                      )}
-                    </div>
-                    <div style={{ display: "flex", gap: 20, fontSize: 10 }}>
-                      <span style={{ color: "rgba(255,255,255,0.45)" }}>
-                        1–4 kg : <strong style={{ color: GOLD }}>{v.s1}</strong>
-                      </span>
-                      <span style={{ color: "rgba(255,255,255,0.45)" }}>
-                        5 kg+ : <strong style={{ color: GOLD }}>{v.s5}</strong>
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 12 }}>
+                  Un pot de {PRO_SAMPLE_GRAMS} g par établissement, pour goûter avant de commander.
+                </div>
+                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.85)", lineHeight: 1.75 }}>
+                  Devis et échantillon : <strong style={{ color: GOLD }}>morillesducanada.com/professionnels</strong>
+                  <br />
+                  Téléphone : <strong style={{ color: GOLD }}>07 82 16 27 08</strong>
+                </div>
               </div>
-            </div>
-          </div>
-
-          {/* Varieties description */}
-          <div style={{ marginTop: 20, padding: "16px 20px", backgroundColor: "#f5f2eb", borderRadius: 2 }}>
-            <div style={{ fontSize: 8, letterSpacing: "0.28em", textTransform: "uppercase", color: "#8a7a5a", marginBottom: 10 }}>
-              Les 4 variétés de morilles de feu du Canada
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 40px" }}>
-              {[
-                { c: "Brune", s: "M. conica, M. brunnea, M. snyderi", p: "Arôme fumé intense, notes profondes et boisées" },
-                { c: "Blonde", s: "M. americana, M. esculenta, M. prava", p: "Arôme délicat et subtil, plus douce en bouche" },
-                { c: "Grise", s: "M. tomentosa", p: "Surface veloutée, notes fumées douces et terreuses" },
-                { c: "Verte", s: "M. sextelata, M. septimelata", p: "Espèces rares de haute altitude, arôme profond" },
-              ].map((v) => (
-                <div key={v.c} style={{ fontSize: 9, color: "#4a4a4a", lineHeight: 1.55 }}>
-                  <strong style={{ color: DARK }}>{v.c}</strong>{" "}
-                  <em style={{ color: "#8a7a5a" }}>{v.s}</em> — {v.p}
-                </div>
-              ))}
             </div>
           </div>
         </div>
@@ -488,7 +445,7 @@ const PlaquettePro = () => (
           {/* Jar pricing table */}
           <div style={{ marginBottom: 28 }}>
             <div style={{ fontSize: 9, letterSpacing: "0.28em", textTransform: "uppercase", color: GOLD, marginBottom: 12, paddingBottom: 10, borderBottom: `1px solid ${GOLD}28` }}>
-              Gamme pots verre — Prix de vente conseillé TTC (site morillesducanada.com)
+              Gamme pots verre — Prix publics (site morillesducanada.com)
             </div>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
               <thead>
@@ -497,8 +454,7 @@ const PlaquettePro = () => (
                     { l: "Référence", r: false },
                     { l: "Format", r: false },
                     { l: "Usage", r: false },
-                    { l: "PVCT", r: true },
-                    { l: "Prix HT*", r: true },
+                    { l: "Prix public", r: true },
                   ].map(({ l, r }) => (
                     <th
                       key={l}
@@ -515,9 +471,9 @@ const PlaquettePro = () => (
               </thead>
               <tbody>
                 {[
-                  { ref: "MDF-12G", name: "Découverte 12g", usage: "Vente d'impulsion · Offrir · Tester", ttc: 12 },
-                  { ref: "MDF-30G", name: "Classique 30g", usage: "Format cœur de gamme · Usage cuisine", ttc: 23 },
-                  { ref: "MDF-45G", name: "Prestige 45g", usage: "Cadeau premium · Coffret gastronomique", ttc: 29 },
+                  { ref: "MDF-12G", name: "Découverte 12g", usage: "Vente d'impulsion · Offrir · Tester", price: 12 },
+                  { ref: "MDF-30G", name: "Classique 30g", usage: "Format cœur de gamme · Usage cuisine", price: 23 },
+                  { ref: "MDF-45G", name: "Prestige 45g", usage: "Cadeau premium · Coffret gastronomique", price: 29 },
                 ].map((p, i) => (
                   <tr
                     key={p.ref}
@@ -530,16 +486,15 @@ const PlaquettePro = () => (
                     <td style={{ padding: "11px 0", fontFamily: "Georgia, serif", fontSize: 13 }}>{p.name}</td>
                     <td style={{ padding: "11px 0", fontSize: 9, color: "#8a7a5a" }}>{p.usage}</td>
                     <td style={{ padding: "11px 0", textAlign: "right", fontWeight: 700, color: GOLD, fontFamily: "Georgia, serif" }}>
-                      {p.ttc},00 €
+                      {p.price},00 €
                     </td>
-                    <td style={{ padding: "11px 0", textAlign: "right", color: "#6a6a6a" }}>{fmt(ht(p.ttc))} €</td>
                   </tr>
                 ))}
               </tbody>
             </table>
             <div style={{ fontSize: 8, color: "#8a7a5a", marginTop: 8, lineHeight: 1.65 }}>
-              * Prix HT indicatifs (TVA 5,5% produits alimentaires). PVCT = prix public de vente sur morillesducanada.com.
-              Tarif grossiste et conditions de référencement disponibles sur devis.
+              {PRO_TAX_MENTION.fr}. Prix publics de vente sur morillesducanada.com.
+              Tarif revendeur et conditions de référencement sur devis.
             </div>
           </div>
 
@@ -638,16 +593,15 @@ const PlaquettePro = () => (
           {/* Center CTA */}
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: 8, letterSpacing: "0.45em", textTransform: "uppercase", color: GOLD, marginBottom: 18 }}>
-              Commander · S'approvisionner · Pré-réserver
+              Commander · S'approvisionner · Goûter
             </div>
             <div style={{ fontFamily: "Georgia, serif", fontSize: 42, fontWeight: 300, lineHeight: 1.15, marginBottom: 14 }}>
               Travaillons ensemble
             </div>
             <div style={{ width: 52, height: 1, backgroundColor: GOLD, margin: "0 auto 26px" }} />
             <div style={{ fontSize: 12, color: "rgba(255,255,255,0.62)", maxWidth: 400, margin: "0 auto", lineHeight: 1.85 }}>
-              Un appel suffit pour un devis, une commande sous vide ou une réservation
-              de lot saison 2026. Valérian est votre interlocuteur unique — pas de service
-              commercial, pas de formulaire à rallonge.
+              Un appel suffit pour un devis au kilo, une commande ou un échantillon.
+              Valérian est votre interlocuteur unique.
             </div>
           </div>
 
@@ -657,8 +611,8 @@ const PlaquettePro = () => (
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 20, marginBottom: 36 }}>
               {[
                 { label: "Téléphone", value: "07 82 16 27 08", sub: "Valérian · Fondateur" },
-                { label: "Email", value: "contact@morillesducanada.com", sub: "Réponse sous 24–48h" },
-                { label: "Commande & plaquette", value: "morillesducanada.com", sub: "Boutique en ligne · PDF téléchargeable" },
+                { label: "Email", value: "contact@morillesducanada.com", sub: "Réponse personnelle de Valérian" },
+                { label: "Devis & échantillon", value: "morillesducanada.com/professionnels", sub: "Tarifs au kilo · Échantillon offert" },
               ].map((c) => (
                 <div key={c.label} style={{ borderTop: `1px solid ${GOLD}38`, paddingTop: 16 }}>
                   <div style={{ fontSize: 8, letterSpacing: "0.32em", textTransform: "uppercase", color: GOLD, marginBottom: 9 }}>
@@ -678,9 +632,9 @@ const PlaquettePro = () => (
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 16 }}>
                 {[
                   { n: "1", t: "Contactez-nous", d: "Téléphone ou email" },
-                  { n: "2", t: "Devis sous 24h", d: "Format · Volume · Variété" },
+                  { n: "2", t: "Devis", d: "Prix net selon la grille" },
                   { n: "3", t: "Paiement", d: "Virement ou CB en ligne" },
-                  { n: "4", t: "Expédition", d: "Sous vide · Colis suivi" },
+                  { n: "4", t: "Expédition", d: `Sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés · Colis suivi` },
                 ].map((s) => (
                   <div key={s.n} style={{ textAlign: "center" }}>
                     <div style={{ fontFamily: "Georgia, serif", fontSize: 22, color: GOLD, marginBottom: 8, opacity: 0.65 }}>{s.n}</div>
@@ -698,8 +652,8 @@ const PlaquettePro = () => (
                 borderRadius: 2, marginBottom: 24, fontSize: 9, color: "rgba(255,255,255,0.45)", lineHeight: 1.7,
               }}
             >
-              Paiement intégral à la réservation (pré-commandes) · TVA 5,5% sur produits alimentaires ·
-              Livraison France et Europe · En cas d'annulation de saison (météo), remboursement intégral garanti.
+              {PRO_TAX_MENTION.fr} · Expédition sous {PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés ·
+              Paiement par virement ou carte bancaire · Livraison France et Europe.
             </div>
 
             {/* Footer */}
