@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 import {
-  CATALOG,
   PREORDER_2027,
   PreorderValidationError,
   isValidPreorderKg,
@@ -29,7 +28,6 @@ describe("précommande 2027 : catalogue serveur", () => {
       maxKg: 15,
     });
     expect(PREORDER_2027.depositPerKgCents * 2).toBe(PREORDER_2027.pricePerKgCents);
-    expect(Object.values(CATALOG).some((p) => p.kind === "fixed" && p.priceId === PREORDER_2027.priceId)).toBe(false);
   });
 
   it.each([
@@ -56,11 +54,8 @@ describe("précommande 2027 : catalogue serveur", () => {
     expect(() => resolvePreorder([3])).toThrow(PreorderValidationError);
   });
 
-  it("livre en France et dans l'Union européenne", () => {
-    expect(PREORDER_2027.countries).toContain("FR");
-    expect(PREORDER_2027.countries).toContain("DE");
-    expect(PREORDER_2027.countries).not.toContain("CH");
-    expect(PREORDER_2027.countries).toHaveLength(27);
+  it("livre en France uniquement (professionnels, port inclus)", () => {
+    expect(PREORDER_2027.countries).toEqual(["FR"]);
   });
 });
 

@@ -10,6 +10,15 @@ export const PRO_MAX_KG = PRO_STOCK_KG;
 export const PRO_KG_STEP = 0.5;
 export const PRO_SAMPLE_GRAMS = 30;
 export const PRO_SHIPPING_BUSINESS_DAYS = 5;
+// Réponse aux devis : sous 48 h ouvrées (validé par le fondateur le 2026-09-28).
+export const PRO_QUOTE_REPLY_HOURS = 48;
+// Conditionnement des commandes au kilo : sachets sous vide de 250 g.
+export const PRO_PACK_GRAMS = 250;
+// Vente réservée aux professionnels.
+export const PRO_ONLY_MENTION = {
+  fr: "Vente réservée aux professionnels — SIRET demandé à la commande.",
+  en: "Trade only — SIRET number required when ordering.",
+} as const;
 
 export const PRO_TAX_MENTION = {
   fr: "Prix nets — TVA non applicable, art. 293 B du CGI",
@@ -25,6 +34,15 @@ export interface ProTier {
   priceCents: number;
   label: { fr: string; en: string };
 }
+
+// Liens de paiement Stripe (port inclus, France) : une quantité fixe par palier (docs/business/offre.md).
+// Chaque lien doit demander la société et le SIRET (champs personnalisés « company » et « siret »).
+export const PRO_PAYMENT_LINKS: Record<ProTierId, string> = {
+  "1kg": "https://buy.stripe.com/3cI4gz2tn2tRegv3hmbQY02",
+  "3kg": "https://buy.stripe.com/5kQ00j2tn6K73BR19ebQY03",
+  "5kg": "https://buy.stripe.com/28E5kDgkd8Sf0pFf04bQY04",
+  "10kg": "https://buy.stripe.com/14A28rd814BZgoDaJObQY05",
+};
 
 export const PRO_TIERS: readonly ProTier[] = [
   { id: "1kg", minKg: 1, priceCents: 35000, label: { fr: "1 kg", en: "1 kg" } },

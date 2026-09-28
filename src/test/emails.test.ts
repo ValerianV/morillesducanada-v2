@@ -21,6 +21,7 @@ const plain = (s: string) => s.replace(/\s/g, " ");
 const lead: ProLeadInput = {
   kind: "devis",
   company: "Bistrot <script>",
+  siret: "80286194800023",
   contact_name: "Jeanne <b>",
   email: "jeanne@example.com",
   phone: "06 12 34 56 78",
@@ -102,9 +103,10 @@ describe("tous les emails", () => {
     }
   });
 
-  it("n'annoncent jamais 48 h ni de TVA à ajouter", () => {
+  it("n'annoncent jamais une expédition en 24/48/72 h ni de TVA à ajouter", () => {
     for (const mail of allEmails()) {
-      expect(plain(mail.text + mail.html)).not.toMatch(/48 ?h|72 ?h|\bTTC\b|\bHT\b/);
+      expect(plain(mail.text + mail.html)).not.toMatch(/(exp[ée]di\w*|livr\w*|ship\w*|dispatch\w*)[^.]{0,40}(24|48|72) ?h/i);
+      expect(plain(mail.text + mail.html)).not.toMatch(/\bTTC\b|\bHT\b/);
     }
   });
 });

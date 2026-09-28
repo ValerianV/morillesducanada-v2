@@ -138,6 +138,7 @@ serve(async (req) => {
     .insert({
       kind: lead.kind,
       company: lead.company,
+      siret: lead.siret,
       contact_name: lead.contact_name,
       email: lead.email,
       phone: lead.phone,

@@ -65,8 +65,8 @@ serve(async (req) => {
 
     const terms =
       locale === "en"
-        ? `50% deposit paid today. Balance of €${amounts.balanceCents / 100} invoiced before shipping. Delivery guaranteed in ${PREORDER_2027.delivery.en}. Full refund of the deposit if we cannot supply.`
-        : `Acompte de 50 % payé aujourd'hui. Solde de ${amounts.balanceCents / 100} € facturé avant expédition. Livraison garantie en ${PREORDER_2027.delivery.fr}. Acompte intégralement remboursé s'il nous est impossible de fournir.`;
+        ? `Professionals only. 50% deposit paid today. Balance of €${amounts.balanceCents / 100} invoiced before shipping. Delivery in France, shipping included, guaranteed in ${PREORDER_2027.delivery.en}. Full refund of the deposit if we cannot supply.`
+        : `Réservé aux professionnels. Acompte de 50 % payé aujourd'hui. Solde de ${amounts.balanceCents / 100} € facturé avant expédition. Livraison en France, port inclus, garantie en ${PREORDER_2027.delivery.fr}. Acompte intégralement remboursé s'il nous est impossible de fournir.`;
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -77,12 +77,21 @@ serve(async (req) => {
       },
       phone_number_collection: { enabled: true },
       customer_creation: "always",
+      // Précommande réservée aux professionnels : société et SIRET obligatoires (contrôlés par stripe-webhook).
       custom_fields: [
         {
           key: "company",
-          label: { type: "custom", custom: locale === "en" ? "Company (optional)" : "Société (facultatif)" },
+          label: { type: "custom", custom: locale === "en" ? "Company" : "Société" },
           type: "text",
-          optional: true,
+          optional: false,
+          text: { minimum_length: 2, maximum_length: 120 },
+        },
+        {
+          key: "siret",
+          label: { type: "custom", custom: locale === "en" ? "SIRET (14 digits)" : "SIRET (14 chiffres)" },
+          type: "numeric",
+          optional: false,
+          numeric: { minimum_length: 14, maximum_length: 14 },
         },
       ],
       custom_text: { submit: { message: terms } },

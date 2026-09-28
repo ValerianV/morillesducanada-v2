@@ -2,6 +2,7 @@
 // Module pur (aucun import Deno/npm) : testé avec vitest (src/test/proLead.test.ts).
 
 import { escapeHtml } from "./format.ts";
+import { formatSiret, isValidSiret, normalizeSiret } from "./siret.ts";
 import {
   emailDetails,
   emailHeading,
@@ -15,6 +16,7 @@ import {
   PRO_MAX_KG,
   PRO_MIN_KG,
   PRO_SAMPLE_GRAMS,
+  PRO_QUOTE_REPLY_HOURS,
   PRO_SHIPPING_BUSINESS_DAYS,
   PRO_TAX_MENTION,
   formatEurosLocale,
@@ -45,6 +47,8 @@ const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_c
 export interface ProLeadInput {
   kind: ProLeadKind;
   company: string;
+  // 14 chiffres, clé de Luhn vérifiée (site réservé aux professionnels).
+  siret: string;
   contact_name: string;
   email: string;
   phone: string | null;
@@ -95,6 +99,9 @@ export function validateProLead(body: unknown): ProLeadValidation {
 
   const company = singleLine(b.company);
   if (company.length < 2 || company.length > 120) errors.company = "Nom de l'établissement requis (2 à 120 caractères)";
+
+  const siret = normalizeSiret(singleLine(b.siret));
+  if (!isValidSiret(siret)) errors.siret = "SIRET invalide : 14 chiffres";
 
   const contact_name = singleLine(b.contact_name);
   if (contact_name.length < 2 || contact_name.length > 120) errors.contact_name = "Nom du contact requis (2 à 120 caractères)";
@@ -159,6 +166,7 @@ export function validateProLead(body: unknown): ProLeadValidation {
     lead: {
       kind,
       company,
+      siret,
       contact_name,
       email,
       phone,
@@ -227,6 +235,7 @@ export function buildAdminEmail(lead: ProLeadInput, q: ProQuote | null, leadId: 
   const rows: Array<[string, string]> = [
     ["Type", lead.kind === "devis" ? "Devis au kilo" : `Échantillon (${PRO_SAMPLE_GRAMS} g)`],
     ["Établissement", lead.company],
+    ["SIRET", formatSiret(lead.siret)],
     ["Type d'établissement", ESTABLISHMENT_LABELS[lead.establishment_type].fr],
     ["Contact", lead.contact_name],
     ["Email", lead.email],
@@ -305,8 +314,8 @@ export function buildProspectEmail(lead: ProLeadInput, q: ProQuote | null): Emai
 
   const next = isQuote
     ? en
-      ? `This estimate is indicative. Valérian will confirm your quote and payment terms personally. Orders ship within ${PRO_SHIPPING_BUSINESS_DAYS} business days.`
-      : `Cette estimation est indicative : Valérian vous confirme personnellement le devis et les modalités de paiement. Expédition sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés à la commande.`
+      ? `This estimate is indicative. Valérian will confirm your quote and payment terms personally within ${PRO_QUOTE_REPLY_HOURS} business hours. Orders ship within ${PRO_SHIPPING_BUSINESS_DAYS} business days, in 250 g vacuum packs, shipping included in France.`
+      : `Cette estimation est indicative : Valérian vous confirme personnellement le devis et les modalités de paiement sous ${PRO_QUOTE_REPLY_HOURS} h ouvrées. Expédition sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés à la commande, en sachets sous vide de 250 g, port inclus en France.`
     : en
       ? "Valérian will contact you to confirm the shipment."
       : "Valérian vous recontacte pour confirmer l'envoi.";

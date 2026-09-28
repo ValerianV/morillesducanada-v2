@@ -187,6 +187,7 @@ export type Database = {
       }
       pro_leads: {
         Row: {
+          siret: string | null
           address: string | null
           admin_notified_at: string | null
           city: string
@@ -211,6 +212,7 @@ export type Database = {
           utm: Json | null
         }
         Insert: {
+          siret?: string | null
           address?: string | null
           admin_notified_at?: string | null
           city: string
@@ -235,6 +237,7 @@ export type Database = {
           utm?: Json | null
         }
         Update: {
+          siret?: string | null
           address?: string | null
           admin_notified_at?: string | null
           city?: string
@@ -262,6 +265,7 @@ export type Database = {
       }
       pre_orders: {
         Row: {
+          siret: string | null
           acompte_cents: number | null
           company_name: string | null
           contact_name: string
@@ -284,6 +288,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          siret?: string | null
           acompte_cents?: number | null
           company_name?: string | null
           contact_name: string
@@ -306,6 +311,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          siret?: string | null
           acompte_cents?: number | null
           company_name?: string | null
           contact_name?: string

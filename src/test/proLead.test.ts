@@ -10,6 +10,7 @@ import {
 const base = {
   kind: "devis",
   company: "Le Gourmet",
+  siret: "802 861 948 00023",
   contact_name: "Jean Dupont",
   email: " Jean@Restaurant.FR ",
   phone: "+33 6 12 34 56 78",
@@ -79,7 +80,7 @@ describe("validateProLead", () => {
     expect(r.ok).toBe(false);
     if ("errors" in r) {
       expect(Object.keys(r.errors).sort()).toEqual(
-        ["city", "company", "contact_name", "email", "establishment_type", "kind", "message", "phone", "postal_code"].sort(),
+        ["city", "company", "contact_name", "email", "establishment_type", "kind", "message", "phone", "postal_code", "siret"].sort(),
       );
     }
     expect(validateProLead(null).ok).toBe(false);
@@ -131,7 +132,10 @@ describe("emails", () => {
     expect(text).toContain("1 550 €");
     expect(text).toContain("TVA non applicable, art. 293 B du CGI");
     expect(text).toContain("5 jours ouvrés");
-    expect(text).not.toMatch(/48 ?h|72 ?h|HT|5,5/);
+    expect(text).not.toMatch(/(exp[ée]di\w*|livr\w*|ship\w*|dispatch\w*)[^.]{0,40}(24|48|72) ?h/i);
+    expect(text).not.toMatch(/HT|5,5/);
+    expect(text).toContain("48 h ouvrées");
+    expect(text).toContain("250 g");
   });
 
   it("accusé de réception EN pour l'échantillon", () => {

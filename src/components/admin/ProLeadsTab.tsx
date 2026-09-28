@@ -12,6 +12,7 @@ type ProLead = {
   kind: string;
   status: string;
   company: string;
+  siret: string | null;
   contact_name: string;
   email: string;
   phone: string | null;
@@ -55,7 +56,7 @@ const ESTABLISHMENT_LABELS: Record<string, string> = {
 };
 
 const COLUMNS =
-  "id, created_at, kind, status, company, contact_name, email, phone, establishment_type, city, postal_code, address, kg, message, utm, price_tier, unit_price_cents, total_cents, admin_notified_at";
+  "id, created_at, kind, status, company, siret, contact_name, email, phone, establishment_type, city, postal_code, address, kg, message, utm, price_tier, unit_price_cents, total_cents, admin_notified_at";
 
 const leadKg = (lead: ProLead) => (lead.kg === null || lead.kg === undefined ? 0 : Number(lead.kg));
 
@@ -118,12 +119,13 @@ const ProLeadsTab = ({ refreshToken }: { refreshToken: number }) => {
   const handleExport = () => {
     exportCsv(
       "leads-pro.csv",
-      ["Date", "Type", "Statut", "Établissement", "Type d'établissement", "Contact", "Email", "Téléphone", "Adresse", "Code postal", "Ville", "Kg", "Prix €/kg", "Total €", "Message", "UTM"],
+      ["Date", "Type", "Statut", "Établissement", "SIRET", "Type d'établissement", "Contact", "Email", "Téléphone", "Adresse", "Code postal", "Ville", "Kg", "Prix €/kg", "Total €", "Message", "UTM"],
       filtered.map((l) => [
         new Date(l.created_at).toLocaleString("fr-FR"),
         l.kind,
         l.status,
         l.company,
+        l.siret ?? "",
         ESTABLISHMENT_LABELS[l.establishment_type] ?? l.establishment_type,
         l.contact_name,
         l.email,
@@ -242,6 +244,7 @@ const ProLeadsTab = ({ refreshToken }: { refreshToken: number }) => {
                     </td>
                     <td className="py-3 px-3">
                       <div className="font-medium text-foreground">{lead.company}</div>
+                      {lead.siret && <div className="text-xs text-foreground/70">SIRET {lead.siret}</div>}
                       <div className="text-xs text-foreground/70">
                         {ESTABLISHMENT_LABELS[lead.establishment_type] ?? lead.establishment_type} · {lead.postal_code} {lead.city}
                       </div>

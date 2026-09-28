@@ -2,7 +2,8 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import type { OrderItemLike } from "../_shared/format.ts";
-import { PREORDER_2027, preorderAmounts, shippingZoneForCountry } from "../_shared/catalog.ts";
+import { PREORDER_2027, preorderAmounts } from "../_shared/catalog.ts";
+import { isValidSiret, normalizeSiret } from "../_shared/siret.ts";
 import { buildPreorderAdminEmail, buildPreorderConfirmationEmail } from "../_shared/preorderEmail.ts";
 import { buildAdminNewOrderEmail, buildOrderConfirmationEmail, type ShippingAddressLike } from "../_shared/orderEmails.ts";
 
@@ -35,15 +36,33 @@ async function getUnsubscribeToken(email: string): Promise<string> {
   return token;
 }
 
+// Champs personnalisés Stripe (liens de paiement pros et précommande) : société et SIRET.
+function customField(session: Stripe.Checkout.Session, key: string): string | null {
+  const field = session.custom_fields?.find((f: Stripe.Checkout.Session.CustomField) => f.key === key);
+  const value = field?.text?.value ?? field?.numeric?.value ?? field?.dropdown?.value ?? null;
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+function sessionBusiness(session: Stripe.Checkout.Session) {
+  const company = customField(session, "company") ?? session.customer_details?.business_name ?? null;
+  const rawSiret = customField(session, "siret");
+  const siret = rawSiret ? normalizeSiret(rawSiret) : null;
+  if (siret && !isValidSiret(siret)) {
+    console.warn("SIRET invalide (clé de Luhn) saisi au paiement", { sessionId: session.id });
+  }
+  return { company, siret };
+}
+
 async function sendOrderConfirmationEmail(
   orderId: string,
   customerEmail: string,
   customerName: string,
   items: OrderItemLike[],
   totalAmount: number,
-  shippingAddress: ShippingAddressLike | null
+  shippingAddress: ShippingAddressLike | null,
+  business: { company: string | null; siret: string | null },
 ) {
-  const input = { orderId, customerName, items, totalCents: totalAmount, shippingAddress };
+  const input = { orderId, customerName, items, totalCents: totalAmount, shippingAddress, ...business };
   if (customerEmail) {
     await enqueueTransactional(customerEmail, "order-confirmation", `order-confirmation-${orderId}`, buildOrderConfirmationEmail(input));
   }
@@ -151,7 +170,7 @@ async function handlePreorderSession(session: Stripe.Checkout.Session): Promise<
   const email = session.customer_details?.email || session.customer_email || "";
   const customerName = session.customer_details?.name || shipping?.name || email;
   const phone = session.customer_details?.phone ?? null;
-  const company = session.custom_fields?.find((f: Stripe.Checkout.Session.CustomField) => f.key === "company")?.text?.value?.trim() || null;
+  const { company, siret } = sessionBusiness(session);
   const locale = session.metadata?.locale === "en" ? "en" : "fr";
   const preorderId = crypto.randomUUID();
 
@@ -164,6 +183,7 @@ async function handlePreorderSession(session: Stripe.Checkout.Session): Promise<
     quantity_kg: amounts.kg,
     total_amount: amounts.totalCents / 100,
     company_name: company,
+    siret,
     contact_name: customerName,
     email,
     phone,
@@ -188,7 +208,7 @@ async function handlePreorderSession(session: Stripe.Checkout.Session): Promise<
       const confirmation = buildPreorderConfirmationEmail({ preorderId, customerName, amounts, locale });
       await enqueueTransactional(email, "preorder-confirmation", `preorder-confirmation-${preorderId}`, confirmation);
     }
-    const admin = buildPreorderAdminEmail({ preorderId, customerName, amounts, locale, email, phone, company });
+    const admin = buildPreorderAdminEmail({ preorderId, customerName, amounts, locale, email, phone, company, siret });
     await enqueueTransactional(ADMIN_EMAIL, "admin-new-preorder", `admin-new-preorder-${preorderId}`, admin);
   } catch (emailErr) {
     console.error("Failed to send pre-order emails (non-blocking):", emailErr);
@@ -258,9 +278,9 @@ serve(async (req) => {
     const { shipping, address: shippingAddress } = sessionShippingAddress(session);
 
     // Garde-fou : Stripe limite déjà les pays à la zone payée ; on trace tout écart éventuel.
-    const paidZone = session.metadata?.shipping_zone;
-    if (paidZone && shippingAddress?.country && shippingZoneForCountry(shippingAddress.country) !== paidZone) {
-      console.error("Shipping zone mismatch", { sessionId: session.id, paidZone, country: shippingAddress.country });
+    // Liens de paiement pros : livraison en France uniquement, port inclus.
+    if (shippingAddress?.country && shippingAddress.country !== "FR") {
+      console.error("Adresse de livraison hors de France", { sessionId: session.id, country: shippingAddress.country });
     }
 
     // Get customer email & name
@@ -310,7 +330,7 @@ serve(async (req) => {
 
     // Send confirmation email (non-blocking — don't fail the webhook on email error)
     try {
-      await sendOrderConfirmationEmail(orderId, customerEmail, customerName, items, session.amount_total || 0, shippingAddress);
+      await sendOrderConfirmationEmail(orderId, customerEmail, customerName, items, session.amount_total || 0, shippingAddress, sessionBusiness(session));
     } catch (emailErr) {
       console.error("Failed to send confirmation email (non-blocking):", emailErr);
     }

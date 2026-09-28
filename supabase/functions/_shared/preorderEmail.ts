@@ -3,6 +3,7 @@
 import { escapeHtml } from "./format.ts";
 import { PREORDER_2027, type PreorderAmounts } from "./catalog.ts";
 import { PRO_TAX_MENTION, formatEurosLocale } from "./proPricing.ts";
+import { formatSiret } from "./siret.ts";
 import { BRAND, emailDetails, emailHeading, emailPanel, emailText, renderEmailLayout } from "./emailLayout.ts";
 
 export interface PreorderEmailInput {
@@ -83,13 +84,16 @@ export function buildPreorderConfirmationEmail({ preorderId, customerName, amoun
   return { subject, html, text };
 }
 
-export function buildPreorderAdminEmail(input: PreorderEmailInput & { email: string; phone: string | null; company: string | null }): BuiltEmail {
+export function buildPreorderAdminEmail(
+  input: PreorderEmailInput & { email: string; phone: string | null; company: string | null; siret?: string | null },
+): BuiltEmail {
   const { amounts } = input;
   const eur = (cents: number) => formatEurosLocale(cents, "fr");
   const ref = preorderReference(input.preorderId);
   const rows: [string, string][] = [
     ["Référence", ref],
     ["Client", `${input.customerName}${input.company ? ` (${input.company})` : ""}`],
+    ["SIRET", input.siret ? formatSiret(input.siret) : "—"],
     ["Email", input.email],
     ["Téléphone", input.phone ?? "—"],
     ["Langue", input.locale.toUpperCase()],

@@ -2,6 +2,7 @@
 // Module pur (aucun import Deno/npm) : testé avec vitest (src/test/emails.test.ts).
 import { escapeHtml, itemLineTotalCents, itemQuantity, safeHttpsUrl, type OrderItemLike } from "./format.ts";
 import { PREORDER_2027 } from "./catalog.ts";
+import { formatSiret } from "./siret.ts";
 import { formatEurosLocale } from "./proPricing.ts";
 import {
   BRAND,
@@ -117,6 +118,16 @@ export interface OrderConfirmationInput {
   totalCents: number;
   shippingAddress?: ShippingAddressLike | null;
   createdAt?: Date | string;
+  // Liens de paiement pros : champs personnalisés Stripe.
+  company?: string | null;
+  siret?: string | null;
+}
+
+function businessRows(input: { company?: string | null; siret?: string | null }): EmailRow[] {
+  const rows: EmailRow[] = [];
+  if (input.company) rows.push(["Société", input.company]);
+  if (input.siret) rows.push(["SIRET", formatSiret(input.siret)]);
+  return rows;
 }
 
 export function buildOrderConfirmationEmail(input: OrderConfirmationInput): BuiltEmail {
@@ -130,7 +141,7 @@ export function buildOrderConfirmationEmail(input: OrderConfirmationInput): Buil
   const intro = "Merci pour votre commande. Votre paiement est confirmé et nous préparons votre colis.";
   const shippingNote =
     "Votre colis sera expédié sous 5 jours ouvrés, en colis suivi. Vous recevrez un email avec le numéro de suivi dès son départ.";
-  const invoiceNote = `Votre facture ${invoice} est disponible dans votre espace client si vous avez un compte avec cette adresse email. Sinon, écrivez-nous et nous vous l'enverrons.`;
+  const invoiceNote = `Votre facture ${invoice}, avec notre numéro SIRET, vous est envoyée par email.`;
 
   const body = [
     emailText(greeting),
@@ -140,6 +151,7 @@ export function buildOrderConfirmationEmail(input: OrderConfirmationInput): Buil
       ["Commande", ref],
       ["Date", formatDate(createdAt)],
       ["Facture", invoice],
+      ...businessRows(input),
     ]),
     emailHeading("Votre commande"),
     items.html,
@@ -152,7 +164,6 @@ export function buildOrderConfirmationEmail(input: OrderConfirmationInput): Buil
     preheader: `Commande ${ref} confirmée — ${eur(input.totalCents)}. Expédition sous 5 jours ouvrés.`,
     title: "Votre commande est confirmée",
     bodyHtml: body,
-    cta: { label: "Voir mon espace client", url: `${BRAND.siteUrl}/profil` },
     commercial: true,
   });
 
@@ -190,6 +201,7 @@ export function buildAdminNewOrderEmail(input: OrderConfirmationInput & { custom
       ["Commande", ref],
       ["Client", input.customerName],
       ["Email", input.customerEmail],
+      ...businessRows(input),
     ]),
     items.html,
     address.length ? emailPanel("Adresse de livraison", emailLines(address)) : "",
@@ -311,7 +323,7 @@ export function buildStatusEmail(type: NotificationType, record: StatusRecord): 
       blocks.push(emailHeading("Votre commande"), items.html);
       blocks.push(
         emailText(
-          `Votre facture ${invoiceNumber(record.id, record.created_at ?? new Date())} est disponible dans votre espace client si vous avez un compte avec cette adresse email.`,
+          `Votre facture ${invoiceNumber(record.id, record.created_at ?? new Date())}, avec notre numéro SIRET, vous est envoyée par email.`,
           { muted: true, small: true },
         ),
       );
