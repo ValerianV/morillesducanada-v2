@@ -39,9 +39,10 @@ non appliquées** : elles contiennent l'URL de l'ancien projet. Appliquer à la 
 | 3 | `20260928090200_triggers_new_project.sql` | triggers vers le bon projet, clé lue dans le vault |
 | 4 | `20260928100000_pro_leads.sql` | table des leads pros |
 | 5 | `20260928110000_pre_orders_2027.sql` | précommande 2027 |
+| 6 | `20260928120000_cron_io_optimisation.sql` | cron emails toutes les 5 min + purge du journal cron (**déjà appliquée à la main en production le 2026-09-28** : la marquer comme appliquée) |
 
 ```bash
-supabase migration repair --status applied 20260928090000 20260928090100 20260928090200 20260928100000 20260928110000 --project-ref oeweykyazadobobjncfg
+supabase migration repair --status applied 20260928090000 20260928090100 20260928090200 20260928100000 20260928110000 20260928120000 --project-ref oeweykyazadobobjncfg
 ```
 Toutes les migrations sont idempotentes (rejouables sans effet de bord).
 

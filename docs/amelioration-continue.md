@@ -19,6 +19,8 @@
 ## Backlog (priorisé)
 
 ### P1
+- [ ] Surveiller le budget Disk IO chaque semaine (`/suivi-commercial`) ; alerte si > 50 % consommé.
+- [ ] Activer une sauvegarde : le plan gratuit n'en fait aucune — exporter la base chaque semaine (`supabase db dump`) tant qu'on reste en gratuit.
 - [ ] Mettre en production la branche `feat/tunnel-pro` (sécurité + tunnel pro + SEO + précommande) — `docs/tech/deploiement.md`.
 - [ ] Vérifier le domaine Resend `pro.morillesducanada.com` puis envoyer la vague 1 après validation.
 - [ ] Google Search Console + sitemap.
