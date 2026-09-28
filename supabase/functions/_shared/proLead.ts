@@ -3,6 +3,15 @@
 
 import { escapeHtml } from "./format.ts";
 import {
+  emailDetails,
+  emailHeading,
+  emailLink,
+  emailPanel,
+  emailParagraph,
+  emailText,
+  renderEmailLayout,
+} from "./emailLayout.ts";
+import {
   PRO_MAX_KG,
   PRO_MIN_KG,
   PRO_SAMPLE_GRAMS,
@@ -205,26 +214,13 @@ function quoteRows(q: ProQuote, locale: "fr" | "en"): Array<[string, string]> {
   return [
     [en ? "Quantity" : "Quantité", formatKg(q.kg, locale)],
     [en ? "Price tier" : "Palier", q.tier.label[locale]],
-    [en ? "Price" : "Prix", formatTierPrice(q.tier, locale)],
+    [en ? "Price per kilo" : "Prix au kilo", formatTierPrice(q.tier, locale)],
     [en ? "Estimated total" : "Total estimé", formatEurosLocale(q.totalCents, locale)],
   ];
 }
 
-function htmlTable(rows: Array<[string, string]>): string {
-  return `<table cellpadding="6" cellspacing="0" style="border-collapse:collapse;font-size:15px;">${rows
-    .map(
-      ([k, v]) =>
-        `<tr><td style="color:#555;padding-right:16px;vertical-align:top;">${escapeHtml(k)}</td><td style="color:#1a1612;"><strong>${escapeHtml(v)}</strong></td></tr>`,
-    )
-    .join("")}</table>`;
-}
-
 function textTable(rows: Array<[string, string]>): string {
   return rows.map(([k, v]) => `${k} : ${v}`).join("\n");
-}
-
-function layout(inner: string): string {
-  return `<!doctype html><html><body style="margin:0;padding:24px;background:#f5f2eb;font-family:Arial,Helvetica,sans-serif;color:#1a1612;line-height:1.6;"><div style="max-width:600px;margin:0 auto;background:#ffffff;padding:28px;border-top:3px solid #c9a84c;">${inner}</div></body></html>`;
 }
 
 export function buildAdminEmail(lead: ProLeadInput, q: ProQuote | null, leadId: string): EmailContent {
@@ -239,36 +235,55 @@ export function buildAdminEmail(lead: ProLeadInput, q: ProQuote | null, leadId: 
     ["Ville", `${lead.postal_code} ${lead.city}`],
     ["Langue", lead.locale.toUpperCase()],
   ];
-  if (q) rows.push(...quoteRows(q, "fr"));
   if (lead.utm) rows.push(["UTM", Object.entries(lead.utm).map(([k, v]) => `${k}=${v}`).join(" · ")]);
+  const quoteTable = q ? quoteRows(q, "fr") : [];
 
-  const phoneLink = lead.phone
-    ? `<p><a href="tel:${escapeHtml(lead.phone.replace(/[^+0-9]/g, ""))}" style="color:#8a6a1c;">Appeler ${escapeHtml(lead.phone)}</a></p>`
+  const phoneLine = lead.phone
+    ? emailParagraph(`Appeler : ${emailLink(lead.phone, `tel:${lead.phone.replace(/[^+0-9]/g, "")}`)}`)
     : "";
-  const messageBlock = lead.message
-    ? `<h3 style="font-size:15px;margin:20px 0 6px;">Message</h3><p style="white-space:pre-wrap;margin:0;">${escapeHtml(lead.message)}</p>`
-    : "";
+  const body = [
+    emailText(
+      lead.kind === "devis"
+        ? `${lead.contact_name} (${lead.company}, ${lead.city}) demande un devis depuis /professionnels.`
+        : `${lead.contact_name} (${lead.company}, ${lead.city}) demande un échantillon de ${PRO_SAMPLE_GRAMS} g.`,
+    ),
+    q ? emailHeading("Devis estimé") + emailDetails(quoteTable, { emphasizeLast: true }) : "",
+    q ? emailText("Estimation calculée par le site avec la grille publique, à confirmer.", { muted: true, small: true }) : "",
+    emailHeading("Demandeur"),
+    emailDetails(rows),
+    lead.message ? emailPanel("Message", escapeHtml(lead.message).replace(/\r?\n/g, "<br>")) : "",
+    phoneLine,
+    emailText(`Répondre à cet email écrit directement au prospect. Réf. ${leadId}`, { muted: true, small: true }),
+  ].join("");
 
-  const html = layout(
-    `<h2 style="font-size:20px;margin:0 0 16px;">${escapeHtml(adminSubject(lead))}</h2>${htmlTable(rows)}${
-      q ? `<p style="font-size:13px;color:#555;">${escapeHtml(PRO_TAX_MENTION.fr)}. Estimation calculée par le site, à confirmer.</p>` : ""
-    }${messageBlock}${phoneLink}<p><a href="${SITE_URL}/admin" style="color:#8a6a1c;">Ouvrir l'onglet Leads pro</a> · réf. ${escapeHtml(leadId)}</p><p style="font-size:13px;color:#555;">Répondre à cet email écrit directement au prospect.</p>`,
-  );
+  const subject = adminSubject(lead);
+  const html = renderEmailLayout({
+    preheader: q
+      ? `${lead.company} (${lead.city}) · ${formatKg(q.kg)} · ${formatEurosLocale(q.totalCents)}`
+      : `${lead.company} (${lead.city}) · échantillon ${PRO_SAMPLE_GRAMS} g`,
+    title: lead.kind === "devis" ? "Nouvelle demande de devis" : "Nouvelle demande d'échantillon",
+    bodyHtml: body,
+    cta: { label: "Ouvrir les leads pro", url: `${SITE_URL}/admin` },
+    footerNote: "Alerte interne envoyée par le formulaire /professionnels.",
+    commercial: q !== null,
+  });
 
   const text = [
-    adminSubject(lead),
+    subject,
     "",
+    q ? `Devis estimé\n${textTable(quoteTable)}\n${PRO_TAX_MENTION.fr}. Estimation à confirmer.\n` : "",
     textTable(rows),
     lead.message ? `\nMessage :\n${lead.message}` : "",
     "",
     `Admin : ${SITE_URL}/admin · réf. ${leadId}`,
   ].join("\n");
 
-  return { subject: adminSubject(lead), html, text };
+  return { subject, html, text };
 }
 
 export function buildProspectEmail(lead: ProLeadInput, q: ProQuote | null): EmailContent {
   const en = lead.locale === "en";
+  const locale = lead.locale;
   const name = lead.contact_name;
   const isQuote = lead.kind === "devis" && q !== null;
 
@@ -299,17 +314,40 @@ export function buildProspectEmail(lead: ProLeadInput, q: ProQuote | null): Emai
   const greeting = en ? `Hello ${name},` : `Bonjour ${name},`;
   const recapTitle = en ? "Summary" : "Récapitulatif";
   const questions = en ? "Any questions?" : "Une question ?";
-  const signature = en ? "Valérian — Morilles du Canada" : "Valérian — Morilles du Canada";
-  const tax = PRO_TAX_MENTION[lead.locale];
-  const rows = isQuote ? quoteRows(q!, lead.locale) : [];
+  const signature = "Valérian — Morilles du Canada";
+  const tax = PRO_TAX_MENTION[locale];
+  const rows = isQuote ? quoteRows(q!, locale) : [];
 
-  const html = layout(
-    `<p>${escapeHtml(greeting)}</p><p>${escapeHtml(intro)}</p>${
-      isQuote
-        ? `<h3 style="font-size:16px;margin:20px 0 8px;">${escapeHtml(recapTitle)}</h3>${htmlTable(rows)}<p style="font-size:14px;color:#555;">${escapeHtml(tax)}.</p>`
-        : ""
-    }<p>${escapeHtml(next)}</p><p>${escapeHtml(questions)} <a href="tel:${CONTACT_PHONE_TEL}" style="color:#8a6a1c;">${CONTACT_PHONE_DISPLAY}</a> · <a href="mailto:${CONTACT_EMAIL}" style="color:#8a6a1c;">${CONTACT_EMAIL}</a></p><p>${escapeHtml(signature)}<br><a href="${SITE_URL}/professionnels" style="color:#8a6a1c;">morillesducanada.com/professionnels</a></p>`,
-  );
+  const body = [
+    emailText(greeting),
+    emailText(intro),
+    isQuote ? emailHeading(recapTitle) + emailDetails(rows, { emphasizeLast: true }) : "",
+    emailText(next),
+  ].join("");
+  const closing = [
+    emailParagraph(
+      `${escapeHtml(questions)} ${emailLink(CONTACT_PHONE_DISPLAY, `tel:${CONTACT_PHONE_TEL}`)} · ${emailLink(CONTACT_EMAIL, `mailto:${CONTACT_EMAIL}`)}`,
+    ),
+    emailParagraph(`<span style="font-family:Georgia,serif;font-style:italic;">${escapeHtml(signature)}</span>`, { muted: true }),
+  ].join("");
+
+  const html = renderEmailLayout({
+    preheader: isQuote
+      ? en
+        ? `${formatKg(q!.kg, "en")} at ${formatTierPrice(q!.tier, "en")}: estimated total ${formatEurosLocale(q!.totalCents, "en")}.`
+        : `${formatKg(q!.kg)} à ${formatTierPrice(q!.tier)} : total estimé ${formatEurosLocale(q!.totalCents)}.`
+      : en
+        ? `Your ${PRO_SAMPLE_GRAMS} g sample jar: Valérian will contact you to confirm the shipment.`
+        : `Votre pot de ${PRO_SAMPLE_GRAMS} g : Valérian vous recontacte pour confirmer l'envoi.`,
+    title: isQuote
+      ? en ? "Your quote request" : "Votre demande de devis"
+      : en ? "Your sample request" : "Votre demande d'échantillon",
+    bodyHtml: body,
+    cta: { label: en ? "See per-kilo prices" : "Voir la grille au kilo", url: `${SITE_URL}/professionnels` },
+    afterCtaHtml: `<div style="height:12px;line-height:12px;font-size:12px;">&nbsp;</div>${closing}`,
+    commercial: isQuote,
+    locale,
+  });
 
   const text = [
     greeting,

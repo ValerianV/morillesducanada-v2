@@ -28,8 +28,11 @@
 - [ ] Colonne `statut` dans `docs/commercial/prospects.csv` ou CRM (à décider).
 
 ### P2
-- [ ] Lien du hook d'authentification sans jeton de vérification (B8 de l'audit dev).
-- [ ] Durcir `notify-contact` (public, HTML non échappé) ; insertion anonyme `pre_orders` ;
+- [x] Lien du hook d'authentification sans jeton de vérification (B8 de l'audit dev) : corrigé
+      sur `feat/finitions` (`_shared/authEmails.ts`), à vérifier en production (inscription, mot de passe oublié).
+- [ ] Changement d'email sécurisé (`email_change` avec `token_hash_new`) : non testé, la fonction n'est
+      pas proposée sur le site. À tester avant de l'ouvrir.
+- [ ] Durcir `notify-contact` (public ; HTML désormais échappé via `_shared/orderEmails.ts`) ; insertion anonyme `pre_orders` ;
       `reviews.approved` vrai par défaut ; index unique sur `orders.stripe_session_id` ; CORS `*`.
 - [ ] Collecter les premiers avis (email post-achat) puis réafficher la section avis.
 - [ ] Fiche technique harmonisée (délais de séchage, conservation, rendement) — données à fournir par le fondateur.

@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { buildContactNotificationEmail } from "../_shared/orderEmails.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -44,53 +45,19 @@ serve(async (req) => {
       });
     }
 
-    const typeLabel = type === 'professionnel' ? '🏢 Professionnel' : '👤 Particulier';
-    const date = new Date(created_at).toLocaleString('fr-FR', {
-      dateStyle: 'long',
-      timeStyle: 'short',
-    });
-
     const SITE_NAME = "Morilles du Canada";
     const SENDER_DOMAIN = "notify.morillesducanada.com";
     const FROM_DOMAIN = "morillesducanada.com";
 
-    const htmlContent = `
-      <div style="font-family: 'Raleway', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; padding: 32px;">
-        <div style="text-align: center; margin-bottom: 24px;">
-          <h1 style="font-family: 'Cormorant Garamond', Georgia, serif; color: #1a1714; font-size: 28px; margin: 0;">
-            Nouveau message de contact
-          </h1>
-          <p style="color: #cc9a2e; font-size: 14px; margin-top: 4px;">${typeLabel}</p>
-        </div>
-        
-        <div style="background: white; border-radius: 8px; padding: 24px; border: 1px solid #e8e4df;">
-          <table style="width: 100%; border-collapse: collapse;">
-            <tr>
-              <td style="padding: 8px 0; color: #8a7e6b; font-size: 13px; width: 100px;">Nom</td>
-              <td style="padding: 8px 0; color: #1a1714; font-weight: 600;">${name}</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; color: #8a7e6b; font-size: 13px;">Email</td>
-              <td style="padding: 8px 0; color: #1a1714;">
-                <a href="mailto:${email}" style="color: #cc9a2e; text-decoration: none;">${email}</a>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; color: #8a7e6b; font-size: 13px;">Date</td>
-              <td style="padding: 8px 0; color: #1a1714;">${date}</td>
-            </tr>
-          </table>
-          
-          <hr style="border: none; border-top: 1px solid #e8e4df; margin: 16px 0;" />
-          
-          <div style="color: #1a1714; line-height: 1.6; white-space: pre-wrap;">${message}</div>
-        </div>
-        
-        <p style="text-align: center; color: #8a7e6b; font-size: 12px; margin-top: 24px;">
-          Morilles du Canada — Notification automatique
-        </p>
-      </div>
-    `;
+    // Contenu échappé (nom, email et message viennent d'un formulaire public).
+    const { subject, html: htmlContent, text } = buildContactNotificationEmail({
+      id: record.id,
+      name,
+      email,
+      message,
+      type,
+      created_at,
+    });
 
     // Get or create unsubscribe token
     async function getUnsubscribeToken(recipientEmail: string): Promise<string> {
@@ -111,8 +78,6 @@ serve(async (req) => {
     const messageId = `contact-notification-${record.id}-${ts}`;
     const unsubToken = await getUnsubscribeToken(adminEmail);
 
-    const subject = `📩 Nouveau message de ${name} (${typeLabel})`;
-    const text = `Nouveau message de ${name} (${email}) - ${typeLabel}: ${message}`;
 
     // Enqueue via pgmq
     const { error: enqueueError } = await supabase.rpc("enqueue_email", {

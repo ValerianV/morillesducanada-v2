@@ -3,6 +3,7 @@
 import { escapeHtml } from "./format.ts";
 import { PREORDER_2027, type PreorderAmounts } from "./catalog.ts";
 import { PRO_TAX_MENTION, formatEurosLocale } from "./proPricing.ts";
+import { BRAND, emailDetails, emailHeading, emailPanel, emailText, renderEmailLayout } from "./emailLayout.ts";
 
 export interface PreorderEmailInput {
   preorderId: string;
@@ -57,22 +58,22 @@ export function buildPreorderConfirmationEmail({ preorderId, customerName, amoun
     : `Nous vous enverrons la facture du solde avant l'expédition, en ${delivery}. Pour toute question : contact@morillesducanada.com.`;
   const tax = PRO_TAX_MENTION[locale];
 
-  const table = rows
-    .map(
-      ([label, value]) =>
-        `<tr><td style="padding:8px 12px;border-bottom:1px solid #e8e0cf;color:#6b604c;font-size:13px;width:38%;">${escapeHtml(label)}</td><td style="padding:8px 12px;border-bottom:1px solid #e8e0cf;color:#1a1612;font-size:14px;">${escapeHtml(value)}</td></tr>`,
-    )
-    .join("");
-
-  const html = `<!doctype html><html><body style="margin:0;padding:24px;background:#f5f2eb;font-family:Arial,Helvetica,sans-serif;color:#1a1612;line-height:1.6;"><div style="max-width:600px;margin:0 auto;background:#ffffff;padding:28px;border-top:3px solid #c9a84c;">
-<p style="font-family:Georgia,serif;font-size:20px;margin:0 0 16px;">Morilles du Canada</p>
-<p style="margin:0 0 12px;">${escapeHtml(greeting)}</p>
-<p style="margin:0 0 16px;">${escapeHtml(intro)}</p>
-<table style="width:100%;border-collapse:collapse;margin:0 0 16px;">${table}</table>
-<p style="margin:0 0 12px;"><strong>${escapeHtml(refund)}</strong></p>
-<p style="margin:0 0 12px;">${escapeHtml(next)}</p>
-<p style="margin:16px 0 0;font-size:12px;color:#6b604c;">${escapeHtml(tax)}.</p>
-</div></body></html>`;
+  const html = renderEmailLayout({
+    preheader: en
+      ? `${amounts.kg} kg reserved for the ${PREORDER_2027.season} season. Deposit received: ${eur(amounts.depositCents)}.`
+      : `${amounts.kg} kg réservés pour la saison ${PREORDER_2027.season}. Acompte reçu : ${eur(amounts.depositCents)}.`,
+    title: en ? `Your ${PREORDER_2027.season} pre-order is confirmed` : `Votre précommande ${PREORDER_2027.season} est confirmée`,
+    bodyHtml: [
+      emailText(greeting),
+      emailText(intro),
+      emailHeading(en ? "Your pre-order" : "Votre précommande"),
+      emailDetails(rows),
+      emailPanel(en ? "Deposit guarantee" : "Garantie de l'acompte", escapeHtml(refund)),
+      emailText(next),
+    ].join(""),
+    commercial: true,
+    locale,
+  });
 
   const text = [greeting, "", intro, "", ...rows.map(([l, v]) => `${l} : ${v}`), "", refund, next, "", `${tax}.`].join("\n");
   const subject = en
@@ -86,18 +87,30 @@ export function buildPreorderAdminEmail(input: PreorderEmailInput & { email: str
   const { amounts } = input;
   const eur = (cents: number) => formatEurosLocale(cents, "fr");
   const ref = preorderReference(input.preorderId);
-  const lines = [
-    `Référence : ${ref}`,
-    `Client : ${input.customerName}${input.company ? ` (${input.company})` : ""}`,
-    `Email : ${input.email}`,
-    `Téléphone : ${input.phone ?? "—"}`,
-    `Quantité : ${amounts.kg} kg`,
-    `Acompte payé : ${eur(amounts.depositCents)}`,
-    `Solde à facturer avant expédition : ${eur(amounts.balanceCents)}`,
+  const rows: [string, string][] = [
+    ["Référence", ref],
+    ["Client", `${input.customerName}${input.company ? ` (${input.company})` : ""}`],
+    ["Email", input.email],
+    ["Téléphone", input.phone ?? "—"],
+    ["Langue", input.locale.toUpperCase()],
+    ["Quantité", `${amounts.kg} kg`],
+    ["Acompte payé", eur(amounts.depositCents)],
+    ["Solde à facturer avant expédition", eur(amounts.balanceCents)],
   ];
+  const html = renderEmailLayout({
+    preheader: `${amounts.kg} kg — ${input.customerName} — acompte ${eur(amounts.depositCents)} payé.`,
+    title: `Nouvelle précommande ${PREORDER_2027.season}`,
+    bodyHtml: [
+      emailText(`${input.customerName} a précommandé ${amounts.kg} kg pour la saison ${PREORDER_2027.season}. L'acompte est payé.`),
+      emailDetails(rows, { emphasizeLast: true }),
+    ].join(""),
+    cta: { label: "Ouvrir l'administration", url: `${BRAND.siteUrl}/admin` },
+    footerNote: "Alerte interne envoyée après le paiement Stripe.",
+    commercial: true,
+  });
   return {
     subject: `[Précommande ${PREORDER_2027.season}] ${amounts.kg} kg — ${input.customerName} (${ref})`,
-    html: `<p>${lines.map(escapeHtml).join("<br/>")}</p>`,
-    text: lines.join("\n"),
+    html,
+    text: rows.map(([l, v]) => `${l} : ${v}`).join("\n"),
   };
 }

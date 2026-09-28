@@ -1,41 +1,28 @@
-import * as React from 'npm:react@18.3.1'
-import { renderAsync } from 'npm:@react-email/components@0.0.22'
 import { Webhook } from 'npm:standardwebhooks@1.0.0'
-import { SignupEmail } from '../_shared/email-templates/signup.tsx'
-import { InviteEmail } from '../_shared/email-templates/invite.tsx'
-import { MagicLinkEmail } from '../_shared/email-templates/magic-link.tsx'
-import { RecoveryEmail } from '../_shared/email-templates/recovery.tsx'
-import { EmailChangeEmail } from '../_shared/email-templates/email-change.tsx'
-import { ReauthenticationEmail } from '../_shared/email-templates/reauthentication.tsx'
+import { authVerifyUrl, buildAuthEmail, isAuthEmailType, type AuthEmailType } from '../_shared/authEmails.ts'
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? ''
 // Secret du hook « Send Email » (Dashboard → Auth → Hooks), format « v1,whsec_... »
 const SEND_EMAIL_HOOK_SECRET = (Deno.env.get('SEND_EMAIL_HOOK_SECRET') ?? '').replace('v1,whsec_', '')
 const FROM = 'Morilles du Canada <noreply@morillesducanada.com>'
-const SITE_NAME = 'Morilles du Canada'
-const SITE_URL = 'https://www.morillesducanada.com'
+const SUPABASE_URL = Deno.env.get('SUPABASE_URL') ?? ''
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-const EMAIL_SUBJECTS: Record<string, string> = {
-  signup: 'Confirmez votre adresse e-mail',
-  invite: 'Vous êtes invité(e)',
-  magiclink: 'Votre lien de connexion',
-  recovery: 'Réinitialisation du mot de passe',
-  email_change: 'Confirmez votre nouvelle adresse e-mail',
-  reauthentication: 'Votre code de vérification',
-}
-
-const EMAIL_TEMPLATES: Record<string, React.ComponentType<any>> = {
-  signup: SignupEmail,
-  invite: InviteEmail,
-  magiclink: MagicLinkEmail,
-  recovery: RecoveryEmail,
-  email_change: EmailChangeEmail,
-  reauthentication: ReauthenticationEmail,
+async function sendResend(to: string, email: { subject: string; html: string; text: string }) {
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ from: FROM, to, subject: email.subject, html: email.html, text: email.text }),
+  })
+  if (!res.ok) throw new Error(`Resend ${res.status}: ${(await res.text()).slice(0, 300)}`)
+  return (await res.json()) as { id?: string }
 }
 
 Deno.serve(async (req) => {
@@ -75,8 +62,7 @@ Deno.serve(async (req) => {
   }
 
   const emailType = email_data.email_action_type
-  const EmailTemplate = EMAIL_TEMPLATES[emailType]
-  if (!EmailTemplate) {
+  if (!isAuthEmailType(emailType)) {
     console.error('Unknown email type', { emailType })
     return new Response(JSON.stringify({ error: `Unknown email type: ${emailType}` }), {
       status: 400,
@@ -84,45 +70,44 @@ Deno.serve(async (req) => {
     })
   }
 
-  const templateProps = {
-    siteName: SITE_NAME,
-    siteUrl: SITE_URL,
-    recipient: user.email,
-    confirmationUrl: email_data.redirect_to || SITE_URL,
-    token: email_data.token,
-    email: user.email,
-    newEmail: user.new_email,
+  const verifyUrl = (tokenHash: string | undefined, type: AuthEmailType) =>
+    tokenHash && SUPABASE_URL
+      ? authVerifyUrl({ supabaseUrl: SUPABASE_URL, tokenHash, type, redirectTo: email_data.redirect_to })
+      : undefined
+
+  // Changement d'email sécurisé : un lien pour l'adresse actuelle (token_hash) et un pour la nouvelle
+  // (token_hash_new). Sinon, un seul envoi.
+  const sends: Array<{ to: string; url?: string }> = []
+  if (emailType === 'email_change' && user.new_email) {
+    if (email_data.token_hash_new) {
+      sends.push({ to: user.email, url: verifyUrl(email_data.token_hash, 'email_change') })
+      sends.push({ to: user.new_email, url: verifyUrl(email_data.token_hash_new, 'email_change') })
+    } else {
+      sends.push({ to: user.new_email, url: verifyUrl(email_data.token_hash, 'email_change') })
+    }
+  } else {
+    sends.push({ to: user.email, url: verifyUrl(email_data.token_hash, emailType) })
   }
 
-  const html = await renderAsync(React.createElement(EmailTemplate, templateProps))
-  const text = await renderAsync(React.createElement(EmailTemplate, templateProps), { plainText: true })
-
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${RESEND_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from: FROM,
-      to: user.email,
-      subject: EMAIL_SUBJECTS[emailType] || 'Notification',
-      html,
-      text,
-    }),
-  })
-
-  if (!res.ok) {
-    const err = await res.text()
-    console.error('Resend error', { status: res.status, error: err })
+  let result: { id?: string } = {}
+  try {
+    for (const send of sends) {
+      const email = buildAuthEmail(emailType, {
+        verifyUrl: send.url,
+        token: email_data.token,
+        email: user.email,
+        newEmail: user.new_email,
+      })
+      result = await sendResend(send.to, email)
+      console.log('Email sent', { id: result.id, type: emailType })
+    }
+  } catch (err) {
+    console.error('Resend error', { error: err instanceof Error ? err.message : String(err) })
     return new Response(JSON.stringify({ error: 'Failed to send email' }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
   }
-
-  const result = await res.json()
-  console.log('Email sent', { id: result.id, to: user.email, type: emailType })
 
   return new Response(JSON.stringify({ success: true, id: result.id }), {
     status: 200,

@@ -1,5 +1,4 @@
 import { describe, it, expect, vi } from "vitest";
-import { readFileSync } from "node:fs";
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
@@ -9,6 +8,7 @@ import { supabaseModule, supabaseLazyModule } from "./qaHarness";
 vi.mock("@/integrations/supabase/client", () => supabaseModule);
 vi.mock("@/integrations/supabase/lazy", () => supabaseLazyModule);
 
+import { authVerifyUrl } from "../../supabase/functions/_shared/authEmails";
 import CGV from "@/pages/CGV";
 
 const plain = (s: string | null) => (s ?? "").replace(/\s/g, " ");
@@ -47,7 +47,7 @@ describe("CGV", () => {
 
 describe("auth-email-hook", () => {
   it("renvoie vers le domaine canonique www", () => {
-    const source = readFileSync("supabase/functions/auth-email-hook/index.ts", "utf8");
-    expect(source).toContain("const SITE_URL = 'https://www.morillesducanada.com'");
+    const url = authVerifyUrl({ supabaseUrl: "https://x.supabase.co", tokenHash: "t", type: "signup" });
+    expect(new URL(url).searchParams.get("redirect_to")).toBe("https://www.morillesducanada.com");
   });
 });

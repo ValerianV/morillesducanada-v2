@@ -25,11 +25,21 @@ Navigateur ──► Vercel (SPA React prérendue, dist/)
 | `submit-pro-lead` | Devis / échantillon pro → `pro_leads` + alerte contact@ + accusé de réception | publique, honeypot, 5/h |
 | `notify-order-status` | Emails de changement de statut | admin ou service_role |
 | `notify-contact` | Alerte formulaire de contact | publique (à durcir, voir backlog) |
-| `auth-email-hook` | Emails d'authentification via Resend | signature Standard Webhooks |
+| `auth-email-hook` | Emails d'authentification via Resend (`_shared/authEmails.ts`) | signature Standard Webhooks |
 | `generate-invoice` | Facture PDF/HTML | — |
 | `process-email-queue` | Vide la file pgmq via Resend | service_role (cron) |
 
 Code partagé : `supabase/functions/_shared/` (catalogue, grille pro, formatage, emails).
+
+### Emails
+
+Tous les emails passent par une seule mise en page, `_shared/emailLayout.ts` (fond sombre chaud, or,
+texte crème, titres serif, logo `https://www.morillesducanada.com/logo.png`, 600 px, tables et styles
+en ligne, bouton compatible Outlook, pied de page avec la mention fiscale sur les emails commerciaux).
+Contenus : `_shared/proLead.ts` (devis, échantillon), `_shared/preorderEmail.ts` (précommande),
+`_shared/orderEmails.ts` (commande, statuts, contact), `_shared/authEmails.ts` (authentification,
+lien de vérification Supabase construit avec `token_hash`). Modules purs, testés dans
+`src/test/emails.test.ts`. Tout texte dynamique est échappé ; aucun emoji dans les objets.
 Le front réexporte la grille via `src/lib/proPricing.ts` : **une seule source de prix**.
 
 ## Front
