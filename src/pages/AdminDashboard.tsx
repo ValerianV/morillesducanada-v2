@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Loader2, ShieldAlert, Download, RefreshCw, Truck } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import ProLeadsTab from "@/components/admin/ProLeadsTab";
+import Preorders2027Tab from "@/components/admin/Preorders2027Tab";
 import { exportCsv } from "@/lib/csv";
 import { toast } from "sonner";
 
@@ -22,21 +23,6 @@ type Order = {
   carrier: string | null;
 };
 
-type PreOrder = {
-  id: string;
-  company_name: string;
-  contact_name: string;
-  email: string;
-  phone: string | null;
-  morel_type: string;
-  quantity_kg: number;
-  total_amount: number;
-  status: string;
-  stripe_session_id: string | null;
-  notes: string | null;
-  created_at: string;
-};
-
 type Review = {
   id: string;
   first_name: string;
@@ -47,7 +33,6 @@ type Review = {
 };
 
 const STATUS_OPTIONS = ["pending", "paid", "shipped", "delivered", "cancelled"];
-const PRE_STATUS_OPTIONS = ["pending", "paid", "confirmed", "delivered", "cancelled"];
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -55,7 +40,6 @@ const AdminDashboard = () => {
   const [tab, setTab] = useState<"leads" | "orders" | "preorders" | "reviews">("leads");
   const [leadsRefresh, setLeadsRefresh] = useState(0);
   const [orders, setOrders] = useState<Order[]>([]);
-  const [preOrders, setPreOrders] = useState<PreOrder[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState("all");
@@ -78,13 +62,11 @@ const AdminDashboard = () => {
     setLoading(true);
     setLeadsRefresh((n) => n + 1);
     try {
-      const [ordersRes, preOrdersRes, reviewsRes] = await Promise.all([
+      const [ordersRes, reviewsRes] = await Promise.all([
         supabase.from("orders").select("*").order("created_at", { ascending: false }),
-        supabase.from("pre_orders").select("*").order("created_at", { ascending: false }),
         supabase.from("reviews").select("id, first_name, rating, comment, approved, created_at").order("created_at", { ascending: false }),
       ]);
       if (ordersRes.data) setOrders(ordersRes.data as Order[]);
-      if (preOrdersRes.data) setPreOrders(preOrdersRes.data as PreOrder[]);
       if (reviewsRes.data) setReviews(reviewsRes.data as Review[]);
     } catch (err) {
       console.error("Error fetching data:", err);
@@ -155,15 +137,6 @@ const AdminDashboard = () => {
     await notifyStatusChange("order", orderId, oldStatus);
   }
 
-  async function updatePreOrderStatus(id: string, status: string) {
-    const preOrder = preOrders.find((o) => o.id === id);
-    const oldStatus = preOrder?.status;
-    const { error } = await supabase.from("pre_orders").update({ status, updated_at: new Date().toISOString() }).eq("id", id);
-    if (error) { toast.error("Erreur lors de la mise à jour"); return; }
-    setPreOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status } : o)));
-    await notifyStatusChange("preorder", id, oldStatus);
-  }
-
   async function deleteReview(id: string) {
     await supabase.from("reviews").delete().eq("id", id);
     setReviews((prev) => prev.filter((r) => r.id !== id));
@@ -175,14 +148,9 @@ const AdminDashboard = () => {
   }
 
   const filteredOrders = statusFilter === "all" ? orders : orders.filter((o) => o.status === statusFilter);
-  const filteredPreOrders = statusFilter === "all" ? preOrders : preOrders.filter((o) => o.status === statusFilter);
 
   const handleExportOrders = () => {
     exportCsv("commandes.csv", ["ID", "Client", "Email", "Statut", "Total", "Date"], filteredOrders.map((o) => [o.id, o.customer_name, o.email, o.status, `${(o.total_amount / 100).toFixed(2)}€`, new Date(o.created_at).toLocaleDateString("fr-FR")]));
-  };
-
-  const handleExportPreOrders = () => {
-    exportCsv("pre-commandes.csv", ["ID", "Entreprise", "Contact", "Email", "Téléphone", "Type", "Quantité (kg)", "Total", "Statut", "Notes", "Date"], filteredPreOrders.map((o) => [o.id, o.company_name, o.contact_name, o.email, o.phone || "", o.morel_type, String(o.quantity_kg), `${o.total_amount}€`, o.status, o.notes || "", new Date(o.created_at).toLocaleDateString("fr-FR")]));
   };
 
   if (isAdmin === null) {
@@ -222,7 +190,7 @@ const AdminDashboard = () => {
           <div className="flex items-center justify-between mb-8">
             <div>
               <h1 className="font-serif text-3xl text-gradient-gold">Dashboard Admin</h1>
-              <p className="text-sm text-muted-foreground font-light mt-1">Leads pro, commandes, pré-commandes et avis</p>
+              <p className="text-sm text-muted-foreground font-light mt-1">Leads pro, commandes, précommandes 2027 et avis</p>
             </div>
             <button onClick={fetchData} disabled={loading} className="flex items-center gap-2 px-4 py-2 border border-gold/20 rounded-sm text-sm text-muted-foreground hover:text-primary hover:border-primary transition-colors">
               <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} /> Actualiser
@@ -233,9 +201,9 @@ const AdminDashboard = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             {[
               { label: "Commandes", value: orders.length },
-              { label: "Pré-commandes", value: preOrders.length },
-              { label: "En attente", value: [...orders, ...preOrders].filter((o) => o.status === "pending").length },
-              { label: "Pré-commandes (kg)", value: `${preOrders.reduce((s, o) => s + Number(o.quantity_kg), 0)} kg` },
+              { label: "À expédier", value: orders.filter((o) => o.status === "paid").length },
+              { label: "Expédiées", value: orders.filter((o) => o.status === "shipped").length },
+              { label: "En attente", value: orders.filter((o) => o.status === "pending").length },
             ].map((stat) => (
               <div key={stat.label} className="border border-gold/15 rounded-sm p-4 bg-background/50">
                 <p className="text-xs text-muted-foreground font-light tracking-wider uppercase">{stat.label}</p>
@@ -250,10 +218,10 @@ const AdminDashboard = () => {
               {(["leads", "orders", "preorders", "reviews"] as const).map((t) => (
                 <button key={t} onClick={() => { setTab(t); setStatusFilter("all"); }}
                   className={`px-4 py-2 text-sm tracking-wider uppercase rounded-sm transition-colors ${tab === t ? "bg-primary text-primary-foreground" : "border border-gold/20 text-muted-foreground hover:text-primary"}`}
-                >{t === "leads" ? "Leads pro" : t === "orders" ? "Commandes" : t === "preorders" ? "Pré-commandes" : "Avis"}</button>
+                >{t === "leads" ? "Leads pro" : t === "orders" ? "Commandes" : t === "preorders" ? "Précommandes 2027" : "Avis"}</button>
               ))}
             </div>
-            {(tab === "orders" || tab === "preorders") && (
+            {tab === "orders" && (
             <div className="flex items-center gap-3">
               <select
                 value={statusFilter}
@@ -261,11 +229,11 @@ const AdminDashboard = () => {
                 className="px-3 py-2 bg-secondary/30 border border-gold/15 rounded-sm text-sm text-foreground focus:outline-none focus:border-primary"
               >
                 <option value="all">Tous les statuts</option>
-                {(tab === "orders" ? STATUS_OPTIONS : PRE_STATUS_OPTIONS).map((s) => (
+                {STATUS_OPTIONS.map((s) => (
                   <option key={s} value={s}>{s}</option>
                 ))}
               </select>
-              <button onClick={tab === "orders" ? handleExportOrders : handleExportPreOrders}
+              <button onClick={handleExportOrders}
                 className="flex items-center gap-2 px-3 py-2 border border-gold/20 rounded-sm text-sm text-muted-foreground hover:text-primary hover:border-primary transition-colors">
                 <Download className="w-4 h-4" /> CSV
               </button>
@@ -275,6 +243,8 @@ const AdminDashboard = () => {
 
           {tab === "leads" ? (
             <ProLeadsTab refreshToken={leadsRefresh} />
+          ) : tab === "preorders" ? (
+            <Preorders2027Tab refreshToken={leadsRefresh} onStatusChange={(id, oldStatus) => notifyStatusChange("preorder", id, oldStatus)} />
           ) : loading ? (
             <div className="flex justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
           ) : tab === "orders" ? (
@@ -321,47 +291,6 @@ const AdminDashboard = () => {
                         <select value={order.status} onChange={(e) => updateOrderStatus(order.id, e.target.value)}
                           className="px-2 py-1 bg-secondary/30 border border-gold/15 rounded-sm text-xs focus:outline-none focus:border-primary">
                           {STATUS_OPTIONS.map((s) => <option key={s} value={s}>{s}</option>)}
-                        </select>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : tab === "preorders" ? (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-gold/15 text-left text-xs text-muted-foreground uppercase tracking-wider">
-                    <th className="py-3 px-3">Date</th>
-                    <th className="py-3 px-3">Entreprise</th>
-                    <th className="py-3 px-3">Contact</th>
-                    <th className="py-3 px-3">Type</th>
-                    <th className="py-3 px-3">Quantité</th>
-                    <th className="py-3 px-3">Total</th>
-                    <th className="py-3 px-3">Statut</th>
-                    <th className="py-3 px-3">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredPreOrders.length === 0 ? (
-                    <tr><td colSpan={8} className="py-12 text-center text-muted-foreground font-light">Aucune pré-commande</td></tr>
-                  ) : filteredPreOrders.map((po) => (
-                    <tr key={po.id} className="border-b border-gold/10 hover:bg-secondary/10">
-                      <td className="py-3 px-3 text-muted-foreground">{new Date(po.created_at).toLocaleDateString("fr-FR")}</td>
-                      <td className="py-3 px-3 font-medium">{po.company_name}</td>
-                      <td className="py-3 px-3">
-                        <div>{po.contact_name}</div>
-                        <div className="text-xs text-muted-foreground">{po.email}</div>
-                      </td>
-                      <td className="py-3 px-3 capitalize">{po.morel_type}</td>
-                      <td className="py-3 px-3">{po.quantity_kg} kg</td>
-                      <td className="py-3 px-3 text-primary">{po.total_amount} €</td>
-                      <td className="py-3 px-3">{statusBadge(po.status)}</td>
-                      <td className="py-3 px-3">
-                        <select value={po.status} onChange={(e) => updatePreOrderStatus(po.id, e.target.value)}
-                          className="px-2 py-1 bg-secondary/30 border border-gold/15 rounded-sm text-xs focus:outline-none focus:border-primary">
-                          {PRE_STATUS_OPTIONS.map((s) => <option key={s} value={s}>{s}</option>)}
                         </select>
                       </td>
                     </tr>

@@ -25,7 +25,16 @@ const STATUS_LABELS: Record<string, { fr: string; emoji: string }> = {
   delivered: { fr: "Livrée", emoji: "🎉" },
   cancelled: { fr: "Annulée", emoji: "❌" },
   confirmed: { fr: "Confirmée", emoji: "✅" },
+  // Précommande saison 2027
+  acompte_paye: { fr: "Acompte payé", emoji: "" },
+  solde_facture: { fr: "Solde facturé", emoji: "" },
+  expediee: { fr: "Expédiée", emoji: "" },
+  livree: { fr: "Livrée", emoji: "" },
+  rembourse: { fr: "Acompte remboursé", emoji: "" },
+  annulee: { fr: "Annulée", emoji: "" },
 };
+
+const withEmoji = (emoji: string, label: string) => (emoji ? `${emoji} ${label}` : label);
 
 type NotificationType = "order" | "preorder";
 
@@ -79,7 +88,7 @@ function buildInvoiceTable(items: OrderItemLike[], totalAmount: number) {
       <tbody>${rows}</tbody>
       <tfoot>
         <tr>
-          <td colspan="2" style="padding: 12px; text-align: right; font-size: 14px; color: #8a7e6b; font-weight: 600;">Total TTC</td>
+          <td colspan="2" style="padding: 12px; text-align: right; font-size: 14px; color: #8a7e6b; font-weight: 600;">Total net</td>
           <td style="padding: 12px; text-align: right; font-size: 18px; color: #cc9a2e; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600;">${formatEuros(totalAmount)}</td>
         </tr>
       </tfoot>
@@ -103,7 +112,7 @@ function buildOrderEmail(customerName: string, status: string, type: Notificatio
         <div style="background: #2a2520; border: 1px solid #cc9a2e33; border-radius: 4px; padding: 24px; margin-bottom: 24px;">
           <p style="font-size: 14px; color: #8a7e6b; margin: 0 0 8px;">Statut de votre ${typeLabel}</p>
           <p style="font-size: 24px; margin: 0; color: #cc9a2e;">
-            ${statusInfo.emoji} ${escapeHtml(statusInfo.fr)}
+            ${escapeHtml(withEmoji(statusInfo.emoji, statusInfo.fr))}
           </p>
         </div>
         ${details}
@@ -225,6 +234,18 @@ serve(async (req) => {
           : `<p style="font-size: 14px; color: #e8dcc8;">Votre colis est en route ! Vous recevrez un numéro de suivi prochainement.</p>`;
         details += trackingInfo;
       }
+    } else if (record.saison === "2027") {
+      customerName = record.contact_name;
+      details = `
+        <p style="font-size: 14px; color: #e8dcc8;">
+          <strong>Précommande saison 2027 :</strong> ${shortId}<br/>
+          <strong>Quantité :</strong> ${escapeHtml(record.kg)} kg<br/>
+          <strong>Acompte payé :</strong> ${formatEuros(record.acompte_cents || 0)}<br/>
+          <strong>Solde :</strong> ${formatEuros(record.solde_cents || 0)}, facturé avant l'expédition<br/>
+          <strong>Livraison :</strong> octobre 2027
+        </p>
+        <p style="font-size: 13px; color: #8a7e6b;">S'il nous est impossible de fournir vos morilles, votre acompte vous est intégralement remboursé.</p>
+      `;
     } else {
       customerName = record.contact_name;
       const morelLabel = record.morel_type === "brune" ? "Morilles brunes" : "Morilles blondes";
@@ -245,7 +266,7 @@ serve(async (req) => {
 
     const html = buildOrderEmail(customerName, record.status, type, details);
     const text = `Bonjour ${customerName}, votre ${typeLabel} est maintenant au statut: ${statusInfo.fr}.`;
-    const subject = `${statusInfo.emoji} Votre ${typeLabel} — ${statusInfo.fr}`;
+    const subject = withEmoji(statusInfo.emoji, `Votre ${typeLabel} — ${statusInfo.fr}`);
     const ts = Date.now();
     const messageId = `order-status-${record.id}-${record.status}-${ts}`;
 
@@ -306,7 +327,7 @@ serve(async (req) => {
         to: "contact@morillesducanada.com",
         from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
         sender_domain: SENDER_DOMAIN,
-        subject: `[Admin] ${statusInfo.emoji} ${typeLabel.charAt(0).toUpperCase() + typeLabel.slice(1)} ${String(record.id).substring(0, 8).toUpperCase()} → ${statusInfo.fr}`,
+        subject: `[Admin] ${withEmoji(statusInfo.emoji, `${typeLabel.charAt(0).toUpperCase() + typeLabel.slice(1)} ${String(record.id).substring(0, 8).toUpperCase()} → ${statusInfo.fr}`)}`,
         html: adminHtml,
         text: `La ${typeLabel} de ${customerName} (${customerEmail}) est passée au statut ${statusInfo.fr}.`,
         purpose: "transactional",

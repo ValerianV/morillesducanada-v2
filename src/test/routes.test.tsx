@@ -71,7 +71,7 @@ describe("langue", () => {
 const ROUTES = [
   "/", "/auth", "/reset-password", "/mentions-legales", "/cgv", "/livraison", "/recettes", "/recettes/inconnue",
   "/profil", "/guide-morilles-de-feu", "/professionnels", "/pre-commande", "/paiement-reussi", "/paiement-annule",
-  "/precommande-confirmee", "/admin", "/galerie", "/journal", "/plaquette-pro", "/fiche-technique", "/produits",
+  "/precommande-confirmee", "/precommande-2027", "/admin", "/galerie", "/journal", "/plaquette-pro", "/fiche-technique", "/produits",
   "/produits/decouverte-12g", "/produits/classique-30g", "/produits/prestige-45g", "/produits/morilles-sous-vide",
   "/produits/inconnu", "/page-inexistante",
 ];
@@ -102,7 +102,7 @@ describe("toutes les routes de App.tsx", () => {
 const FRENCH_LEFTOVERS = /Ajouter au panier|Voir le détail|Voir le produit|Retour aux|Livraison offerte|Prix net|Sélectionner|Choisissez|personnes|Populaire|Paiement interrompu|Aucun montant|Nous contacter|Page introuvable/;
 
 describe("version anglaise des pages clés", () => {
-  for (const route of ["/", "/produits", "/produits/decouverte-12g", "/produits/morilles-sous-vide", "/professionnels", "/paiement-annule", "/page-inexistante"]) {
+  for (const route of ["/", "/produits", "/produits/decouverte-12g", "/produits/morilles-sous-vide", "/professionnels", "/precommande-2027", "/precommande-confirmee", "/paiement-annule", "/page-inexistante"]) {
     it(`${route} : aucun libellé d'interface resté en français`, async () => {
       await renderAt(route, "en");
       if (route === "/") await waitFor(() => expect(document.getElementById("produits")).not.toBeNull());
@@ -112,10 +112,40 @@ describe("version anglaise des pages clés", () => {
 });
 
 describe("redirection /pre-commande", () => {
-  it("arrive sur l'onglet devis de /professionnels", async () => {
+  it("arrive sur la page de précommande saison 2027", async () => {
     await renderAt("/pre-commande", "fr");
-    await waitFor(() => expect(window.location.pathname + window.location.hash).toBe("/professionnels#devis"));
-    expect(await screen.findByRole("tab", { name: "Devis au kilo", selected: true })).toBeInTheDocument();
+    await waitFor(() => expect(window.location.pathname).toBe("/precommande-2027"));
+    expect(await screen.findByRole("heading", { level: 1 })).toHaveTextContent("Précommande saison 2027");
+  });
+});
+
+describe("page /precommande-2027", () => {
+  it("calcule l'acompte de 50 % et envoie seulement la quantité au serveur", async () => {
+    await renderAt("/precommande-2027", "fr");
+    const select = await screen.findByLabelText("Quantité (kg)");
+    expect(select).toHaveValue("1");
+    expect(screen.getByRole("button", { name: /Payer l'acompte de 150/ })).toBeInTheDocument();
+    fireEvent.change(select, { target: { value: "4" } });
+    expect(screen.getByRole("button", { name: /Payer l'acompte de 600/ })).toBeInTheDocument();
+    const text = (document.body.textContent ?? "").replace(/\s/g, " ");
+    expect(text).toContain("1 200 €");
+    expect(text).toContain("octobre 2027");
+    expect(screen.getByRole("button", { name: "Retirer un kilo" })).not.toBeDisabled();
+    fireEvent.change(select, { target: { value: "15" } });
+    expect(screen.getByRole("button", { name: "Ajouter un kilo" })).toBeDisabled();
+
+    supabaseMock.invoke.mockClear();
+    const errors = vi.spyOn(console, "error").mockImplementation(() => {});
+    fireEvent.click(screen.getByRole("button", { name: /Payer l'acompte de 2/ }));
+    await waitFor(() => expect(supabaseMock.invoke).toHaveBeenCalled());
+    expect(supabaseMock.invoke).toHaveBeenCalledWith("create-preorder-checkout", { body: { kg: 15, locale: "fr" } });
+    expect(await screen.findByRole("alert")).toBeInTheDocument();
+    errors.mockRestore();
+  });
+
+  it("est reliée depuis /professionnels", async () => {
+    await renderAt("/professionnels", "fr");
+    expect(await screen.findByRole("link", { name: "Précommander" })).toHaveAttribute("href", "/precommande-2027");
   });
 });
 

@@ -262,15 +262,21 @@ export type Database = {
       }
       pre_orders: {
         Row: {
-          company_name: string
+          acompte_cents: number | null
+          company_name: string | null
           contact_name: string
           created_at: string
           email: string
           id: string
-          morel_type: string
+          kg: number | null
+          locale: string | null
+          morel_type: string | null
           notes: string | null
           phone: string | null
           quantity_kg: number
+          saison: string | null
+          shipping_address: Json | null
+          solde_cents: number | null
           status: string
           stripe_payment_intent: string | null
           stripe_session_id: string | null
@@ -278,15 +284,21 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          company_name: string
+          acompte_cents?: number | null
+          company_name?: string | null
           contact_name: string
           created_at?: string
           email: string
           id?: string
-          morel_type: string
+          kg?: number | null
+          locale?: string | null
+          morel_type?: string | null
           notes?: string | null
           phone?: string | null
           quantity_kg: number
+          saison?: string | null
+          shipping_address?: Json | null
+          solde_cents?: number | null
           status?: string
           stripe_payment_intent?: string | null
           stripe_session_id?: string | null
@@ -294,15 +306,21 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          company_name?: string
+          acompte_cents?: number | null
+          company_name?: string | null
           contact_name?: string
           created_at?: string
           email?: string
           id?: string
-          morel_type?: string
+          kg?: number | null
+          locale?: string | null
+          morel_type?: string | null
           notes?: string | null
           phone?: string | null
           quantity_kg?: number
+          saison?: string | null
+          shipping_address?: Json | null
+          solde_cents?: number | null
           status?: string
           stripe_payment_intent?: string | null
           stripe_session_id?: string | null

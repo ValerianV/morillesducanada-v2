@@ -59,6 +59,7 @@ describe("page /professionnels", () => {
       "Pourquoi des morilles équeutées",
       "De la forêt brûlée à votre cuisine",
       "Goûtez avant de commander",
+      "Précommandez la saison 2027",
       "Conditions de vente",
       "Votre demande",
       "Questions des professionnels",

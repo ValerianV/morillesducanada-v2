@@ -23,6 +23,7 @@ const Professionnels = lazy(() => import("./pages/Professionnels"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const PaymentCancelled = lazy(() => import("./pages/PaymentCancelled"));
 const PreOrderSuccess = lazy(() => import("./pages/PreOrderSuccess"));
+const Precommande2027 = lazy(() => import("./pages/Precommande2027"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const Galerie = lazy(() => import("./pages/Galerie"));
 const Journal = lazy(() => import("./pages/Journal"));
@@ -96,7 +97,8 @@ const App = ({ ssrPath, helmetContext }: AppProps = {}) => {
           <Route path="/profil" element={<Profil />} />
           <Route path="/guide-morilles-de-feu" element={<GuideMorellesDeFeu />} />
           <Route path="/professionnels" element={<Professionnels />} />
-          <Route path="/pre-commande" element={<Navigate to="/professionnels#devis" replace />} />
+          <Route path="/pre-commande" element={<Navigate to="/precommande-2027" replace />} />
+          <Route path="/precommande-2027" element={<Precommande2027 />} />
           <Route path="/paiement-reussi" element={<PaymentSuccess />} />
           <Route path="/paiement-annule" element={<PaymentCancelled />} />
           <Route path="/precommande-confirmee" element={<PreOrderSuccess />} />

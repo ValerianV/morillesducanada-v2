@@ -14,6 +14,8 @@ const Footer = () => {
             <span className="hidden md:inline">·</span>
             <Link to="/professionnels" className="hover:text-primary transition-colors">{t("footer.pro")}</Link>
             <span className="hidden md:inline">·</span>
+            <Link to="/precommande-2027" className="hover:text-primary transition-colors">{t("footer.preorder")}</Link>
+            <span className="hidden md:inline">·</span>
             <Link to="/guide-morilles-de-feu" className="hover:text-primary transition-colors">{t("footer.guide")}</Link>
             <span className="hidden md:inline">·</span>
             <Link to="/mentions-legales" className="hover:text-primary transition-colors">{t("footer.legal")}</Link>

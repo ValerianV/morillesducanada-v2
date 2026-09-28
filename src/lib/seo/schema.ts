@@ -8,6 +8,7 @@ import {
   PRO_TAX_MENTION,
   PRO_TIERS,
 } from "@/lib/proPricing";
+import { PREORDER_2027 } from "@/lib/preorder";
 import {
   absoluteUrl,
   CONTACT_EMAIL,
@@ -207,6 +208,44 @@ export function proOfferSchema(): JsonLd {
     countryOfOrigin: { "@type": "Country", name: "Canada" },
     url: absoluteUrl("/professionnels"),
     offers,
+  };
+}
+
+// Précommande saison 2027 : prix au kilo, disponibilité « PreOrder », livraison en octobre 2027.
+export function preorderSchema(): JsonLd {
+  const price = euros(PREORDER_2027.pricePerKgCents / 100);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "@id": `${absoluteUrl("/precommande-2027")}#precommande`,
+    name: `Morilles sauvages du Canada séchées — précommande saison ${PREORDER_2027.season}`,
+    description: `Morilles sauvages du Canada, séchées, saison ${PREORDER_2027.season}. ${PREORDER_2027.pricePerKgCents / 100} €/kg, acompte de 50 % à la commande, de ${PREORDER_2027.minKg} à ${PREORDER_2027.maxKg} kg, livraison garantie en ${PREORDER_2027.delivery.fr}. ${PRO_TAX_MENTION.fr}.`,
+    brand: { "@type": "Brand", name: SITE_NAME },
+    category: "Champignons séchés",
+    countryOfOrigin: { "@type": "Country", name: "Canada" },
+    url: absoluteUrl("/precommande-2027"),
+    offers: {
+      "@type": "Offer",
+      price,
+      priceCurrency: "EUR",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price,
+        priceCurrency: "EUR",
+        referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "KGM" },
+      },
+      eligibleQuantity: {
+        "@type": "QuantitativeValue",
+        minValue: PREORDER_2027.minKg,
+        maxValue: PREORDER_2027.maxKg,
+        unitCode: "KGM",
+      },
+      availability: "https://schema.org/PreOrder",
+      availabilityStarts: "2027-10-01",
+      itemCondition: NEW_CONDITION,
+      url: absoluteUrl("/precommande-2027"),
+      seller: orgRef,
+    },
   };
 }
 

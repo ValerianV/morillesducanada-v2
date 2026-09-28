@@ -2,7 +2,8 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { escapeHtml, formatEuros, itemLineTotalCents, itemQuantity } from "../_shared/format.ts";
-import { shippingZoneForCountry } from "../_shared/catalog.ts";
+import { PREORDER_2027, preorderAmounts, shippingZoneForCountry } from "../_shared/catalog.ts";
+import { buildPreorderAdminEmail, buildPreorderConfirmationEmail } from "../_shared/preorderEmail.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
   apiVersion: "2025-08-27.basil",
@@ -221,6 +222,147 @@ async function sendOrderConfirmationEmail(
   console.log("Order confirmation emails enqueued", { customerEmail, orderId, messageId });
 }
 
+
+// API Stripe >= 2025-03-31.basil : l'adresse est dans collected_information.shipping_details.
+// Repli sur l'ancien champ de premier niveau (sessions créées avec une version d'API antérieure).
+type ShippingDetails = Stripe.Checkout.Session.CollectedInformation.ShippingDetails;
+function sessionShippingAddress(session: Stripe.Checkout.Session) {
+  const legacyShipping = (session as unknown as { shipping_details?: ShippingDetails | null }).shipping_details;
+  const shipping: ShippingDetails | null = session.collected_information?.shipping_details ?? legacyShipping ?? null;
+  return {
+    shipping,
+    address: shipping
+      ? {
+          name: shipping.name,
+          line1: shipping.address?.line1,
+          line2: shipping.address?.line2,
+          city: shipping.address?.city,
+          postal_code: shipping.address?.postal_code,
+          country: shipping.address?.country,
+        }
+      : null,
+  };
+}
+
+async function enqueueTransactional(to: string, label: string, messageId: string, email: { subject: string; html: string; text: string }) {
+  const unsubscribeToken = await getUnsubscribeToken(to);
+  const { error } = await supabase.rpc("enqueue_email", {
+    queue_name: "transactional_emails",
+    payload: {
+      to,
+      from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+      sender_domain: SENDER_DOMAIN,
+      subject: email.subject,
+      html: email.html,
+      text: email.text,
+      purpose: "transactional",
+      label,
+      message_id: messageId,
+      idempotency_key: messageId,
+      unsubscribe_token: unsubscribeToken,
+      queued_at: new Date().toISOString(),
+    },
+  });
+  if (error) {
+    console.error(`Failed to enqueue ${label}:`, error);
+    return;
+  }
+  await supabase.from("email_send_log").insert({
+    message_id: messageId,
+    template_name: label,
+    recipient_email: to,
+    status: "pending",
+  });
+}
+
+// Précommande 2027 : une ligne pre_orders par session payée, puis emails client et admin.
+async function handlePreorderSession(session: Stripe.Checkout.Session): Promise<Response> {
+  const ok = () => new Response(JSON.stringify({ received: true }), { status: 200 });
+
+  if (session.payment_status !== "paid") {
+    console.warn("Preorder session not paid yet:", session.id, session.payment_status);
+    return ok();
+  }
+
+  const { data: existing } = await supabase
+    .from("pre_orders")
+    .select("id")
+    .eq("stripe_session_id", session.id)
+    .maybeSingle();
+  if (existing) {
+    console.log("Pre-order already exists for session:", session.id);
+    return ok();
+  }
+
+  // La quantité fait foi côté Stripe (ligne unique au prix d'acompte) ; les métadonnées ne servent qu'au contrôle.
+  const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 5 });
+  const depositLine = lineItems.data.find((item: Stripe.LineItem) => item.price?.id === PREORDER_2027.priceId);
+  const kg = depositLine?.quantity ?? Number(session.metadata?.kg);
+  let amounts;
+  try {
+    amounts = preorderAmounts(kg);
+  } catch (err) {
+    console.error("Invalid pre-order quantity", { sessionId: session.id, kg, err: String(err) });
+    return new Response(JSON.stringify({ error: "Invalid pre-order quantity" }), { status: 500 });
+  }
+  if (session.amount_total !== amounts.depositCents) {
+    console.error("Preorder deposit mismatch", {
+      sessionId: session.id,
+      expectedDepositCents: amounts.depositCents,
+      stripeTotalCents: session.amount_total,
+    });
+  }
+
+  const { shipping, address } = sessionShippingAddress(session);
+  const email = session.customer_details?.email || session.customer_email || "";
+  const customerName = session.customer_details?.name || shipping?.name || email;
+  const phone = session.customer_details?.phone ?? null;
+  const company = session.custom_fields?.find((f: Stripe.Checkout.Session.CustomField) => f.key === "company")?.text?.value?.trim() || null;
+  const locale = session.metadata?.locale === "en" ? "en" : "fr";
+  const preorderId = crypto.randomUUID();
+
+  const { error: insertError } = await supabase.from("pre_orders").insert({
+    id: preorderId,
+    saison: PREORDER_2027.season,
+    kg: amounts.kg,
+    acompte_cents: amounts.depositCents,
+    solde_cents: amounts.balanceCents,
+    quantity_kg: amounts.kg,
+    total_amount: amounts.totalCents / 100,
+    company_name: company,
+    contact_name: customerName,
+    email,
+    phone,
+    shipping_address: address,
+    locale,
+    stripe_session_id: session.id,
+    stripe_payment_intent:
+      typeof session.payment_intent === "string" ? session.payment_intent : session.payment_intent?.id || null,
+    status: "acompte_paye",
+  });
+
+  if (insertError) {
+    // Violation d'unicité : un rejeu concurrent a déjà créé la ligne.
+    if ((insertError as { code?: string }).code === "23505") return ok();
+    console.error("Failed to insert pre-order:", insertError);
+    return new Response(JSON.stringify({ error: "Failed to create pre-order" }), { status: 500 });
+  }
+  console.log("Pre-order created for session:", session.id);
+
+  try {
+    if (email) {
+      const confirmation = buildPreorderConfirmationEmail({ preorderId, customerName, amounts, locale });
+      await enqueueTransactional(email, "preorder-confirmation", `preorder-confirmation-${preorderId}`, confirmation);
+    }
+    const admin = buildPreorderAdminEmail({ preorderId, customerName, amounts, locale, email, phone, company });
+    await enqueueTransactional("contact@morillesducanada.com", "admin-new-preorder", `admin-new-preorder-${preorderId}`, admin);
+  } catch (emailErr) {
+    console.error("Failed to send pre-order emails (non-blocking):", emailErr);
+  }
+
+  return ok();
+}
+
 serve(async (req) => {
   const signature = req.headers.get("stripe-signature");
   if (!signature) {
@@ -251,6 +393,10 @@ serve(async (req) => {
       return new Response(JSON.stringify({ received: true }), { status: 200 });
     }
 
+    if (session.metadata?.type === PREORDER_2027.type) {
+      return await handlePreorderSession(session);
+    }
+
     // Check if order already exists for this session
     const { data: existing } = await supabase
       .from("orders")
@@ -275,22 +421,7 @@ serve(async (req) => {
       price_id: item.price?.id,
     }));
 
-    // API Stripe >= 2025-03-31.basil : l'adresse est dans collected_information.shipping_details.
-    // Repli sur l'ancien champ de premier niveau (sessions créées avec une version d'API antérieure).
-    type ShippingDetails = Stripe.Checkout.Session.CollectedInformation.ShippingDetails;
-    const legacyShipping = (session as unknown as { shipping_details?: ShippingDetails | null }).shipping_details;
-    const shipping: ShippingDetails | null =
-      session.collected_information?.shipping_details ?? legacyShipping ?? null;
-    const shippingAddress = shipping
-      ? {
-          name: shipping.name,
-          line1: shipping.address?.line1,
-          line2: shipping.address?.line2,
-          city: shipping.address?.city,
-          postal_code: shipping.address?.postal_code,
-          country: shipping.address?.country,
-        }
-      : null;
+    const { shipping, address: shippingAddress } = sessionShippingAddress(session);
 
     // Garde-fou : Stripe limite déjà les pays à la zone payée ; on trace tout écart éventuel.
     const paidZone = session.metadata?.shipping_zone;

@@ -186,6 +186,23 @@ const Professionnels = () => {
             </div>
           </section>
 
+          {/* Précommande saison 2027 */}
+          <section id="precommande" className={section}>
+            <div className="p-6 md:p-10 border border-gold/25 rounded-sm bg-card/40 md:flex md:items-center md:justify-between gap-8">
+              <div>
+                <p className="text-sm tracking-[0.25em] uppercase text-primary mb-3">{pro.preorder.label}</p>
+                <h2 className="font-serif text-3xl text-foreground mb-3">{pro.preorder.title}</h2>
+                <p className="text-lg text-foreground/90 max-w-xl">{pro.preorder.text}</p>
+              </div>
+              <Link
+                to="/precommande-2027"
+                className="mt-6 md:mt-0 shrink-0 inline-block px-8 py-4 border border-primary/60 text-foreground font-medium tracking-wider uppercase text-sm rounded-sm hover:border-primary hover:text-primary transition-colors"
+              >
+                {pro.preorder.cta}
+              </Link>
+            </div>
+          </section>
+
           {/* 7. Conditions */}
           <section className={section}>
             <SectionHeading label={pro.conditions.label} title={pro.conditions.title} />

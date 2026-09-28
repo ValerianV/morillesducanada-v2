@@ -1,6 +1,8 @@
+// Précommande saison 2027 : session Stripe Checkout pour l'acompte de 50 %.
+// Rien n'est écrit en base ici : stripe-webhook crée la ligne pre_orders après paiement.
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
-import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { PREORDER_2027, PreorderValidationError, resolvePreorder } from "../_shared/catalog.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -8,124 +10,106 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-// Tarifs synchronisés avec PreOrder.tsx (getPricePerKg)
-// brune : 360€/kg (< 5kg), 340€/kg (≥ 5kg)
-// blonde-grise : 390€/kg (< 5kg), 370€/kg (≥ 5kg)
-function getPricePerKgCents(morelType: string, quantityKg: number): number {
-  if (morelType === "brune") {
-    return quantityKg >= 5 ? 34000 : 36000;
-  }
-  return quantityKg >= 5 ? 37000 : 39000;
+const DEFAULT_SITE_URL = "https://www.morillesducanada.com";
+
+// Les URLs de retour Stripe ne doivent jamais pointer vers un domaine choisi par l'appelant.
+function resolveSiteUrl(origin: string | null): string {
+  if (!origin) return DEFAULT_SITE_URL;
+  if (/^https:\/\/(www\.)?morillesducanada\.com$/.test(origin)) return origin;
+  if (/^https:\/\/[a-z0-9-]+\.vercel\.app$/.test(origin)) return origin;
+  if (/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) return origin;
+  return DEFAULT_SITE_URL;
+}
+
+function jsonResponse(body: unknown, status: number) {
+  return new Response(JSON.stringify(body), {
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+    status,
+  });
 }
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
+  if (req.method !== "POST") {
+    return jsonResponse({ error: "Méthode non autorisée" }, 405);
+  }
 
   try {
-    const { companyName, contactName, email, phone, morelType, quantityKg, notes } = await req.json();
-
-    if (!companyName || !contactName || !email || !morelType || !quantityKg) {
-      throw new Error("Missing required fields");
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      throw new PreorderValidationError("Requête invalide");
     }
 
-    if (!["brune", "blonde-grise"].includes(morelType)) {
-      throw new Error("Invalid morel type");
-    }
-
-    if (quantityKg <= 0 || quantityKg > 20) {
-      throw new Error("Invalid quantity");
-    }
-
-    const totalAmountCents = Math.round(quantityKg * getPricePerKgCents(morelType, quantityKg));
-    const totalAmountEuros = totalAmountCents / 100;
+    // Quantité validée ici (1 à 15 kg, kilo entier) ; montants recalculés à partir du catalogue.
+    const amounts = resolvePreorder(body);
+    const locale = (body as { locale?: unknown }).locale === "en" ? "en" : "fr";
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2025-08-27.basil",
     });
 
-    // Create or find customer
-    const customers = await stripe.customers.list({ email, limit: 1 });
-    let customerId: string;
-    if (customers.data.length > 0) {
-      customerId = customers.data[0].id;
-    } else {
-      const customer = await stripe.customers.create({
-        email,
-        name: `${contactName} - ${companyName}`,
-        phone,
-      });
-      customerId = customer.id;
-    }
+    const siteUrl = resolveSiteUrl(req.headers.get("origin"));
+    const metadata = {
+      type: PREORDER_2027.type,
+      season: PREORDER_2027.season,
+      kg: String(amounts.kg),
+      total_cents: String(amounts.totalCents),
+      deposit_cents: String(amounts.depositCents),
+      balance_cents: String(amounts.balanceCents),
+      locale,
+    };
 
-    // Save pre-order to database
-    const supabaseAdmin = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
-    );
-
-    const { data: preOrder, error: dbError } = await supabaseAdmin
-      .from("pre_orders")
-      .insert({
-        company_name: companyName,
-        contact_name: contactName,
-        email,
-        phone: phone || null,
-        morel_type: morelType,
-        quantity_kg: quantityKg,
-        total_amount: totalAmountEuros,
-        notes: notes || null,
-        status: "pending",
-      })
-      .select()
-      .single();
-
-    if (dbError) throw dbError;
-
-    // Create Stripe checkout session
-    const morelLabel = morelType === "brune" ? "Morilles brunes" : "Morilles blondes & grises";
+    const terms =
+      locale === "en"
+        ? `50% deposit paid today. Balance of €${amounts.balanceCents / 100} invoiced before shipping. Delivery guaranteed in ${PREORDER_2027.delivery.en}. Full refund of the deposit if we cannot supply.`
+        : `Acompte de 50 % payé aujourd'hui. Solde de ${amounts.balanceCents / 100} € facturé avant expédition. Livraison garantie en ${PREORDER_2027.delivery.fr}. Acompte intégralement remboursé s'il nous est impossible de fournir.`;
 
     const session = await stripe.checkout.sessions.create({
-      customer: customerId,
-      line_items: [
+      mode: "payment",
+      locale,
+      line_items: [{ price: PREORDER_2027.priceId, quantity: amounts.kg }],
+      shipping_address_collection: {
+        allowed_countries: [...PREORDER_2027.countries] as Stripe.Checkout.SessionCreateParams.ShippingAddressCollection.AllowedCountry[],
+      },
+      phone_number_collection: { enabled: true },
+      customer_creation: "always",
+      custom_fields: [
         {
-          price_data: {
-            currency: "eur",
-            product_data: {
-              name: `Pré-commande ${morelLabel} — ${quantityKg} kg`,
-              description: `Pré-commande professionnelle saison 2026. ${morelLabel}, ${quantityKg} kg.`,
-            },
-            unit_amount: totalAmountCents,
-          },
-          quantity: 1,
+          key: "company",
+          label: { type: "custom", custom: locale === "en" ? "Company (optional)" : "Société (facultatif)" },
+          type: "text",
+          optional: true,
         },
       ],
-      mode: "payment",
-      metadata: {
-        pre_order_id: preOrder.id,
-        morel_type: morelType,
-        quantity_kg: String(quantityKg),
+      custom_text: { submit: { message: terms } },
+      metadata,
+      payment_intent_data: {
+        description: `Acompte précommande saison ${PREORDER_2027.season} — ${amounts.kg} kg`,
+        metadata,
       },
-      success_url: `${req.headers.get("origin")}/precommande-confirmee?id=${preOrder.id}`,
-      cancel_url: `${req.headers.get("origin")}/pre-commande`,
+      success_url: `${siteUrl}/precommande-confirmee?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${siteUrl}/precommande-2027`,
     });
 
-    // Update pre-order with Stripe session ID
-    await supabaseAdmin
-      .from("pre_orders")
-      .update({ stripe_session_id: session.id })
-      .eq("id", preOrder.id);
+    // Le montant facturé vient du prix Stripe : on signale tout écart avec le catalogue serveur.
+    if (session.amount_total !== null && session.amount_total !== amounts.depositCents) {
+      console.error("Preorder deposit mismatch", {
+        sessionId: session.id,
+        expectedDepositCents: amounts.depositCents,
+        stripeTotalCents: session.amount_total,
+      });
+    }
 
-    return new Response(JSON.stringify({ url: session.url }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 200,
-    });
+    return jsonResponse({ url: session.url }, 200);
   } catch (error) {
+    if (error instanceof PreorderValidationError) {
+      return jsonResponse({ error: error.message }, 400);
+    }
     console.error("Pre-order checkout error:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 500,
-    });
+    return jsonResponse({ error: "Erreur lors de la création du paiement" }, 500);
   }
 });

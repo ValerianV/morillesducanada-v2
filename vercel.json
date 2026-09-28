@@ -1,8 +1,8 @@
 {
   "trailingSlash": false,
   "redirects": [
-    { "source": "/pre-commande", "destination": "/professionnels", "permanent": true },
-    { "source": "/pre-commande/", "destination": "/professionnels", "permanent": true }
+    { "source": "/pre-commande", "destination": "/precommande-2027", "permanent": false },
+    { "source": "/pre-commande/", "destination": "/precommande-2027", "permanent": false }
   ],
   "headers": [
     {
