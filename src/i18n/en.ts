@@ -161,8 +161,8 @@ export const en = {
     proCta: "Trade",
   },
   pro: {
-    metaTitle: "Dried morels by the kilo — Trade prices | Morilles du Canada",
-    metaDescription: "45 kg of wild Canadian morels in stock, dried, whole and stemless. Net volume pricing per kilo, shipped within 5 business days, free 30 g sample for professionals.",
+    metaTitle: "Dried morels by the kilo, trade prices | Morilles du Canada",
+    metaDescription: "Dried morels for professionals: wild from Canada, whole, stemless, 45 kg in stock in France. Net prices from {minPrice}/kg, shipped within 5 business days.",
     hero: {
       label: "Restaurants · Delicatessens · Caterers",
       title: "Wild Canadian morels,",

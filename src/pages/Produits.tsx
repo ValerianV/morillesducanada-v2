@@ -1,37 +1,25 @@
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import Seo from "@/components/Seo";
+import { breadcrumbSchema, productListSchema } from "@/lib/seo/schema";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import { products, getVacuumMorelPrice } from "@/lib/products";
 import { ArrowRight } from "lucide-react";
 
-const Produits = () => {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: "Morilles de feu séchées — Morilles du Canada",
-    description: "Sélection de morilles de feu séchées récoltées au Canada après feux de forêt naturels. Formats particulier et professionnel.",
-    url: "https://www.morillesducanada.com/produits",
-    itemListElement: products.map((p, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      url: `https://www.morillesducanada.com/produits/${p.slug}`,
-      name: p.name,
-    })),
-  };
+const TITLE = "Acheter des morilles séchées et sous vide | Morilles du Canada";
+const DESCRIPTION =
+  "Morilles séchées sauvages du Canada en formats de 12 g, 30 g et 45 g, et morilles sous vide de 100 g à 1 kg. Entières, équeutées, expédition sous 5 jours ouvrés.";
 
+const Produits = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Morilles de feu séchées — Tous les formats | Morilles du Canada</title>
-        <meta
-          name="description"
-          content="Morilles de feu sauvages séchées du Canada. Formats 12g, 30g, 45g et sous vide professionnel 100g–1kg. Livraison France et Europe."
-        />
-        <link rel="canonical" href="https://www.morillesducanada.com/produits" />
-        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-      </Helmet>
+      <Seo
+        title={TITLE}
+        description={DESCRIPTION}
+        path="/produits"
+        jsonLd={[productListSchema(products), breadcrumbSchema([{ name: "Produits", path: "/produits" }])]}
+      />
 
       <Navbar />
       <main className="pt-32 pb-24">

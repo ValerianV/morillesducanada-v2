@@ -161,8 +161,8 @@ export const fr = {
     proCta: "Espace pro",
   },
   pro: {
-    metaTitle: "Morilles séchées au kilo — Tarifs professionnels | Morilles du Canada",
-    metaDescription: "45 kg de morilles sauvages du Canada en stock, séchées, entières et équeutées. Prix nets dégressifs au kilo, expédition sous 5 jours ouvrés, échantillon de 30 g offert aux professionnels.",
+    metaTitle: "Morilles séchées au kilo, prix pro | Morilles du Canada",
+    metaDescription: "Morilles séchées pour professionnels : sauvages du Canada, entières, équeutées, 45 kg en stock en France. Prix nets dès {minPrice}/kg, expédition sous 5 jours ouvrés.",
     hero: {
       label: "Restaurants · Épiceries fines · Traiteurs",
       title: "Morilles sauvages du Canada,",

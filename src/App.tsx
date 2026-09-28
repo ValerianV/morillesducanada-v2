@@ -2,8 +2,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import { isNoindexPath } from "@/lib/seo/noindex";
 import { I18nProvider } from "@/i18n/context";
 import { lazy, Suspense, useEffect, useState } from "react";
 import Index from "./pages/Index";
@@ -31,6 +32,16 @@ const Produits = lazy(() => import("./pages/Produits"));
 const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 
 const queryClient = new QueryClient();
+
+const RobotsGuard = () => {
+  const { pathname } = useLocation();
+  if (!isNoindexPath(pathname)) return null;
+  return (
+    <Helmet>
+      <meta name="robots" content="noindex, nofollow" />
+    </Helmet>
+  );
+};
 
 const App = () => {
   const [isSafari, setIsSafari] = useState(false);
@@ -63,6 +74,39 @@ const App = () => {
     };
   }, []);
 
+  const routes = (
+    <>
+      <RobotsGuard />
+      <Suspense fallback={<div className={isSafari ? "min-h-screen bg-background safari-safe-layer" : "min-h-screen bg-background"} />}>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/mentions-legales" element={<MentionsLegales />} />
+          <Route path="/cgv" element={<CGV />} />
+          <Route path="/livraison" element={<Livraison />} />
+          <Route path="/recettes" element={<Recettes />} />
+          <Route path="/recettes/:slug" element={<RecetteDetail />} />
+          <Route path="/profil" element={<Profil />} />
+          <Route path="/guide-morilles-de-feu" element={<GuideMorellesDeFeu />} />
+          <Route path="/professionnels" element={<Professionnels />} />
+          <Route path="/pre-commande" element={<Navigate to="/professionnels#devis" replace />} />
+          <Route path="/paiement-reussi" element={<PaymentSuccess />} />
+          <Route path="/paiement-annule" element={<PaymentCancelled />} />
+          <Route path="/precommande-confirmee" element={<PreOrderSuccess />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/galerie" element={<Galerie />} />
+          <Route path="/journal" element={<Journal />} />
+          <Route path="/plaquette-pro" element={<PlaquettePro />} />
+          <Route path="/fiche-technique" element={<FicheTechnique />} />
+          <Route path="/produits" element={<Produits />} />
+          <Route path="/produits/:slug" element={<ProductDetail />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </>
+  );
+
   return (
     <HelmetProvider>
       <I18nProvider>
@@ -70,35 +114,7 @@ const App = () => {
           <TooltipProvider>
             <Toaster />
             <Sonner />
-            <BrowserRouter>
-              <Suspense fallback={<div className={isSafari ? "min-h-screen bg-background safari-safe-layer" : "min-h-screen bg-background"} />}>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/auth" element={<Auth />} />
-                  <Route path="/reset-password" element={<ResetPassword />} />
-                  <Route path="/mentions-legales" element={<MentionsLegales />} />
-                  <Route path="/cgv" element={<CGV />} />
-                  <Route path="/livraison" element={<Livraison />} />
-                  <Route path="/recettes" element={<Recettes />} />
-                  <Route path="/recettes/:slug" element={<RecetteDetail />} />
-                  <Route path="/profil" element={<Profil />} />
-                  <Route path="/guide-morilles-de-feu" element={<GuideMorellesDeFeu />} />
-                  <Route path="/professionnels" element={<Professionnels />} />
-                  <Route path="/pre-commande" element={<Navigate to="/professionnels#devis" replace />} />
-                  <Route path="/paiement-reussi" element={<PaymentSuccess />} />
-                  <Route path="/paiement-annule" element={<PaymentCancelled />} />
-                  <Route path="/precommande-confirmee" element={<PreOrderSuccess />} />
-                  <Route path="/admin" element={<AdminDashboard />} />
-                  <Route path="/galerie" element={<Galerie />} />
-                  <Route path="/journal" element={<Journal />} />
-                  <Route path="/plaquette-pro" element={<PlaquettePro />} />
-                  <Route path="/fiche-technique" element={<FicheTechnique />} />
-                  <Route path="/produits" element={<Produits />} />
-                  <Route path="/produits/:slug" element={<ProductDetail />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
-            </BrowserRouter>
+            <BrowserRouter>{routes}</BrowserRouter>
           </TooltipProvider>
         </QueryClientProvider>
       </I18nProvider>

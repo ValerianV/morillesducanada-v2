@@ -1,4 +1,6 @@
-import { Helmet } from "react-helmet-async";
+import Seo from "@/components/Seo";
+import { breadcrumbSchema } from "@/lib/seo/schema";
+import { absoluteUrl, DEFAULT_OG_IMAGE, LOGO_URL, SITE_NAME } from "@/lib/seo/site";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -11,26 +13,24 @@ const guideJsonLd = {
   headline: "Guide complet des morilles de feu du Canada",
   description:
     "Tout savoir sur les morilles de feu (fire morels) : origine, différences avec les morilles cultivées, comment les préparer, les conserver et les cuisiner.",
-  author: { "@type": "Organization", name: "Morilles du Canada" },
-  publisher: { "@type": "Organization", name: "Morilles du Canada" },
-  mainEntityOfPage: "https://morillesducanada.com/guide-morilles-de-feu",
+  author: { "@type": "Organization", name: SITE_NAME },
+  publisher: { "@type": "Organization", name: SITE_NAME, logo: { "@type": "ImageObject", url: LOGO_URL } },
+  mainEntityOfPage: absoluteUrl("/guide-morilles-de-feu"),
+  image: DEFAULT_OG_IMAGE.url,
+  inLanguage: "fr-FR",
   datePublished: "2026-01-01",
-  dateModified: new Date().toISOString().split("T")[0],
 };
 
 const GuideMorellesDeFeu = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Guide complet des morilles de feu du Canada | Morilles du Canada</title>
-        <meta
-          name="description"
-          content="Tout savoir sur les morilles de feu (fire morels) du Canada : origine, variétés, différences avec les morilles cultivées, conservation, préparation et recettes."
-        />
-        <meta name="keywords" content="morille de feu, fire morel, morilles Canada, morilles séchées, morilles sauvages, Morchella tomentosa, champignon sauvage, morilles boréales" />
-        <link rel="canonical" href="https://morillesducanada.com/guide-morilles-de-feu" />
-        <script type="application/ld+json">{JSON.stringify(guideJsonLd)}</script>
-      </Helmet>
+      <Seo
+        title="Morilles de feu du Canada : le guide complet | Morilles du Canada"
+        description="Tout savoir sur les morilles de feu du Canada : origine, variétés, différences avec les morilles cultivées, conservation des morilles séchées, préparation et recettes."
+        path="/guide-morilles-de-feu"
+        type="article"
+        jsonLd={[guideJsonLd, breadcrumbSchema([{ name: "Guide des morilles de feu", path: "/guide-morilles-de-feu" }])]}
+      />
 
       <Navbar />
 

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import Seo from "@/components/Seo";
+import { breadcrumbSchema } from "@/lib/seo/schema";
+import { absoluteUrl } from "@/lib/seo/site";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -60,7 +62,7 @@ const Recettes = () => {
           .select("id, slug, title, description, chef_name, chef_title, difficulty, prep_time, cook_time, servings, image_url, tags")
           .order("sort_order", { ascending: true });
         if (error) console.error("Error fetching recipes:", error);
-        setRecipes((data as Recipe[]) || []);
+        if (data) setRecipes(data as Recipe[]);
       } catch (err) {
         console.error("Error fetching recipes:", err);
       } finally {
@@ -74,22 +76,33 @@ const Recettes = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Recettes aux morilles de feu | Morilles du Canada</title>
-        <meta
-          name="description"
-          content="Découvrez nos recettes de chefs pour sublimer les morilles de feu séchées du Canada : risotto, velouté, pâtes, filet de bœuf en croûte et plus encore."
-        />
-        <script type="application/ld+json">
-          {JSON.stringify({
+      <Seo
+        title="Recettes aux morilles séchées | Morilles du Canada"
+        description="Recettes de chefs aux morilles séchées sauvages du Canada, pas à pas : risotto, velouté, pâtes, filet de bœuf en croûte et plus encore."
+        path="/recettes"
+        jsonLd={[
+          {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
-            name: "Recettes aux morilles de feu",
-            description: "Collection de recettes gastronomiques aux morilles de feu séchées du Canada",
-            url: "https://morillesducanada.com/recettes",
-          })}
-        </script>
-      </Helmet>
+            name: "Recettes aux morilles séchées",
+            url: absoluteUrl("/recettes"),
+            ...(recipes.length
+              ? {
+                  mainEntity: {
+                    "@type": "ItemList",
+                    itemListElement: recipes.map((r, i) => ({
+                      "@type": "ListItem",
+                      position: i + 1,
+                      url: absoluteUrl(`/recettes/${r.slug}`),
+                      name: r.title,
+                    })),
+                  },
+                }
+              : {}),
+          },
+          breadcrumbSchema([{ name: "Recettes", path: "/recettes" }]),
+        ]}
+      />
 
       <Navbar />
       <main className="pt-32 pb-24">

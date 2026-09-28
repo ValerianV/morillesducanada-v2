@@ -1,3 +1,5 @@
+import Seo from "@/components/Seo";
+import { breadcrumbSchema } from "@/lib/seo/schema";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
@@ -5,6 +7,12 @@ import { Link } from "react-router-dom";
 const MentionsLegales = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="Mentions légales | Morilles du Canada"
+        description="Mentions légales du site Morilles du Canada : éditeur, hébergement, propriété intellectuelle et données personnelles."
+        path="/mentions-legales"
+        jsonLd={breadcrumbSchema([{ name: "Mentions légales", path: "/mentions-legales" }])}
+      />
       <Navbar />
       <main className="pt-32 pb-24">
         <div className="container mx-auto px-6 max-w-3xl">

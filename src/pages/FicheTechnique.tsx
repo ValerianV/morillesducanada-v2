@@ -1,3 +1,5 @@
+import Seo from "@/components/Seo";
+import { breadcrumbSchema } from "@/lib/seo/schema";
 import { Download } from "lucide-react";
 import logo from "@/assets/logo.webp";
 
@@ -41,6 +43,15 @@ const Row = ({ label, value }: { label: string; value: React.ReactNode }) => (
 
 const FicheTechnique = () => (
   <div style={{ backgroundColor: "#ddd9d0", minHeight: "100vh" }}>
+    <Seo
+      title="Fiche technique : morilles séchées sauvages | Morilles du Canada"
+      description="Fiche technique des morilles séchées sauvages du Canada pour les professionnels : entières, équeutées, variétés mélangées, conditionnement et conservation."
+      path="/fiche-technique"
+      jsonLd={breadcrumbSchema([
+        { name: "Professionnels", path: "/professionnels" },
+        { name: "Fiche technique", path: "/fiche-technique" },
+      ])}
+    />
     {/* Print button */}
     <div className="fixed top-6 right-6 z-50 print:hidden">
       <button

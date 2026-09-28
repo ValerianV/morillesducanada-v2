@@ -3,7 +3,10 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import TrustBandeau from "@/components/TrustBandeau";
 import Footer from "@/components/Footer";
-import JsonLdSchemas from "@/components/JsonLdSchemas";
+import Seo from "@/components/Seo";
+import { useI18n } from "@/i18n/context";
+import { faqPageSchema, organizationSchema, websiteSchema } from "@/lib/seo/schema";
+import heroImage from "@/assets/hero-jars.webp";
 
 const OriginSection = lazy(() => import("@/components/OriginSection"));
 const ProductsSection = lazy(() => import("@/components/ProductsSection"));
@@ -18,10 +21,22 @@ const FAQSection = lazy(() => import("@/components/FAQSection"));
 const ContactSection = lazy(() => import("@/components/ContactSection"));
 const FloatingCTA = lazy(() => import("@/components/FloatingCTA"));
 
+const TITLE = "Morilles séchées sauvages du Canada | Morilles du Canada";
+const DESCRIPTION =
+  "Morilles sauvages du Canada, séchées, entières et équeutées. Stock en France, expédition sous 5 jours ouvrés. Sachets, morilles sous vide et prix au kilo pour les pros.";
+
 const Index = () => {
+  const { translations } = useI18n();
+
   return (
     <div className="min-h-screen bg-background">
-      <JsonLdSchemas />
+      <Seo
+        title={TITLE}
+        description={DESCRIPTION}
+        path="/"
+        preloadImage={heroImage}
+        jsonLd={[organizationSchema(), websiteSchema(), faqPageSchema(translations.faq.items)]}
+      />
       <Navbar />
       <main>
         <HeroSection />

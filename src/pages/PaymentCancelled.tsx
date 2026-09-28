@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import Seo from "@/components/Seo";
 import { XCircle, ShoppingCart } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -10,10 +10,7 @@ const PaymentCancelled = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Paiement interrompu | Morilles du Canada</title>
-        <meta name="robots" content="noindex" />
-      </Helmet>
+      <Seo title="Paiement interrompu | Morilles du Canada" robots="noindex, nofollow" />
       <Navbar />
       <main className="pt-24 pb-16 flex items-center justify-center min-h-[70vh]">
         <div className="text-center max-w-lg px-6">

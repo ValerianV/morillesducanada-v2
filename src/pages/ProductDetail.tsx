@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import Seo from "@/components/Seo";
+import { breadcrumbSchema, productSchema } from "@/lib/seo/schema";
+import { productMetaDescription, productMetaTitle } from "@/lib/seo/meta";
 import { toast } from "sonner";
 import { ShoppingCart, ArrowLeft, CheckCircle, ChevronDown, ChevronUp } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -24,6 +26,7 @@ const ProductDetail = () => {
   if (!product || !detail) {
     return (
       <div className="min-h-screen bg-background">
+        <Seo title="Produit introuvable | Morilles du Canada" robots="noindex, follow" />
         <Navbar />
         <main className="pt-32 pb-24 text-center">
           <h1 className="font-serif text-3xl text-foreground mb-4">Produit introuvable</h1>
@@ -58,51 +61,21 @@ const ProductDetail = () => {
     detail.relatedProductIds.includes(p.id)
   );
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name,
-    description: detail.longDescription[0],
-    image: `https://www.morillesducanada.com${product.image}`,
-    brand: { "@type": "Brand", name: "Morilles du Canada" },
-    offers: isVacuum
-      ? ([100, 200, 500, 1000] as const).map((g) => ({
-          "@type": "Offer",
-          price: getVacuumMorelPrice(g).toFixed(2),
-          priceCurrency: "EUR",
-          availability: product.inStock
-            ? "https://schema.org/InStock"
-            : "https://schema.org/OutOfStock",
-          name: `${product.name} ${g >= 1000 ? "1kg" : `${g}g`}`,
-          url: `https://www.morillesducanada.com/produits/${product.slug}`,
-        }))
-      : {
-          "@type": "Offer",
-          price: product.price.toFixed(2),
-          priceCurrency: "EUR",
-          availability: product.inStock
-            ? "https://schema.org/InStock"
-            : "https://schema.org/OutOfStock",
-          url: `https://www.morillesducanada.com/produits/${product.slug}`,
-        },
-    additionalProperty: detail.highlights.map((h) => ({
-      "@type": "PropertyValue",
-      name: h.label,
-      value: h.value,
-    })),
-  };
-
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>{product.name} — Morilles de feu séchées | Morilles du Canada</title>
-        <meta
-          name="description"
-          content={`${detail.tagline} ${detail.longDescription[0].slice(0, 120)}…`}
-        />
-        <link rel="canonical" href={`https://www.morillesducanada.com/produits/${product.slug}`} />
-        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-      </Helmet>
+      <Seo
+        title={productMetaTitle(product)}
+        description={productMetaDescription(product)}
+        path={`/produits/${product.slug}`}
+        type="product"
+        jsonLd={[
+          productSchema(product, detail.longDescription[0]),
+          breadcrumbSchema([
+            { name: "Produits", path: "/produits" },
+            { name: product.name, path: `/produits/${product.slug}` },
+          ]),
+        ]}
+      />
 
       <Navbar />
       <main className="pt-32 pb-24">
