@@ -119,7 +119,7 @@ const Recettes = () => {
               </p>
               <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light mb-4">
                 Recettes aux{" "}
-                <span className="italic text-gradient-gold">morilles de feu</span>
+                <span className="italic text-gradient-gold">morilles séchées</span>
               </h1>
               <p className="text-secondary-foreground/70 font-light text-lg max-w-2xl mx-auto leading-relaxed">
                 Découvrez nos meilleures recettes pour sublimer

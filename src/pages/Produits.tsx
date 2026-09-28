@@ -9,7 +9,7 @@ import { ArrowRight } from "lucide-react";
 
 const TITLE = "Acheter des morilles séchées et sous vide | Morilles du Canada";
 const DESCRIPTION =
-  "Morilles séchées sauvages du Canada en formats de 12 g, 30 g et 45 g, et morilles sous vide de 100 g à 1 kg. Entières, équeutées, expédition sous 5 jours ouvrés.";
+  "Morilles séchées sauvages du Canada en formats 12 g, 30 g et 45 g, et morilles sous vide de 100 g à 1 kg. Entières, équeutées, expédiées sous 5 jours ouvrés.";
 
 const Produits = () => {
   return (
@@ -32,12 +32,13 @@ const Produits = () => {
             <div className="text-center mb-16">
               <p className="text-xs tracking-[0.3em] uppercase text-primary mb-4">Notre sélection</p>
               <h1 className="font-serif text-4xl md:text-5xl font-light mb-4">
-                Morilles de feu{" "}
-                <span className="italic text-gradient-gold">séchées</span>
+                Morilles séchées{" "}
+                <span className="italic text-gradient-gold">et sous vide</span>
               </h1>
               <p className="text-secondary-foreground/70 font-light text-lg max-w-2xl mx-auto leading-relaxed">
-                Récoltées au Canada après les feux de forêt naturels qui déclenchent leur fructification.
-                Séchées artisanalement, conditionnées par lot traçable.
+                Morilles sauvages du Canada, séchées, entières et équeutées, en variétés mélangées.
+                Du format découverte de 12 g aux morilles sous vide de 100 g à 1 kg, en stock en France
+                et expédiées sous 5 jours ouvrés.
               </p>
               <div className="divider-gold w-24 mx-auto mt-6" />
             </div>

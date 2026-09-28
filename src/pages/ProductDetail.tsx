@@ -113,10 +113,10 @@ const ProductDetail = () => {
             {/* Info & buy */}
             <ScrollReveal direction="right">
               <div className="flex flex-col h-full justify-center">
-                <p className="text-xs tracking-[0.3em] uppercase text-primary mb-3">
-                  Morilles de feu séchées
-                </p>
                 <h1 className="font-serif text-3xl md:text-4xl font-light mb-3 leading-tight">
+                  <span className="block font-normal text-xs tracking-[0.3em] uppercase text-primary mb-3" style={{ fontFamily: "Raleway, sans-serif" }}>
+                    Morilles séchées sauvages du Canada
+                  </span>{" "}
                   {product.name}
                 </h1>
                 <p className="text-secondary-foreground/70 font-light mb-6 leading-relaxed">

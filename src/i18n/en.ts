@@ -11,7 +11,7 @@ export const en = {
   },
   hero: {
     subtitle: "Hand-picked · British Columbia & Yukon",
-    title: "Fire Morels",
+    title: "Dried morels",
     titleHighlight: "from Canada",
     description:
       "Born from the ashes of boreal forests, our wild morels deliver an unrivalled smoky aroma and intensity. A rare treasure, carefully dried for the most discerning palates.",
@@ -175,7 +175,7 @@ export const en = {
     },
     pricing: {
       label: "Prices",
-      title: "Prices per kilo",
+      title: "Dried morel prices per kilo",
       intro: "The price of the tier you reach applies to the whole quantity ordered.",
       colQuantity: "Quantity",
       colPrice: "Net price",
@@ -291,6 +291,9 @@ export const en = {
     },
   },
   footer: {
+    products: "Our dried morels",
+    pro: "Morels by the kilo (trade)",
+    guide: "Morel guide",
     legal: "Legal notice",
     terms: "Terms & Conditions",
     delivery: "Shipping & Returns",

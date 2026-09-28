@@ -54,7 +54,7 @@ describe("page /professionnels", () => {
     renderPage();
     const headings = screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent);
     expect(headings).toEqual([
-      "Tarifs au kilo",
+      "Prix des morilles séchées au kilo",
       "Pour les professionnels de bouche",
       "Pourquoi des morilles équeutées",
       "De la forêt brûlée à votre cuisine",

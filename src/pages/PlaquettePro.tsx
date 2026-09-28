@@ -48,7 +48,7 @@ const PlaquettePro = () => (
   <div style={{ backgroundColor: "#ddd9d0", minHeight: "100vh" }}>
     <Seo
       title="Plaquette pro : morilles séchées au kilo | Morilles du Canada"
-      description="Catalogue professionnel Morilles du Canada : morilles sauvages du Canada séchées, entières et équeutées, tarifs nets au kilo, stock en France et conditions de vente."
+      description="Catalogue pro Morilles du Canada : morilles sauvages du Canada séchées, entières et équeutées, tarifs nets au kilo, stock en France, conditions de vente."
       path="/plaquette-pro"
       jsonLd={breadcrumbSchema([
         { name: "Professionnels", path: "/professionnels" },
@@ -140,7 +140,7 @@ const PlaquettePro = () => (
             <h1 style={{ margin: 0, fontWeight: 300 }}>
               <span style={{ display: "block", fontFamily: "Georgia, serif", fontSize: 54, fontWeight: 300, lineHeight: 1.1, marginBottom: 10 }}>
                 Morilles de Feu
-              </span>
+              </span>{" "}
               <span style={{ display: "block", fontFamily: "Georgia, serif", fontSize: 54, fontWeight: 300, fontStyle: "italic", color: GOLD, lineHeight: 1.1, marginBottom: 36 }}>
                 séchées sauvages
               </span>

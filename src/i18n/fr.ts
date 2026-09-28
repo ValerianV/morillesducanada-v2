@@ -11,7 +11,7 @@ export const fr = {
   },
   hero: {
     subtitle: "Cueillies à la main · Colombie-Britannique & Yukon",
-    title: "Morilles de Feu",
+    title: "Morilles séchées",
     titleHighlight: "du Canada",
     description:
       "Nées des cendres des forêts boréales, nos morilles sauvages offrent un arôme fumé et une intensité incomparables. Un trésor rare, séché avec soin pour les palais les plus exigeants.",
@@ -162,7 +162,7 @@ export const fr = {
   },
   pro: {
     metaTitle: "Morilles séchées au kilo, prix pro | Morilles du Canada",
-    metaDescription: "Morilles séchées pour professionnels : sauvages du Canada, entières, équeutées, 45 kg en stock en France. Prix nets dès {minPrice}/kg, expédition sous 5 jours ouvrés.",
+    metaDescription: "Morilles séchées pour les pros : sauvages du Canada, entières, équeutées, 45 kg en stock en France. Prix nets dès {minPrice}/kg, expédition sous 5 jours ouvrés.",
     hero: {
       label: "Restaurants · Épiceries fines · Traiteurs",
       title: "Morilles sauvages du Canada,",
@@ -175,7 +175,7 @@ export const fr = {
     },
     pricing: {
       label: "Tarifs",
-      title: "Tarifs au kilo",
+      title: "Prix des morilles séchées au kilo",
       intro: "Le prix du palier atteint s'applique à toute la quantité commandée.",
       colQuantity: "Quantité",
       colPrice: "Prix net",
@@ -291,6 +291,9 @@ export const fr = {
     },
   },
   footer: {
+    products: "Nos morilles séchées",
+    pro: "Morilles au kilo (pros)",
+    guide: "Guide des morilles",
     legal: "Mentions légales",
     terms: "CGV",
     delivery: "Livraison & Retours",

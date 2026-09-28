@@ -23,7 +23,7 @@ const FloatingCTA = lazy(() => import("@/components/FloatingCTA"));
 
 const TITLE = "Morilles séchées sauvages du Canada | Morilles du Canada";
 const DESCRIPTION =
-  "Morilles sauvages du Canada, séchées, entières et équeutées. Stock en France, expédition sous 5 jours ouvrés. Sachets, morilles sous vide et prix au kilo pour les pros.";
+  "Morilles sauvages du Canada, séchées, entières et équeutées. Stock en France, expédition sous 5 jours ouvrés. Sachets, sous vide et prix au kilo pour les pros.";
 
 const Index = () => {
   const { translations } = useI18n();

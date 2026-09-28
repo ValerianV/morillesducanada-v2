@@ -34,7 +34,7 @@ const HeroSection = () => {
     <LazyMotion features={loadMotionFeatures}>
       <section ref={sectionRef} className="relative flex items-center justify-center overflow-hidden min-h-screen safari-safe-layer" style={{ WebkitBackfaceVisibility: "hidden" as any }}>
         <m.div className="absolute inset-0 safari-safe-layer" style={isSafari ? undefined : { y: imageY, scale: imageScale, willChange: "transform", WebkitBackfaceVisibility: "hidden" as any }}>
-          <img src={heroImage} alt="Morilles de feu séchées canadiennes" className="w-full h-full object-cover" width={1440} height={960} fetchPriority="high" decoding="async" />
+          <img src={heroImage} alt="Morilles séchées sauvages du Canada, entières et équeutées, en bocaux" className="w-full h-full object-cover" width={1440} height={960} fetchPriority="high" decoding="async" />
         </m.div>
         <m.div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background safari-safe-layer" style={isSafari ? undefined : { opacity: overlayOpacity }} />
 
@@ -60,7 +60,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
           >
-            {t("hero.title")}
+            {t("hero.title")}{" "}
             <m.span className="block text-gradient-gold italic mt-2"
               initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.9, ease: [0.25, 0.4, 0.25, 1] }}
