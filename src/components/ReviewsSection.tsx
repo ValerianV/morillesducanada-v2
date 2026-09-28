@@ -40,7 +40,7 @@ const ReviewsSection = () => {
   async function fetchReviews() {
     const { data } = await supabase
       .from("reviews")
-      .select("*")
+      .select("id, first_name, rating, comment, created_at")
       .eq("approved", true)
       .order("created_at", { ascending: false });
     if (data) setReviews(data as Review[]);

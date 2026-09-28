@@ -88,7 +88,7 @@ const AdminDashboard = () => {
       const [ordersRes, preOrdersRes, reviewsRes] = await Promise.all([
         supabase.from("orders").select("*").order("created_at", { ascending: false }),
         supabase.from("pre_orders").select("*").order("created_at", { ascending: false }),
-        supabase.from("reviews").select("*").order("created_at", { ascending: false }),
+        supabase.from("reviews").select("id, first_name, rating, comment, approved, created_at").order("created_at", { ascending: false }),
       ]);
       if (ordersRes.data) setOrders(ordersRes.data as Order[]);
       if (preOrdersRes.data) setPreOrders(preOrdersRes.data as PreOrder[]);
