@@ -4,6 +4,9 @@ import { ShoppingCart, Minus, Plus, Trash2, Loader2, CreditCard } from "lucide-r
 import { useCartStore } from "@/stores/cartStore";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { FREE_SHIPPING_THRESHOLD_CENTS, computeShippingCents } from "@/lib/products";
+
+const formatPrice = (euros: number) => `${euros.toFixed(2)} €`;
 
 export const CartDrawer = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,6 +14,8 @@ export const CartDrawer = () => {
   const { items, updateQuantity, removeItem, totalItems, totalPrice } = useCartStore();
   const count = totalItems();
   const total = totalPrice();
+  const shipping = computeShippingCents(Math.round(total * 100)) / 100;
+  const freeShippingThreshold = FREE_SHIPPING_THRESHOLD_CENTS / 100;
 
   const handleCheckout = async () => {
     if (items.length === 0) return;
@@ -59,19 +64,18 @@ export const CartDrawer = () => {
             {count === 0 ? "Votre panier est vide" : `${count} article${count !== 1 ? "s" : ""}`}
           </SheetDescription>
         </SheetHeader>
-        {/* Free shipping progress */}
-        {total < 50 && (
+        {items.length > 0 && shipping > 0 && (
           <div className="px-1 pt-4 pb-2">
             <div className="flex justify-between text-[10px] text-muted-foreground mb-1.5">
-              <span>Livraison offerte dès 50 €</span>
-              <span className="text-primary font-medium">{(50 - total).toFixed(2)} € restants</span>
+              <span>Livraison offerte dès {formatPrice(freeShippingThreshold)}</span>
+              <span className="text-primary font-medium">{formatPrice(freeShippingThreshold - total)} restants</span>
             </div>
             <div className="h-1 bg-secondary rounded-full overflow-hidden">
-              <div className="h-full bg-primary rounded-full transition-all duration-500" style={{ width: `${Math.min((total / 50) * 100, 100)}%` }} />
+              <div className="h-full bg-primary rounded-full transition-all duration-500" style={{ width: `${Math.min((total / freeShippingThreshold) * 100, 100)}%` }} />
             </div>
           </div>
         )}
-        {total >= 80 && items.length > 0 && (
+        {items.length > 0 && shipping === 0 && (
           <p className="text-[10px] text-primary text-center pt-3 pb-1 font-medium tracking-wide">Livraison offerte</p>
         )}
         <div className="flex flex-col flex-1 pt-4 min-h-0">
@@ -113,9 +117,19 @@ export const CartDrawer = () => {
                 ))}
               </div>
               <div className="flex-shrink-0 space-y-4 pt-4 border-t border-gold/20">
+                <div className="space-y-1.5 text-sm">
+                  <div className="flex justify-between items-center text-muted-foreground">
+                    <span>Sous-total</span>
+                    <span>{formatPrice(total)}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-muted-foreground">
+                    <span>Livraison</span>
+                    <span>{shipping === 0 ? "Offerte" : formatPrice(shipping)}</span>
+                  </div>
+                </div>
                 <div className="flex justify-between items-center">
                   <span className="font-serif text-lg">Total</span>
-                  <span className="font-serif text-xl text-gradient-gold">{total.toFixed(2)} €</span>
+                  <span className="font-serif text-xl text-gradient-gold">{formatPrice(total + shipping)}</span>
                 </div>
                 <button
                   onClick={handleCheckout}

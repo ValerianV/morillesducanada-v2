@@ -97,6 +97,14 @@ export const products: Product[] = [
   },
 ];
 
+// Frais de port et limites de panier : mêmes règles que create-checkout (catalogue serveur).
+export {
+  FREE_SHIPPING_THRESHOLD_CENTS,
+  SHIPPING_AMOUNT_CENTS,
+  MAX_QUANTITY_PER_LINE,
+  computeShippingCents,
+} from "../../supabase/functions/_shared/catalog";
+
 const vacuumPrices: Record<number, number> = { 100: 59, 200: 110, 500: 240, 1000: 420 };
 
 export function getVacuumMorelPrice(weightGrams: number): number {
