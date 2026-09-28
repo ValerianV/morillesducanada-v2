@@ -12,6 +12,12 @@ C'est ce qui plaît aux chefs et aux commerçants, et ce qui justifie le prix fa
 - Morilles **sauvages** : rien à voir avec la morille de culture (serre ou plein champ).
 - **Entières et équeutées**, variétés mélangées, stock en France.
 - Expédition sous 5 jours ouvrés. Prix nets, TVA non applicable (art. 293 B).
+- Vente réservée aux professionnels ; commandes en sachets sous vide de 250 g ; échantillon en pot
+  en verre de 30 g, refermable (validés le 2026-09-28).
+- Goût : **arôme intense, chair ferme**. Jamais de note « fumée ».
+- Avis clients : les trois avis publiés (Annabel, Brigitte, Nathalie) sont **réels, vérifiés par le
+  fondateur le 2026-09-28**. Ils viennent de particuliers (avant le passage au 100 % pro) et restent
+  discrets en bas de l'accueil, sans balisage de notation.
 
 ## Interdits
 
@@ -19,11 +25,18 @@ C'est ce qui plaît aux chefs et aux commerçants, et ce qui justifie le prix fa
 - « Je suis sur le terrain à chaque cueillette » au présent : le fondateur a cueilli de 2022 à 2024.
 - « Chaque lot est identifié », « fiche de lot », « origine précise pour votre étiquetage » :
   non disponible à ce jour.
-- Calibre chiffré, taux d'humidité, DLUO, ou analyses non fournis par le fondateur.
-- Avis, notes, témoignages, références clients inventés. « Retours unanimes » et formulations équivalentes.
+- Calibre chiffré, taux d'humidité, DLUO ou DDM chiffrée, « date de péremption », analyses,
+  valeurs nutritionnelles, allergènes ou « traces de fruits à coque », matériau d'emballage (« PA/PE »)
+  non fournis par le fondateur.
+- Rendements chiffrés à la réhydratation (×3, ×5, « 150 à 180 g ») : dire « les morilles gonflent nettement ».
+- « Origine traçable », « qualité constante », « stock constant ».
+- Goût « fumé » (arômes, notes ou intensité fumés).
+- Avis, notes, témoignages, références clients inventés (hors les trois avis réels vérifiés ci-dessus).
+  « Retours unanimes » et formulations équivalentes.
 - Montrer ou citer un document de douane.
 - Dénigrer nommément un concurrent ou une origine.
-- Superlatifs creux (« exceptionnel », « unique au monde »…), emojis, tutoiement.
+- Superlatifs creux (« exceptionnel », « unique au monde », « sublime », « inoubliable »…), emojis, tutoiement.
+- « Sachet » pour les pots : les petits formats sont des **pots en verre**.
 
 ## Angle « sauvage ou cultivée »
 

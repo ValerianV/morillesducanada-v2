@@ -5,9 +5,10 @@ Toute décision nouvelle du fondateur → `docs/decisions.md` d'abord, puis le d
 
 ## Mission
 
-Vendre des morilles de feu **sauvages** du Canada, séchées, à des professionnels
-(chefs gastronomiques, épiceries fines, traiteurs haut de gamme) et à des particuliers,
-via https://www.morillesducanada.com. Deux objectifs :
+Vendre des morilles de feu **sauvages** du Canada, séchées, **aux professionnels uniquement**
+(chefs gastronomiques, épiceries fines, traiteurs haut de gamme, distributeurs ; SIRET demandé
+à la commande), via https://www.morillesducanada.com. Aucune vente aux particuliers depuis le
+2026-09-28 (pas de médiateur de la consommation). Deux objectifs :
 
 1. Écouler le stock actuel (≈ 45 kg séchés, en France).
 2. Vendre la saison suivante en **précommande** (saison 2027, livraison octobre 2027).
@@ -19,7 +20,8 @@ envois de prospection et déploiements en production.
 
 | Sujet | Doc | Code |
 |---|---|---|
-| Offre, prix, livraison, TVA, précommande | `docs/business/offre.md` | `supabase/functions/_shared/catalog.ts`, `supabase/functions/_shared/proPricing.ts` (réexporté par `src/lib/proPricing.ts`), `src/lib/products.ts` |
+| Offre, prix, livraison, TVA, précommande | `docs/business/offre.md` | `supabase/functions/_shared/proPricing.ts` (réexporté par `src/lib/proPricing.ts`), `supabase/functions/_shared/catalog.ts` (précommande) |
+| Mentions légales, CGV | `docs/business/offre.md` | `src/lib/legal.ts`, `src/pages/CGV.tsx`, `src/pages/MentionsLegales.tsx` |
 | Récit de marque, faits autorisés / interdits | `docs/business/recit.md` | textes i18n `src/i18n/*.ts` |
 | Marché et positionnement prix | `docs/business/marche.md` | — |
 | Cibles, prospection, suivi commercial | `docs/commercial/strategie.md` | table `pro_leads` |
@@ -38,12 +40,13 @@ envois de prospection et déploiements en production.
   partenaires au Canada. Le fondateur reste l'unique intermédiaire.
 - **Prix plancher de négociation** : dans `docs/business/offre.md`, **jamais** sur le site ni dans un email.
 - **Mention fiscale** partout où un prix apparaît : « Prix nets — TVA non applicable, art. 293 B du CGI ».
-- **Expédition : sous 5 jours ouvrés.** Jamais « 48 h ».
+- **Expédition : sous 5 jours ouvrés.** Jamais « 48 h » (seule la réponse aux devis est « sous 48 h ouvrées »).
+- **Professionnels uniquement** : pas de panier, pas de prix de détail, pas de médiateur ni de rétractation dans les CGV.
 - **Aucun email de prospection envoyé sans feu vert explicite du fondateur, vague par vague.**
 - **Production** (déploiement Supabase/Vercel, Stripe live, DNS) : suivre `docs/tech/deploiement.md`
   et obtenir la validation du fondateur.
-- Prix côté serveur uniquement : le client n'envoie jamais de montant. Les prix de
-  `src/lib/products.ts` et `_shared/catalog.ts` doivent rester synchronisés (test vitest dédié).
+- Prix côté serveur uniquement : le client n'envoie jamais de montant. La grille n'existe qu'une
+  fois (`_shared/proPricing.ts`), testée dans `src/test/catalog.test.ts`.
 
 ## Conventions de développement
 

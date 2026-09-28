@@ -1,10 +1,13 @@
 # Stratégie commerciale
 
+Depuis le 2026-09-28, **le site est réservé aux professionnels** (SIRET demandé à la commande) :
+aucune vente aux particuliers. Voir `docs/business/offre.md`.
+
 ## Cibles (par priorité)
 
 | Segment | Qui | Pourquoi | Volume typique |
 |---|---|---|---|
-| B | Épiceries fines premium, crèmeries | Stock de fêtes en oct.–nov., revendent en petits formats avec forte marge | 1–5 kg, parfois 5–15 kg |
+| B | Épiceries fines premium, crèmeries | Stock de fêtes en oct.–nov. ; achètent le vrac sous vide (sachets de 250 g) et le reconditionnent sous leur marque | 1–5 kg, parfois 5–15 kg |
 | D | Traiteurs et fabricants haut de gamme (pâté en croûte, boudin blanc, fromages aux morilles) | Consommation régulière et volumes de fêtes | 5–15 kg |
 | C | Tables gastronomiques / étoilées ayant la morille à la carte, chefs « cueillette » | Sensibles au récit, payent le mieux, achètent peu | 1–3 kg |
 | A | Distributeurs premium pour chefs | Rares, doivent revendre cher | variable |
@@ -43,5 +46,6 @@ identifie clairement l'expéditeur et propose une désinscription simple.
 
 ## Offre à mettre en avant
 
-Stock disponible (argument fêtes) + échantillon 30 g + précommande 2027 dans les relances.
+Stock disponible (argument fêtes) + échantillon 30 g (pot en verre) + sachets sous vide de 250 g
++ devis sous 48 h ouvrées + précommande 2027 (réservée aux pros) dans les relances.
 Prix : voir `docs/business/offre.md`. Ne jamais citer le prix plancher.

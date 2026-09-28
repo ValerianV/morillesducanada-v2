@@ -13,7 +13,7 @@
 
 - Kg vendus / kg en stock ; kg précommandés 2027 (objectif à fixer avec le fondateur).
 - Leads pros reçus, taux de réponse par vague, taux devis → commande.
-- Taux de conversion du panier, part du sous vide dans le chiffre d'affaires.
+- Leads pros → commandes (devis, liens de paiement, virements) ; échantillons envoyés → commandes.
 - Pages indexées (Search Console), positions sur « morilles séchées », « morilles sauvages du Canada ».
 
 ## Backlog (priorisé)
@@ -34,8 +34,14 @@
       pas proposée sur le site. À tester avant de l'ouvrir.
 - [ ] Durcir `notify-contact` (public ; HTML désormais échappé via `_shared/orderEmails.ts`) ; insertion anonyme `pre_orders` ;
       `reviews.approved` vrai par défaut ; index unique sur `orders.stripe_session_id` ; CORS `*`.
-- [ ] Collecter les premiers avis (email post-achat) puis réafficher la section avis.
-- [ ] Fiche technique harmonisée (délais de séchage, conservation, rendement) — données à fournir par le fondateur.
+- [ ] Avis de professionnels (email après livraison) ; les trois avis actuels viennent de particuliers.
+- [ ] Journal du cueilleur : 3 récits (2022, 2023, 2024) avant de le réafficher (aujourd'hui noindex).
+- [ ] Photos : sachet sous vide de 250 g avec repère d'échelle, gros plan de morilles sèches équeutées,
+      colis prêt à partir (sans partenaire visible).
+- [ ] Liens de paiement Stripe : champs `company` et `siret` obligatoires (directeur).
+- [ ] Archiver les anciens prix Stripe de détail après le déploiement.
+- [ ] Fiche technique : DDM, numéro de lot, lieu de conditionnement et allergènes à confirmer par écrit
+      par le fondateur avant de les publier ; rendement mesuré à la réhydratation.
 - [ ] Vrais PDF pour la plaquette pro et la fiche technique.
 - [ ] Traçabilité 2027 : envois commerciaux déclarés, preuve de provenance présentable.
 

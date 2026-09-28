@@ -4,7 +4,39 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-09-28 — Site 100 % professionnel
+
+- Décision du fondateur : **le site ne vend plus qu'aux professionnels**. Raison : la vente aux
+  consommateurs impose un médiateur de la consommation payant (art. L612-1 C. conso.), refusé.
+- Conséquences : plus de panier, de pots ni de sous vide au détail ; `/produits` redirigé vers
+  `/professionnels` ; `create-checkout` répond 410 ; compte client retiré du menu (`/auth` et
+  `/admin` gardés pour le fondateur, en noindex) ; CGV professionnelles (sans rétractation ni
+  médiateur, tribunaux d'Avignon) ; SIRET obligatoire au devis, à l'échantillon et à la précommande.
+- Offre : 1 à 45 kg (pas de 0,5 kg), grille 350 / 330 / 310 / 290 €/kg, port inclus, France
+  uniquement, expédition sous 5 jours ouvrés, sachets sous vide de 250 g.
+- Commander : devis (réponse **sous 48 h ouvrées**, validé), liens de paiement Stripe, ou virement
+  sur facture (Stripe ou coordonnées sur la facture ; aucun IBAN dans le code).
+- Précommande 2027 : **pros uniquement**, SIRET obligatoire, port inclus en France.
+- Épiceries fines : vrac sous vide uniquement, à reconditionner sous leur marque.
+- Pots de 12, 30 et 45 g : en verre, refermables ; uniquement pour les échantillons (30 g).
+- Goût « fumé » retiré partout ; photos : uniquement celles du dépôt.
+- Avis Annabel, Brigitte, Nathalie : réels (vérifiés par le fondateur) ; gardés, discrets.
+
+## 2026-09-28 — Audit PM (go / no-go prospection) : décisions du directeur
+
+- Tout ce qui n'est pas validé est retiré : allergènes, valeurs nutritionnelles, DDM chiffrée,
+  « date de péremption », « PA/PE », « origine traçable », « qualité constante », « stock
+  constant », rendements chiffrés.
+- « Sachet » → « pot en verre » pour 12, 30 et 45 g. Journal du cueilleur masqué (noindex, hors
+  sitemap, liens retirés). Accueil allégé (« Pourquoi… différentes » et « Du sol brûlé à votre
+  assiette » retirés). Mentions légales : EI, Aubignan, téléphone, Vercel, sous-traitants, CNIL.
+- Plaquette lisible sur mobile, lisibilité AA (texte courant en 400, 15–16 px), galerie à 20 photos,
+  image JPEG de 727 Ko remplacée par du WebP, vrai code 404.
+
 ## 2026-09-28 — Grille de prix unique : sous vide 1 kg à 350 €
+
+(Remplacée le même jour par la décision « Site 100 % professionnel » : le détail est fermé.)
+
 
 - Décision du fondateur : « Je ne peux pas proposer la même quantité à deux prix différents. »
   Le sous vide 1 kg passe de 420 € à **350 € pour tout le monde**, soit le prix du palier pro 1 kg.

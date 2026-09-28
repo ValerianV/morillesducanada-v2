@@ -19,10 +19,10 @@ Navigateur ──► Vercel (SPA React prérendue, dist/)
 
 | Fonction | Rôle | Auth |
 |---|---|---|
-| `create-checkout` | Panier → session Stripe. Prix, port et pays recalculés côté serveur (`_shared/catalog.ts`) | publique (anon) |
-| `create-preorder-checkout` | Précommande 2027 : acompte 50 %, 1–15 kg | publique (anon) |
-| `stripe-webhook` | `checkout.session.completed` → orders / pre_orders + emails | signature Stripe |
-| `submit-pro-lead` | Devis / échantillon pro → `pro_leads` + alerte contact@ + accusé de réception | publique, honeypot, 5/h |
+| `create-checkout` | Ancien panier de détail : **fermé**, répond 410 avec un message clair | publique (anon) |
+| `create-preorder-checkout` | Précommande 2027 (pros) : acompte 50 %, 1–15 kg, société et SIRET obligatoires (champs Stripe) | publique (anon) |
+| `stripe-webhook` | `checkout.session.completed` (liens de paiement pros, précommande) → orders / pre_orders + emails ; lit société et SIRET | signature Stripe |
+| `submit-pro-lead` | Devis / échantillon pro (SIRET obligatoire, clé de Luhn) → `pro_leads` + alerte contact@ + accusé de réception | publique, honeypot, 5/h |
 | `notify-order-status` | Emails de changement de statut | admin ou service_role |
 | `notify-contact` | Alerte formulaire de contact | publique (à durcir, voir backlog) |
 | `auth-email-hook` | Emails d'authentification via Resend (`_shared/authEmails.ts`) | signature Standard Webhooks |
@@ -44,12 +44,16 @@ Le front réexporte la grille via `src/lib/proPricing.ts` : **une seule source d
 
 ## Front
 
-- `src/pages/` : pages (Index, Professionnels, Precommande2027, ProductDetail, AdminDashboard…).
+- `src/pages/` : pages (Index, Professionnels, Precommande2027, CGV, MentionsLegales, AdminDashboard…).
+  Site réservé aux professionnels : ni panier ni fiches produits ; `/produits*` redirigé (vercel.json).
 - `src/components/Seo.tsx` : balises par page ; `src/lib/seo/` : routes et JSON-LD.
-- `scripts/prerender.mjs` : rendu SSR des routes publiques après `vite build` ; `dist/spa.html` en repli.
+- `scripts/prerender.mjs` : rendu SSR des routes publiques après `vite build` ; `dist/spa.html` pour les
+  routes applicatives (`/auth`, `/admin`, `/journal`…, réécritures explicites dans `vercel.json`) ;
+  `dist/404.html` servi par Vercel avec un vrai code 404 pour toute autre adresse. Le build échoue si
+  une page légale contient un crochet.
 - i18n : `src/i18n/{fr,en}.ts`, langue stockée côté navigateur (même URL en FR/EN, pas de hreflang).
 - Tests : `src/test/` (vitest + jsdom, client Supabase simulé) — cohérence prix front/serveur,
-  routes FR/EN, panier, SEO, formulaires.
+  routes FR/EN, SIRET, SEO, formulaires, CGV et mentions légales.
 
 ## Pièges connus
 
