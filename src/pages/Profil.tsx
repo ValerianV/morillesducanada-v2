@@ -55,12 +55,12 @@ const Profil = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       if (!session) {
-        navigate("/auth");
+        navigate("/auth?redirect=%2Fprofil", { replace: true });
       }
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
-      if (!session) navigate("/auth");
+      if (!session) navigate("/auth?redirect=%2Fprofil", { replace: true });
     });
     return () => subscription.unsubscribe();
   }, [navigate]);

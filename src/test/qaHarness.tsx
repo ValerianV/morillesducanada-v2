@@ -6,6 +6,7 @@ import { fr } from "@/i18n/fr";
 export const supabaseMock = {
   invoke: vi.fn(async () => ({ data: null, error: null })),
   getUser: vi.fn(async () => ({ data: { user: null }, error: null })),
+  getSession: vi.fn(async () => ({ data: { session: null as unknown }, error: null })),
 };
 
 function queryBuilder(): unknown {
@@ -34,7 +35,7 @@ export const supabaseModule = {
     storage: { from: () => ({ getPublicUrl: () => ({ data: { publicUrl: "" } }), upload: async () => ({ error: null }) }) },
     auth: {
       onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
-      getSession: async () => ({ data: { session: null }, error: null }),
+      getSession: () => supabaseMock.getSession(),
       getUser: () => supabaseMock.getUser(),
       signOut: async () => ({ error: null }),
     },

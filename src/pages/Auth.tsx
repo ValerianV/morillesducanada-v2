@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,14 +19,20 @@ const Auth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  const [searchParams] = useSearchParams();
+  const redirectParam = searchParams.get("redirect");
+  // Retour vers la page protégée d'origine (/admin, /profil), jamais vers un autre domaine.
+  const redirectTo = redirectParam && /^\/(?![/\\])/.test(redirectParam) ? redirectParam : "/";
+
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
-      if (session) navigate("/");
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) navigate(redirectTo, { replace: true });
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) navigate("/");
+      if (session) navigate(redirectTo, { replace: true });
     });
-  }, [navigate]);
+    return () => subscription.unsubscribe();
+  }, [navigate, redirectTo]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

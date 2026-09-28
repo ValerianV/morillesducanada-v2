@@ -67,7 +67,7 @@ const AdminDashboard = () => {
 
   async function checkAdmin() {
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) { navigate("/auth"); return; }
+    if (!user) { navigate("/auth?redirect=%2Fadmin", { replace: true }); return; }
     const { data } = await supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin");
     if (!data || data.length === 0) { setIsAdmin(false); return; }
     setIsAdmin(true);
