@@ -29,3 +29,6 @@ dist/
 src/assets/originals/
 supabase/.temp/
 .gstack/
+
+# Données internes confidentielles (coûts, plancher, fournisseurs)
+docs/interne/
