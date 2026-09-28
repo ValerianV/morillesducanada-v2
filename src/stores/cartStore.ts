@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import type { Product } from '@/lib/products';
+import { products, getVacuumMorelPrice, MAX_QUANTITY_PER_LINE, type Product } from '@/lib/products';
 
 export interface CartItem {
   id: string;
@@ -26,6 +26,27 @@ interface CartStore {
   totalPrice: () => number;
 }
 
+const clampQuantity = (quantity: number) =>
+  Number.isFinite(quantity) ? Math.min(Math.max(Math.floor(quantity), 0), MAX_QUANTITY_PER_LINE) : 0;
+
+// Le panier persisté garde une copie du produit : on la remplace par le catalogue courant
+// (images à hash, prix) et on écarte les lignes devenues invalides.
+export function refreshCartItems(stored: unknown): CartItem[] {
+  if (!Array.isArray(stored)) return [];
+  return stored.flatMap((raw): CartItem[] => {
+    const item = raw as Partial<CartItem> | null;
+    const product = products.find((p) => p.id === item?.product?.id);
+    const quantity = clampQuantity(Number(item?.quantity));
+    if (!item || !product || quantity < 1) return [];
+    if (product.weightPriceIds) {
+      const grams = Number(item.selectedWeightGrams);
+      if (!product.weightPriceIds[grams]) return [];
+      return [{ id: `${product.id}-${grams}`, product, quantity, selectedWeightGrams: grams, unitPrice: getVacuumMorelPrice(grams) }];
+    }
+    return [{ id: product.id, product, quantity, unitPrice: product.price }];
+  });
+}
+
 export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
@@ -43,7 +64,7 @@ export const useCartStore = create<CartStore>()(
         if (existing) {
           set({
             items: items.map((i) =>
-              i.id === itemId ? { ...i, quantity: i.quantity + quantity } : i
+              i.id === itemId ? { ...i, quantity: clampQuantity(i.quantity + quantity) } : i
             ),
           });
         } else {
@@ -53,7 +74,7 @@ export const useCartStore = create<CartStore>()(
               {
                 id: itemId,
                 product,
-                quantity,
+                quantity: clampQuantity(quantity),
                 selectedWeightGrams: options?.selectedWeightGrams,
                 unitPrice,
               },
@@ -69,7 +90,7 @@ export const useCartStore = create<CartStore>()(
         }
         set({
           items: get().items.map((i) =>
-            i.id === itemId ? { ...i, quantity } : i
+            i.id === itemId ? { ...i, quantity: clampQuantity(quantity) } : i
           ),
         });
       },
@@ -88,6 +109,10 @@ export const useCartStore = create<CartStore>()(
       name: 'morilles-cart',
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({ items: state.items }),
+      merge: (persisted, current) => ({
+        ...current,
+        items: refreshCartItems((persisted as { items?: unknown } | undefined)?.items),
+      }),
     }
   )
 );

@@ -55,3 +55,36 @@ describe("panier : frais de port alignés sur create-checkout", () => {
     expect(text).not.toContain("restants");
   });
 });
+
+describe("panier persisté", () => {
+  it("remplace la copie produit stockée par le catalogue courant (image, prix) et écarte les lignes invalides", async () => {
+    const stale = {
+      state: {
+        items: [
+          { id: "morilles-30g", product: { ...byId("morilles-30g"), image: "/assets/ancien-hash.webp", price: 1 }, quantity: 2, unitPrice: 1 },
+          { id: "morilles-sous-vide-500", product: byId("morilles-sous-vide"), quantity: 1, selectedWeightGrams: 500, unitPrice: 1 },
+          { id: "morilles-sous-vide-300", product: byId("morilles-sous-vide"), quantity: 1, selectedWeightGrams: 300, unitPrice: 1 },
+          { id: "retire", product: { id: "produit-retire" }, quantity: 1, unitPrice: 5 },
+          { id: "morilles-12g", product: byId("morilles-12g"), quantity: 999, unitPrice: 12 },
+        ],
+      },
+      version: 0,
+    };
+    localStorage.setItem("morilles-cart", JSON.stringify(stale));
+    await useCartStore.persist.rehydrate();
+    const items = useCartStore.getState().items;
+    expect(items.map((i) => [i.id, i.quantity, i.unitPrice, i.product.image])).toEqual([
+      ["morilles-30g", 2, 23, byId("morilles-30g").image],
+      ["morilles-sous-vide-500", 1, 240, byId("morilles-sous-vide").image],
+      ["morilles-12g", 50, 12, byId("morilles-12g").image],
+    ]);
+  });
+
+  it("plafonne la quantité par ligne à la limite de create-checkout (50)", () => {
+    act(() => useCartStore.getState().addItem(byId("morilles-12g"), 49));
+    act(() => useCartStore.getState().addItem(byId("morilles-12g"), 5));
+    expect(useCartStore.getState().items[0].quantity).toBe(50);
+    act(() => useCartStore.getState().updateQuantity("morilles-12g", 51));
+    expect(useCartStore.getState().items[0].quantity).toBe(50);
+  });
+});

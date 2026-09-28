@@ -4,7 +4,7 @@ import { ShoppingCart, Minus, Plus, Trash2, Loader2, CreditCard } from "lucide-r
 import { useCartStore } from "@/stores/cartStore";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { FREE_SHIPPING_THRESHOLD_CENTS, computeShippingCents } from "@/lib/products";
+import { FREE_SHIPPING_THRESHOLD_CENTS, MAX_QUANTITY_PER_LINE, computeShippingCents } from "@/lib/products";
 
 const formatPrice = (euros: number) => `${euros.toFixed(2)} €`;
 
@@ -108,7 +108,7 @@ export const CartDrawer = () => {
                           <Minus className="h-3 w-3" />
                         </button>
                         <span className="w-6 text-center text-xs">{item.quantity}</span>
-                        <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="w-6 h-6 border border-gold/20 rounded-sm flex items-center justify-center text-muted-foreground hover:text-foreground">
+                        <button onClick={() => updateQuantity(item.id, item.quantity + 1)} disabled={item.quantity >= MAX_QUANTITY_PER_LINE} className="w-6 h-6 border border-gold/20 rounded-sm flex items-center justify-center text-muted-foreground hover:text-foreground disabled:opacity-40">
                           <Plus className="h-3 w-3" />
                         </button>
                       </div>
