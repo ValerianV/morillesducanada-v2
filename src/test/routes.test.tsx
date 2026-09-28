@@ -131,3 +131,16 @@ describe("menu mobile", () => {
     expect(screen.getAllByRole("link", { name: "Professionnels" }).length).toBe(1);
   });
 });
+
+describe("ancres de l'accueil depuis une autre page", () => {
+  it("/#produits défile jusqu'à la section produits une fois chargée", async () => {
+    const scrolled: string[] = [];
+    await renderAt("/produits", "fr");
+    cleanup();
+    window.HTMLElement.prototype.scrollIntoView = vi.fn(function (this: HTMLElement) {
+      scrolled.push(this.id);
+    });
+    await renderAt("/#produits", "fr");
+    await waitFor(() => expect(scrolled).toContain("produits"));
+  });
+});

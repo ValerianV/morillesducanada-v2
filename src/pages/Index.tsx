@@ -1,4 +1,5 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import TrustBandeau from "@/components/TrustBandeau";
@@ -18,7 +19,34 @@ const FAQSection = lazy(() => import("@/components/FAQSection"));
 const ContactSection = lazy(() => import("@/components/ContactSection"));
 const FloatingCTA = lazy(() => import("@/components/FloatingCTA"));
 
+// Arrivée depuis une autre page sur /#produits, /#contact… : les sections sont chargées à la
+// demande, donc absentes quand le navigateur tente le défilement natif vers l'ancre.
+function useScrollToLazyAnchor() {
+  const { hash } = useLocation();
+  useEffect(() => {
+    const id = decodeURIComponent(hash.slice(1));
+    if (!id) return;
+    const scroll = () => {
+      const target = document.getElementById(id);
+      if (target) target.scrollIntoView({ block: "start" });
+      return Boolean(target);
+    };
+    if (scroll()) return;
+    const observer = new MutationObserver(() => {
+      if (scroll()) observer.disconnect();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    const timeout = window.setTimeout(() => observer.disconnect(), 5000);
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(timeout);
+    };
+  }, [hash]);
+}
+
 const Index = () => {
+  useScrollToLazyAnchor();
+
   return (
     <div className="min-h-screen bg-background">
       <JsonLdSchemas />
