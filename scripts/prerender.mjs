@@ -136,7 +136,9 @@ function checkPage(route, doc, siteUrl) {
 }
 
 async function main() {
-  const template = await readFile(path.join(distDir, "index.html"), "utf8");
+  // Relance sans `vite build` : dist/index.html est déjà prérendu, la coquille est dans spa.html.
+  let template = await readFile(path.join(distDir, "index.html"), "utf8");
+  if (!APP_HTML.test(template)) template = await readFile(path.join(distDir, "spa.html"), "utf8").catch(() => "");
   if (!APP_HTML.test(template)) throw new Error("index.html : marqueurs <!--app-html-start/end--> introuvables");
   await writeFile(path.join(distDir, "spa.html"), template);
 
