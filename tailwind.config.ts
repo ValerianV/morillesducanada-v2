@@ -13,6 +13,10 @@ export default {
       },
     },
     extend: {
+      // Lisibilité : le texte « sm » passe de 14 à 15 px ; « xs » (12 px) est le minimum pour les mentions.
+      fontSize: {
+        sm: ["0.9375rem", { lineHeight: "1.4rem" }],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

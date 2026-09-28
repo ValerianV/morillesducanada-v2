@@ -6,19 +6,37 @@ import { en } from "@/i18n/en";
 // Garde-fou éditorial : faits autorisés par le fondateur uniquement, sans affirmation invérifiable.
 const FORBIDDEN = [
   /frère|brother/i,
-  /\b24 ?h|24 hours|48 ?h/i,
+  // Expédition : sous 5 jours ouvrés, jamais en 24/48 h (la réponse aux devis sous 48 h ouvrées est autorisée).
+  /(exp[ée]di\w*|livr\w*|ship\w*|dispatch\w*)[^."]{0,40}(24|48|72) ?h/i,
+  /\b24 ?h|24 hours/i,
+  // Audit PM du 2026-09-28 : affirmations non validées par le fondateur.
+  /fumé|smok/i,
+  /triplent|triple in volume|×\s?[35]\b/i,
+  /fruits à coque|tree nuts|valeurs nutritionnelles|nutritional values|PA\/PE|péremption/i,
+  /origine traçable|qualité constante|stock constant/i,
+  /or liquide|huile de truffe|truffle oil/i,
+  /Colombie-Britannique & Yukon, Canada → France/,
   /Chine|chinois|China|Chinese/i,
   /monopole|monopoly|grossiste|wholesaler/i,
   /le soir même|same evening/i,
   /douane|customs/i,
-  /Avignon|Piolenc/i,
+  // Avignon n'est autorisé que pour le tribunal compétent des CGV (« ressort d'Avignon »).
+  /(?<!ressort d')Avignon|Piolenc/i,
   /lot identifi|identified batch|traçabilité totale|full traceability/i,
 ];
 
 const sources = [
   ["fr.ts", JSON.stringify(fr)],
   ["en.ts", JSON.stringify(en)],
-  ...["src/pages/PlaquettePro.tsx", "src/pages/GuideMorellesDeFeu.tsx", "src/pages/FicheTechnique.tsx", "src/lib/productDetails.ts", "public/llms.txt"].map(
+  ...[
+    "src/pages/PlaquettePro.tsx",
+    "src/pages/GuideMorellesDeFeu.tsx",
+    "src/pages/FicheTechnique.tsx",
+    "src/pages/CGV.tsx",
+    "src/pages/Livraison.tsx",
+    "src/components/ContactSection.tsx",
+    "public/llms.txt",
+  ].map(
     (path) => [path, readFileSync(path, "utf8")],
   ),
 ] as const;

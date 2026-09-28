@@ -8,9 +8,12 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import { galleryPhotos } from "@/lib/galleryPhotos";
+import { useI18n } from "@/i18n/context";
 
 const Galerie = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
+  const { t, locale } = useI18n();
+  const en = locale === "en";
 
   return (
     <div className="min-h-screen bg-background">
@@ -29,18 +32,16 @@ const Galerie = () => {
             <div className="mb-6">
               <Link to="/#galerie" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
                 <ArrowLeft className="w-4 h-4" />
-                Retour à l'accueil
+                {en ? "Back to home" : "Retour à l'accueil"}
               </Link>
             </div>
             <div className="text-center mb-16">
-              <p className="text-sm tracking-[0.3em] uppercase text-primary mb-4">Galerie</p>
+              <p className="text-sm tracking-[0.3em] uppercase text-primary mb-4">{en ? "Gallery" : "Galerie"}</p>
               <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light">
-                Nos morilles <span className="italic text-gradient-gold">en forêt</span>
+                {en ? "Our morels" : "Nos morilles"} <span className="italic text-gradient-gold">{en ? "in the forest" : "en forêt"}</span>
               </h1>
               <div className="divider-gold w-24 mx-auto mt-8" />
-              <p className="text-muted-foreground font-light mt-6 max-w-2xl mx-auto">
-                Chaque photo témoigne de l'authenticité de notre cueillette sauvage dans les forêts brûlées de Colombie-Britannique et du Yukon. Des morilles de feu, rares et précieuses, capturées dans leur habitat naturel.
-              </p>
+              <p className="text-base text-foreground/85 mt-6 max-w-2xl mx-auto">{t("gallery.description")}</p>
             </div>
           </ScrollReveal>
 
@@ -59,7 +60,7 @@ const Galerie = () => {
                 <img
                   src={photo.src}
                   alt={photo.alt}
-                  title={photo.title}
+                  title={en ? photo.titleEn : photo.title}
                   width={photo.width}
                   height={photo.height}
                   loading="lazy"
@@ -73,12 +74,12 @@ const Galerie = () => {
                   transition={{ duration: 0.3 }}
                 />
                 <motion.p
-                  className="absolute bottom-3 left-3 right-3 text-xs font-light text-foreground/90"
+                  className="absolute bottom-3 left-3 right-3 text-sm text-foreground"
                   initial={{ opacity: 0, y: 10 }}
                   whileHover={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  {photo.title}
+                  {en ? photo.titleEn : photo.title}
                 </motion.p>
               </motion.div>
             ))}
@@ -107,7 +108,7 @@ const Galerie = () => {
             <motion.img
               src={galleryPhotos[selectedPhoto].src}
               alt={galleryPhotos[selectedPhoto].alt}
-              title={galleryPhotos[selectedPhoto].title}
+              title={en ? galleryPhotos[selectedPhoto].titleEn : galleryPhotos[selectedPhoto].title}
               className="max-w-full max-h-[85vh] object-contain rounded-sm"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -115,7 +116,7 @@ const Galerie = () => {
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             />
             <motion.p
-              className="absolute bottom-8 text-sm text-muted-foreground font-light"
+              className="absolute bottom-8 text-base text-foreground/85"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}

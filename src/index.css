@@ -22,7 +22,7 @@
     --secondary-foreground: 40 30% 85%;
 
     --muted: 30 8% 18%;
-    --muted-foreground: 30 15% 55%;
+    --muted-foreground: 35 18% 72%;
 
     --accent: 40 60% 50%;
     --accent-foreground: 30 10% 8%;
@@ -64,7 +64,7 @@
     --secondary: 30 10% 16%;
     --secondary-foreground: 40 30% 85%;
     --muted: 30 8% 18%;
-    --muted-foreground: 30 15% 55%;
+    --muted-foreground: 35 18% 72%;
     --accent: 40 60% 50%;
     --accent-foreground: 30 10% 8%;
     --destructive: 0 62.8% 30.6%;
@@ -163,4 +163,10 @@ img {
   -webkit-user-drag: none;
   -webkit-touch-callout: none;
   user-select: none;
+}
+
+/* Lisibilité (audit PM, 2026-09-28) : pas de texte courant en graisse 300.
+   Les titres (h1–h6) gardent leur graisse fine ; tout autre texte « font-light » passe en 400. */
+:where(p, li, span, a, dd, dt, label, td, th, div, button, figcaption, blockquote, small).font-light {
+  font-weight: 400;
 }

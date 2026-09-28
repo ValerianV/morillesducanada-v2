@@ -10,7 +10,7 @@ const DISPLAY_COUNT = 6;
 
 const GallerySection = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   // Sélection fixe au premier rendu (identique au HTML prérendu), puis tirage aléatoire après montage.
   const [photos, setPhotos] = useState<GalleryPhoto[]>(() => galleryPhotos.slice(0, DISPLAY_COUNT));
@@ -41,9 +41,9 @@ const GallerySection = () => {
               className="mb-3 md:mb-4 break-inside-avoid group relative overflow-hidden rounded-sm cursor-pointer"
               onClick={() => setSelectedPhoto(i)}
             >
-              <img src={photo.src} alt={photo.alt} title={photo.title} width={photo.width} height={photo.height} loading="lazy" decoding="async" className="w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <img src={photo.src} alt={photo.alt} title={locale === "en" ? photo.titleEn : photo.title} width={photo.width} height={photo.height} loading="lazy" decoding="async" className="w-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <motion.div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" initial={{ opacity: 0 }} whileHover={{ opacity: 1 }} transition={{ duration: 0.3 }} />
-              <motion.p className="absolute bottom-3 left-3 right-3 text-sm text-foreground" initial={{ opacity: 0, y: 10 }} whileHover={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>{photo.title}</motion.p>
+              <motion.p className="absolute bottom-3 left-3 right-3 text-sm text-foreground" initial={{ opacity: 0, y: 10 }} whileHover={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>{locale === "en" ? photo.titleEn : photo.title}</motion.p>
             </motion.div>
           ))}
         </div>

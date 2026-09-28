@@ -235,16 +235,16 @@ const RecetteDetail = () => {
           <ScrollReveal>
             <div className="text-center bg-card border border-border rounded-lg p-10">
               <p className="font-serif text-2xl text-foreground mb-3">
-                Envie de préparer cette recette ?
+                Des morilles pour votre carte
               </p>
-              <p className="text-sm text-muted-foreground mb-6 font-light">
-                Morilles de feu sauvages du Canada, séchées, entières et équeutées.
+              <p className="text-base text-foreground/85 mb-6">
+                Morilles de feu sauvages du Canada, séchées, entières et équeutées, au kilo pour les professionnels.
               </p>
               <a
-                href="/#produits"
+                href="/professionnels"
                 className="inline-block px-8 py-3 bg-primary text-primary-foreground font-medium tracking-widest uppercase text-sm hover:bg-gold-light transition-colors rounded-sm"
               >
-                Voir nos morilles
+                Tarifs et devis
               </a>
             </div>
           </ScrollReveal>

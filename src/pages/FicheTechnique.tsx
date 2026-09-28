@@ -1,216 +1,108 @@
+import type { ReactNode } from "react";
 import Seo from "@/components/Seo";
 import { breadcrumbSchema } from "@/lib/seo/schema";
 import { Download } from "lucide-react";
 import logo from "@/assets/logo.webp";
+import { EDITEUR } from "@/lib/legal";
+import { PRO_PACK_GRAMS, PRO_SAMPLE_GRAMS } from "@/lib/proPricing";
 
-const GOLD = "#c9a84c";
-const DARK = "#1a1612";
-const CREAM = "#fdfcf9";
+// Fiche technique : uniquement les faits validés par le fondateur (docs/business/recit.md).
+// Rien d'autre : ni allergènes, ni analyses, ni rendement ou date chiffrés tant qu'ils ne sont pas fournis.
 
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <div style={{ marginBottom: 20 }}>
-    <div
-      style={{
-        fontSize: 8,
-        letterSpacing: "0.3em",
-        textTransform: "uppercase",
-        color: GOLD,
-        borderBottom: `1px solid ${GOLD}`,
-        paddingBottom: 4,
-        marginBottom: 8,
-      }}
-    >
-      {title}
-    </div>
-    {children}
-  </div>
+const Section = ({ title, children }: { title: string; children: ReactNode }) => (
+  <section className="mb-8">
+    <h2 className="text-sm tracking-[0.2em] uppercase text-[#d4b25c] border-b border-[#d4b25c]/60 pb-2 mb-3">{title}</h2>
+    <dl className="space-y-3">{children}</dl>
+  </section>
 );
 
-const Row = ({ label, value }: { label: string; value: React.ReactNode }) => (
-  <div
-    style={{
-      display: "flex",
-      gap: 12,
-      marginBottom: 5,
-      fontSize: 9,
-      lineHeight: 1.5,
-    }}
-  >
-    <div style={{ minWidth: 160, color: "rgba(255,255,255,0.55)", flexShrink: 0 }}>{label}</div>
-    <div style={{ color: CREAM }}>{value}</div>
+const Row = ({ label, value }: { label: string; value: ReactNode }) => (
+  <div className="grid sm:grid-cols-[200px_minmax(0,1fr)] gap-x-6 gap-y-1 text-base leading-relaxed">
+    <dt className="text-[#f4efe4]/75">{label}</dt>
+    <dd className="text-[#f4efe4]">{value}</dd>
   </div>
 );
 
 const FicheTechnique = () => (
-  <div style={{ backgroundColor: "#ddd9d0", minHeight: "100vh" }}>
+  <div className="bg-[#ddd9d0] min-h-screen">
     <Seo
       title="Fiche technique : morilles séchées sauvages | Morilles du Canada"
-      description="Fiche technique des morilles séchées sauvages du Canada pour les professionnels : entières, équeutées, variétés mélangées, conditionnement et conservation."
+      description="Fiche technique des morilles séchées sauvages du Canada pour les professionnels : origine, entières et équeutées, variétés mélangées, conditionnement, réhydratation et conservation."
       path="/fiche-technique"
       jsonLd={breadcrumbSchema([
         { name: "Professionnels", path: "/professionnels" },
         { name: "Fiche technique", path: "/fiche-technique" },
       ])}
     />
-    {/* Print button */}
-    <div className="fixed top-6 right-6 z-50 print:hidden">
-      <button
-        onClick={() => window.print()}
-        style={{ background: DARK, color: GOLD }}
-        className="flex items-center gap-2 px-6 py-3 font-medium text-sm tracking-wider uppercase rounded shadow-xl hover:opacity-90 transition-opacity"
-      >
-        <Download className="w-4 h-4" />
-        Télécharger PDF
-      </button>
-    </div>
 
-    <div style={{ maxWidth: "210mm", margin: "0 auto" }}>
-      <div
-        className="page"
-        style={{
-          minHeight: "297mm",
-          backgroundColor: DARK,
-          color: CREAM,
-          display: "flex",
-          flexDirection: "column",
-          padding: "40px 56px",
-          boxSizing: "border-box",
-        }}
-      >
-        {/* Header */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: 32,
-            paddingBottom: 20,
-            borderBottom: `1px solid rgba(201,168,76,0.3)`,
-          }}
-        >
-          <img src={logo} alt="Morilles du Canada" style={{ height: 36, objectFit: "contain" }} />
-          <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 7, letterSpacing: "0.35em", textTransform: "uppercase", color: GOLD }}>
-              Fiche Technique Produit
-            </div>
-            <div style={{ fontSize: 7, color: "rgba(255,255,255,0.4)", letterSpacing: "0.15em", marginTop: 3 }}>
-              Saison 2026
-            </div>
+    <div className="mx-auto w-full max-w-[210mm]">
+      <div className="fiche-page bg-[#1a1612] text-[#f4efe4] px-5 sm:px-12 py-10 sm:py-12">
+        <header className="flex items-center justify-between gap-4 pb-6 mb-8 border-b border-[#d4b25c]/40">
+          <img src={logo} alt="Morilles du Canada" className="h-12 w-12 rounded-full" />
+          <div className="text-right">
+            <p className="text-sm tracking-[0.2em] uppercase text-[#d4b25c]">Fiche technique produit</p>
+            <p className="text-sm text-[#f4efe4]/75">Saison 2026</p>
           </div>
+        </header>
+
+        <div className="mb-10">
+          <h1 className="font-serif text-3xl sm:text-4xl font-light">Morilles de feu séchées, sauvages</h1>
+          <p className="mt-2 text-base text-[#d4b25c]">Forêts brûlées du Canada — cueillette sauvage</p>
         </div>
 
-        {/* Title */}
-        <div style={{ marginBottom: 32 }}>
-          <h1
-            style={{
-              fontFamily: "Georgia, serif",
-              fontSize: 22,
-              fontWeight: 300,
-              color: CREAM,
-              margin: 0,
-              letterSpacing: "0.02em",
-            }}
-          >
-            Morilles de feu séchées sauvages
-          </h1>
-          <div style={{ fontSize: 9, color: GOLD, marginTop: 6, letterSpacing: "0.15em" }}>
-            Forêts brûlées du Canada — cueillette sauvage
-          </div>
-        </div>
-
-        {/* Identification */}
-        <Section title="Identification">
-          <Row label="Dénomination commerciale" value="Morilles de feu séchées sauvages" />
-          <Row label="Famille botanique" value="Morchellaceae" />
-          <Row label="Espèces" value={<span><em>Morchella</em> spp., variétés sauvages mélangées</span>} />
-          <Row label="Origine géographique" value="Canada — forêts brûlées l'année précédente" />
-          <Row label="Écosystème" value="Forêt boréale post-incendie (morilles de feu)" />
-        </Section>
-
-        {/* Récolte & Transformation */}
-        <Section title="Récolte & Transformation">
-          <Row label="Mode de récolte" value="Cueillette sauvage manuelle, forêt post-incendie" />
+        <Section title="Produit">
+          <Row label="Dénomination" value="Morilles séchées sauvages (morilles de feu)" />
+          <Row label="Espèces" value={<span><em>Morchella</em> spp., variétés sauvages mélangées (brune, blonde, grise), sans tri par variété</span>} />
+          <Row label="Présentation" value="Entières et équeutées (pied retiré)" />
+          <Row label="Origine" value="Canada : Colombie-Britannique et Yukon, forêts brûlées l'année précédente" />
+          <Row label="Récolte" value="Cueillette sauvage, à la main, au printemps" />
           <Row label="Séchage" value="Sur place, par les cueilleurs" />
-          <Row label="Sans additifs ni conservateurs" value="Oui" />
         </Section>
 
-        {/* Conditionnement */}
         <Section title="Conditionnement">
-          <Row
-            label="Formats disponibles"
-            value="Sachets 12 g · 30 g · 45 g — sous vide 100 g · 200 g · 500 g · 1 kg — au kilo pour les professionnels, dès 1 kg"
-          />
-          <Row label="Matériau" value="Sachet sous vide (PA/PE)" />
-          <Row label="Stockage" value="Température ambiante, sec et sombre" />
-          <Row label="Date de durabilité" value="Indiquée sur l'emballage" />
-          <Row
-            label="Après ouverture"
-            value="Conserver en bocal hermétique, au sec et à l'abri de la lumière"
-          />
+          <Row label="Commandes au kilo" value={`Sachets sous vide de ${PRO_PACK_GRAMS} g (par exemple, 3 kg = 12 sachets)`} />
+          <Row label="Échantillon" value={`Pot en verre refermable de ${PRO_SAMPLE_GRAMS} g`} />
+          <Row label="Stock" value="En France" />
         </Section>
 
-        {/* Utilisation */}
+        <Section title="Conservation">
+          <Row label="Stockage" value="Au sec, à l'abri de la lumière" />
+          <Row label="Date" value="Indiquée sur l'emballage" />
+          <Row label="Après ouverture" value="Refermer le sachet ou transvaser en récipient hermétique, au sec et à l'abri de la lumière" />
+        </Section>
+
         <Section title="Utilisation">
-          <Row
-            label="Réhydratation"
-            value="20 à 30 min dans une eau tiède — filtrer le jus de trempage et le réutiliser"
-          />
-          <Row label="Rapport séché / frais" value="Environ 1 pour 8 à 10 en poids" />
+          <Row label="Réhydratation" value="20 à 30 minutes dans une eau tiède (30 à 40 °C). Filtrer le jus de trempage et le réutiliser en sauce ou en fond. Les morilles gonflent nettement." />
+          <Row label="Cuisson" value="Toujours cuire les morilles, au moins 15 minutes à feu moyen. Ne jamais les consommer crues." />
         </Section>
 
-        {/* Allergènes & Sécurité */}
-        <Section title="Allergènes & Sécurité alimentaire">
-          <Row label="Allergènes réglementaires" value="Aucun (produit naturel, non transformé)" />
-          <Row
-            label="Traces éventuelles"
-            value="Peut contenir des traces de fruits secs et de fruits à coque (selon atelier de conditionnement)"
-          />
-          <Row
-            label="Agréments / Certifications"
-            value="Cueillette sauvage au Canada. Pas de certification bio (récolte hors agriculture)."
-          />
-        </Section>
+        <p className="text-base text-[#f4efe4]/85 mb-10">Informations complémentaires sur demande : {EDITEUR.email}.</p>
 
-        {/* Valeurs nutritionnelles indicatives */}
-        <Section title="Valeurs nutritionnelles indicatives (pour 100g de produit séché)">
-          <Row label="Énergie" value="300–340 kcal" />
-          <Row label="Protéines" value="~28g" />
-          <Row label="Lipides" value="~3g" />
-          <Row label="Glucides" value="~35g" />
-          <Row label="Fibres" value="~17g" />
-          <div style={{ fontSize: 7, color: "rgba(255,255,255,0.35)", marginTop: 4, fontStyle: "italic" }}>
-            Valeurs à titre indicatif — à compléter par une analyse officielle si requis par votre cahier des charges.
+        <footer className="pt-5 border-t border-[#d4b25c]/30 flex flex-col sm:flex-row sm:justify-between gap-2 text-sm text-[#f4efe4]/75">
+          <div>
+            <p>{EDITEUR.nom}, EI · SIRET {EDITEUR.siret}</p>
+            <p>{EDITEUR.email} · morillesducanada.com</p>
           </div>
-        </Section>
-
-        {/* Footer */}
-        <div style={{ marginTop: "auto", paddingTop: 20, borderTop: `1px solid rgba(201,168,76,0.2)` }}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-end",
-              fontSize: 8,
-            }}
-          >
-            <div style={{ color: "rgba(255,255,255,0.4)" }}>
-              <div>Valérian Vilane · SIRET 802 861 948 00023</div>
-              <div>contact@morillesducanada.com · morillesducanada.com</div>
-            </div>
-            <div style={{ color: "rgba(255,255,255,0.25)", textAlign: "right", fontSize: 7 }}>
-              Fiche technique — Saison 2026
-            </div>
-          </div>
-        </div>
+          <p>Fiche technique — Saison 2026</p>
+        </footer>
       </div>
     </div>
 
-    {/* Print styles */}
+    <div className="py-8 flex justify-center print:hidden">
+      <button
+        onClick={() => window.print()}
+        className="flex items-center gap-2 px-6 py-3 bg-[#1a1612] text-[#d4b25c] font-medium text-sm tracking-wider uppercase rounded shadow-xl hover:opacity-90 transition-opacity"
+      >
+        <Download className="w-4 h-4" />
+        Télécharger en PDF
+      </button>
+    </div>
+
     <style>{`
       @media print {
         @page { size: A4; margin: 0; }
-        body { margin: 0; }
-        .page { min-height: 297mm !important; page-break-after: always; }
+        body { margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .fiche-page { min-height: 297mm; }
       }
     `}</style>
   </div>
