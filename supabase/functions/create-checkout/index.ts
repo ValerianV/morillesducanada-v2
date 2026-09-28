@@ -1,16 +1,13 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { CartValidationError, resolveCart } from "../_shared/catalog.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
-
-// Free shipping threshold in cents
-const FREE_SHIPPING_THRESHOLD_CENTS = 5000; // 50€
-const SHIPPING_AMOUNT_CENTS = 690; // 6.90€
 
 // All EU countries + Switzerland + Norway
 const ALLOWED_COUNTRIES = [
@@ -19,17 +16,39 @@ const ALLOWED_COUNTRIES = [
   "LT", "DK", "SE", "FI", "IE", "GR", "CY", "MT", "NO",
 ];
 
+const DEFAULT_SITE_URL = "https://www.morillesducanada.com";
+
+// Les URLs de retour Stripe ne doivent jamais pointer vers un domaine choisi par l'appelant.
+function resolveSiteUrl(origin: string | null): string {
+  if (!origin) return DEFAULT_SITE_URL;
+  if (/^https:\/\/(www\.)?morillesducanada\.com$/.test(origin)) return origin;
+  if (/^https:\/\/[a-z0-9-]+\.vercel\.app$/.test(origin)) return origin;
+  if (/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) return origin;
+  return DEFAULT_SITE_URL;
+}
+
+function jsonResponse(body: unknown, status: number) {
+  return new Response(JSON.stringify(body), {
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+    status,
+  });
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { lineItems, subtotalCents } = await req.json();
-
-    if (!lineItems || !Array.isArray(lineItems) || lineItems.length === 0) {
-      throw new Error("No line items provided");
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      throw new CartValidationError("Requête invalide");
     }
+
+    // Prix, sous-total et frais de port sont recalculés ici à partir du catalogue serveur.
+    const cart = resolveCart(body);
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2025-08-27.basil",
@@ -57,41 +76,23 @@ serve(async (req) => {
       }
     }
 
-    // Build Stripe line items — handle both priceId-based and custom price items
-    const stripeLineItems = lineItems.map((item: {
-      priceId?: string;
-      quantity: number;
-      unitAmountCents?: number;
-      name?: string;
-    }) => {
-      if (item.priceId) {
-        return { price: item.priceId, quantity: item.quantity };
-      }
-      return {
-        quantity: item.quantity,
-        price_data: {
-          currency: "eur",
-          unit_amount: item.unitAmountCents ?? 0,
-          product_data: { name: item.name || "Morilles de feu séchées" },
-        },
-      };
-    });
+    const stripeLineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = cart.lines.map((line) => ({
+      price: line.priceId,
+      quantity: line.quantity,
+    }));
 
-    // Add shipping fee if below threshold
-    const needsShipping = typeof subtotalCents === "number"
-      ? subtotalCents < FREE_SHIPPING_THRESHOLD_CENTS
-      : false;
-
-    if (needsShipping) {
+    if (cart.shippingCents > 0) {
       stripeLineItems.push({
         quantity: 1,
         price_data: {
           currency: "eur",
-          unit_amount: SHIPPING_AMOUNT_CENTS,
+          unit_amount: cart.shippingCents,
           product_data: { name: "Frais de livraison" },
         },
       });
     }
+
+    const siteUrl = resolveSiteUrl(req.headers.get("origin"));
 
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
@@ -101,19 +102,30 @@ serve(async (req) => {
       shipping_address_collection: {
         allowed_countries: ALLOWED_COUNTRIES as Stripe.Checkout.SessionCreateParams.ShippingAddressCollection.AllowedCountry[],
       },
-      success_url: `${req.headers.get("origin")}/paiement-reussi`,
-      cancel_url: `${req.headers.get("origin")}/paiement-annule`,
+      metadata: {
+        source: "site",
+        expected_subtotal_cents: String(cart.subtotalCents),
+        expected_shipping_cents: String(cart.shippingCents),
+      },
+      success_url: `${siteUrl}/paiement-reussi`,
+      cancel_url: `${siteUrl}/paiement-annule`,
     });
 
-    return new Response(JSON.stringify({ url: session.url }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 200,
-    });
+    // Le montant facturé vient des prix Stripe : on signale tout écart avec le catalogue serveur.
+    if (session.amount_total !== null && session.amount_total !== cart.totalCents) {
+      console.error("Catalog/Stripe price mismatch", {
+        sessionId: session.id,
+        expectedTotalCents: cart.totalCents,
+        stripeTotalCents: session.amount_total,
+      });
+    }
+
+    return jsonResponse({ url: session.url }, 200);
   } catch (error) {
+    if (error instanceof CartValidationError) {
+      return jsonResponse({ error: error.message }, 400);
+    }
     console.error("Checkout error:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 500,
-    });
+    return jsonResponse({ error: "Erreur lors de la création du paiement" }, 500);
   }
 });

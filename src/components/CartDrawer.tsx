@@ -16,25 +16,15 @@ export const CartDrawer = () => {
     if (items.length === 0) return;
     setCheckoutLoading(true);
     try {
-      const lineItems = items.map((item) => {
-        const resolvedPriceId =
-          item.product.priceId ??
-          (item.selectedWeightGrams
-            ? item.product.weightPriceIds?.[item.selectedWeightGrams]
-            : undefined);
-        return resolvedPriceId
-          ? { priceId: resolvedPriceId, quantity: item.quantity }
-          : {
-              quantity: item.quantity,
-              unitAmountCents: Math.round(item.unitPrice * 100),
-              name: `${item.product.name}${item.selectedWeightGrams ? ` ${item.selectedWeightGrams}g` : ""}`,
-            };
-      });
-
-      const subtotalCents = Math.round(total * 100);
+      // Le serveur recalcule prix et frais de port : on n'envoie que produit, grammage et quantité.
+      const checkoutItems = items.map((item) => ({
+        productId: item.product.id,
+        ...(item.selectedWeightGrams ? { weightGrams: item.selectedWeightGrams } : {}),
+        quantity: item.quantity,
+      }));
 
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { lineItems, subtotalCents },
+        body: { items: checkoutItems },
       });
 
       if (error) throw error;
