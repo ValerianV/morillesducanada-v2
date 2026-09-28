@@ -3,60 +3,49 @@ import { breadcrumbSchema } from "@/lib/seo/schema";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
-import { Package, Clock, MapPin, ShieldCheck, Truck, RotateCcw, Thermometer, HelpCircle } from "lucide-react";
+import { Package, MapPin, ShieldCheck, Truck, RotateCcw, Thermometer, HelpCircle } from "lucide-react";
+import { SHIPPING_ZONES } from "@/lib/products";
+import { formatEurosLocale } from "@/lib/proPricing";
 import ScrollReveal from "@/components/ScrollReveal";
+
+// Tarifs issus du catalogue serveur (create-checkout) : une seule source de vérité.
+const euros = (cents: number) => formatEurosLocale(cents, "fr");
 
 const deliveryZones = [
   {
     zone: "France métropolitaine",
-    delay: "3 à 5 jours ouvrés",
-    price: "Offerts dès 50 € · Sinon 6,90 €",
-    icon: "🇫🇷",
+    price: `${euros(SHIPPING_ZONES.FR.amountCents)} · offerts dès ${euros(SHIPPING_ZONES.FR.freeFromCents)} d'achats`,
   },
   {
-    zone: "Belgique & Luxembourg",
-    delay: "4 à 7 jours ouvrés",
-    price: "Offerts dès 80 € · Sinon 9,90 €",
-    icon: "🇧🇪",
-  },
-  {
-    zone: "Suisse",
-    delay: "5 à 8 jours ouvrés",
-    price: "Offerts dès 100 € · Sinon 12,90 €",
-    icon: "🇨🇭",
-  },
-  {
-    zone: "Union Européenne",
-    delay: "5 à 10 jours ouvrés",
-    price: "Offerts dès 100 € · Sinon 12,90 €",
-    icon: "🇪🇺",
+    zone: "Union européenne (particuliers)",
+    price: `${euros(SHIPPING_ZONES.EU.amountCents)} · offerts dès ${euros(SHIPPING_ZONES.EU.freeFromCents)} d'achats`,
   },
 ];
 
 const commitments = [
   {
     icon: Package,
-    title: "Conditionnement soigné",
+    title: "Stock en France",
     description:
-      "Chaque pot est emballé individuellement dans du papier de soie et calé dans un carton renforcé pour éviter tout choc pendant le transport.",
+      "Les morilles sont stockées en France : votre commande est préparée et expédiée sous 5 jours ouvrés après la confirmation du paiement.",
   },
   {
     icon: Thermometer,
     title: "Produit séché, pas fragile",
     description:
-      "Nos morilles sont séchées naturellement. Elles ne nécessitent ni chaîne du froid ni conditionnement isotherme, et conservent toute leur qualité pendant le transport.",
+      "Les morilles séchées ne demandent ni chaîne du froid ni emballage isotherme.",
   },
   {
     icon: ShieldCheck,
-    title: "Colis suivi & assuré",
+    title: "Colis suivi",
     description:
-      "Chaque envoi dispose d'un numéro de suivi. Vous êtes informé par email à chaque étape : préparation, expédition, livraison.",
+      "Chaque envoi dispose d'un numéro de suivi, transmis par email au moment de l'expédition.",
   },
   {
     icon: Truck,
-    title: "Transporteur de confiance",
+    title: "Zone choisie au panier",
     description:
-      "Nous travaillons avec Colissimo et Chronopost pour la France, et DHL / La Poste pour l'international, garantissant fiabilité et rapidité.",
+      "Vous choisissez France ou Union européenne dans le panier. Le paiement propose ensuite uniquement les pays de la zone choisie.",
   },
 ];
 
@@ -70,12 +59,16 @@ const faqItems = [
     a: "Émettez des réserves auprès du transporteur à la réception et contactez-nous sous 48 heures avec des photos. Nous vous enverrons un nouveau colis.",
   },
   {
-    q: "Livrez-vous hors Europe ?",
-    a: "Pas pour le moment. Les réglementations douanières sur les denrées alimentaires rendent l'expédition complexe. Nous y travaillons.",
+    q: "Livrez-vous hors de l'Union européenne ?",
+    a: "Pas pour le moment : la boutique livre la France et les pays de l'Union européenne.",
   },
   {
     q: "La livraison est-elle vraiment offerte ?",
-    a: "Oui, à partir du montant indiqué pour chaque zone. Aucun frais caché, le montant affiché au panier est le montant final.",
+    a: `Oui : dès ${euros(SHIPPING_ZONES.FR.freeFromCents)} d'achats en France et dès ${euros(SHIPPING_ZONES.EU.freeFromCents)} dans l'Union européenne. Le montant affiché au panier est le montant final.`,
+  },
+  {
+    q: "Et pour les professionnels ?",
+    a: "Les commandes au kilo sont livrées en France, port inclus. Voir la page Professionnels.",
   },
 ];
 
@@ -84,7 +77,7 @@ const Livraison = () => {
     <div className="min-h-screen bg-background">
       <Seo
         title="Livraison des morilles séchées et retours | Morilles du Canada"
-        description="Livraison des morilles séchées en France et en Europe : zones, délais, frais de port, emballage et conditions de retour."
+        description="Livraison des morilles séchées en France (6,90 €, offerte dès 50 €) et dans l'Union européenne (9,90 €, offerte dès 100 €). Expédition sous 5 jours ouvrés depuis la France."
         path="/livraison"
         jsonLd={breadcrumbSchema([{ name: "Livraison et retours", path: "/livraison" }])}
       />
@@ -105,8 +98,8 @@ const Livraison = () => {
               <span className="italic text-gradient-gold">& Retours</span>
             </h1>
             <p className="text-secondary-foreground/70 font-light text-lg max-w-2xl leading-relaxed">
-              De la forêt boréale à votre cuisine : nous prenons soin de chaque
-              commande comme si c'était la nôtre.
+              Stock en France, expédition sous 5 jours ouvrés, en France et
+              dans l'Union européenne.
             </p>
             <div className="divider-gold w-24 mt-6 mb-16" />
           </ScrollReveal>
@@ -126,26 +119,19 @@ const Livraison = () => {
                     key={zone.zone}
                     className="bg-card border border-border rounded-lg p-5 flex flex-col sm:flex-row sm:items-center gap-4 hover:border-primary/30 transition-colors"
                   >
-                    <span className="text-2xl">{zone.icon}</span>
                     <div className="flex-1">
                       <h3 className="font-medium text-foreground">
                         {zone.zone}
                       </h3>
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 mt-1">
-                        <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                          <Clock className="w-3.5 h-3.5" />
-                          {zone.delay}
-                        </span>
-                        <span className="text-sm text-primary font-medium">
-                          {zone.price}
-                        </span>
-                      </div>
+                      <p className="text-sm text-primary font-medium mt-1">
+                        {zone.price}
+                      </p>
                     </div>
                   </div>
                 ))}
               </div>
               <p className="text-xs text-muted-foreground mt-4">
-                * Délais indicatifs à compter de l'expédition. Les commandes sont préparées et expédiées dans les 2 à 5 jours ouvrés suivant la confirmation du paiement. Vous recevrez un email avec votre numéro de suivi dès l'expédition.
+                Prix nets — TVA non applicable, art. 293 B du CGI. Les commandes sont expédiées sous 5 jours ouvrés après la confirmation du paiement ; vous recevez un email avec le numéro de suivi dès l'expédition.
               </p>
             </div>
           </ScrollReveal>
@@ -225,10 +211,8 @@ const Livraison = () => {
                     Notre engagement qualité
                   </h3>
                   <p className="text-sm text-secondary-foreground/70 font-light leading-relaxed">
-                    En tant qu'ancien cueilleur, je sélectionne personnellement
-                    chaque lot. Si pour quelque raison que ce soit vous n'êtes
-                    pas satisfait de la qualité de vos morilles, écrivez-nous.
-                    Nous trouverons toujours une solution.
+                    Si vous n'êtes pas satisfait de la qualité de vos morilles,
+                    écrivez-nous : nous étudierons chaque demande avec attention.
                   </p>
                 </div>
               </div>
@@ -269,7 +253,7 @@ const Livraison = () => {
                 Une question sur votre commande ?
               </p>
               <p className="text-sm text-muted-foreground mb-6 font-light">
-                Notre équipe vous répond sous 24 heures.
+                Écrivez-nous, nous vous répondons personnellement.
               </p>
               <a
                 href="mailto:contact@morillesducanada.com"

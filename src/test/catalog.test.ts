@@ -4,8 +4,11 @@ import {
   CartValidationError,
   FREE_SHIPPING_THRESHOLD_CENTS,
   SHIPPING_AMOUNT_CENTS,
+  EU_COUNTRIES_EXCEPT_FR,
+  SHIPPING_ZONES,
   computeShippingCents,
   resolveCart,
+  shippingZoneForCountry,
 } from "../../supabase/functions/_shared/catalog";
 import { products, getVacuumMorelPrice } from "@/lib/products";
 
@@ -120,6 +123,61 @@ describe("computeShippingCents", () => {
     const above = resolveCart({ items: [{ productId: "morilles-30g", quantity: 1 }, { productId: "morilles-45g", quantity: 1 }] });
     expect(above.subtotalCents).toBe(5200);
     expect(above.totalCents).toBe(5200);
+  });
+});
+
+describe("frais de port par zone (France / Union européenne)", () => {
+  it("France : 6,90 €, offerts dès 50 €", () => {
+    expect(computeShippingCents(4999, "FR")).toBe(690);
+    expect(computeShippingCents(5000, "FR")).toBe(0);
+  });
+
+  it("Union européenne : 9,90 €, offerts dès 100 €", () => {
+    expect(computeShippingCents(5000, "EU")).toBe(990);
+    expect(computeShippingCents(9999, "EU")).toBe(990);
+    expect(computeShippingCents(10000, "EU")).toBe(0);
+  });
+
+  it("la zone France n'autorise qu'une adresse en France", () => {
+    const cart = resolveCart({ items: [{ productId: "morilles-30g", quantity: 1 }], shippingZone: "FR" });
+    expect(cart.allowedCountries).toEqual(["FR"]);
+    expect(cart.shippingCents).toBe(690);
+  });
+
+  it("la zone UE couvre les 26 autres pays de l'Union, sans la France ni la Suisse ou la Norvège", () => {
+    const cart = resolveCart({ items: [{ productId: "morilles-30g", quantity: 3 }], shippingZone: "EU" });
+    expect(cart.subtotalCents).toBe(6900);
+    expect(cart.shippingCents).toBe(990);
+    expect(cart.totalCents).toBe(7890);
+    expect(cart.allowedCountries).toHaveLength(26);
+    expect(cart.allowedCountries).not.toContain("FR");
+    expect(cart.allowedCountries).not.toContain("CH");
+    expect(cart.allowedCountries).not.toContain("NO");
+    expect(new Set(EU_COUNTRIES_EXCEPT_FR).size).toBe(26);
+  });
+
+  it("sans zone (ancien front) : tarif France et livraison en France uniquement", () => {
+    const cart = resolveCart({ items: [{ productId: "morilles-12g", quantity: 1 }] });
+    expect(cart.shippingZone).toBe("FR");
+    expect(cart.allowedCountries).toEqual(["FR"]);
+  });
+
+  it.each([["DE"], ["fr"], [""], [1], [{}]])("rejette la zone %s", (shippingZone) => {
+    expect(() => resolveCart({ items: [{ productId: "morilles-12g", quantity: 1 }], shippingZone })).toThrow(
+      CartValidationError,
+    );
+  });
+
+  it("ignore un montant de port envoyé par le client", () => {
+    const cart = resolveCart({ items: [{ productId: "morilles-12g", quantity: 1 }], shippingZone: "EU", shippingCents: 0 });
+    expect(cart.shippingCents).toBe(SHIPPING_ZONES.EU.amountCents);
+  });
+
+  it("retrouve la zone d'un pays de livraison", () => {
+    expect(shippingZoneForCountry("FR")).toBe("FR");
+    expect(shippingZoneForCountry("de")).toBe("EU");
+    expect(shippingZoneForCountry("CH")).toBeNull();
+    expect(shippingZoneForCountry(undefined)).toBeNull();
   });
 });
 

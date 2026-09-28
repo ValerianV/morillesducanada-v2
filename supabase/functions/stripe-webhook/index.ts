@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { escapeHtml, formatEuros, itemLineTotalCents, itemQuantity } from "../_shared/format.ts";
+import { shippingZoneForCountry } from "../_shared/catalog.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
   apiVersion: "2025-08-27.basil",
@@ -49,7 +50,7 @@ function buildInvoiceTable(items: any[], totalAmount: number) {
       <tbody>${rows}</tbody>
       <tfoot>
         <tr>
-          <td colspan="2" style="padding: 12px; text-align: right; font-size: 14px; color: #8a7e6b; font-weight: 600;">Total TTC</td>
+          <td colspan="2" style="padding: 12px; text-align: right; font-size: 14px; color: #8a7e6b; font-weight: 600;">Total net</td>
           <td style="padding: 12px; text-align: right; font-size: 18px; color: #cc9a2e; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600;">${(totalAmount / 100).toFixed(2)} €</td>
         </tr>
       </tfoot>
@@ -290,6 +291,12 @@ serve(async (req) => {
           country: shipping.address?.country,
         }
       : null;
+
+    // Garde-fou : Stripe limite déjà les pays à la zone payée ; on trace tout écart éventuel.
+    const paidZone = session.metadata?.shipping_zone;
+    if (paidZone && shippingAddress?.country && shippingZoneForCountry(shippingAddress.country) !== paidZone) {
+      console.error("Shipping zone mismatch", { sessionId: session.id, paidZone, country: shippingAddress.country });
+    }
 
     // Get customer email & name
     const customerEmail = session.customer_details?.email || session.customer_email || "";

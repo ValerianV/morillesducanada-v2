@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { products, getVacuumMorelPrice, MAX_QUANTITY_PER_LINE, type Product } from '@/lib/products';
+import { products, getVacuumMorelPrice, MAX_QUANTITY_PER_LINE, DEFAULT_SHIPPING_ZONE, type Product, type ShippingZone } from '@/lib/products';
 
 export interface CartItem {
   id: string;
@@ -18,6 +18,8 @@ interface AddItemOptions {
 interface CartStore {
   items: CartItem[];
   isLoading: boolean;
+  shippingZone: ShippingZone;
+  setShippingZone: (zone: ShippingZone) => void;
   addItem: (product: Product, quantity?: number, options?: AddItemOptions) => void;
   updateQuantity: (itemId: string, quantity: number) => void;
   removeItem: (itemId: string) => void;
@@ -52,6 +54,9 @@ export const useCartStore = create<CartStore>()(
     (set, get) => ({
       items: [],
       isLoading: false,
+      shippingZone: DEFAULT_SHIPPING_ZONE,
+
+      setShippingZone: (zone) => set({ shippingZone: zone }),
 
       addItem: (product, quantity = 1, options) => {
         const { items } = get();
@@ -108,11 +113,15 @@ export const useCartStore = create<CartStore>()(
     {
       name: 'morilles-cart',
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ items: state.items }),
-      merge: (persisted, current) => ({
-        ...current,
-        items: refreshCartItems((persisted as { items?: unknown } | undefined)?.items),
-      }),
+      partialize: (state) => ({ items: state.items, shippingZone: state.shippingZone }),
+      merge: (persisted, current) => {
+        const stored = persisted as { items?: unknown; shippingZone?: unknown } | undefined;
+        return {
+          ...current,
+          items: refreshCartItems(stored?.items),
+          shippingZone: stored?.shippingZone === "EU" ? "EU" : DEFAULT_SHIPPING_ZONE,
+        };
+      },
     }
   )
 );

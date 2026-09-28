@@ -56,8 +56,45 @@ export const CATALOG: Record<string, CatalogProduct> = {
   },
 };
 
-export const FREE_SHIPPING_THRESHOLD_CENTS = 5000;
-export const SHIPPING_AMOUNT_CENTS = 690;
+// Frais de port par zone (particuliers). La zone choisie dans le panier fixe à la fois le tarif
+// et la liste des pays de livraison proposés par Stripe : impossible de payer le tarif France
+// en se faisant livrer ailleurs.
+export type ShippingZone = "FR" | "EU";
+
+export interface ShippingZoneRule {
+  amountCents: number;
+  freeFromCents: number;
+  countries: readonly string[];
+  label: { fr: string; en: string };
+}
+
+// Pays de l'Union européenne hors France (codes ISO utilisés par Stripe).
+export const EU_COUNTRIES_EXCEPT_FR = [
+  "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "ES", "FI",
+  "GR", "HR", "HU", "IE", "IT", "LT", "LU", "LV", "MT", "NL",
+  "PL", "PT", "RO", "SE", "SI", "SK",
+] as const;
+
+export const SHIPPING_ZONES: Record<ShippingZone, ShippingZoneRule> = {
+  FR: {
+    amountCents: 690,
+    freeFromCents: 5000,
+    countries: ["FR"],
+    label: { fr: "France", en: "France" },
+  },
+  EU: {
+    amountCents: 990,
+    freeFromCents: 10000,
+    countries: EU_COUNTRIES_EXCEPT_FR,
+    label: { fr: "Union européenne", en: "European Union" },
+  },
+};
+
+export const DEFAULT_SHIPPING_ZONE: ShippingZone = "FR";
+
+// Compatibilité : seuils de la zone France.
+export const FREE_SHIPPING_THRESHOLD_CENTS = SHIPPING_ZONES.FR.freeFromCents;
+export const SHIPPING_AMOUNT_CENTS = SHIPPING_ZONES.FR.amountCents;
 export const MAX_QUANTITY_PER_LINE = 50;
 export const MAX_LINES = 20;
 
@@ -79,6 +116,8 @@ export interface ResolvedLine {
 
 export interface ResolvedCart {
   lines: ResolvedLine[];
+  shippingZone: ShippingZone;
+  allowedCountries: readonly string[];
   subtotalCents: number;
   shippingCents: number;
   totalCents: number;
@@ -158,13 +197,30 @@ function findByPriceId(priceId: unknown): { productId: string; weightGrams: numb
   return null;
 }
 
-export function computeShippingCents(subtotalCents: number): number {
-  return subtotalCents >= FREE_SHIPPING_THRESHOLD_CENTS ? 0 : SHIPPING_AMOUNT_CENTS;
+export function computeShippingCents(subtotalCents: number, zone: ShippingZone = DEFAULT_SHIPPING_ZONE): number {
+  const rule = SHIPPING_ZONES[zone];
+  return subtotalCents >= rule.freeFromCents ? 0 : rule.amountCents;
+}
+
+// Zone absente (onglets ouverts avant le déploiement) : France, donc livraison en France uniquement.
+export function parseShippingZone(raw: unknown): ShippingZone {
+  if (raw === undefined || raw === null) return DEFAULT_SHIPPING_ZONE;
+  if (raw === "FR" || raw === "EU") return raw;
+  throw new CartValidationError("Zone de livraison invalide (FR ou EU)");
+}
+
+export function shippingZoneForCountry(country: unknown): ShippingZone | null {
+  if (typeof country !== "string") return null;
+  const code = country.toUpperCase();
+  for (const zone of Object.keys(SHIPPING_ZONES) as ShippingZone[]) {
+    if (SHIPPING_ZONES[zone].countries.includes(code)) return zone;
+  }
+  return null;
 }
 
 /**
  * Valide le panier envoyé par le navigateur et recalcule tous les montants côté serveur.
- * Accepte `{ items: [{ productId, weightGrams?, quantity }] }` (contrat actuel)
+ * Accepte `{ items: [{ productId, weightGrams?, quantity }], shippingZone?: "FR" | "EU" }` (contrat actuel)
  * ou `{ lineItems: [{ priceId, quantity }] }` (ancien contrat, priceId du catalogue uniquement).
  * Tout prix, sous-total ou nom envoyé par le client est ignoré.
  */
@@ -187,7 +243,15 @@ export function resolveCart(body: unknown): ResolvedCart {
     return resolveProductLine(raw.productId, raw.weightGrams, quantity);
   });
 
+  const shippingZone = parseShippingZone(body.shippingZone);
   const subtotalCents = lines.reduce((sum, line) => sum + line.unitAmountCents * line.quantity, 0);
-  const shippingCents = computeShippingCents(subtotalCents);
-  return { lines, subtotalCents, shippingCents, totalCents: subtotalCents + shippingCents };
+  const shippingCents = computeShippingCents(subtotalCents, shippingZone);
+  return {
+    lines,
+    shippingZone,
+    allowedCountries: SHIPPING_ZONES[shippingZone].countries,
+    subtotalCents,
+    shippingCents,
+    totalCents: subtotalCents + shippingCents,
+  };
 }

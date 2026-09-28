@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { I18nProvider } from "@/i18n/context";
-import { installBrowserStubs, supabaseModule, supabaseLazyModule } from "./qaHarness";
+import { installBrowserStubs, supabaseMock, supabaseModule, supabaseLazyModule } from "./qaHarness";
 
 vi.mock("@/integrations/supabase/client", () => supabaseModule);
 vi.mock("@/integrations/supabase/lazy", () => supabaseLazyModule);
@@ -29,7 +29,7 @@ function openCart() {
 beforeEach(() => {
   installBrowserStubs();
   localStorage.clear();
-  useCartStore.setState({ items: [] });
+  useCartStore.setState({ items: [], shippingZone: "FR" });
 });
 afterEach(() => cleanup());
 
@@ -66,6 +66,37 @@ describe("panier : frais de port alignés sur create-checkout", () => {
     expect(text).toContain("1 kg");
     expect(text).toContain("Subtotal420.00 €");
     expect(text).not.toMatch(/Panier|Livraison|Sous-total|Payer/);
+  });
+});
+
+describe("panier : zone Union européenne", () => {
+  it("facture 9,90 € sous 100 €, l'offre dès 100 € et transmet la zone au serveur", async () => {
+    act(() => {
+      useCartStore.getState().addItem(byId("morilles-30g"));
+      useCartStore.getState().addItem(byId("morilles-45g"));
+    });
+    const dialog = openCart();
+    fireEvent.click(within(dialog).getByRole("radio", { name: /Union européenne/ }));
+    let text = plain(dialog.textContent);
+    expect(text).toContain("Livraison9.90 €");
+    expect(text).toContain("Total61.90 €");
+    expect(text).toContain("48.00 € restants");
+    expect(useCartStore.getState().shippingZone).toBe("EU");
+
+    act(() => useCartStore.getState().addItem(byId("morilles-45g"), 2));
+    text = plain(dialog.textContent);
+    expect(text).toContain("Total110.00 €");
+
+    // Pas d'URL renvoyée par le mock : le panier affiche l'erreur, on ne vérifie que la requête.
+    const errors = vi.spyOn(console, "error").mockImplementation(() => {});
+    await act(async () => {
+      fireEvent.click(within(dialog).getByRole("button", { name: /Payer maintenant/ }));
+    });
+    errors.mockRestore();
+    expect(supabaseMock.invoke).toHaveBeenCalledWith(
+      "create-checkout",
+      expect.objectContaining({ body: expect.objectContaining({ shippingZone: "EU" }) }),
+    );
   });
 });
 

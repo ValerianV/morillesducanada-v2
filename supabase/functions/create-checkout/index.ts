@@ -1,20 +1,13 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
-import { CartValidationError, resolveCart } from "../_shared/catalog.ts";
+import { CartValidationError, SHIPPING_ZONES, resolveCart } from "../_shared/catalog.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
-
-// All EU countries + Switzerland + Norway
-const ALLOWED_COUNTRIES = [
-  "FR", "BE", "LU", "CH", "DE", "IT", "ES", "PT", "NL", "AT",
-  "PL", "CZ", "SK", "HU", "RO", "BG", "HR", "SI", "EE", "LV",
-  "LT", "DK", "SE", "FI", "IE", "GR", "CY", "MT", "NO",
-];
 
 const DEFAULT_SITE_URL = "https://www.morillesducanada.com";
 
@@ -87,7 +80,7 @@ serve(async (req) => {
         price_data: {
           currency: "eur",
           unit_amount: cart.shippingCents,
-          product_data: { name: "Frais de livraison" },
+          product_data: { name: `Frais de livraison — ${SHIPPING_ZONES[cart.shippingZone].label.fr}` },
         },
       });
     }
@@ -99,11 +92,13 @@ serve(async (req) => {
       customer_email: customerId ? undefined : customerEmail,
       line_items: stripeLineItems,
       mode: "payment",
+      // Les pays proposés dépendent de la zone payée : le tarif France ne permet qu'une adresse en France.
       shipping_address_collection: {
-        allowed_countries: ALLOWED_COUNTRIES as Stripe.Checkout.SessionCreateParams.ShippingAddressCollection.AllowedCountry[],
+        allowed_countries: [...cart.allowedCountries] as Stripe.Checkout.SessionCreateParams.ShippingAddressCollection.AllowedCountry[],
       },
       metadata: {
         source: "site",
+        shipping_zone: cart.shippingZone,
         expected_subtotal_cents: String(cart.subtotalCents),
         expected_shipping_cents: String(cart.shippingCents),
       },

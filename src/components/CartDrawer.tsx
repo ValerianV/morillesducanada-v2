@@ -4,7 +4,7 @@ import { ShoppingCart, Minus, Plus, Trash2, Loader2, CreditCard } from "lucide-r
 import { useCartStore } from "@/stores/cartStore";
 import { loadSupabase } from "@/integrations/supabase/lazy";
 import { toast } from "sonner";
-import { FREE_SHIPPING_THRESHOLD_CENTS, MAX_QUANTITY_PER_LINE, computeShippingCents, formatGrams, localizeProduct } from "@/lib/products";
+import { MAX_QUANTITY_PER_LINE, SHIPPING_ZONES, computeShippingCents, formatGrams, localizeProduct, type ShippingZone } from "@/lib/products";
 import { useI18n } from "@/i18n/context";
 
 const formatPrice = (euros: number) => `${euros.toFixed(2)} €`;
@@ -13,14 +13,14 @@ export const CartDrawer = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const { t, locale } = useI18n();
-  const { items, updateQuantity, removeItem, totalItems, totalPrice } = useCartStore();
+  const { items, updateQuantity, removeItem, totalItems, totalPrice, shippingZone, setShippingZone } = useCartStore();
   // Le HTML prérendu n'a pas de panier : le badge n'apparaît qu'après l'hydratation.
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => setHydrated(true), []);
   const count = hydrated ? totalItems() : 0;
   const total = totalPrice();
-  const shipping = computeShippingCents(Math.round(total * 100)) / 100;
-  const freeShippingThreshold = FREE_SHIPPING_THRESHOLD_CENTS / 100;
+  const shipping = computeShippingCents(Math.round(total * 100), shippingZone) / 100;
+  const freeShippingThreshold = SHIPPING_ZONES[shippingZone].freeFromCents / 100;
 
   const handleCheckout = async () => {
     if (items.length === 0) return;
@@ -34,8 +34,9 @@ export const CartDrawer = () => {
       }));
 
       const supabase = await loadSupabase();
+      // La zone fixe le tarif et les pays de livraison proposés par Stripe (vérifiés côté serveur).
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { items: checkoutItems },
+        body: { items: checkoutItems, shippingZone },
       });
 
       if (error) throw error;
@@ -125,6 +126,35 @@ export const CartDrawer = () => {
                 })}
               </div>
               <div className="flex-shrink-0 space-y-4 pt-4 border-t border-gold/20">
+                <fieldset>
+                  <legend className="text-xs text-muted-foreground mb-2">{t("cart.destination")}</legend>
+                  <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label={t("cart.destination")}>
+                    {(Object.keys(SHIPPING_ZONES) as ShippingZone[]).map((zone) => {
+                      const rule = SHIPPING_ZONES[zone];
+                      const selected = zone === shippingZone;
+                      return (
+                        <button
+                          key={zone}
+                          type="button"
+                          role="radio"
+                          aria-checked={selected}
+                          onClick={() => setShippingZone(zone)}
+                          className={`px-3 py-2 border rounded-sm text-left text-xs transition-colors ${
+                            selected ? "border-primary bg-primary/10 text-foreground" : "border-gold/20 text-muted-foreground hover:border-gold/40"
+                          }`}
+                        >
+                          <span className="block font-medium">{rule.label[locale]}</span>
+                          <span className="block text-[10px] mt-0.5">
+                            {t("cart.zoneRate")
+                              .replace("{amount}", formatPrice(rule.amountCents / 100))
+                              .replace("{free}", formatPrice(rule.freeFromCents / 100))}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <p className="text-[10px] text-muted-foreground mt-1.5">{t(shippingZone === "FR" ? "cart.zoneHintFR" : "cart.zoneHintEU")}</p>
+                </fieldset>
                 <div className="space-y-1.5 text-sm">
                   <div className="flex justify-between items-center text-muted-foreground">
                     <span>{t("cart.subtotal")}</span>

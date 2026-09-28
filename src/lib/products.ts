@@ -109,13 +109,16 @@ export const products: Product[] = [
   },
 ];
 
-// Frais de port et limites de panier : mêmes règles que create-checkout (catalogue serveur).
+// Frais de port par zone et limites de panier : mêmes règles que create-checkout (catalogue serveur).
 export {
+  DEFAULT_SHIPPING_ZONE,
   FREE_SHIPPING_THRESHOLD_CENTS,
   SHIPPING_AMOUNT_CENTS,
+  SHIPPING_ZONES,
   MAX_QUANTITY_PER_LINE,
   computeShippingCents,
 } from "../../supabase/functions/_shared/catalog";
+export type { ShippingZone } from "../../supabase/functions/_shared/catalog";
 
 const vacuumPrices: Record<number, number> = { 100: 59, 200: 110, 500: 240, 1000: 420 };
 
