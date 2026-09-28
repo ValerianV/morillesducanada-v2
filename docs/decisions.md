@@ -4,6 +4,21 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-09-28 — Grille de prix unique : sous vide 1 kg à 350 €
+
+- Décision du fondateur : « Je ne peux pas proposer la même quantité à deux prix différents. »
+  Le sous vide 1 kg passe de 420 € à **350 € pour tout le monde**, soit le prix du palier pro 1 kg.
+- Grille publique unique : 100 g 59 €, 200 g 110 €, 500 g 240 €, 1 kg 350 € ; au-delà, sur devis
+  ou lien de paiement : 3 kg et + 330 €/kg, 5 kg et + 310 €/kg, 10 kg et + 290 €/kg.
+- Stripe : nouveau prix `price_1UKjo2EQBCcpAKNIMbIj8954` (350 €) ; l'ancien
+  `price_1TMjZ3EQBCcpAKNIY6emeuWP` (420 €) sera archivé après le déploiement.
+
+## 2026-09-28 — Emails transactionnels à l'identité de la marque
+
+- Une mise en page unique pour tous les emails (`supabase/functions/_shared/emailLayout.ts`) :
+  fond sombre chaud, or, texte crème, titres serif, logo, pied de page avec la mention fiscale
+  sur les emails commerciaux. Aucun emoji dans les objets.
+
 ## 2026-09-28 — Incident Supabase : budget Disk IO épuisé
 
 - Base injoignable environ 2 h. Cause : `cron.job_run_details` à 134 Mo (cron chaque minute, jamais purgé).

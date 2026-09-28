@@ -16,7 +16,7 @@ import {
 import { formatEurosLocale } from "@/lib/proPricing";
 import { useCartStore } from "@/stores/cartStore";
 import ScrollReveal from "@/components/ScrollReveal";
-import VacuumFormatPicker, { fill } from "@/components/VacuumFormatPicker";
+import VacuumFormatPicker, { fill, volumeTiersText } from "@/components/VacuumFormatPicker";
 import { useI18n } from "@/i18n/context";
 
 const vacuumProduct = products.find((p) => p.weightPriceIds)!;
@@ -108,7 +108,8 @@ const ProductsSection = () => {
 
               <div className="mt-6 pt-5 border-t border-gold/15 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <p className="text-sm text-foreground/85">
-                  <span className="font-medium text-foreground">{t("vacuum.proTitle")}</span> {t("vacuum.proText")}
+                  <span className="font-medium text-foreground">{t("vacuum.proTitle")}</span>{" "}
+                  {fill(t("vacuum.proText"), { tiers: volumeTiersText(t("vacuum.tierFrom"), locale) })}
                 </p>
                 <Link
                   to="/professionnels"

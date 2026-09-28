@@ -6,6 +6,7 @@ import product12g from "@/assets/product-12g.webp";
 import product30g from "@/assets/product-30g.webp";
 import product45g from "@/assets/product-45g.webp";
 import productVacuumBag from "@/assets/product-vacuum-bag.webp";
+import { formatEurosLocale } from "../../supabase/functions/_shared/proPricing";
 
 export interface Product {
   id: string;
@@ -96,7 +97,7 @@ export const products: Product[] = [
       100: "price_1TMjZ1EQBCcpAKNInOHFVheb",
       200: "price_1TMjZ2EQBCcpAKNIsTdQpP5x",
       500: "price_1TMjZ2EQBCcpAKNI1I5ikvav",
-      1000: "price_1TMjZ3EQBCcpAKNIY6emeuWP",
+      1000: "price_1UKjo2EQBCcpAKNIMbIj8954",
     },
     image: productVacuumBag,
     servings: "Format pro & passionnés",
@@ -120,7 +121,8 @@ export {
 } from "../../supabase/functions/_shared/catalog";
 export type { ShippingZone } from "../../supabase/functions/_shared/catalog";
 
-const vacuumPrices: Record<number, number> = { 100: 59, 200: 110, 500: 240, 1000: 420 };
+// Grille unique (décision du 2026-09-28) : le 1 kg coûte le même prix au panier et en pro (PRO_TIERS[0]).
+const vacuumPrices: Record<number, number> = { 100: 59, 200: 110, 500: 240, 1000: 350 };
 
 export function formatGrams(grams: number): string {
   return grams >= 1000 ? `${grams / 1000} kg` : `${grams} g`;
@@ -133,6 +135,16 @@ export function getVacuumMorelPrice(weightGrams: number): number {
 export const VACUUM_WEIGHTS = [100, 200, 500, 1000] as const;
 export type VacuumWeight = (typeof VACUUM_WEIGHTS)[number];
 export const DEFAULT_VACUUM_WEIGHT: VacuumWeight = 500;
+
+// Formats sous vide de moins de 1 kg : « 100 g à 59 €, 200 g à 110 € et 500 g à 240 € ».
+export function smallVacuumFormatsText(locale: "fr" | "en" = "fr"): string {
+  const items = VACUUM_WEIGHTS.filter((g) => g < 1000).map((g) => {
+    const price = formatEurosLocale(getVacuumMorelPrice(g) * 100, locale);
+    return locale === "en" ? `${formatGrams(g)} at ${price}` : `${formatGrams(g)} à ${price}`;
+  });
+  const last = items.pop();
+  return `${items.join(", ")}${locale === "en" ? " and " : " et "}${last}`;
+}
 
 export function pricePerKg(price: number, grams: number): number {
   return (price * 1000) / grams;

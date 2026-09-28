@@ -1,5 +1,9 @@
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import { useI18n } from "@/i18n/context";
 import { PRO_TAX_MENTION, PRO_TIERS, formatEurosLocale, formatKg, formatTierPrice, quote } from "@/lib/proPricing";
+import { getVacuumMorelPrice, smallVacuumFormatsText } from "@/lib/products";
+import { fill } from "@/components/VacuumFormatPicker";
 
 const ProPriceTable = () => {
   const { t, locale } = useI18n();
@@ -42,6 +46,18 @@ const ProPriceTable = () => {
       <p className="mt-4 text-base text-foreground">{PRO_TAX_MENTION[locale]}.</p>
       <p className="mt-1 text-base text-foreground/80">
         {t("pro.pricing.intro")} {t("pro.pricing.minNote")}
+      </p>
+      <p className="mt-3 text-base text-foreground/80">
+        {fill(t("pro.pricing.sameGrid"), {
+          price: formatEurosLocale(getVacuumMorelPrice(1000) * 100, locale),
+          small: smallVacuumFormatsText(locale),
+        })}{" "}
+        <Link
+          to="/produits/morilles-sous-vide"
+          className="inline-flex items-center gap-1 text-primary hover:text-gold-light underline underline-offset-4"
+        >
+          {t("pro.pricing.sameGridCta")} <ArrowRight className="w-4 h-4" />
+        </Link>
       </p>
     </div>
   );

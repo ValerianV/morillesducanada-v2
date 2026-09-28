@@ -1,5 +1,5 @@
 import { useI18n } from "@/i18n/context";
-import { formatEurosLocale } from "@/lib/proPricing";
+import { PRO_TIERS, formatEurosLocale, formatKg } from "@/lib/proPricing";
 import {
   VACUUM_WEIGHTS,
   cheapestSmallFormat,
@@ -13,6 +13,12 @@ export const fill = (template: string, vars: Record<string, string | number>) =>
   template.replace(/\{(\w+)\}/g, (match, key: string) => (key in vars ? String(vars[key]) : match));
 
 const euros = (amount: number, locale: "fr" | "en") => formatEurosLocale(Math.round(amount * 100), locale);
+
+// Paliers au-delà de 1 kg (3, 5, 10 kg) : la même grille que /professionnels.
+export const volumeTiersText = (template: string, locale: "fr" | "en") =>
+  PRO_TIERS.filter((tier) => tier.minKg > 1)
+    .map((tier) => fill(template, { price: formatEurosLocale(tier.priceCents, locale), kg: formatKg(tier.minKg, locale) }))
+    .join(", ");
 
 const BADGES: Partial<Record<VacuumWeight, "vacuum.bestPerKg" | "vacuum.recommended">> = {
   1000: "vacuum.bestPerKg",

@@ -58,13 +58,13 @@ describe("panier : frais de port alignés sur create-checkout", () => {
 
   it("est traduit en anglais, y compris le nom des produits et le grammage", () => {
     localStorage.setItem("locale", "en");
-    act(() => useCartStore.getState().addItem(byId("morilles-sous-vide"), 1, { selectedWeightGrams: 1000, unitPriceOverride: 420 }));
+    act(() => useCartStore.getState().addItem(byId("morilles-sous-vide"), 1, { selectedWeightGrams: 1000, unitPriceOverride: 350 }));
     const dialog = openCart();
     const text = plain(dialog.textContent);
     expect(text).toContain("Your cart");
     expect(text).toContain("Vacuum-packed morels");
     expect(text).toContain("1 kg");
-    expect(text).toContain("Subtotal€420");
+    expect(text).toContain("Subtotal€350");
     expect(text).not.toMatch(/Panier|Livraison|Sous-total|Payer/);
   });
 });

@@ -79,6 +79,16 @@ describe("page /professionnels", () => {
     expect(text).not.toMatch(/\bHT\b|5,5 ?%|48 ?h|72 ?h|280/);
   });
 
+  it("raconte la même grille que la boutique : 1 kg à 350 € partout, sans l'ancien 420 €", () => {
+    const { container } = renderPage();
+    const text = plain(container.textContent);
+    expect(text).toContain(
+      "Une seule grille, la même que dans la boutique : le sous vide 1 kg y coûte aussi 350 €. Moins de 1 kg : sous vide 100 g à 59 €, 200 g à 110 € et 500 g à 240 €.",
+    );
+    expect(screen.getByRole("link", { name: /Voir le sous vide/ })).toHaveAttribute("href", "/produits/morilles-sous-vide");
+    expect(text).not.toContain("420");
+  });
+
   it("calcule l'estimation en direct avec quote()", () => {
     renderPage();
     fireEvent.change(screen.getByLabelText(/Quantité souhaitée/), { target: { value: "10" } });

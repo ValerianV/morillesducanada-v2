@@ -51,7 +51,8 @@ export const CATALOG: Record<string, CatalogProduct> = {
       100: { priceId: "price_1TMjZ1EQBCcpAKNInOHFVheb", unitAmountCents: 5900 },
       200: { priceId: "price_1TMjZ2EQBCcpAKNIsTdQpP5x", unitAmountCents: 11000 },
       500: { priceId: "price_1TMjZ2EQBCcpAKNI1I5ikvav", unitAmountCents: 24000 },
-      1000: { priceId: "price_1TMjZ3EQBCcpAKNIY6emeuWP", unitAmountCents: 42000 },
+      // Même prix que le palier pro 1 kg (grille unique, décision du 2026-09-28).
+      1000: { priceId: "price_1UKjo2EQBCcpAKNIMbIj8954", unitAmountCents: 35000 },
     },
   },
 };

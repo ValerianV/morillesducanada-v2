@@ -20,6 +20,7 @@ import {
   formatTierPrice,
   quote,
 } from "@/lib/proPricing";
+import { getVacuumMorelPrice, smallVacuumFormatsText } from "@/lib/products";
 
 const GOLD = "#c9a84c";
 const DARK = "#1a1612";
@@ -367,6 +368,9 @@ const PlaquettePro = () => (
             </table>
             <div style={{ fontSize: 10, color: "#4a4a4a", marginTop: 10, lineHeight: 1.65 }}>
               {PRO_TAX_MENTION.fr}. Le prix du palier atteint s'applique à toute la quantité commandée.
+              <br />
+              Une seule grille, la même sur morillesducanada.com : le sous vide 1 kg y coûte aussi{" "}
+              {formatEurosLocale(getVacuumMorelPrice(1000) * 100)}. Moins de 1 kg : sous vide {smallVacuumFormatsText("fr")}.
             </div>
           </div>
 

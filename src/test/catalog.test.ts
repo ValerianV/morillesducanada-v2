@@ -11,6 +11,7 @@ import {
   shippingZoneForCountry,
 } from "../../supabase/functions/_shared/catalog";
 import { products, getVacuumMorelPrice } from "@/lib/products";
+import { PRO_TIERS, quote } from "../../supabase/functions/_shared/proPricing";
 
 describe("resolveCart", () => {
   it("prend le prix du catalogue serveur pour un produit fixe", () => {
@@ -90,10 +91,16 @@ describe("resolveCart", () => {
   describe("ancien contrat { lineItems: [{ priceId }] }", () => {
     it("accepte un priceId du catalogue et recalcule le montant", () => {
       const cart = resolveCart({
-        lineItems: [{ priceId: "price_1TMjZ3EQBCcpAKNIY6emeuWP", quantity: 1 }],
+        lineItems: [{ priceId: "price_1UKjo2EQBCcpAKNIMbIj8954", quantity: 1 }],
         subtotalCents: 1,
       });
-      expect(cart.lines[0]).toMatchObject({ productId: "morilles-sous-vide", weightGrams: 1000, unitAmountCents: 42000 });
+      expect(cart.lines[0]).toMatchObject({ productId: "morilles-sous-vide", weightGrams: 1000, unitAmountCents: 35000 });
+    });
+
+    it("rejette l'ancien prix du sous vide 1 kg à 420 € (archivé après le déploiement)", () => {
+      expect(() => resolveCart({ lineItems: [{ priceId: "price_1TMjZ3EQBCcpAKNIY6emeuWP", quantity: 1 }] })).toThrow(
+        CartValidationError,
+      );
     });
 
     it("rejette un article sans priceId (ancien price_data client)", () => {
@@ -178,6 +185,32 @@ describe("frais de port par zone (France / Union européenne)", () => {
     expect(shippingZoneForCountry("de")).toBe("EU");
     expect(shippingZoneForCountry("CH")).toBeNull();
     expect(shippingZoneForCountry(undefined)).toBeNull();
+  });
+});
+
+describe("grille unique (décision du 2026-09-28)", () => {
+  it("le sous vide 1 kg coûte le même prix au panier, au catalogue serveur et au palier pro 1 kg", () => {
+    const vacuum = CATALOG["morilles-sous-vide"];
+    if (vacuum.kind !== "weighted") throw new Error("sous vide attendu");
+    expect(vacuum.formats[1000].unitAmountCents).toBe(35000);
+    expect(getVacuumMorelPrice(1000) * 100).toBe(35000);
+    expect(quote(1)?.totalCents).toBe(35000);
+  });
+
+  it("grille publique : 100 g 59 €, 200 g 110 €, 500 g 240 €, 1 kg 350 €, puis 330, 310 et 290 €/kg", () => {
+    expect([100, 200, 500, 1000].map(getVacuumMorelPrice)).toEqual([59, 110, 240, 350]);
+    expect(PRO_TIERS.map((t) => [t.minKg, t.priceCents])).toEqual([
+      [1, 35000],
+      [3, 33000],
+      [5, 31000],
+      [10, 29000],
+    ]);
+  });
+
+  it("le prix au kilo ne remonte jamais quand la quantité augmente", () => {
+    const perKg = [100, 200, 500, 1000].map((g) => (getVacuumMorelPrice(g) * 1000) / g);
+    const all = [...perKg, ...PRO_TIERS.map((t) => t.priceCents / 100)];
+    for (let i = 1; i < all.length; i++) expect(all[i]).toBeLessThanOrEqual(all[i - 1]);
   });
 });
 

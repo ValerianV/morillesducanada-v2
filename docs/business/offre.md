@@ -27,9 +27,27 @@ Factures pro : SIRET, numéro, date, client, détail des produits.
 | Sous vide 100 g | 59 € | 590 | `price_1TMjZ1EQBCcpAKNInOHFVheb` |
 | Sous vide 200 g | 110 € | 550 | `price_1TMjZ2EQBCcpAKNIsTdQpP5x` |
 | Sous vide 500 g | 240 € | 480 | `price_1TMjZ2EQBCcpAKNI1I5ikvav` |
-| Sous vide 1 kg | 420 € | 420 | `price_1TMjZ3EQBCcpAKNIY6emeuWP` |
+| Sous vide 1 kg | 350 € | 350 | `price_1UKjo2EQBCcpAKNIMbIj8954` (produit `prod_UAjllkLV6O7i6s`) |
 
 Priorité commerciale : pousser les formats **sous vide** (500 g présélectionné, 1 kg = meilleur prix au kilo).
+
+### Grille unique (décision du 2026-09-28)
+
+« On ne peut pas proposer la même quantité à deux prix différents. » Une seule grille publique,
+identique au panier, sur `/professionnels`, dans la plaquette, les devis et les emails :
+
+| Quantité | Prix net |
+|---|---|
+| 100 g | 59 € |
+| 200 g | 110 € |
+| 500 g | 240 € |
+| 1 kg | 350 € (panier ou lien de paiement pro, même prix) |
+| 3 kg et + | 330 €/kg, sur devis ou lien de paiement |
+| 5 kg et + | 310 €/kg, sur devis ou lien de paiement |
+| 10 kg et + | 290 €/kg, sur devis ou lien de paiement |
+
+L'ancien prix Stripe du sous vide 1 kg à 420 € (`price_1TMjZ3EQBCcpAKNIY6emeuWP`) est à archiver
+après le déploiement. Test de garde : `src/test/catalog.test.ts` (« grille unique »).
 
 ## Professionnels — à partir de 1 kg
 

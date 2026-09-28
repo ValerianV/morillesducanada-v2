@@ -21,7 +21,7 @@ import {
   type VacuumWeight,
 } from "@/lib/products";
 import { formatEurosLocale } from "@/lib/proPricing";
-import VacuumFormatPicker, { fill } from "@/components/VacuumFormatPicker";
+import VacuumFormatPicker, { fill, volumeTiersText } from "@/components/VacuumFormatPicker";
 import { useI18n } from "@/i18n/context";
 import { getProductPageContent } from "@/lib/productDetails";
 import { useCartStore } from "@/stores/cartStore";
@@ -180,7 +180,8 @@ const ProductDetail = () => {
                 {isVacuum ? (
                   <div className="mt-6 p-4 border border-primary/30 rounded-sm bg-primary/5 text-sm">
                     <p className="text-foreground/85">
-                      <span className="font-medium text-foreground">{t("vacuum.proTitle")}</span> {t("vacuum.proText")}
+                      <span className="font-medium text-foreground">{t("vacuum.proTitle")}</span>{" "}
+                      {fill(t("vacuum.proText"), { tiers: volumeTiersText(t("vacuum.tierFrom"), locale) })}
                     </p>
                     <Link
                       to="/professionnels"

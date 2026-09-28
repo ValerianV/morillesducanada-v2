@@ -27,7 +27,8 @@ Morilles du Canada est une micro-entreprise française. Son fondateur, Valérian
 - France : 6,90 €, livraison offerte dès 50 € d'achats.
 - Union européenne (particuliers) : 9,90 €, offerte dès 100 € d'achats.
 - Expédition sous 5 jours ouvrés depuis la France. Paiement sécurisé via Stripe.
-- Professionnels : 1 kg = 350 €/kg ; 3 kg et plus = 330 €/kg ; 5 kg et plus = 310 €/kg ; 10 kg et plus = 290 €/kg. De 1 à 45 kg, par tranche de 500 g. Livraison en France, port inclus.
+- Sous vide : 100 g = 59 € ; 200 g = 110 € ; 500 g = 240 € ; 1 kg = 350 €.
+- Au kilo, sur devis ou lien de paiement (même grille que le sous vide) : 1 kg = 350 €/kg ; 3 kg et plus = 330 €/kg ; 5 kg et plus = 310 €/kg ; 10 kg et plus = 290 €/kg. De 1 à 45 kg, par tranche de 500 g. Livraison en France, port inclus.
 
 ## Précommande saison 2027
 

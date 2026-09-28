@@ -23,11 +23,11 @@ describe("économie du sous vide", () => {
     const ref = cheapestSmallFormat();
     expect(ref.product.id).toBe("morilles-45g");
     const input = { grams: ref.grams, price: ref.product.price };
-    expect(vacuumSaving(1000, input)).toMatchObject({ perKg: 420, percent: 34, amount: 224 });
+    expect(vacuumSaving(1000, input)).toMatchObject({ perKg: 350, percent: 45, amount: 294 });
     expect(vacuumSaving(500, input)).toMatchObject({ perKg: 480, percent: 25, amount: 82 });
     expect(vacuumSaving(200, input)).toMatchObject({ perKg: 550, percent: 14, amount: 18 });
     expect(vacuumSaving(100, input)).toMatchObject({ perKg: 590, percent: 8, amount: 5 });
-    expect(pricePerKg(getVacuumMorelPrice(1000), 1000)).toBe(420);
+    expect(pricePerKg(getVacuumMorelPrice(1000), 1000)).toBe(350);
   });
 });
 
@@ -47,10 +47,11 @@ describe("accueil : sous vide mis en avant", () => {
     expect(text).toContain("480 €/kg, soit 25 % de moins au kilo que le format 45 g : 82 € d'économie.");
     expect(text).toContain("Meilleur prix au kilo");
     expect(text).toContain("Conseillé");
-    for (const perKg of ["590 €/kg", "550 €/kg", "480 €/kg", "420 €/kg", "1 000 €/kg", "766,67 €/kg", "644,44 €/kg"]) {
+    for (const perKg of ["590 €/kg", "550 €/kg", "480 €/kg", "350 €/kg", "1 000 €/kg", "766,67 €/kg", "644,44 €/kg"]) {
       expect(text).toContain(perKg);
     }
-    expect(within(section).getByRole("link", { name: /Voir les tarifs pro/ })).toHaveAttribute("href", "/professionnels");
+    expect(text).toContain("Au-delà, sur devis ou lien de paiement : 330 €/kg dès 3 kg, 310 €/kg dès 5 kg, 290 €/kg dès 10 kg.");
+    expect(within(section).getByRole("link", { name: /Voir la grille au kilo/ })).toHaveAttribute("href", "/professionnels");
     expect(within(section).getByRole("link", { name: /Plus de 1 kg/ })).toHaveAttribute("href", "/professionnels");
 
     for (const format of ["100 g", "200 g", "500 g", "1 kg"]) {
@@ -63,12 +64,12 @@ describe("accueil : sous vide mis en avant", () => {
       ["morilles-sous-vide-100", 1, 59],
       ["morilles-sous-vide-200", 1, 110],
       ["morilles-sous-vide-500", 1, 240],
-      ["morilles-sous-vide-1000", 1, 420],
+      ["morilles-sous-vide-1000", 1, 350],
       ["morilles-12g", 1, 12],
       ["morilles-30g", 1, 23],
       ["morilles-45g", 1, 29],
     ]);
-    expect(useCartStore.getState().totalPrice()).toBe(893);
+    expect(useCartStore.getState().totalPrice()).toBe(823);
   });
 
   it("est traduit en anglais", async () => {
@@ -92,10 +93,10 @@ describe("fiches produit", () => {
     await screen.findByRole("radiogroup");
     expect(screen.getByRole("radio", { checked: true })).toHaveTextContent("500 g");
     fireEvent.click(screen.getByRole("radio", { name: /^1 kg/ }));
-    expect(plain(document.body.textContent)).toContain("420 €/kg, soit 34 % de moins au kilo que le format 45 g : 224 € d'économie.");
+    expect(plain(document.body.textContent)).toContain("350 €/kg, soit 45 % de moins au kilo que le format 45 g : 294 € d'économie.");
     fireEvent.click(screen.getByRole("button", { name: "Ajouter le 1 kg au panier" }));
-    expect(cartLines()).toEqual([["morilles-sous-vide-1000", 1, 420]]);
-    expect(screen.getByRole("link", { name: /Voir les tarifs pro/ })).toHaveAttribute("href", "/professionnels");
+    expect(cartLines()).toEqual([["morilles-sous-vide-1000", 1, 350]]);
+    expect(screen.getByRole("link", { name: /Voir la grille au kilo/ })).toHaveAttribute("href", "/professionnels");
   });
 
   it("petit format : prix au kilo et renvoi vers le sous vide avec l'économie chiffrée", async () => {
@@ -113,7 +114,7 @@ describe("/produits", () => {
     await renderAt("/produits", "fr");
     const cards = await screen.findAllByRole("heading", { level: 2 });
     expect(cards[0]).toHaveTextContent("Morilles sous vide");
-    expect(plain(document.body.textContent)).toContain("dès 420 €/kg");
+    expect(plain(document.body.textContent)).toContain("dès 350 €/kg");
     expect(screen.getByRole("link", { name: "Voir les tarifs pro" })).toHaveAttribute("href", "/professionnels");
   });
 });
