@@ -174,26 +174,18 @@ export function proOfferSchema(): JsonLd {
   const offers = PRO_TIERS.map((tier, i) => {
     const next = PRO_TIERS[i + 1];
     const maxKg = next ? next.minKg - 0.5 : PRO_MAX_KG;
-    const quantity =
-      tier.pricing === "flat"
-        ? { "@type": "QuantitativeValue", value: tier.minKg, unitCode: "KGM" }
-        : { "@type": "QuantitativeValue", minValue: tier.minKg, maxValue: maxKg, unitCode: "KGM" };
     return {
       "@type": "Offer",
-      name: tier.pricing === "flat" ? `Format ${tier.label.fr}` : `Palier ${tier.label.fr}`,
+      name: `Palier ${tier.label.fr}`,
       price: cents(tier.priceCents),
       priceCurrency: "EUR",
       priceSpecification: {
         "@type": "UnitPriceSpecification",
         price: cents(tier.priceCents),
         priceCurrency: "EUR",
-        referenceQuantity: {
-          "@type": "QuantitativeValue",
-          value: tier.pricing === "flat" ? tier.minKg : 1,
-          unitCode: "KGM",
-        },
+        referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "KGM" },
       },
-      eligibleQuantity: quantity,
+      eligibleQuantity: { "@type": "QuantitativeValue", minValue: tier.minKg, maxValue: maxKg, unitCode: "KGM" },
       eligibleCustomerType: BUSINESS_CUSTOMER,
       availability: IN_STOCK,
       itemCondition: NEW_CONDITION,
@@ -219,7 +211,7 @@ export function proOfferSchema(): JsonLd {
 }
 
 export function lowestProPricePerKg(): number {
-  return Math.min(...PRO_TIERS.filter((t) => t.pricing === "perKg").map((t) => t.priceCents)) / 100;
+  return Math.min(...PRO_TIERS.map((t) => t.priceCents)) / 100;
 }
 
 export interface RecipeSchemaInput {

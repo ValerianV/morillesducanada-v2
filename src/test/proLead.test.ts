@@ -106,8 +106,9 @@ describe("emails", () => {
 
   it("sujet admin devis et échantillon", () => {
     expect(adminSubject(valid.lead)).toBe("[DEVIS] 5 kg — Le Gourmet (Lyon)");
-    const half = validateProLead({ ...base, kg: 0.5 });
-    expect(half.ok && adminSubject(half.lead)).toBe("[DEVIS] 500 g — Le Gourmet (Lyon)");
+    const oneAndHalf = validateProLead({ ...base, kg: 1.5 });
+    expect(oneAndHalf.ok && adminSubject(oneAndHalf.lead)).toBe("[DEVIS] 1,5 kg — Le Gourmet (Lyon)");
+    expect(validateProLead({ ...base, kg: 0.5 }).ok).toBe(false);
     const sample = validateProLead({ ...base, kind: "echantillon", address: "12 rue Mercière" });
     expect(sample.ok && adminSubject(sample.lead)).toBe("[ÉCHANTILLON] Le Gourmet (Lyon)");
   });

@@ -69,7 +69,10 @@ describe("page /professionnels", () => {
   it("affiche la grille nette et la mention fiscale, sans HT ni 48/72 h", () => {
     const { container } = renderPage();
     const text = plain(container.textContent);
-    for (const price of ["190 €", "350 €/kg", "330 €/kg", "310 €/kg", "290 €/kg"]) expect(text).toContain(price);
+    for (const price of ["350 €/kg", "330 €/kg", "310 €/kg", "290 €/kg"]) expect(text).toContain(price);
+    // L'offre pro commence à 1 kg : plus de palier 500 g à 190 €.
+    expect(text).not.toContain("190 €");
+    expect(text).toContain("De 1 kg à 45 kg");
     expect(text).toContain("TVA non applicable, art. 293 B du CGI");
     expect(text).not.toMatch(/\bHT\b|5,5 ?%|48 ?h|72 ?h|280/);
   });

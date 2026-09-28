@@ -20,7 +20,7 @@ interface Props {
   onKindChange: (kind: ProLeadKind) => void;
 }
 
-const QUICK_KG = [0.5, 1, 3, 5, 10];
+const QUICK_KG = [1, 3, 5, 10];
 
 const inputClass =
   "w-full px-4 py-3 bg-secondary/40 border border-gold/20 rounded-sm text-base text-foreground placeholder:text-foreground/40 focus:outline-none focus:border-primary transition-colors";

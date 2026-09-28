@@ -2,6 +2,9 @@ import { describe, it, expect } from "vitest";
 import {
   PRO_TIERS,
   PRO_STOCK_KG,
+  PRO_MIN_KG,
+  PRO_MAX_KG,
+  PRO_KG_STEP,
   formatEurosLocale,
   formatKg,
   formatTierPrice,
@@ -13,21 +16,20 @@ import {
 const plain = (s: string) => s.replace(/\s/g, " ");
 
 describe("grille pro validée", () => {
-  it("contient exactement les 5 paliers nets", () => {
-    expect(PRO_TIERS.map((t) => [t.id, t.minKg, t.pricing, t.priceCents])).toEqual([
-      ["500g", 0.5, "flat", 19000],
-      ["1kg", 1, "perKg", 35000],
-      ["3kg", 3, "perKg", 33000],
-      ["5kg", 5, "perKg", 31000],
-      ["10kg", 10, "perKg", 29000],
+  it("contient exactement les 4 paliers nets, à partir de 1 kg (pas de palier 500 g)", () => {
+    expect(PRO_TIERS.map((t) => [t.id, t.minKg, t.priceCents])).toEqual([
+      ["1kg", 1, 35000],
+      ["3kg", 3, 33000],
+      ["5kg", 5, 31000],
+      ["10kg", 10, 29000],
     ]);
+    expect(PRO_MIN_KG).toBe(1);
+    expect(PRO_MAX_KG).toBe(45);
+    expect(PRO_KG_STEP).toBe(0.5);
   });
 
   it("n'expose jamais un prix au kilo inférieur à 290 €", () => {
-    for (const t of PRO_TIERS) {
-      const perKg = t.pricing === "flat" ? t.priceCents / t.minKg : t.priceCents;
-      expect(perKg).toBeGreaterThanOrEqual(29000);
-    }
+    for (const t of PRO_TIERS) expect(t.priceCents).toBeGreaterThanOrEqual(29000);
   });
 
   it("stock de 45 kg", () => {
@@ -36,11 +38,11 @@ describe("grille pro validée", () => {
 });
 
 describe("quote(kg)", () => {
-  it("500 g = 190 € (soit 380 €/kg)", () => {
-    const q = quote(0.5)!;
-    expect(q.tier.id).toBe("500g");
-    expect(q.totalCents).toBe(19000);
-    expect(q.unitPriceCents).toBe(38000);
+  it("refuse 500 g : l'offre pro commence à 1 kg", () => {
+    expect(quote(0.5)).toBeNull();
+    expect(isValidProQuantity(0.5)).toBe(false);
+    expect(quote(1)!.totalCents).toBe(35000);
+    expect(quote(1.5)!.totalCents).toBe(52500);
   });
 
   it.each([
@@ -61,7 +63,7 @@ describe("quote(kg)", () => {
   });
 
   it("rejette les quantités invalides", () => {
-    for (const kg of [0, 0.25, 0.7, 1.2, -1, 45.5, 100, NaN, Infinity]) {
+    for (const kg of [0, 0.25, 0.5, 0.7, 1.2, -1, 45.5, 100, NaN, Infinity]) {
       expect(quote(kg), String(kg)).toBeNull();
     }
     expect(isValidProQuantity("5")).toBe(false);
@@ -76,7 +78,7 @@ describe("quote(kg)", () => {
   it("signale le seuil plus avantageux quand le total baisse en passant de palier", () => {
     const drops: number[] = [];
     let previous = 0;
-    for (let kg = 0.5; kg <= 45; kg += 0.5) {
+    for (let kg = 1; kg <= 45; kg += 0.5) {
       const q = quote(kg)!;
       if (q.totalCents < previous) drops.push(kg);
       previous = q.totalCents;
@@ -95,9 +97,9 @@ describe("formatage", () => {
     expect(plain(formatEurosLocale(19000))).toBe("190 €");
     expect(plain(formatEurosLocale(155000))).toBe("1 550 €");
     expect(plain(formatEurosLocale(87550))).toBe("875,50 €");
-    expect(plain(formatTierPrice(PRO_TIERS[0]))).toBe("190 €");
-    expect(plain(formatTierPrice(PRO_TIERS[1]))).toBe("350 €/kg");
-    expect(formatKg(0.5)).toBe("500 g");
+    expect(plain(formatTierPrice(PRO_TIERS[0]))).toBe("350 €/kg");
+    expect(plain(formatTierPrice(PRO_TIERS[3]))).toBe("290 €/kg");
+    expect(plain(formatKg(1))).toBe("1 kg");
     expect(plain(formatKg(2.5))).toBe("2,5 kg");
   });
 

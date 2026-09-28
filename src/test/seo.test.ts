@@ -63,6 +63,20 @@ describe("JSON-LD offre pro au kilo", () => {
     });
   });
 
+  it("commence à 1 kg, sans offre pro à 500 g", () => {
+    const eligible = (schema.offers as { eligibleQuantity: { minValue: number; maxValue: number } }[]).map((o) => [
+      o.eligibleQuantity.minValue,
+      o.eligibleQuantity.maxValue,
+    ]);
+    expect(eligible).toEqual([
+      [1, 2.5],
+      [3, 4.5],
+      [5, 9.5],
+      [10, 45],
+    ]);
+    expect(offers.map((o) => Number(o.price))).toEqual([350, 330, 310, 290]);
+  });
+
   it("annonce le plus bas prix au kilo de la grille", () => {
     expect(lowestProPricePerKg()).toBe(290);
   });

@@ -4,9 +4,9 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { useI18n } from "@/i18n/context";
 import { PRO_TIERS, formatEurosLocale } from "@/lib/proPricing";
 
-// Fourchette de prix au kilo tirée de la grille (paliers au kilo uniquement).
+// Fourchette de prix au kilo tirée de la grille.
 function perKgRange(locale: "fr" | "en"): string {
-  const perKg = PRO_TIERS.filter((tier) => tier.pricing === "perKg").map((tier) => tier.priceCents);
+  const perKg = PRO_TIERS.map((tier) => tier.priceCents);
   const min = formatEurosLocale(Math.min(...perKg), locale);
   const max = formatEurosLocale(Math.max(...perKg), locale);
   return `${min} – ${max}/kg`;

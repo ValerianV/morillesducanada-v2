@@ -10,6 +10,7 @@ import valerianPortrait from "@/assets/valerian-portrait.webp";
 import landscapeFireweed from "@/assets/landscape-fireweed.webp";
 import {
   PRO_SAMPLE_GRAMS,
+  PRO_MIN_KG,
   PRO_SHIPPING_BUSINESS_DAYS,
   PRO_STOCK_KG,
   PRO_TAX_MENTION,
@@ -157,7 +158,7 @@ const PlaquettePro = () => (
             {[
               {
                 label: "Restaurateurs & Chefs",
-                desc: `Au kilo, de 500 g à ${PRO_STOCK_KG} kg · Entières et équeutées · ${PRO_STOCK_KG} kg en stock en France`,
+                desc: `Au kilo, de ${PRO_MIN_KG} kg à ${PRO_STOCK_KG} kg · Entières et équeutées · ${PRO_STOCK_KG} kg en stock en France`,
               },
               {
                 label: "Épiceries & Cavistes",
@@ -323,7 +324,7 @@ const PlaquettePro = () => (
               </div>
               <div style={{ fontSize: 11, color: "#4a4a4a", lineHeight: 1.85 }}>
                 Sachets sous vide thermoscellés. Morilles entières sans queue, triées à la main,
-                séchées à basse température. Vendues au kilo, de 500 g à {PRO_STOCK_KG} kg.
+                séchées à basse température. Vendues au kilo, de {PRO_MIN_KG} kg à {PRO_STOCK_KG} kg, par tranche de 500 g.
                 Conservation 2 ans minimum en conditions sèches.
                 Les morilles triplent de volume à la réhydratation.
               </div>

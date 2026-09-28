@@ -4,7 +4,8 @@
 // Prix nets validés par le fondateur. Le plancher de négociation n'apparaît jamais ici.
 
 export const PRO_STOCK_KG = 45;
-export const PRO_MIN_KG = 0.5;
+// L'offre pro commence à 1 kg ; le sous vide 500 g reste un format grand public (catalogue).
+export const PRO_MIN_KG = 1;
 export const PRO_MAX_KG = PRO_STOCK_KG;
 export const PRO_KG_STEP = 0.5;
 export const PRO_SAMPLE_GRAMS = 30;
@@ -15,29 +16,26 @@ export const PRO_TAX_MENTION = {
   en: "Net prices — VAT not applicable, art. 293 B of the French Tax Code (CGI)",
 } as const;
 
-export type ProTierId = "500g" | "1kg" | "3kg" | "5kg" | "10kg";
+export type ProTierId = "1kg" | "3kg" | "5kg" | "10kg";
 
 export interface ProTier {
   id: ProTierId;
   minKg: number;
-  // "flat" : prix du format entier (500 g) ; "perKg" : prix au kilo appliqué à toute la quantité.
-  pricing: "flat" | "perKg";
+  // Prix au kilo appliqué à toute la quantité commandée.
   priceCents: number;
   label: { fr: string; en: string };
 }
 
 export const PRO_TIERS: readonly ProTier[] = [
-  { id: "500g", minKg: 0.5, pricing: "flat", priceCents: 19000, label: { fr: "500 g", en: "500 g" } },
-  { id: "1kg", minKg: 1, pricing: "perKg", priceCents: 35000, label: { fr: "1 kg", en: "1 kg" } },
-  { id: "3kg", minKg: 3, pricing: "perKg", priceCents: 33000, label: { fr: "3 kg et plus", en: "3 kg and more" } },
-  { id: "5kg", minKg: 5, pricing: "perKg", priceCents: 31000, label: { fr: "5 kg et plus", en: "5 kg and more" } },
-  { id: "10kg", minKg: 10, pricing: "perKg", priceCents: 29000, label: { fr: "10 kg et plus", en: "10 kg and more" } },
+  { id: "1kg", minKg: 1, priceCents: 35000, label: { fr: "1 kg", en: "1 kg" } },
+  { id: "3kg", minKg: 3, priceCents: 33000, label: { fr: "3 kg et plus", en: "3 kg and more" } },
+  { id: "5kg", minKg: 5, priceCents: 31000, label: { fr: "5 kg et plus", en: "5 kg and more" } },
+  { id: "10kg", minKg: 10, priceCents: 29000, label: { fr: "10 kg et plus", en: "10 kg and more" } },
 ];
 
 export interface ProQuote {
   kg: number;
   tier: ProTier;
-  // Prix au kilo effectivement appliqué (380 €/kg pour le format 500 g).
   unitPriceCents: number;
   totalCents: number;
 }
@@ -49,7 +47,7 @@ export function isValidProQuantity(kg: unknown): kg is number {
   return Math.abs(steps - Math.round(steps)) < 1e-9;
 }
 
-// Devis indicatif pour une quantité en kg (multiple de 500 g, de 0,5 à 45 kg).
+// Devis indicatif pour une quantité en kg (de 1 à 45 kg, par pas de 500 g).
 // Renvoie null si la quantité est invalide.
 export function quote(kg: number): ProQuote | null {
   if (!isValidProQuantity(kg)) return null;
@@ -57,14 +55,6 @@ export function quote(kg: number): ProQuote | null {
   let tier = PRO_TIERS[0];
   for (const candidate of PRO_TIERS) {
     if (normalized >= candidate.minKg) tier = candidate;
-  }
-  if (tier.pricing === "flat") {
-    return {
-      kg: normalized,
-      tier,
-      unitPriceCents: Math.round(tier.priceCents / normalized),
-      totalCents: tier.priceCents,
-    };
   }
   return {
     kg: normalized,
@@ -96,13 +86,11 @@ export function formatEurosLocale(cents: number, locale: "fr" | "en" = "fr"): st
 }
 
 export function formatKg(kg: number, locale: "fr" | "en" = "fr"): string {
-  if (kg === 0.5) return "500 g";
   const n = new Intl.NumberFormat(locale === "en" ? "en-IE" : "fr-FR", { maximumFractionDigits: 1 }).format(kg);
   return `${n} kg`;
 }
 
-// Libellé du prix d'un palier : « 190 € » pour le format 500 g, « 350 €/kg » sinon.
+// Libellé du prix d'un palier : « 350 €/kg ».
 export function formatTierPrice(tier: ProTier, locale: "fr" | "en" = "fr"): string {
-  const price = formatEurosLocale(tier.priceCents, locale);
-  return tier.pricing === "flat" ? price : `${price}/kg`;
+  return `${formatEurosLocale(tier.priceCents, locale)}/kg`;
 }

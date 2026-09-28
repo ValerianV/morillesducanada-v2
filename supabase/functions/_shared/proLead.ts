@@ -4,6 +4,7 @@
 import { escapeHtml } from "./format.ts";
 import {
   PRO_MAX_KG,
+  PRO_MIN_KG,
   PRO_SAMPLE_GRAMS,
   PRO_SHIPPING_BUSINESS_DAYS,
   PRO_TAX_MENTION,
@@ -122,7 +123,7 @@ export function validateProLead(body: unknown): ProLeadValidation {
     const rawKg = typeof b.kg === "string" ? Number(b.kg.replace(",", ".")) : b.kg;
     leadQuote = typeof rawKg === "number" ? quote(rawKg) : null;
     if (!leadQuote) {
-      errors.kg = `Quantité invalide : de 500 g à ${PRO_MAX_KG} kg, par multiple de 500 g`;
+      errors.kg = `Quantité invalide : de ${PRO_MIN_KG} kg à ${PRO_MAX_KG} kg, par tranche de 500 g`;
     } else {
       kg = leadQuote.kg;
     }
