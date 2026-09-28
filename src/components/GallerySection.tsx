@@ -41,7 +41,7 @@ const GallerySection = () => {
               className="mb-3 md:mb-4 break-inside-avoid group relative overflow-hidden rounded-sm cursor-pointer"
               onClick={() => setSelectedPhoto(i)}
             >
-              <img src={photo.src} alt={photo.alt} title={photo.title} loading={i < 2 ? "eager" : "lazy"} decoding="async" className="w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <img src={photo.src} alt={photo.alt} title={photo.title} width={photo.width} height={photo.height} loading="lazy" decoding="async" className="w-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <motion.div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" initial={{ opacity: 0 }} whileHover={{ opacity: 1 }} transition={{ duration: 0.3 }} />
               <motion.p className="absolute bottom-3 left-3 right-3 text-xs font-light text-foreground/90" initial={{ opacity: 0, y: 10 }} whileHover={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>{photo.title}</motion.p>
             </motion.div>

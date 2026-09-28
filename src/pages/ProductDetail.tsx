@@ -68,6 +68,7 @@ const ProductDetail = () => {
         description={productMetaDescription(product)}
         path={`/produits/${product.slug}`}
         type="product"
+        preloadImage={product.image}
         jsonLd={[
           productSchema(product, detail.longDescription[0]),
           breadcrumbSchema([
@@ -96,6 +97,9 @@ const ProductDetail = () => {
                 <img
                   src={product.image}
                   alt={product.name}
+                  width={600}
+                  height={900}
+                  fetchPriority="high"
                   className="w-full h-full object-cover"
                 />
                 {product.badge && (
@@ -297,6 +301,10 @@ const ProductDetail = () => {
                         <img
                           src={rp.image}
                           alt={rp.name}
+                          width={600}
+                          height={900}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>

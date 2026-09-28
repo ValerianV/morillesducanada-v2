@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ShoppingCart, Minus, Plus, Trash2, Loader2, CreditCard } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
-import { supabase } from "@/integrations/supabase/client";
+import { loadSupabase } from "@/integrations/supabase/lazy";
 import { toast } from "sonner";
 
 export const CartDrawer = () => {
@@ -23,6 +23,7 @@ export const CartDrawer = () => {
         quantity: item.quantity,
       }));
 
+      const supabase = await loadSupabase();
       const { data, error } = await supabase.functions.invoke("create-checkout", {
         body: { items: checkoutItems },
       });

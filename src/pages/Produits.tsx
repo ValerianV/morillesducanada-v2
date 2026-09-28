@@ -60,7 +60,10 @@ const Produits = () => {
                       <img
                         src={product.image}
                         alt={product.name}
+                        width={600}
+                        height={900}
                         loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                       {product.badge && (

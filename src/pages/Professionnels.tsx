@@ -48,6 +48,7 @@ const Professionnels = () => {
         title={t("pro.metaTitle")}
         description={t("pro.metaDescription").replace("{minPrice}", formatEurosLocale(lowestProPricePerKg() * 100, locale))}
         path="/professionnels"
+        preloadImage={productVacuumBag}
         jsonLd={[
           proOfferSchema(),
           faqPageSchema(pro.faq.items),
@@ -103,6 +104,8 @@ const Professionnels = () => {
               src={productVacuumBag}
               alt="Morilles séchées entières et équeutées"
               className="w-full max-w-sm mx-auto aspect-[4/5] object-cover rounded-sm border border-gold/15"
+              width={600}
+              height={900}
               loading="eager"
             />
           </section>

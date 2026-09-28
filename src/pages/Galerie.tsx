@@ -60,6 +60,8 @@ const Galerie = () => {
                   src={photo.src}
                   alt={photo.alt}
                   title={photo.title}
+                  width={photo.width}
+                  height={photo.height}
                   loading="lazy"
                   decoding="async"
                   className="w-full object-cover transition-transform duration-700 group-hover:scale-110"

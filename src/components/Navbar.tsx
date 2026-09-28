@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Menu, X, UserCircle, LogOut, Globe } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { loadSupabase } from "@/integrations/supabase/lazy";
 import logo from "@/assets/logo.webp";
 import { CartDrawer } from "@/components/CartDrawer";
 import { useI18n, type Locale } from "@/i18n/context";
@@ -16,14 +16,26 @@ const Navbar = () => {
   const isHome = location.pathname === "/";
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
+    let cancelled = false;
+    let unsubscribe: (() => void) | undefined;
+    loadSupabase().then((supabase) => {
+      if (cancelled) return;
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        setSession(session);
+      });
+      unsubscribe = () => subscription.unsubscribe();
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (!cancelled) setSession(session);
+      });
     });
-    supabase.auth.getSession().then(({ data: { session } }) => setSession(session));
-    return () => subscription.unsubscribe();
+    return () => {
+      cancelled = true;
+      unsubscribe?.();
+    };
   }, []);
 
   const handleLogout = async () => {
+    const supabase = await loadSupabase();
     await supabase.auth.signOut();
     setSession(null);
   };

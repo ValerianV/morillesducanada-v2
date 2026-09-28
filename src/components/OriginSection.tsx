@@ -77,7 +77,10 @@ const OriginSection = () => {
                 <img
                   src="/images/nees-du-feu-hero.jpg"
                   alt="Morille de feu dans une forêt brûlée de Colombie-Britannique"
+                  width={2400}
+                  height={1350}
                   loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </picture>
