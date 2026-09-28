@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import { Mail, MapPin, Loader2, CheckCircle, Phone } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/i18n/context";
+import { EDITEUR } from "@/lib/legal";
 
 const ContactSection = () => {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const [formData, setFormData] = useState({ name: "", email: "", type: "particulier", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -53,15 +54,17 @@ const ContactSection = () => {
             <div className="space-y-4">
               <a href="tel:+33782162708" className="flex items-center gap-4 group">
                 <Phone className="w-5 h-5 text-primary" />
-                <span className="text-sm text-muted-foreground font-light group-hover:text-primary transition-colors">07 82 16 27 08</span>
+                <span className="text-base text-foreground/85 group-hover:text-primary transition-colors">
+                  {locale === "en" ? EDITEUR.telephoneInternational : EDITEUR.telephone}
+                </span>
               </a>
               <div className="flex items-center gap-4">
                 <Mail className="w-5 h-5 text-primary" />
-                <span className="text-sm text-muted-foreground font-light">contact@morillesducanada.com</span>
+                <a href={`mailto:${EDITEUR.email}`} className="text-base text-foreground/85 hover:text-primary transition-colors">{EDITEUR.email}</a>
               </div>
               <div className="flex items-center gap-4">
-                <MapPin className="w-5 h-5 text-primary" />
-                <span className="text-sm text-muted-foreground font-light">Colombie-Britannique & Yukon, Canada → France</span>
+                <MapPin className="w-5 h-5 text-primary flex-shrink-0" />
+                <span className="text-base text-foreground/85">{t("contact.address")}</span>
               </div>
             </div>
             <div className="p-6 border border-gold/15 rounded-sm">

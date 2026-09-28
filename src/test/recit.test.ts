@@ -36,7 +36,7 @@ describe("récit de marque", () => {
   });
 
   it("explique « Sauvage ou cultivée ? » sans nommer de pays", () => {
-    expect(fr.wildVsCultivated.title).toBe("Sauvage ou cultivée ?");
+    expect(fr.wildVsCultivated.title).toBe("Sauvage ou cultivée\u00a0?");
     expect(fr.wildVsCultivated.cultivated.join(" ")).toContain("en serre ou en plein champ");
     expect(en.wildVsCultivated.wild.length).toBe(fr.wildVsCultivated.wild.length);
   });

@@ -115,6 +115,6 @@ describe("/produits", () => {
     const cards = await screen.findAllByRole("heading", { level: 2 });
     expect(cards[0]).toHaveTextContent("Morilles sous vide");
     expect(plain(document.body.textContent)).toContain("dès 350 €/kg");
-    expect(screen.getByRole("link", { name: "Voir les tarifs pro" })).toHaveAttribute("href", "/professionnels");
+    expect(screen.getByRole("link", { name: "Voir la grille au kilo" })).toHaveAttribute("href", "/professionnels");
   });
 });

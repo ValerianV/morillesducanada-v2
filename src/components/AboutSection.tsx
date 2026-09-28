@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
 import valerianPortrait from "@/assets/valerian-portrait.webp";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useI18n } from "@/i18n/context";
@@ -39,19 +37,9 @@ const AboutSection = () => {
           <ScrollReveal direction="right" delay={0.2}>
             <div className="space-y-6">
               <h3 className="font-serif text-2xl md:text-3xl font-light leading-relaxed">{t("about.heading")}</h3>
-              <p className="text-secondary-foreground/80 font-light leading-relaxed" dangerouslySetInnerHTML={{ __html: t("about.p1") }} />
-              <p className="text-secondary-foreground/80 font-light leading-relaxed" dangerouslySetInnerHTML={{ __html: t("about.p2") }} />
-              <p className="text-secondary-foreground/80 font-light leading-relaxed" dangerouslySetInnerHTML={{ __html: t("about.p3") }} />
-              
-              <div className="pt-4">
-                <Link
-                  to="/journal"
-                  className="inline-flex items-center gap-2 text-primary hover:text-gold-light transition-colors duration-300 font-light tracking-wider text-sm uppercase"
-                >
-                  {t("about.blogLink")}
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
+              <p className="text-base text-foreground/85 leading-relaxed" dangerouslySetInnerHTML={{ __html: t("about.p1") }} />
+              <p className="text-base text-foreground/85 leading-relaxed" dangerouslySetInnerHTML={{ __html: t("about.p2") }} />
+              <p className="text-base text-foreground/85 leading-relaxed" dangerouslySetInnerHTML={{ __html: t("about.p3") }} />
             </div>
           </ScrollReveal>
         </div>

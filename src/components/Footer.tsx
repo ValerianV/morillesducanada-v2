@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="font-serif text-xl text-gradient-gold">Morilles du Canada</p>
-          <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground font-light tracking-wider">
+          <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground tracking-wide">
             <Link to="/produits" className="hover:text-primary transition-colors">{t("footer.products")}</Link>
             <span className="hidden md:inline">·</span>
             <Link to="/professionnels" className="hover:text-primary transition-colors">{t("footer.pro")}</Link>
@@ -25,8 +25,6 @@ const Footer = () => {
             <Link to="/livraison" className="hover:text-primary transition-colors">{t("footer.delivery")}</Link>
             <span className="hidden md:inline">·</span>
             <Link to="/recettes" className="hover:text-primary transition-colors">{t("footer.recipes")}</Link>
-            <span className="hidden md:inline">·</span>
-            <Link to="/journal" className="hover:text-primary transition-colors">{t("footer.blog")}</Link>
             <span className="hidden md:inline">·</span>
             <span>© {new Date().getFullYear()} Morilles du Canada</span>
           </div>

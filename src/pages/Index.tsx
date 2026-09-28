@@ -13,8 +13,7 @@ const OriginSection = lazy(() => import("@/components/OriginSection"));
 const ProductsSection = lazy(() => import("@/components/ProductsSection"));
 const ReviewsSection = lazy(() => import("@/components/ReviewsSection"));
 const TrustBadges = lazy(() => import("@/components/TrustBadges"));
-const WhySection = lazy(() => import("@/components/WhySection"));
-const ProcessSection = lazy(() => import("@/components/ProcessSection"));
+const WildVsCultivatedSection = lazy(() => import("@/components/WildVsCultivatedSection"));
 const GallerySection = lazy(() => import("@/components/GallerySection"));
 const AboutSection = lazy(() => import("@/components/AboutSection"));
 const ProfessionalSection = lazy(() => import("@/components/ProfessionalSection"));
@@ -24,7 +23,7 @@ const FloatingCTA = lazy(() => import("@/components/FloatingCTA"));
 
 const TITLE = "Morilles séchées sauvages du Canada | Morilles du Canada";
 const DESCRIPTION =
-  "Morilles sauvages du Canada, séchées, entières et équeutées. Stock en France, expédition sous 5 jours ouvrés. Sachets, sous vide et prix au kilo pour les pros.";
+  "Morilles sauvages du Canada, séchées, entières et équeutées. Stock en France, expédition sous 5 jours ouvrés. Pots en verre, sous vide et prix au kilo.";
 
 // Arrivée depuis une autre page sur /#produits, /#contact… : les sections sont chargées à la
 // demande, donc absentes quand le navigateur tente le défilement natif vers l'ancre.
@@ -73,8 +72,7 @@ const Index = () => {
           <ProductsSection />
           <ReviewsSection />
           <TrustBadges />
-          <WhySection />
-          <ProcessSection />
+          <WildVsCultivatedSection />
           <GallerySection />
           <AboutSection />
           <ProfessionalSection />

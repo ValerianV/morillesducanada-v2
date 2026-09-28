@@ -26,7 +26,7 @@ const GallerySection = () => {
               {t("gallery.title")} <span className="italic text-gradient-gold">{t("gallery.titleHighlight")}</span>
             </h2>
             <div className="divider-gold w-24 mx-auto mt-8" />
-            <p className="text-secondary-foreground/70 font-light mt-6 max-w-xl mx-auto">{t("gallery.description")}</p>
+            <p className="text-base text-foreground/85 mt-6 max-w-xl mx-auto">{t("gallery.description")}</p>
           </div>
         </ScrollReveal>
 
@@ -43,7 +43,7 @@ const GallerySection = () => {
             >
               <img src={photo.src} alt={photo.alt} title={photo.title} width={photo.width} height={photo.height} loading="lazy" decoding="async" className="w-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <motion.div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" initial={{ opacity: 0 }} whileHover={{ opacity: 1 }} transition={{ duration: 0.3 }} />
-              <motion.p className="absolute bottom-3 left-3 right-3 text-xs font-light text-foreground/90" initial={{ opacity: 0, y: 10 }} whileHover={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>{photo.title}</motion.p>
+              <motion.p className="absolute bottom-3 left-3 right-3 text-sm text-foreground" initial={{ opacity: 0, y: 10 }} whileHover={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>{photo.title}</motion.p>
             </motion.div>
           ))}
         </div>
@@ -52,9 +52,9 @@ const GallerySection = () => {
           <div className="text-center mt-12">
             <Link
               to="/galerie"
-              className="inline-flex items-center gap-2 px-8 py-3 border border-primary/30 text-primary hover:bg-primary/10 rounded-sm transition-all duration-300 font-light tracking-wide text-sm"
+              className="inline-flex items-center gap-2 px-8 py-3 border border-primary/30 text-primary hover:bg-primary/10 rounded-sm transition-all duration-300 tracking-wide text-sm"
             >
-              Voir toute la galerie
+              {t("gallery.viewAll")}
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

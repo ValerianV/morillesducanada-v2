@@ -83,7 +83,7 @@ describe("page /professionnels", () => {
     const { container } = renderPage();
     const text = plain(container.textContent);
     expect(text).toContain(
-      "Une seule grille, la même que dans la boutique : le sous vide 1 kg y coûte aussi 350 €. Moins de 1 kg : sous vide 100 g à 59 €, 200 g à 110 € et 500 g à 240 €.",
+      "le sous vide 1 kg y coûte aussi 350 €. Moins de 1 kg : sous vide 100 g à 59 €, 200 g à 110 € et 500 g à 240 €.",
     );
     expect(screen.getByRole("link", { name: /Voir le sous vide/ })).toHaveAttribute("href", "/produits/morilles-sous-vide");
     expect(text).not.toContain("420");

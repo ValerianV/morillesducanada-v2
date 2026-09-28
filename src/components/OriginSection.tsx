@@ -53,7 +53,7 @@ const OriginSection = () => {
                 transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
                 className="text-center"
               >
-                <span className="block font-serif text-xs text-primary/50 tracking-[0.35em] uppercase mb-5">
+                <span className="block font-serif text-xs text-primary/80 tracking-[0.35em] uppercase mb-5">
                   {"0" + (i + 1)}
                 </span>
                 <p className="font-serif text-lg md:text-xl font-semibold text-foreground leading-relaxed">
@@ -72,20 +72,19 @@ const OriginSection = () => {
         <ScrollReveal delay={0.05}>
           <figure className="mb-20 max-w-5xl mx-auto">
             <div className="aspect-video rounded-sm overflow-hidden shadow-gold border border-gold/10">
-              <picture>
-                <source srcSet="/images/nees-du-feu-hero.webp" type="image/webp" />
-                <img
-                  src="/images/nees-du-feu-hero.jpg"
-                  alt="Morille de feu dans une forêt brûlée de Colombie-Britannique"
-                  width={2400}
-                  height={1350}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover"
-                />
-              </picture>
+              <img
+                src="/images/nees-du-feu-hero-1600.webp"
+                srcSet="/images/nees-du-feu-hero-960.webp 960w, /images/nees-du-feu-hero-1600.webp 1600w"
+                sizes="(max-width: 1024px) 100vw, 1024px"
+                alt="Morille de feu dans une forêt brûlée de Colombie-Britannique"
+                width={1600}
+                height={900}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover"
+              />
             </div>
-            <figcaption className="text-center mt-4 text-xs italic text-muted-foreground/50 font-light tracking-wider">
+            <figcaption className="text-center mt-4 text-sm italic text-muted-foreground tracking-wider">
               {t("origin.caption")}
             </figcaption>
           </figure>
