@@ -49,7 +49,7 @@ const HeroSection = () => {
         </div>
 
         <m.div className="relative z-10 container mx-auto px-4 sm:px-6 text-center max-w-4xl safari-safe-layer" style={isSafari ? undefined : { y: contentY, opacity: contentOpacity }}>
-          <m.p className="text-sm tracking-[0.3em] uppercase text-primary mb-6"
+          <m.p className="text-sm tracking-[0.3em] uppercase text-primary mb-6 [text-shadow:0_1px_12px_rgba(0,0,0,0.9)]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}

@@ -98,8 +98,8 @@ const CGV = () => (
     <section>
       <h2>Article 5 — Paiement</h2>
       <p>
-        Le paiement est dû à la commande, par carte bancaire ou par virement : par le lien de paiement sécurisé Stripe, ou sur
-        les coordonnées bancaires indiquées sur la facture. La commande est expédiée après réception du paiement. Une facture
+        Le paiement est dû à la commande : par carte bancaire sur le lien de paiement sécurisé Stripe, ou par virement
+        sur les coordonnées bancaires indiquées sur la facture émise après devis. La commande est expédiée après réception du paiement. Une facture
         mentionnant le numéro SIRET du vendeur est établie pour chaque commande.
       </p>
     </section>

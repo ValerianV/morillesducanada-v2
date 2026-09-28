@@ -251,7 +251,7 @@ const PlaquettePro = () => (
               {[
                 { t: "Devis", d: `Réponse sous ${PRO_QUOTE_REPLY_HOURS} h ouvrées` },
                 { t: "Ou lien de paiement", d: "1, 3, 5 ou 10 kg" },
-                { t: "Paiement", d: "À la commande, carte ou virement" },
+                { t: "Paiement", d: "À la commande : carte (lien Stripe) ou virement sur facture" },
                 { t: "Expédition", d: `Sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés, port inclus` },
               ].map((s, i) => (
                 <li key={s.t} className="text-center">
