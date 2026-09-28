@@ -20,6 +20,7 @@ const Profil = lazy(() => import("./pages/Profil"));
 const GuideMorellesDeFeu = lazy(() => import("./pages/GuideMorellesDeFeu"));
 const PreOrder = lazy(() => import("./pages/PreOrder"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
+const PaymentCancelled = lazy(() => import("./pages/PaymentCancelled"));
 const PreOrderSuccess = lazy(() => import("./pages/PreOrderSuccess"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const Galerie = lazy(() => import("./pages/Galerie"));
@@ -84,6 +85,7 @@ const App = () => {
                   <Route path="/guide-morilles-de-feu" element={<GuideMorellesDeFeu />} />
                   <Route path="/pre-commande" element={<PreOrder />} />
                   <Route path="/paiement-reussi" element={<PaymentSuccess />} />
+                  <Route path="/paiement-annule" element={<PaymentCancelled />} />
                   <Route path="/precommande-confirmee" element={<PreOrderSuccess />} />
                   <Route path="/admin" element={<AdminDashboard />} />
                   <Route path="/galerie" element={<Galerie />} />
