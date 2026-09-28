@@ -34,11 +34,12 @@ const Navbar = () => {
     { href: "#origine", label: t("nav.story") },
     { href: "#produits", label: t("nav.products") },
     { href: "/recettes", label: t("nav.recipes"), isRoute: true },
-    { href: "#professionnels", label: t("nav.professionals") },
     { href: "#contact", label: t("nav.contact") },
   ];
 
   const linkClass = "text-sm font-light tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors duration-300";
+  const proLinkClass =
+    "text-sm font-medium tracking-widest uppercase text-primary border border-primary/50 rounded-sm px-3 py-1.5 hover:bg-primary/10 hover:border-primary transition-colors duration-300";
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 supports-backdrop:bg-background/80 supports-backdrop:backdrop-blur-md border-b border-gold/20 safari-safe-layer">
@@ -57,6 +58,7 @@ const Navbar = () => {
               <a key={link.href} href={isHome ? link.href : `/${link.href}`} className={linkClass}>{link.label}</a>
             )
           )}
+          <Link to="/professionnels" className={proLinkClass}>{t("nav.professionals")}</Link>
 
           {/* Language toggle */}
           <button
@@ -112,6 +114,7 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden bg-background/95 supports-backdrop:backdrop-blur-md border-b border-gold/20 animate-fade-in safari-safe-layer">
           <div className="container mx-auto px-6 py-4 flex flex-col gap-4">
+            <Link to="/professionnels" onClick={() => setIsOpen(false)} className={`${proLinkClass} self-start`}>{t("nav.professionals")}</Link>
             {links.map((link) =>
               link.isRoute ? (
               <Link key={link.href} to={link.href} onClick={() => setIsOpen(false)} className={linkClass}>{link.label}</Link>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Mail, MapPin, Loader2, CheckCircle, Phone } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/i18n/context";
@@ -66,6 +67,12 @@ const ContactSection = () => {
             <div className="p-6 border border-gold/15 rounded-sm">
               <p className="font-serif text-lg mb-2">{t("contact.proTitle")}</p>
               <p className="text-sm text-muted-foreground font-light mb-4">{t("contact.proDesc")}</p>
+              <Link
+                to="/professionnels"
+                className="block mb-3 text-primary hover:text-gold-light transition-colors duration-300 font-medium text-sm underline underline-offset-4"
+              >
+                {t("contact.proLink")}
+              </Link>
               <a
                 href="tel:+33782162708"
                 className="inline-flex items-center gap-2 text-primary hover:text-gold-light transition-colors duration-300 font-medium text-sm"
@@ -104,7 +111,6 @@ const ContactSection = () => {
                 >
                   <option value="particulier">{t("contact.form.typeOptions.individual")}</option>
                   <option value="professionnel">{t("contact.form.typeOptions.professional")}</option>
-                  <option value="precommande-2026">{t("contact.form.typeOptions.preorder")}</option>
                 </select>
               </div>
               <div>

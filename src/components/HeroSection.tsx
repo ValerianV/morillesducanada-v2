@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-jars.webp";
 import { useI18n } from "@/i18n/context";
 
@@ -70,19 +71,21 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.1 }}
         >
-          <motion.a href="#produits"
-            className="px-10 py-4 bg-primary text-primary-foreground font-medium tracking-widest uppercase text-sm rounded-sm relative overflow-hidden group"
-            whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+          <Link to="/professionnels"
+            className="px-10 py-4 bg-primary text-primary-foreground font-medium tracking-widest uppercase text-sm rounded-sm hover:bg-gold-light transition-colors duration-300"
           >
-            <span className="relative z-10">{t("hero.cta")}</span>
-            <motion.div className="absolute inset-0 bg-gold-light" initial={{ x: "-100%" }} whileHover={{ x: "0%" }} transition={{ duration: 0.3 }} />
-          </motion.a>
-          <motion.a href="#origine"
-            className="px-10 py-4 border border-primary/40 text-foreground font-light tracking-widest uppercase text-sm rounded-sm"
+            {t("hero.proCta")}
+          </Link>
+          <motion.a href="#produits"
+            className="px-10 py-4 border border-primary/60 text-foreground font-medium tracking-widest uppercase text-sm rounded-sm"
             whileHover={{ borderColor: "hsl(40 60% 50%)", color: "hsl(40 60% 50%)", scale: 1.03 }}
             whileTap={{ scale: 0.97 }} transition={{ duration: 0.3 }}
-          >{t("hero.story")}</motion.a>
+          >{t("hero.cta")}</motion.a>
         </motion.div>
+        <motion.p className="mt-6 text-base text-foreground/85"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1.3 }}
+        >{t("hero.proLine")}</motion.p>
       </motion.div>
 
       <motion.div className="absolute bottom-8 left-1/2 -translate-x-1/2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}>

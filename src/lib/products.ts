@@ -1,7 +1,5 @@
-// Allocation saison 2026 :
-// - 25 kg au retail (réparti sur les 4 formats ci-dessous)
-// - 70 kg à la pré-commande pro (géré manuellement via /pre-commande)
-// - 5 kg de buffer (échantillons chefs, casse, remplacements)
+// Offre pro au kilo : grille et stock (45 kg en France) dans src/lib/proPricing.ts,
+// demandes via /professionnels (table pro_leads).
 // Historique : le 45g est best-seller, le 30g offre la meilleure marge,
 // le 12g reste un produit d'appel pour découverte.
 import product12g from "@/assets/product-12g.webp";

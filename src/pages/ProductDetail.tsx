@@ -199,7 +199,7 @@ const ProductDetail = () => {
                   Ajouter au panier
                 </button>
                 <p className="text-[10px] text-muted-foreground text-center font-light">
-                  Paiement sécurisé · Livraison France &amp; Europe · 24h–72h
+                  Paiement sécurisé · Livraison France &amp; Europe · Expédition sous 5 jours ouvrés
                 </p>
 
                 {/* Quick highlights */}

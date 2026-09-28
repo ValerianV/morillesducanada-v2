@@ -1,92 +1,64 @@
-import { ChefHat, Truck, Phone, CalendarClock, Download } from "lucide-react";
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { Phone } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useI18n } from "@/i18n/context";
+import { PRO_TIERS, formatEurosLocale } from "@/lib/proPricing";
 
-const itemIcons = [ChefHat, Truck, Phone];
+// Fourchette de prix au kilo tirée de la grille (paliers au kilo uniquement).
+function perKgRange(locale: "fr" | "en"): string {
+  const perKg = PRO_TIERS.filter((tier) => tier.pricing === "perKg").map((tier) => tier.priceCents);
+  const min = formatEurosLocale(Math.min(...perKg), locale);
+  const max = formatEurosLocale(Math.max(...perKg), locale);
+  return `${min} – ${max}/kg`;
+}
 
 const ProfessionalSection = () => {
-  const { t, translations } = useI18n();
-  const items = translations.professional.items;
+  const { t, locale } = useI18n();
+
+  const stats = [
+    { value: t("professional.stockValue"), label: t("professional.stockLabel") },
+    { value: perKgRange(locale), label: t("professional.priceLabel") },
+    { value: t("professional.shippingValue"), label: t("professional.shippingLabel") },
+  ];
 
   return (
-    <section id="professionnels" className="py-24 md:py-32 bg-gradient-card">
-      <div className="container mx-auto px-6">
+    <section id="professionnels" className="py-24 md:py-28 bg-gradient-card">
+      <div className="container mx-auto px-6 max-w-5xl">
         <ScrollReveal>
-          <div className="text-center mb-16">
-            <p className="text-sm tracking-[0.3em] uppercase text-primary mb-4">{t("professional.label")}</p>
-            <h2 className="font-serif text-4xl md:text-5xl font-light">
-              {t("professional.title")} <span className="italic text-gradient-gold">{t("professional.titleHighlight")}</span>
-            </h2>
-            <div className="divider-gold w-24 mx-auto mt-8" />
-            <p className="text-muted-foreground font-light mt-6 max-w-2xl mx-auto">{t("professional.description")}</p>
-          </div>
+          <p className="text-sm tracking-[0.3em] uppercase text-primary mb-4">{t("professional.label")}</p>
+          <h2 className="font-serif text-4xl md:text-5xl font-light text-foreground">{t("professional.title")}</h2>
+          <p className="text-lg text-foreground/90 mt-6 max-w-3xl leading-relaxed">{t("professional.description")}</p>
         </ScrollReveal>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          {items.map((item, i) => {
-            const Icon = itemIcons[i];
-            return (
-              <motion.div key={item.title}
-                initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.5, delay: i * 0.12, ease: [0.25, 0.4, 0.25, 1] }}
-                className="text-center p-8"
-              >
-                <Icon className="w-10 h-10 text-primary mx-auto mb-6" />
-                <h3 className="font-serif text-xl mb-3">{item.title}</h3>
-                <p className="text-sm text-muted-foreground font-light leading-relaxed">{item.description}</p>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* Phone CTA */}
-        <ScrollReveal delay={0.15}>
-          <div className="max-w-md mx-auto mt-10 text-center">
-            <a
-              href="tel:+33782162708"
-              className="inline-flex items-center gap-3 px-8 py-4 border-2 border-primary/50 rounded-sm text-foreground hover:border-primary hover:bg-primary/5 transition-all duration-300 group"
-            >
-              <Phone className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
-              <span className="flex flex-col items-start">
-                <span className="text-sm font-medium tracking-wider uppercase">{t("professional.phoneCta")}</span>
-                <span className="text-xs text-muted-foreground font-light">{t("professional.phoneLabel")} — 07 82 16 27 08</span>
-              </span>
-            </a>
-          </div>
+        <ScrollReveal delay={0.1}>
+          <dl className="grid sm:grid-cols-3 gap-6 mt-12">
+            {stats.map((stat) => (
+              <div key={stat.label} className="border-t-2 border-primary/50 pt-4">
+                <dt className="sr-only">{stat.label}</dt>
+                <dd className="font-serif text-3xl text-primary whitespace-nowrap">{stat.value}</dd>
+                <dd className="text-base text-foreground/85 mt-1">{stat.label}</dd>
+              </div>
+            ))}
+          </dl>
         </ScrollReveal>
 
         <ScrollReveal delay={0.2}>
-          <div className="max-w-3xl mx-auto mt-12 p-6 md:p-8 border border-primary/30 rounded-sm bg-background/40 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-5">
-              <CalendarClock className="w-10 h-10 text-primary flex-shrink-0" />
-              <div className="flex-1">
-                <h3 className="font-serif text-xl md:text-2xl mb-2">{t("professional.preorderTitle")}</h3>
-                <p className="text-sm text-muted-foreground font-light leading-relaxed" dangerouslySetInnerHTML={{ __html: t("professional.preorderDesc") }} />
-              </div>
-            </div>
-            <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Link to="/pre-commande" className="inline-block px-8 py-3.5 bg-primary text-primary-foreground font-medium tracking-widest uppercase text-sm hover:bg-gold-light transition-colors duration-300 rounded-sm">
-                {t("professional.preorderCta")}
-              </Link>
-              <Link
-                to="/plaquette-pro"
-                className="inline-flex items-center gap-2 px-6 py-3.5 border border-primary/40 text-foreground font-light tracking-widest uppercase text-sm hover:border-primary hover:text-primary transition-colors duration-300 rounded-sm"
-              >
-                <Download className="w-4 h-4" />
-                Télécharger la plaquette
-              </Link>
-            </div>
-          </div>
-        </ScrollReveal>
-
-        <ScrollReveal delay={0.3}>
-          <div className="text-center mt-8">
-            <a href="#contact" className="inline-block px-10 py-4 border border-primary/40 text-foreground font-light tracking-widest uppercase text-sm hover:border-primary hover:text-primary transition-colors duration-300 rounded-sm">
-              {t("professional.quoteCta")}
+          <div className="mt-12 flex flex-col sm:flex-row sm:items-center gap-4">
+            <Link
+              to="/professionnels"
+              className="inline-block text-center px-8 py-4 bg-primary text-primary-foreground font-medium tracking-widest uppercase text-sm hover:bg-gold-light transition-colors duration-300 rounded-sm"
+            >
+              {t("professional.ctaPrices")}
+            </Link>
+            <Link
+              to="/professionnels#echantillon"
+              className="inline-block text-center px-8 py-4 border border-primary/60 text-foreground font-medium tracking-widest uppercase text-sm hover:border-primary hover:text-primary transition-colors duration-300 rounded-sm"
+            >
+              {t("professional.ctaSample")}
+            </Link>
+            <a href="tel:+33782162708" className="inline-flex items-center gap-2 text-base text-foreground/90 hover:text-primary sm:ml-2">
+              <Phone className="w-4 h-4 text-primary" />
+              {t("professional.phoneCta")} · 07 82 16 27 08
             </a>
           </div>
         </ScrollReveal>
