@@ -53,16 +53,21 @@ const Recettes = () => {
   const [activeFilter, setActiveFilter] = useState<Filter>("tous");
 
   useEffect(() => {
-    supabase
-      .from("recipes")
-      .select("id, slug, title, description, chef_name, chef_title, difficulty, prep_time, cook_time, servings, image_url, tags")
-      .order("sort_order", { ascending: true })
-      .then(({ data, error }) => {
+    const fetchRecipes = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("recipes")
+          .select("id, slug, title, description, chef_name, chef_title, difficulty, prep_time, cook_time, servings, image_url, tags")
+          .order("sort_order", { ascending: true });
         if (error) console.error("Error fetching recipes:", error);
         setRecipes((data as Recipe[]) || []);
+      } catch (err) {
+        console.error("Error fetching recipes:", err);
+      } finally {
         setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      }
+    };
+    fetchRecipes();
   }, []);
 
   const filtered = recipes.filter((r) => matchesFilter(r, activeFilter));

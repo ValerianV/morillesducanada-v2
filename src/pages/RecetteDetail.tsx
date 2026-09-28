@@ -51,7 +51,16 @@ const RecetteDetail = () => {
       .eq("slug", slug)
       .single()
       .then(({ data }) => {
-        setRecipe(data as Recipe | null);
+        // ingredients / steps sont des colonnes jsonb (type Json) : on garantit des tableaux.
+        setRecipe(
+          data
+            ? ({
+                ...data,
+                ingredients: Array.isArray(data.ingredients) ? data.ingredients : [],
+                steps: Array.isArray(data.steps) ? data.steps : [],
+              } as unknown as Recipe)
+            : null,
+        );
         setLoading(false);
       });
   }, [slug]);
