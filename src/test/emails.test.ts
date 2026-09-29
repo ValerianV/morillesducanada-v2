@@ -130,6 +130,46 @@ describe("emails de commande", () => {
     expect(plain(mail.text)).toContain("Total net : 52,90 €");
   });
 
+  it("commande pro avec pots : colis détaillé côté client, liste de préparation côté admin", () => {
+    const proItems = [
+      { name: "Morilles de feu sauvages du Canada — 2 kg (palier 1 kg, 350 €/kg)", quantity: 1, unit_amount: 70000 },
+      { name: "Pots en verre vides, sans étiquette — 56 pots (0×12 g, 36×30 g, 20×45 g)", quantity: 56, unit_amount: 100 },
+    ];
+    const proOrder = { kg: 2, pots: { 12: 0, 30: 36, 45: 20 }, bulkGrams: 20 };
+    const input = { orderId, customerName: "Jeanne", items: proItems, totalCents: 75600, shippingAddress: address, company: "Épicerie <Fine>", siret: "80286194800023", phone: "+33612345678", proOrder };
+
+    const client = buildOrderConfirmationEmail(input);
+    const html = plain(client.html).replace(/&nbsp;/g, " ");
+    expect(html).toContain("Votre colis");
+    expect(html).toContain("8 sachets sous vide de 250 g (2 kg de morilles).");
+    expect(html).toContain("Pots en verre vides, sans étiquette, livrés à part : 20 pots de 45 g + 36 pots de 30 g.");
+    expect(html).toContain("Vos pots contiendront 1 980 g ; reste en vrac : 20 g.");
+    expect(html).toContain("56 €");
+    expect(html).toContain("756 €");
+    expect(html).toContain("Épicerie &lt;Fine&gt;");
+    expect(html).toContain("802 861 948 00023");
+    expect(html).toContain(TAX);
+    expect(plain(client.text)).toContain("Votre colis :");
+
+    const admin = buildAdminNewOrderEmail({ ...input, customerEmail: "j@x.fr" });
+    const adminHtml = plain(admin.html);
+    expect(adminHtml).toContain("Liste de préparation");
+    expect(adminHtml).toContain("2 kg = 8 sachets de 250 g<br>20 pots de 45 g<br>36 pots de 30 g<br>0 pot de 12 g");
+    expect(adminHtml).toContain("Reste en vrac : 20 g.");
+    expect(adminHtml).toContain("+33612345678");
+    expect(plain(admin.text)).toContain("Liste de préparation : 2 kg = 8 sachets de 250 g · 20 pots de 45 g · 36 pots de 30 g · 0 pot de 12 g");
+  });
+
+  it("commande pro sans pots : sachets seulement", () => {
+    const proItems = [{ name: "Morilles de feu sauvages du Canada — 3 kg (palier 3 kg et plus, 330 €/kg)", quantity: 1, unit_amount: 99000 }];
+    const input = { orderId, customerName: "Jeanne", items: proItems, totalCents: 99000, proOrder: { kg: 3, pots: null, bulkGrams: 0 } };
+    const client = plain(buildOrderConfirmationEmail(input).html);
+    expect(client).toContain("12 sachets sous vide de 250 g (3 kg de morilles).");
+    expect(client).not.toContain("Pots en verre");
+    const admin = buildAdminNewOrderEmail({ ...input, customerEmail: "j@x.fr" });
+    expect(plain(admin.text)).toContain("Liste de préparation : 3 kg = 12 sachets de 250 g · sans pots");
+  });
+
   it("statut expédié : suivi et bouton seulement pour une URL https", () => {
     const base = { id: orderId, status: "shipped", email: "j@x.fr", customer_name: "Jeanne", total_amount: 5290, carrier: "Colissimo", tracking_number: "6A1" };
     const withUrl = buildStatusEmail("order", { ...base, tracking_url: "https://suivi.example/6A1" });

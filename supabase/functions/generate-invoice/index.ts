@@ -7,6 +7,7 @@ import {
   itemQuantity,
   itemUnitAmountCents,
 } from "../_shared/format.ts";
+import { formatSiret } from "../_shared/siret.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -97,6 +98,8 @@ function generateInvoiceHTML(order: any, invoiceNumber: string) {
     <div style="padding: 32px 40px; display: flex; justify-content: space-between;">
       <div>
         <p style="font-size: 12px; color: #8a7e6b; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.1em;">Facturé à</p>
+        ${order.company_name ? `<p style="font-size: 16px; color: #e8dcc8; margin: 0 0 2px; font-weight: 600;">${escapeHtml(order.company_name)}</p>` : ""}
+        ${order.siret ? `<p style="font-size: 13px; color: #e8dcc8; margin: 0 0 6px;">SIRET ${escapeHtml(formatSiret(order.siret))}</p>` : ""}
         <p style="font-size: 16px; color: #e8dcc8; margin: 0; font-weight: 500;">${escapeHtml(order.customer_name)}</p>
         <p style="font-size: 14px; color: #e8dcc8; margin: 4px 0 0;">${escapeHtml(order.email)}</p>
         ${shippingBlock}

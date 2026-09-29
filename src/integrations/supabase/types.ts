@@ -131,6 +131,13 @@ export type Database = {
       orders: {
         Row: {
           carrier: string | null
+          bulk_grams: number | null
+          company_name: string | null
+          kg: number | null
+          order_type: string | null
+          phone: string | null
+          pots: Json | null
+          siret: string | null
           created_at: string
           currency: string
           customer_name: string
@@ -149,6 +156,13 @@ export type Database = {
         }
         Insert: {
           carrier?: string | null
+          bulk_grams?: number | null
+          company_name?: string | null
+          kg?: number | null
+          order_type?: string | null
+          phone?: string | null
+          pots?: Json | null
+          siret?: string | null
           created_at?: string
           currency?: string
           customer_name: string
@@ -167,6 +181,13 @@ export type Database = {
         }
         Update: {
           carrier?: string | null
+          bulk_grams?: number | null
+          company_name?: string | null
+          kg?: number | null
+          order_type?: string | null
+          phone?: string | null
+          pots?: Json | null
+          siret?: string | null
           created_at?: string
           currency?: string
           customer_name?: string

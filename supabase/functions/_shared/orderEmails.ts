@@ -3,7 +3,15 @@
 import { escapeHtml, itemLineTotalCents, itemQuantity, safeHttpsUrl, type OrderItemLike } from "./format.ts";
 import { PREORDER_2027 } from "./catalog.ts";
 import { formatSiret } from "./siret.ts";
-import { formatEurosLocale } from "./proPricing.ts";
+import { PRO_PACK_GRAMS, formatEurosLocale } from "./proPricing.ts";
+import {
+  POT_SIZES_G,
+  formatGrams,
+  formatPotLine,
+  formatPotsSummary,
+  formatPreparationList,
+  type PotCounts,
+} from "./potAllocation.ts";
 import {
   BRAND,
   emailDetails,
@@ -121,6 +129,16 @@ export interface OrderConfirmationInput {
   // Liens de paiement pros : champs personnalisés Stripe.
   company?: string | null;
   siret?: string | null;
+  phone?: string | null;
+  // Commande payée en ligne depuis /professionnels (create-pro-checkout).
+  proOrder?: ProOrderDetails | null;
+}
+
+export interface ProOrderDetails {
+  kg: number;
+  // null : commande sans pots.
+  pots: PotCounts | null;
+  bulkGrams: number;
 }
 
 function businessRows(input: { company?: string | null; siret?: string | null }): EmailRow[] {
@@ -128,6 +146,40 @@ function businessRows(input: { company?: string | null; siret?: string | null })
   if (input.company) rows.push(["Société", input.company]);
   if (input.siret) rows.push(["SIRET", formatSiret(input.siret)]);
   return rows;
+}
+
+const bagsOf = (kg: number) => Math.round((kg * 1000) / PRO_PACK_GRAMS);
+const hasPots = (pots: PotCounts | null): pots is PotCounts => !!pots && POT_SIZES_G.some((size) => pots[size] > 0);
+const gramsInPots = (pots: PotCounts) => POT_SIZES_G.reduce((sum, size) => sum + pots[size] * size, 0);
+
+// Client : ce qu'il va recevoir.
+export function proOrderDeliveryLines(order: ProOrderDetails): string[] {
+  const bags = bagsOf(order.kg);
+  const lines = [`${bags} sachet${bags > 1 ? "s" : ""} sous vide de ${PRO_PACK_GRAMS} g (${kgLabel(order.kg)} de morilles).`];
+  if (hasPots(order.pots)) {
+    lines.push(`Pots en verre vides, sans étiquette, livrés à part : ${formatPotsSummary(order.pots)}.`);
+    lines.push(
+      `Vos pots contiendront ${formatGrams(gramsInPots(order.pots))} ; reste en vrac : ${formatGrams(order.bulkGrams)}.`,
+    );
+  }
+  return lines;
+}
+
+function kgLabel(kg: number): string {
+  return `${new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 1 }).format(kg)} kg`;
+}
+
+// Fondateur : liste de préparation du colis.
+export function proOrderPreparationLines(order: ProOrderDetails): string[] {
+  const bags = bagsOf(order.kg);
+  const lines = [`${kgLabel(order.kg)} = ${bags} sachet${bags > 1 ? "s" : ""} de ${PRO_PACK_GRAMS} g`];
+  if (hasPots(order.pots)) {
+    for (const size of [...POT_SIZES_G].reverse()) lines.push(formatPotLine(order.pots[size], size));
+    lines.push(`Pots vides, sans étiquette, emballés à part. Reste en vrac : ${formatGrams(order.bulkGrams)}.`);
+  } else {
+    lines.push("Sans pots.");
+  }
+  return lines;
 }
 
 export function buildOrderConfirmationEmail(input: OrderConfirmationInput): BuiltEmail {
@@ -142,6 +194,7 @@ export function buildOrderConfirmationEmail(input: OrderConfirmationInput): Buil
   const shippingNote =
     "Votre colis sera expédié sous 5 jours ouvrés, en colis suivi. Vous recevrez un email avec le numéro de suivi dès son départ.";
   const invoiceNote = `Votre facture ${invoice}, avec notre numéro SIRET, vous est envoyée par email.`;
+  const delivery = input.proOrder ? proOrderDeliveryLines(input.proOrder) : [];
 
   const body = [
     emailText(greeting),
@@ -155,6 +208,7 @@ export function buildOrderConfirmationEmail(input: OrderConfirmationInput): Buil
     ]),
     emailHeading("Votre commande"),
     items.html,
+    delivery.length ? emailPanel("Votre colis", emailLines(delivery)) : "",
     address.length ? emailPanel("Adresse de livraison", emailLines(address)) : "",
     emailText(invoiceNote, { muted: true, small: true }),
     emailParagraph(`Une question : ${emailLink(BRAND.contactEmail, `mailto:${BRAND.contactEmail}`)}`, { muted: true, small: true }),
@@ -176,6 +230,7 @@ export function buildOrderConfirmationEmail(input: OrderConfirmationInput): Buil
     `Facture : ${invoice}`,
     "",
     items.text,
+    delivery.length ? `\nVotre colis :\n${delivery.join("\n")}` : "",
     address.length ? `\nAdresse de livraison :\n${address.join("\n")}` : "",
     "",
     shippingNote,
@@ -195,19 +250,25 @@ export function buildAdminNewOrderEmail(input: OrderConfirmationInput & { custom
   const ref = orderReference(input.orderId);
   const items = orderItemsHtml(input.items, input.totalCents);
   const address = addressLines(input.shippingAddress);
+  const preparation = input.proOrder ? proOrderPreparationLines(input.proOrder) : [];
+  const preparationSummary = input.proOrder
+    ? formatPreparationList(input.proOrder.kg, hasPots(input.proOrder.pots) ? input.proOrder.pots : null)
+    : null;
   const body = [
     emailText(`${input.customerName} vient de payer une commande de ${eur(input.totalCents)}. À expédier sous 5 jours ouvrés.`),
     emailDetails([
       ["Commande", ref],
       ["Client", input.customerName],
       ["Email", input.customerEmail],
+      ...(input.phone ? ([["Téléphone", input.phone]] as EmailRow[]) : []),
       ...businessRows(input),
     ]),
+    preparation.length ? emailPanel("Liste de préparation", emailLines(preparation)) : "",
     items.html,
     address.length ? emailPanel("Adresse de livraison", emailLines(address)) : "",
   ].join("");
   const html = renderEmailLayout({
-    preheader: `${input.customerName} · ${eur(input.totalCents)} · commande ${ref}`,
+    preheader: `${input.customerName} · ${eur(input.totalCents)} · ${preparationSummary ?? `commande ${ref}`}`,
     title: `Nouvelle commande ${ref}`,
     bodyHtml: body,
     cta: { label: "Ouvrir l'administration", url: `${BRAND.siteUrl}/admin` },
@@ -219,6 +280,7 @@ export function buildAdminNewOrderEmail(input: OrderConfirmationInput & { custom
     html,
     text: [
       `Nouvelle commande ${ref} de ${input.customerName} (${input.customerEmail}).`,
+      preparationSummary ? `\nListe de préparation : ${preparationSummary}` : "",
       "",
       items.text,
       address.length ? `\nAdresse de livraison :\n${address.join("\n")}` : "",

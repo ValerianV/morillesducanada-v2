@@ -5,7 +5,13 @@ import type { OrderItemLike } from "../_shared/format.ts";
 import { PREORDER_2027, preorderAmounts } from "../_shared/catalog.ts";
 import { isValidSiret, normalizeSiret } from "../_shared/siret.ts";
 import { buildPreorderAdminEmail, buildPreorderConfirmationEmail } from "../_shared/preorderEmail.ts";
-import { buildAdminNewOrderEmail, buildOrderConfirmationEmail, type ShippingAddressLike } from "../_shared/orderEmails.ts";
+import {
+  buildAdminNewOrderEmail,
+  buildOrderConfirmationEmail,
+  type ProOrderDetails,
+  type ShippingAddressLike,
+} from "../_shared/orderEmails.ts";
+import { PRO_ORDER_TYPE, parsePotCounts, quoteProOrder } from "../_shared/potAllocation.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
   apiVersion: "2025-08-27.basil",
@@ -60,9 +66,10 @@ async function sendOrderConfirmationEmail(
   items: OrderItemLike[],
   totalAmount: number,
   shippingAddress: ShippingAddressLike | null,
-  business: { company: string | null; siret: string | null },
+  business: { company: string | null; siret: string | null; phone: string | null },
+  proOrder: ProOrderDetails | null,
 ) {
-  const input = { orderId, customerName, items, totalCents: totalAmount, shippingAddress, ...business };
+  const input = { orderId, customerName, items, totalCents: totalAmount, shippingAddress, ...business, proOrder };
   if (customerEmail) {
     await enqueueTransactional(customerEmail, "order-confirmation", `order-confirmation-${orderId}`, buildOrderConfirmationEmail(input));
   }
@@ -75,6 +82,33 @@ async function sendOrderConfirmationEmail(
   console.log("Order confirmation emails enqueued", { orderId });
 }
 
+
+// Commande pro payée depuis /professionnels (create-pro-checkout) : kg et pots posés par le serveur
+// dans les métadonnées. On recalcule le montant attendu (sans plafond de stock : la commande est payée).
+function proOrderFromSession(session: Stripe.Checkout.Session): ProOrderDetails | null {
+  const kg = Number(session.metadata?.kg);
+  const pots = parsePotCounts(session.metadata?.pots);
+  const order = quoteProOrder({
+    kg,
+    pots: pots ? { fixed: pots, autoSize: null } : null,
+    stock: { 12: null, 30: null, 45: null },
+  });
+  if (order.ok === false) {
+    console.error("Commande pro : métadonnées invalides", { sessionId: session.id, kg, pots: session.metadata?.pots });
+    // Contrainte orders_kg_range (1 à 45 kg) : hors plage, la commande est enregistrée sans le détail.
+    return Number.isFinite(kg) && kg >= 1 && kg <= 45
+      ? { kg, pots, bulkGrams: Math.max(0, Math.round(Number(session.metadata?.bulk_grams) || 0)) }
+      : null;
+  }
+  if (session.amount_total !== order.totalCents) {
+    console.error("Commande pro : montant payé différent du montant recalculé", {
+      sessionId: session.id,
+      expectedCents: order.totalCents,
+      stripeTotalCents: session.amount_total,
+    });
+  }
+  return { kg: order.kg, pots: order.pots?.pots ?? null, bulkGrams: order.pots?.bulkGrams ?? 0 };
+}
 
 // API Stripe >= 2025-03-31.basil : l'adresse est dans collected_information.shipping_details.
 // Repli sur l'ancien champ de premier niveau (sessions créées avec une version d'API antérieure).
@@ -301,6 +335,10 @@ serve(async (req) => {
 
     // Generate order ID to use for both insert and email
     const orderId = crypto.randomUUID();
+    const isProOrder = session.metadata?.type === PRO_ORDER_TYPE;
+    const proOrder = isProOrder ? proOrderFromSession(session) : null;
+    const { company, siret } = sessionBusiness(session);
+    const phone = session.customer_details?.phone ?? null;
 
     const { error: insertError } = await supabase.from("orders").insert({
       id: orderId,
@@ -317,6 +355,14 @@ serve(async (req) => {
           : session.payment_intent?.id || null,
       status: "paid",
       user_id: userId,
+      order_type: isProOrder ? PRO_ORDER_TYPE : "payment_link",
+      company_name: company,
+      // Contrainte orders_siret_format : 14 chiffres, sinon rien (le SIRET brut reste dans Stripe).
+      siret: siret && /^\d{14}$/.test(siret) ? siret : null,
+      phone,
+      kg: proOrder?.kg ?? null,
+      pots: proOrder?.pots ?? null,
+      bulk_grams: proOrder?.pots ? proOrder.bulkGrams : null,
     });
 
     if (insertError) {
@@ -330,7 +376,16 @@ serve(async (req) => {
 
     // Send confirmation email (non-blocking — don't fail the webhook on email error)
     try {
-      await sendOrderConfirmationEmail(orderId, customerEmail, customerName, items, session.amount_total || 0, shippingAddress, sessionBusiness(session));
+      await sendOrderConfirmationEmail(
+        orderId,
+        customerEmail,
+        customerName,
+        items,
+        session.amount_total || 0,
+        shippingAddress,
+        { company, siret, phone },
+        proOrder,
+      );
     } catch (emailErr) {
       console.error("Failed to send confirmation email (non-blocking):", emailErr);
     }
