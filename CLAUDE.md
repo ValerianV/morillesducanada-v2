@@ -76,6 +76,24 @@ envois de prospection et déploiements en production.
 | `/nouvelle-saison` | Mise à jour annuelle : saison, stock, prix, précommande, récit |
 | `/qualite-traceabilite` | Fiches lot, checklists qualité |
 
+## Économie de tokens (appliquée par tous les agents)
+
+Agent dédié : `econome-tokens` (`.claude/agents/econome-tokens.md`). Le consulter avant une mission coûteuse
+et après une session. Règles, les plus rentables en premier :
+
+1. **Modèle adapté** : `opus` pour l'architecture, la sécurité, les données et les arbitrages ; `sonnet` pour le
+   développement bien spécifié, la rédaction, la recherche web et la QA ; `haiku` pour les tâches mécaniques.
+2. **Contexte par référence** : les briefs pointent vers ce fichier et `docs/`, ils ne recopient pas l'offre ni l'historique.
+3. **Captures d'écran** : uniquement pour une question visuelle, en viewport, à échelle réduite, une par problème.
+   Pour un texte, lire le HTML (`curl | grep`, `get_page_text`).
+4. **Budget explicite** dans chaque brief : nombre de recherches web et de captures ; arrêt dès le livrable atteint.
+5. **Sorties filtrées** (`head`, `grep`, extraction des champs) ; jamais de JSON brut volumineux.
+6. **Reprendre un agent existant** (SendMessage) plutôt qu'en créer un, surtout après une coupure de quota.
+7. **Rapports courts** (20 lignes maximum), le détail dans un fichier.
+8. **Pas d'agent pour une tâche de moins de 5 minutes.**
+
+Ces règles ne touchent jamais aux garde-fous qualité : tests, build, vérification des faits, validations du fondateur.
+
 ## En fin de session significative
 
 1. Mettre à jour `docs/decisions.md` (décisions prises, avec date) et `docs/amelioration-continue.md`.
