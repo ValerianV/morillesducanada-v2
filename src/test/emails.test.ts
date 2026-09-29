@@ -133,10 +133,10 @@ describe("emails de commande", () => {
   it("commande pro avec pots : colis détaillé côté client, liste de préparation côté admin", () => {
     const proItems = [
       { name: "Morilles de feu sauvages du Canada — 2 kg (palier 1 kg, 350 €/kg)", quantity: 1, unit_amount: 70000 },
-      { name: "Pots en verre vides, sans étiquette — 56 pots (0×12 g, 36×30 g, 20×45 g)", quantity: 56, unit_amount: 100 },
+      { name: "Pots en verre vides, sans étiquette — 56 pots (0×12 g, 36×30 g, 20×45 g)", quantity: 56, unit_amount: 150 },
     ];
     const proOrder = { kg: 2, pots: { 12: 0, 30: 36, 45: 20 }, bulkGrams: 20 };
-    const input = { orderId, customerName: "Jeanne", items: proItems, totalCents: 75600, shippingAddress: address, company: "Épicerie <Fine>", siret: "80286194800023", phone: "+33612345678", proOrder };
+    const input = { orderId, customerName: "Jeanne", items: proItems, totalCents: 78400, shippingAddress: address, company: "Épicerie <Fine>", siret: "80286194800023", phone: "+33612345678", proOrder };
 
     const client = buildOrderConfirmationEmail(input);
     const html = plain(client.html).replace(/&nbsp;/g, " ");
@@ -144,8 +144,8 @@ describe("emails de commande", () => {
     expect(html).toContain("8 sachets sous vide de 250 g (2 kg de morilles).");
     expect(html).toContain("Pots en verre vides, sans étiquette, livrés à part : 20 pots de 45 g + 36 pots de 30 g.");
     expect(html).toContain("Vos pots contiendront 1 980 g ; reste en vrac : 20 g.");
-    expect(html).toContain("56 €");
-    expect(html).toContain("756 €");
+    expect(html).toContain("84 €");
+    expect(html).toContain("784 €");
     expect(html).toContain("Épicerie &lt;Fine&gt;");
     expect(html).toContain("802 861 948 00023");
     expect(html).toContain(TAX);

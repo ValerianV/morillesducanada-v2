@@ -19,7 +19,9 @@ import {
   type PotAllocationResult,
   type ProOrderQuoteResult,
 } from "@/lib/potAllocation";
-import { quote } from "@/lib/proPricing";
+import { formatEurosLocale, quote } from "@/lib/proPricing";
+import { fr } from "@/i18n/fr";
+import { en } from "@/i18n/en";
 
 const plain = (s: string) => s.replace(/\s/g, " ");
 
@@ -38,10 +40,10 @@ function errorCode(result: PotAllocationResult | ProOrderQuoteResult) {
 }
 
 describe("constantes des pots", () => {
-  it("trois formats, 1 € le pot, sans plafond de stock par défaut, 30 g en automatique", () => {
+  it("trois formats, 1,50 € le pot, stock provisoire du fondateur, 30 g en automatique", () => {
     expect([...POT_SIZES_G]).toEqual([12, 30, 45]);
-    expect(POT_PRICE_CENTS).toBe(100);
-    expect(POT_STOCK).toEqual({ 12: null, 30: null, 45: null });
+    expect(POT_PRICE_CENTS).toBe(150);
+    expect(POT_STOCK).toEqual({ 12: 250, 30: 250, 45: 200 });
     expect(POT_DEFAULT_AUTO_SIZE).toBe(30);
   });
 });
@@ -53,7 +55,7 @@ describe("allocatePots", () => {
     expect(r.gramsInPots).toBe(1980);
     expect(r.bulkGrams).toBe(20);
     expect(r.potCount).toBe(66);
-    expect(r.potsCents).toBe(6600);
+    expect(r.potsCents).toBe(9900);
   });
 
   it("2 kg avec 20 pots de 45 g et le reste en 30 g : 36 pots de 30 g et 20 g en vrac", () => {
@@ -62,7 +64,7 @@ describe("allocatePots", () => {
     expect(r.gramsInPots).toBe(1980);
     expect(r.bulkGrams).toBe(20);
     expect(r.potCount).toBe(56);
-    expect(r.potsCents).toBe(5600);
+    expect(r.potsCents).toBe(8400);
   });
 
   it("ignore la saisie du format automatique : il est toujours calculé", () => {
@@ -83,7 +85,7 @@ describe("allocatePots", () => {
     expect(r.pots).toEqual({ 12: 50, 30: 65, 45: 10 });
     expect(r.bulkGrams).toBe(0);
     expect(r.potCount).toBe(125);
-    expect(r.potsCents).toBe(12500);
+    expect(r.potsCents).toBe(18750);
   });
 
   it("sans format automatique : seuls les pots saisis, le reste en vrac dans les sachets", () => {
@@ -161,7 +163,7 @@ describe("allocatePots", () => {
   it("ne dépasse jamais la quantité et laisse toujours moins d'un pot en vrac (1 à 45 kg, chaque format)", () => {
     for (let kg = 1; kg <= 45; kg += 0.5) {
       for (const size of POT_SIZES_G) {
-        const r = ok(allocatePots({ totalGrams: kg * 1000, fixed: {}, autoSize: size }));
+        const r = ok(allocatePots({ totalGrams: kg * 1000, fixed: {}, autoSize: size, stock: { 12: null, 30: null, 45: null } }));
         expect(r.gramsInPots + r.bulkGrams).toBe(kg * 1000);
         expect(r.bulkGrams).toBeGreaterThanOrEqual(0);
         expect(r.bulkGrams).toBeLessThan(size);
@@ -171,13 +173,13 @@ describe("allocatePots", () => {
 });
 
 describe("quoteProOrder", () => {
-  it("2 kg, 20 pots de 45 g, le reste en 30 g : morilles 700 € + pots 56 € = 756 €", () => {
+  it("2 kg, 20 pots de 45 g, le reste en 30 g : morilles 700 € + pots 84 € = 784 €", () => {
     const q = okOrder(quoteProOrder({ kg: 2, pots: { fixed: { 45: 20 }, autoSize: 30 } }));
     expect(q.bags).toBe(8);
     expect(q.morels.tier.id).toBe("1kg");
     expect(q.morelsCents).toBe(70000);
-    expect(q.potsCents).toBe(5600);
-    expect(q.totalCents).toBe(75600);
+    expect(q.potsCents).toBe(8400);
+    expect(q.totalCents).toBe(78400);
     expect(q.pots!.pots).toEqual({ 12: 0, 30: 36, 45: 20 });
   });
 
@@ -199,10 +201,19 @@ describe("quoteProOrder", () => {
     expect(zero.potsCents).toBe(0);
   });
 
-  it("10 kg tout en 30 g : 333 pots, palier 10 kg", () => {
-    const q = okOrder(quoteProOrder({ kg: 10, pots: { fixed: {}, autoSize: 30 } }));
+  it("10 kg tout en 30 g : 333 pots, refusé avec le stock provisoire (250), accepté sans plafond", () => {
+    const capped = quoteProOrder({ kg: 10, pots: { fixed: {}, autoSize: 30 } });
+    expect(errorCode(capped)).toBe("insufficient_stock");
+    if (capped.ok === false) expect(capped.error.message.fr).toBe("Stock insuffisant en pots de 30 g : 250 disponibles, 333 demandés.");
+    const q = okOrder(quoteProOrder({ kg: 10, pots: { fixed: {}, autoSize: 30 }, stock: { 12: null, 30: null, 45: null } }));
     expect(q.pots!.potCount).toBe(333);
-    expect(q.totalCents).toBe(290000 + 33300);
+    expect(q.totalCents).toBe(290000 + 333 * 150);
+  });
+
+  it("stock provisoire : 200 pots de 45 g acceptés, 201 refusés", () => {
+    expect(okOrder(quoteProOrder({ kg: 10, pots: { fixed: { 45: 200 }, autoSize: null } })).potsCents).toBe(30000);
+    expect(errorCode(quoteProOrder({ kg: 10, pots: { fixed: { 45: 201 }, autoSize: null } }))).toBe("insufficient_stock");
+    expect(errorCode(quoteProOrder({ kg: 5, pots: { fixed: { 12: 251 }, autoSize: null } }))).toBe("insufficient_stock");
   });
 
   it("propage les erreurs : quantité invalide, pots trop nombreux, stock", () => {
@@ -291,5 +302,21 @@ describe("libellés", () => {
     expect(parsePotCounts("50:1")).toBeNull();
     expect(parsePotCounts("12:-1")).toBeNull();
     expect(parsePotCounts(undefined)).toBeNull();
+  });
+});
+
+describe("textes du site", () => {
+  it("annoncent le prix du pot défini dans POT_PRICE_CENTS, en FR et en EN", () => {
+    const frPrice = plain(formatEurosLocale(POT_PRICE_CENTS, "fr"));
+    const enPrice = formatEurosLocale(POT_PRICE_CENTS, "en");
+    expect(plain(fr.pro.order.potsOption)).toContain(frPrice);
+    expect(en.pro.order.potsOption).toContain(enPrice);
+    const frPotsFaq = fr.pro.faq.items.find((i) => i.q.startsWith("Proposez-vous des pots"))!;
+    const enPotsFaq = en.pro.faq.items.find((i) => i.q.startsWith("Do you offer jars"))!;
+    expect(plain(frPotsFaq.a)).toContain(`${frPrice} le pot`);
+    expect(enPotsFaq.a).toContain(`${enPrice} per jar`);
+    for (const text of [JSON.stringify(fr), JSON.stringify(en)]) {
+      expect(plain(text)).not.toMatch(/(^|[^,\d])1 € le pot|€1 per jar/);
+    }
   });
 });

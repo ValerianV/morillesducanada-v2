@@ -12,11 +12,12 @@ export const POT_SIZES_G = [12, 30, 45] as const;
 export type PotSize = (typeof POT_SIZES_G)[number];
 export type PotCounts = Record<PotSize, number>;
 
-// 1 € net par pot, quelle que soit la taille (décision du fondateur, 2026-09-29).
-export const POT_PRICE_CENTS = 100;
+// 1,50 € net par pot, quelle que soit la taille (décision du fondateur, 2026-09-29).
+export const POT_PRICE_CENTS = 150;
 
-// Pots disponibles par format. null = pas de plafond (chiffres à fournir par le fondateur).
-export const POT_STOCK: Record<PotSize, number | null> = { 12: null, 30: null, 45: null };
+// Pots disponibles par format (chiffres provisoires du fondateur, 2026-09-29). null = pas de plafond.
+// Tout dépassement est refusé, sur le site comme dans create-pro-checkout.
+export const POT_STOCK: Record<PotSize, number | null> = { 12: 250, 30: 250, 45: 200 };
 
 export const POT_DEFAULT_AUTO_SIZE: PotSize = 30;
 
