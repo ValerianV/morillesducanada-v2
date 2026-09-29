@@ -204,7 +204,7 @@ const ProOrderConfigurator = () => {
                     return (
                       <li
                         key={size}
-                        className={`grid grid-cols-[56px_minmax(0,1fr)_92px] items-center gap-3 p-3 rounded-sm border ${
+                        className={`grid grid-cols-[56px_minmax(0,1fr)_84px] items-center gap-3 p-3 rounded-sm border ${
                           isAuto ? "border-primary/60 bg-primary/5" : "border-gold/15"
                         }`}
                       >
@@ -219,14 +219,14 @@ const ProOrderConfigurator = () => {
                           }}
                         />
                         <div className="min-w-0">
-                          <p className="font-serif text-lg text-foreground leading-tight">
+                          <p className="font-serif text-lg text-foreground leading-tight whitespace-nowrap">
                             {t("pro.order.potLabel").replace("{size}", String(size))}
-                            {POT_STOCK[size] !== null && (
-                              <span className="ml-2 font-sans text-xs text-foreground/70 whitespace-nowrap">
-                                {t("pro.order.potStock").replace("{n}", String(POT_STOCK[size]))}
-                              </span>
-                            )}
                           </p>
+                          {POT_STOCK[size] !== null && (
+                            <p className="text-xs text-foreground/70">
+                              {t("pro.order.potStock").replace("{n}", String(POT_STOCK[size]))}
+                            </p>
+                          )}
                           <label className="mt-1.5 inline-flex items-center gap-2 text-sm text-foreground/85 cursor-pointer">
                             <input
                               type="radio"

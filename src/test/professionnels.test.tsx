@@ -141,7 +141,7 @@ describe("page /professionnels", () => {
     it("change de format automatique et signale les pots trop nombreux", () => {
       renderPage();
       fireEvent.click(screen.getByLabelText(/Ajouter des pots en verre vides/));
-      const radios = screen.getAllByLabelText("Compléter avec ce format");
+      const radios = screen.getAllByLabelText("Compléter");
       fireEvent.click(radios[2]); // 45 g
       expect(summary()).toContain("44 pots de 45 g");
       fireEvent.change(screen.getByLabelText("Nombre de pots de 30 g"), { target: { value: "70" } });

@@ -183,7 +183,7 @@ export const fr = {
       potLabel: "Pot de {size} g",
       potCount: "Nombre de pots de {size} g",
       potStock: "{n} disponibles",
-      autoLabel: "Compléter avec ce format",
+      autoLabel: "Compléter",
       autoValue: "calculé",
       noAuto: "Ne rien compléter : le reste est livré en sachets",
       summaryTitle: "Récapitulatif",
