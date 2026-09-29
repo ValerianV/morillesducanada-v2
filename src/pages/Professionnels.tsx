@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProPriceTable from "@/components/pro/ProPriceTable";
 import ProLeadForm from "@/components/pro/ProLeadForm";
+import ProOrderConfigurator from "@/components/pro/ProOrderConfigurator";
 import WildVsCultivated from "@/components/WildVsCultivated";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useI18n } from "@/i18n/context";
@@ -120,8 +121,14 @@ const Professionnels = () => {
           <section id="tarifs" className={section}>
             <SectionHeading label={pro.pricing.label} title={pro.pricing.title} />
             <div className="max-w-3xl">
-              <ProPriceTable />
+              <ProPriceTable showOrderLink={false} />
             </div>
+          </section>
+
+          {/* Commande en ligne : quantité, pots en option, paiement Stripe */}
+          <section id="commander" className={`${section} scroll-mt-24`}>
+            <SectionHeading label={pro.order.label} title={pro.order.title} />
+            <ProOrderConfigurator />
           </section>
 
           {/* 3. Pour qui */}

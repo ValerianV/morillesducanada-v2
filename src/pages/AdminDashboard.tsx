@@ -7,6 +7,8 @@ import ProLeadsTab from "@/components/admin/ProLeadsTab";
 import Preorders2027Tab from "@/components/admin/Preorders2027Tab";
 import { exportCsv } from "@/lib/csv";
 import { formatEurosLocale } from "@/lib/proPricing";
+import { formatPreparationList } from "@/lib/potAllocation";
+import { formatSiret } from "../../supabase/functions/_shared/siret";
 import { toast } from "sonner";
 
 type Order = {
@@ -22,7 +24,24 @@ type Order = {
   tracking_number: string | null;
   tracking_url: string | null;
   carrier: string | null;
+  // Commandes pros (migration 20260929090000_orders_pro_pots).
+  order_type?: string | null;
+  company_name?: string | null;
+  siret?: string | null;
+  phone?: string | null;
+  kg?: number | null;
+  pots?: unknown;
+  bulk_grams?: number | null;
 };
+
+// Liste de préparation : « 2 kg = 8 sachets de 250 g · 20 pots de 45 g · 36 pots de 30 g · 0 pot de 12 g ».
+function orderPreparation(order: Order): string | null {
+  if (!order.kg) return null;
+  const raw = order.pots && typeof order.pots === "object" ? (order.pots as Record<string, unknown>) : null;
+  const pots = raw ? { 12: Number(raw[12]) || 0, 30: Number(raw[30]) || 0, 45: Number(raw[45]) || 0 } : null;
+  const detail = formatPreparationList(Number(order.kg), pots);
+  return pots && order.bulk_grams ? `${detail} · ${order.bulk_grams} g en vrac` : detail;
+}
 
 type Review = {
   id: string;
@@ -151,7 +170,22 @@ const AdminDashboard = () => {
   const filteredOrders = statusFilter === "all" ? orders : orders.filter((o) => o.status === statusFilter);
 
   const handleExportOrders = () => {
-    exportCsv("commandes.csv", ["ID", "Client", "Email", "Statut", "Total", "Date"], filteredOrders.map((o) => [o.id, o.customer_name, o.email, o.status, `${(o.total_amount / 100).toFixed(2)}€`, new Date(o.created_at).toLocaleDateString("fr-FR")]));
+    exportCsv(
+      "commandes.csv",
+      ["ID", "Client", "Société", "SIRET", "Email", "Téléphone", "Préparation", "Statut", "Total", "Date"],
+      filteredOrders.map((o) => [
+        o.id,
+        o.customer_name,
+        o.company_name ?? "",
+        o.siret ?? "",
+        o.email,
+        o.phone ?? "",
+        orderPreparation(o) ?? "",
+        o.status,
+        `${(o.total_amount / 100).toFixed(2)}€`,
+        new Date(o.created_at).toLocaleDateString("fr-FR"),
+      ]),
+    );
   };
 
   if (isAdmin === null) {
@@ -256,6 +290,7 @@ const AdminDashboard = () => {
                     <th className="py-3 px-3">Date</th>
                     <th className="py-3 px-3">Client</th>
                     <th className="py-3 px-3">Email</th>
+                    <th className="py-3 px-3">Préparation</th>
                     <th className="py-3 px-3">Total</th>
                     <th className="py-3 px-3">Suivi</th>
                     <th className="py-3 px-3">Statut</th>
@@ -264,12 +299,22 @@ const AdminDashboard = () => {
                 </thead>
                 <tbody>
                   {filteredOrders.length === 0 ? (
-                    <tr><td colSpan={7} className="py-12 text-center text-muted-foreground font-light">Aucune commande</td></tr>
+                    <tr><td colSpan={8} className="py-12 text-center text-muted-foreground font-light">Aucune commande</td></tr>
                   ) : filteredOrders.map((order) => (
                     <tr key={order.id} className="border-b border-gold/10 hover:bg-secondary/10">
                       <td className="py-3 px-3 text-muted-foreground">{new Date(order.created_at).toLocaleDateString("fr-FR")}</td>
-                      <td className="py-3 px-3 font-medium">{order.customer_name}</td>
-                      <td className="py-3 px-3 text-muted-foreground">{order.email}</td>
+                      <td className="py-3 px-3">
+                        <div className="font-medium">{order.company_name || order.customer_name}</div>
+                        {order.company_name && <div className="text-xs text-muted-foreground">{order.customer_name}</div>}
+                        {order.siret && <div className="text-xs text-muted-foreground">SIRET {formatSiret(order.siret)}</div>}
+                      </td>
+                      <td className="py-3 px-3 text-muted-foreground">
+                        {order.email}
+                        {order.phone && <div className="text-xs">{order.phone}</div>}
+                      </td>
+                      <td className="py-3 px-3 text-xs text-foreground/85 max-w-[260px]">
+                        {orderPreparation(order) ?? <span className="text-muted-foreground/50">—</span>}
+                      </td>
                       <td className="py-3 px-3 text-primary">{formatEurosLocale(order.total_amount)}</td>
                       <td className="py-3 px-3">
                         {order.tracking_number ? (

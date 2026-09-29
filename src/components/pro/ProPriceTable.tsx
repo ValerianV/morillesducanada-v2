@@ -1,7 +1,7 @@
+import { Link } from "react-router-dom";
 import { useI18n } from "@/i18n/context";
 import {
   PRO_ONLY_MENTION,
-  PRO_PAYMENT_LINKS,
   PRO_TAX_MENTION,
   PRO_TIERS,
   formatEurosLocale,
@@ -10,9 +10,9 @@ import {
   quote,
 } from "@/lib/proPricing";
 
-// Grille au kilo (source : supabase/functions/_shared/proPricing.ts), avec le lien de paiement
-// Stripe de chaque palier pour la quantité de seuil (port inclus, France).
-const ProPriceTable = ({ showPayLinks = true }: { showPayLinks?: boolean }) => {
+// Grille au kilo (source : supabase/functions/_shared/proPricing.ts). Hors de /professionnels,
+// renvoie vers le configurateur de commande en ligne (quantité au choix, pots en option).
+const ProPriceTable = ({ showOrderLink = true }: { showOrderLink?: boolean }) => {
   const { t, locale } = useI18n();
 
   return (
@@ -57,29 +57,18 @@ const ProPriceTable = ({ showPayLinks = true }: { showPayLinks?: boolean }) => {
       <p className="mt-1 text-base text-foreground/85">{t("pro.pricing.packaging")}</p>
       <p className="mt-1 text-base text-foreground/85">{PRO_ONLY_MENTION[locale]}</p>
 
-      {showPayLinks && (
-        <div className="mt-6 p-5 border border-gold/20 rounded-sm bg-secondary/20">
-          <p className="font-serif text-xl text-foreground">{t("pro.pricing.payTitle")}</p>
-          <p className="mt-1 text-base text-foreground/85">{t("pro.pricing.payText")}</p>
-          <ul className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {PRO_TIERS.map((tier) => {
-              const example = quote(tier.minKg);
-              if (!example) return null;
-              return (
-                <li key={tier.id}>
-                  <a
-                    href={PRO_PAYMENT_LINKS[tier.id]}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex flex-col items-center justify-center px-3 py-3 border border-primary/50 rounded-sm text-center hover:bg-primary/10 hover:border-primary transition-colors"
-                  >
-                    <span className="text-base font-medium text-foreground">{formatKg(example.kg, locale)}</span>
-                    <span className="text-sm text-primary">{formatEurosLocale(example.totalCents, locale)}</span>
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
+      {showOrderLink && (
+        <div className="mt-6 p-5 border border-gold/20 rounded-sm bg-secondary/20 sm:flex sm:items-center sm:justify-between gap-6">
+          <div>
+            <p className="font-serif text-xl text-foreground">{t("pro.pricing.payTitle")}</p>
+            <p className="mt-1 text-base text-foreground/85">{t("pro.pricing.payText")}</p>
+          </div>
+          <Link
+            to="/professionnels#commander"
+            className="mt-4 sm:mt-0 shrink-0 inline-block px-6 py-3 border border-primary/60 text-foreground font-medium tracking-wider uppercase text-sm rounded-sm hover:border-primary hover:text-primary transition-colors"
+          >
+            {t("pro.pricing.payCta")}
+          </Link>
         </div>
       )}
     </div>

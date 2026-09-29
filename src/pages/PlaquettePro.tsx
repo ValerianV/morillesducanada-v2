@@ -9,6 +9,7 @@ import valerianPortrait from "@/assets/valerian-portrait.webp";
 import terrainPhoto from "@/assets/morels/morilles-groupe-foret-brulee.webp";
 import { EDITEUR } from "@/lib/legal";
 import { PREORDER_2027 } from "@/lib/preorder";
+import { POT_PRICE_CENTS, POT_SIZES_G } from "@/lib/potAllocation";
 import {
   PRO_MAX_KG,
   PRO_MIN_KG,
@@ -193,7 +194,10 @@ const PlaquettePro = () => (
           <div className="grid sm:grid-cols-3 gap-4">
             {[
               { t: "Chefs et restaurants", d: "Pas de pied à retirer en cuisine. Le prix au kilo baisse dès 3 kg." },
-              { t: "Épiceries fines", d: "Pour les épiceries : morilles en sachets sous vide, à reconditionner sous votre marque." },
+              {
+                t: "Épiceries fines",
+                d: `Morilles en sachets sous vide, à reconditionner sous votre marque. En option : pots en verre vides de ${POT_SIZES_G.join(", ").replace(/, (\d+)$/, " ou $1")} g, sans étiquette, à ${formatEurosLocale(POT_PRICE_CENTS)} le pot, livrés à part.`,
+              },
               { t: "Traiteurs et distributeurs", d: "Un prix net connu à l'avance pour chiffrer vos prestations, jusqu'à 45 kg." },
             ].map((c) => (
               <div key={c.t} className="bg-[#f5f2eb] border-l-2 border-[#c9a84c] px-4 py-3">
@@ -250,8 +254,8 @@ const PlaquettePro = () => (
             <ol className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {[
                 { t: "Devis", d: `Réponse sous ${PRO_QUOTE_REPLY_HOURS} h ouvrées` },
-                { t: "Ou lien de paiement", d: "1, 3, 5 ou 10 kg" },
-                { t: "Paiement", d: "À la commande : carte (lien Stripe) ou virement sur facture" },
+                { t: "Ou commande en ligne", d: "Quantité au choix, pots en option" },
+                { t: "Paiement", d: "À la commande : carte (paiement Stripe) ou virement sur facture" },
                 { t: "Expédition", d: `Sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés, port inclus` },
               ].map((s, i) => (
                 <li key={s.t} className="text-center">

@@ -28,7 +28,8 @@ Morilles du Canada est une micro-entreprise française (entrepreneur individuel)
 - Prix nets — TVA non applicable, art. 293 B du CGI.
 - 1 kg = 350 €/kg ; 3 kg et plus = 330 €/kg ; 5 kg et plus = 310 €/kg ; 10 kg et plus = 290 €/kg. De 1 à 45 kg, par tranche de 500 g.
 - Livraison en France uniquement, port inclus. Expédition sous 5 jours ouvrés.
-- Commande sur devis (réponse sous 48 h ouvrées) ou par lien de paiement Stripe. Paiement à la commande, par carte ou virement.
+- Commande sur devis (réponse sous 48 h ouvrées) ou en ligne sur https://www.morillesducanada.com/professionnels (quantité au choix, paiement par carte Stripe). Paiement à la commande, par carte ou virement.
+- Option pots : pots en verre vides de 12, 30 ou 45 g, sans étiquette, à 1,50 € le pot, livrés à part des sachets (l'épicerie les remplit et les étiquette).
 
 ## Précommande saison 2027
 

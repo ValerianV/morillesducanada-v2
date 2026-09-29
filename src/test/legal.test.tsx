@@ -42,7 +42,7 @@ describe("CGV", () => {
   });
 
   it("prévoit paiement à la commande, pénalités de retard et indemnité de 40 €", () => {
-    expect(text).toContain("Le paiement est dû à la commande : par carte bancaire sur le lien de paiement sécurisé Stripe, ou par virement");
+    expect(text).toContain("Le paiement est dû à la commande : par carte bancaire sur la page de paiement sécurisée Stripe (commande en ligne ou lien de paiement), ou par virement");
     expect(text).toContain("trois fois le taux d'intérêt légal");
     expect(text).toContain("indemnité forfaitaire pour frais de recouvrement de 40 €");
   });

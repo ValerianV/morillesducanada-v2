@@ -11,6 +11,7 @@ import {
   PRO_TIERS,
 } from "@/lib/proPricing";
 import { PREORDER_2027 } from "@/lib/preorder";
+import { POT_PRICE_CENTS, POT_SIZES_G } from "@/lib/potAllocation";
 import {
   absoluteUrl,
   CONTACT_EMAIL,
@@ -131,7 +132,7 @@ export function proOfferSchema(): JsonLd {
     "@type": "Product",
     "@id": `${absoluteUrl("/professionnels")}#offre-pro`,
     name: "Morilles séchées au kilo — offre professionnelle",
-    description: `Morilles sauvages du Canada, séchées, entières et équeutées, variétés mélangées. ${PRO_STOCK_KG} kg en stock en France, sachets sous vide de ${PRO_PACK_GRAMS} g, expédition sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés, port inclus en France. Vente réservée aux professionnels. ${PRO_TAX_MENTION.fr}.`,
+    description: `Morilles sauvages du Canada, séchées, entières et équeutées, variétés mélangées. ${PRO_STOCK_KG} kg en stock en France, sachets sous vide de ${PRO_PACK_GRAMS} g, expédition sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés, port inclus en France. En option, pots en verre vides de ${POT_SIZES_G.join(", ")} g, sans étiquette, à ${euros(POT_PRICE_CENTS / 100).replace(".", ",")} € le pot. Vente réservée aux professionnels. ${PRO_TAX_MENTION.fr}.`,
     brand: { "@type": "Brand", name: SITE_NAME },
     category: "Champignons séchés",
     countryOfOrigin: { "@type": "Country", name: "Canada" },

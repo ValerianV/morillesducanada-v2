@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import LegalPage from "@/components/LegalPage";
 import { EDITEUR } from "@/lib/legal";
 import { PREORDER_2027 } from "@/lib/preorder";
+import { POT_PRICE_CENTS, POT_SIZES_G } from "@/lib/potAllocation";
 import {
   PRO_KG_STEP,
   PRO_MAX_KG,
@@ -29,7 +30,7 @@ const CGV = () => (
     description="CGV de Morilles du Canada, vente réservée aux professionnels : commande sur devis ou lien de paiement, prix nets (art. 293 B du CGI), paiement à la commande, livraison en France port inclus."
     path="/cgv"
     breadcrumb="CGV"
-    intro={<p>Version du 28 septembre 2026. Les ventes de Morilles du Canada sont réservées aux professionnels.</p>}
+    intro={<p>Version du 29 septembre 2026. Les ventes de Morilles du Canada sont réservées aux professionnels.</p>}
   >
     <section>
       <h2>Article 1 — Vendeur et champ d'application</h2>
@@ -66,7 +67,9 @@ const CGV = () => (
           confirme le devis sous {PRO_QUOTE_REPLY_HOURS} h ouvrées ; la commande est ferme à l'acceptation du devis par le client ;
         </li>
         <li>
-          <strong>par lien de paiement</strong> pour 1, 3, 5 ou 10 kg : la commande est ferme au paiement ;
+          <strong>en ligne</strong>, sur la page <Link to="/professionnels">Professionnels</Link>, pour la quantité choisie et,
+          en option, des pots en verre vides (article 4), ou <strong>par lien de paiement</strong> : la commande est ferme au
+          paiement ;
         </li>
         <li>
           <strong>en précommande</strong> pour la saison {PREORDER_2027.season} (article 10).
@@ -91,14 +94,19 @@ const CGV = () => (
       </ul>
       <p>
         Le prix du palier atteint s'applique à toute la quantité commandée. <strong>{PRO_TAX_MENTION.fr}.</strong> Les prix
-        comprennent la livraison en France. Le prix applicable est celui du devis accepté ou du lien de paiement utilisé.
+        comprennent la livraison en France. Le prix applicable est celui du devis accepté ou de la commande payée en ligne.
+      </p>
+      <p>
+        Option pots : pots en verre vides de {POT_SIZES_G.join(", ")} g, sans étiquette, à {formatEurosLocale(POT_PRICE_CENTS)} net
+        le pot, quelle que soit la taille. Ils sont livrés vides, à part des sachets ; le client les remplit et les étiquette
+        lui-même. La quantité de morilles ne change pas : le reste de moins d&apos;un pot est livré en vrac.
       </p>
     </section>
 
     <section>
       <h2>Article 5 — Paiement</h2>
       <p>
-        Le paiement est dû à la commande : par carte bancaire sur le lien de paiement sécurisé Stripe, ou par virement
+        Le paiement est dû à la commande : par carte bancaire sur la page de paiement sécurisée Stripe (commande en ligne ou lien de paiement), ou par virement
         sur les coordonnées bancaires indiquées sur la facture émise après devis. La commande est expédiée après réception du paiement. Une facture
         mentionnant le numéro SIRET du vendeur est établie pour chaque commande.
       </p>
