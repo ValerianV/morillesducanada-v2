@@ -42,16 +42,17 @@ non appliquées** : elles contiennent l'URL de l'ancien projet. Appliquer à la 
 | 6 | `20260928120000_cron_io_optimisation.sql` | cron emails toutes les 5 min + purge du journal cron (**déjà appliquée à la main en production le 2026-09-28** : la marquer comme appliquée) |
 | 7 | `20260928130000_siret_professionnels.sql` | colonnes `siret` (pro_leads, pre_orders), un échantillon par SIRET. **Avant** submit-pro-lead et stripe-webhook |
 | 8 | `20260928130100_recettes_sans_fume.sql` | textes des recettes sans « fumé » ni superlatifs (données) |
+| 9 | `20260929090000_orders_pro_pots.sql` | colonnes `orders` (type, société, SIRET, téléphone, kg, pots, vrac). **Avant** stripe-webhook : sinon toute commande échoue à l'insertion |
 
 ```bash
-supabase migration repair --status applied 20260928090000 20260928090100 20260928090200 20260928100000 20260928110000 20260928120000 20260928130000 20260928130100 --project-ref oeweykyazadobobjncfg
+supabase migration repair --status applied 20260928090000 20260928090100 20260928090200 20260928100000 20260928110000 20260928120000 20260928130000 20260928130100 20260929090000 --project-ref oeweykyazadobobjncfg
 ```
 Toutes les migrations sont idempotentes (rejouables sans effet de bord).
 
 ## 3. Edge functions
 
 ```bash
-supabase functions deploy create-checkout create-preorder-checkout stripe-webhook submit-pro-lead \
+supabase functions deploy create-checkout create-preorder-checkout create-pro-checkout stripe-webhook submit-pro-lead \
   notify-order-status notify-contact auth-email-hook generate-invoice --project-ref oeweykyazadobobjncfg
 ```
 `submit-pro-lead` et `create-*` : `verify_jwt = false` (voir `supabase/config.toml`).

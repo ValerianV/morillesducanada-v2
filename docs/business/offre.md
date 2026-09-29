@@ -1,6 +1,6 @@
 # Offre commerciale — source de vérité
 
-Dernière mise à jour : 2026-09-28. Toute modification doit être validée par le fondateur
+Dernière mise à jour : 2026-09-29. Toute modification doit être validée par le fondateur
 et reportée dans `docs/decisions.md`, le code (`supabase/functions/_shared/proPricing.ts`,
 `_shared/catalog.ts`), Stripe et les emails (`docs/commercial/`). Lancer ensuite `/verifier-coherence`.
 
@@ -20,7 +20,7 @@ Plus de panier, plus de pots ni de sous vide au détail, plus de compte client p
 - Variétés mélangées (brune, blonde, grise). Pas de vente par variété.
 - Stock physiquement en France.
 - Conditionnement des commandes : **sachets sous vide de 250 g** (par exemple, 3 kg = 12 sachets).
-- Épiceries fines : vrac sous vide uniquement, à reconditionner sous leur marque. Pas de pots revendeur.
+- Épiceries fines : sachets sous vide à reconditionner sous leur marque, avec en option des **pots en verre vides** (voir « Option pots »).
 - Goût : arôme intense, chair ferme. **Aucune note « fumée »** (non validée).
 
 ## Statut fiscal
@@ -45,11 +45,31 @@ Factures : SIRET du vendeur, numéro, date, client (raison sociale et SIRET), d�
   `company` et `siret`) : réglage à faire côté Stripe par le directeur.
 - **Prix plancher de négociation : voir `docs/interne/confidentiel.md` (non versionné). Jamais sur le site ni dans un email.**
 
+## Option pots (décision du 2026-09-29)
+
+Surtout pour les épiceries, qui remplissent et étiquettent elles-mêmes.
+
+- Pots en verre **vides, sans étiquette**, refermables, en **12, 30 et 45 g**.
+- **1,50 € net par pot, quelle que soit la taille** (TVA non applicable, art. 293 B). Morilles au prix de la grille.
+- Les morilles partent en sachets sous vide de 250 g ; les pots partent **vides, à part**.
+- Le client choisit sa quantité (1 à 45 kg, pas de 0,5 kg), puis le nombre de pots par format ;
+  un format « compléter » se remplit automatiquement : floor((grammes − pots saisis) / taille).
+  Le reste de moins d'un pot est livré **en vrac**, dans les sachets. Exemple : 2 kg = 20 pots de 45 g
+  + 36 pots de 30 g = 56 pots, 1 980 g en pots, 20 g en vrac, **700 € + 84 € = 784 €**.
+- Stock de pots **provisoire** : 250 × 12 g, 250 × 30 g, 200 × 45 g. Tout dépassement est refusé
+  (site et serveur). Le stock n'est pas décompté automatiquement : mettre à jour `POT_STOCK` après les ventes.
+- Commande possible sans pots.
+- Code : `supabase/functions/_shared/potAllocation.ts` (`POT_PRICE_CENTS`, `POT_STOCK`, calcul),
+  configurateur `src/components/pro/ProOrderConfigurator.tsx`, edge function `create-pro-checkout`.
+- Jamais de prix d'achat des pots dans le code ni dans les docs versionnés.
+
 ## Commander
 
-1. **Devis en ligne** sur `/professionnels` (SIRET obligatoire, clé de Luhn vérifiée) : réponse **sous 48 h ouvrées**.
-2. **Paiement direct** par les liens Stripe ci-dessus (1, 3, 5 ou 10 kg).
-3. **Virement sur facture** : par Stripe (IBAN dédié par client) ou sur les coordonnées bancaires indiquées
+1. **Commande en ligne** sur `/professionnels#commander` : quantité au choix, pots en option, paiement par carte
+   (session Stripe calculée par le serveur pour la commande ; société et SIRET obligatoires, France uniquement).
+2. **Devis en ligne** sur `/professionnels` (SIRET obligatoire, clé de Luhn vérifiée) : réponse **sous 48 h ouvrées**.
+3. **Liens de paiement** Stripe ci-dessus (1, 3, 5 ou 10 kg) : retirés du site, utilisables en envoi direct.
+4. **Virement sur facture** : par Stripe (IBAN dédié par client) ou sur les coordonnées bancaires indiquées
    sur la facture. Aucun IBAN dans le code, les docs ou les modèles d'email.
 
 Paiement **à la commande** (carte ou virement). Pénalités de retard : 3 fois le taux d'intérêt légal ;
@@ -59,7 +79,7 @@ Réclamation transport : sous 48 h à réception.
 ## Échantillon
 
 Un **pot en verre de 30 g**, refermable, offert par établissement (formulaire `/professionnels`, un par SIRET).
-Les pots de 12, 30 et 45 g (en verre, refermables) ne servent plus qu'aux échantillons.
+Les pots de 12, 30 et 45 g (en verre, refermables) servent aussi à l'option pots (livrés vides, voir plus haut).
 
 ## Précommande saison 2027 (professionnels uniquement)
 

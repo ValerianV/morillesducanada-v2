@@ -4,6 +4,18 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-09-29 — Option pots en verre vides et commande en ligne
+
+- Décision du fondateur : proposer, surtout aux épiceries, des **pots en verre vides, sans étiquette**
+  (12, 30 et 45 g) avec la commande au kilo, à **1,50 € net le pot**, toutes tailles. Les morilles
+  partent en sachets de 250 g, les pots à part ; l'épicerie remplit et étiquette.
+- Stock de pots provisoire : 250 × 12 g, 250 × 30 g, 200 × 45 g ; tout dépassement refusé (site et serveur).
+- Configurateur sur `/professionnels#commander` : 1 à 45 kg (pas de 0,5 kg), pots par format, un format
+  complété automatiquement, reste en vrac ; paiement par une session Stripe calculée côté serveur
+  (`create-pro-checkout`). Les quatre liens de paiement ne sont plus affichés sur le site.
+- CGV (art. 3, 4, 5) mises à jour en conséquence, version du 29 septembre 2026 : **à relire par le fondateur**.
+- Remplace « Épiceries fines : vrac sous vide uniquement » et « pots uniquement pour les échantillons » (2026-09-28).
+
 ## 2026-09-28 — Site 100 % professionnel
 
 - Décision du fondateur : **le site ne vend plus qu'aux professionnels**. Raison : la vente aux

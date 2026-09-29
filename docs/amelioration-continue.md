@@ -26,6 +26,8 @@
 - [ ] Google Search Console + sitemap.
 - [ ] Stock réel dans une table Supabase (aujourd'hui « 45 kg » est une constante) et décompte automatique.
 - [ ] Colonne `statut` dans `docs/commercial/prospects.csv` ou CRM (à décider).
+- [ ] Option pots : stock définitif et décompte automatique (aujourd'hui `POT_STOCK` est une constante provisoire) ; relecture des CGV du 29 septembre 2026 par le fondateur.
+- [ ] `supabase/config.toml` : `create-preorder-checkout` absent (verify_jwt par défaut), à aligner sur `create-pro-checkout`.
 
 ### P2
 - [x] Lien du hook d'authentification sans jeton de vérification (B8 de l'audit dev) : corrigé

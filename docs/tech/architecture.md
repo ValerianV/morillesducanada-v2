@@ -20,8 +20,9 @@ Navigateur ──► Vercel (SPA React prérendue, dist/)
 | Fonction | Rôle | Auth |
 |---|---|---|
 | `create-checkout` | Ancien panier de détail : **fermé**, répond 410 avec un message clair | publique (anon) |
+| `create-pro-checkout` | Commande pro en ligne : kg + pots en option (`_shared/potAllocation.ts`), session Stripe en `price_data` recalculée côté serveur, société et SIRET obligatoires, France uniquement, `metadata.type=pro_order` | publique (anon) |
 | `create-preorder-checkout` | Précommande 2027 (pros) : acompte 50 %, 1–15 kg, société et SIRET obligatoires (champs Stripe) | publique (anon) |
-| `stripe-webhook` | `checkout.session.completed` (liens de paiement pros, précommande) → orders / pre_orders + emails ; lit société et SIRET | signature Stripe |
+| `stripe-webhook` | `checkout.session.completed` (commande pro en ligne, liens de paiement pros, précommande) → orders / pre_orders + emails (liste de préparation pour l'admin) ; enregistre société, SIRET, téléphone, kg, pots | signature Stripe |
 | `submit-pro-lead` | Devis / échantillon pro (SIRET obligatoire, clé de Luhn) → `pro_leads` + alerte contact@ + accusé de réception | publique, honeypot, 5/h |
 | `notify-order-status` | Emails de changement de statut | admin ou service_role |
 | `notify-contact` | Alerte formulaire de contact | publique (à durcir, voir backlog) |
