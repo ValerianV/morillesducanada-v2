@@ -35,7 +35,7 @@ const Livraison = () => (
       <p>
         Les morilles sont livrées en <strong>sachets sous vide de {PRO_PACK_GRAMS} g</strong> : par exemple, 3 kg = 12
         sachets. Produit sec, sans chaîne du froid.
-        L'échantillon offert est un pot en verre de 30 g.
+        L'échantillon offert (pot en verre de 30 g) n'est pas expédié : il est remis en main propre lors d'une dégustation.
       </p>
     </section>
 

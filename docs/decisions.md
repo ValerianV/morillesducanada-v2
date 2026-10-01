@@ -4,6 +4,23 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-10-01 — Échantillon remis en main propre uniquement
+
+- Décision du fondateur : le pot de 30 g offert n'est **plus envoyé par la poste**. Il est remis **uniquement en
+  main propre**, lors d'une dégustation, quand Valérian est dans la zone du prospect. Raison : on peut trop
+  facilement usurper l'identité de plusieurs établissements pour obtenir plusieurs échantillons par la poste.
+- Calendrier : Avignon et Provence jusqu'au 7 novembre 2026 ; Chamonix et Mont-Blanc à partir du 8 novembre ;
+  Maurienne (Val Cenis, Valloire) en décembre. Constante `TASTING_TOUR` (`supabase/functions/_shared/tasting.ts`).
+- `/professionnels` : onglet « Dégustation en main propre » (ville, code postal, disponibilités ; plus d'adresse
+  de livraison) et calendrier affiché. Ancre `#echantillon` conservée comme alias de `#degustation`.
+- `submit-pro-lead` : type `degustation` (l'ancien type `echantillon`, envoyé par une page en cache, est accepté
+  et traité comme une dégustation) ; emails d'alerte et d'accusé de réception réécrits (main propre, calendrier).
+  La limite « un échantillon par SIRET / email » disparaît (plus d'envoi postal à limiter).
+- Base : migration `20261001090000_pro_leads_degustation.sql` (colonne `availability`, type `degustation`, statuts
+  `degustation_planifiee` et `echantillon_remis`). Les anciennes lignes (`echantillon`, `echantillon_envoye`) restent valides.
+- Mis à jour : FAQ, plaquette pro, fiche technique, livraison, CGV (art. 11), mentions légales, docs/business/offre.md,
+  textes de prospection (`docs/commercial/`). CGV : **à relire par le fondateur**.
+
 ## 2026-09-29 — Option pots en verre vides et commande en ligne
 
 - Décision du fondateur : proposer, surtout aux épiceries, des **pots en verre vides, sans étiquette**

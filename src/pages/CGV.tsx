@@ -165,8 +165,9 @@ const CGV = () => (
     <section>
       <h2>Article 11 — Échantillons</h2>
       <p>
-        Un pot en verre de {PRO_SAMPLE_GRAMS} g est offert par établissement, sur demande depuis la page Professionnels, dans
-        la limite des stocks et sans obligation d'achat.
+        Un pot en verre de {PRO_SAMPLE_GRAMS} g est offert, sans obligation d'achat et dans la limite des stocks. Il est remis
+        uniquement en main propre, lors d'une dégustation organisée par le vendeur dans la zone de l'acheteur, sur demande depuis
+        la page Professionnels (calendrier des passages indiqué sur cette page). Il n'est pas expédié par la poste.
       </p>
     </section>
 

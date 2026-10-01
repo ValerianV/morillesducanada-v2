@@ -210,6 +210,7 @@ export type Database = {
         Row: {
           siret: string | null
           address: string | null
+          availability: string | null
           admin_notified_at: string | null
           city: string
           company: string
@@ -235,6 +236,7 @@ export type Database = {
         Insert: {
           siret?: string | null
           address?: string | null
+          availability?: string | null
           admin_notified_at?: string | null
           city: string
           company: string
@@ -260,6 +262,7 @@ export type Database = {
         Update: {
           siret?: string | null
           address?: string | null
+          availability?: string | null
           admin_notified_at?: string | null
           city?: string
           company?: string

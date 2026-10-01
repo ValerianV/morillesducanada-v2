@@ -55,7 +55,7 @@ const MentionsLegales = () => (
         Le responsable du traitement est {EDITEUR.nom}. Les données sont collectées pour les finalités suivantes :
       </p>
       <ul>
-        <li>demandes de devis et d'échantillon (formulaire Professionnels) : mesures précontractuelles ;</li>
+        <li>demandes de devis et de dégustation (formulaire Professionnels) : mesures précontractuelles ;</li>
         <li>commandes, précommandes, facturation et livraison : exécution du contrat et obligations comptables ;</li>
         <li>messages du formulaire de contact : réponse à votre demande ;</li>
         <li>prospection commerciale auprès des professionnels : intérêt légitime, avec possibilité de s'y opposer à tout moment.</li>
@@ -74,7 +74,7 @@ const MentionsLegales = () => (
       </p>
       <p>Durées de conservation :</p>
       <ul>
-        <li>demandes de devis, d'échantillon et messages sans suite : 3 ans après le dernier contact ;</li>
+        <li>demandes de devis, de dégustation et messages sans suite : 3 ans après le dernier contact ;</li>
         <li>données clients : pendant la relation commerciale, puis 3 ans ;</li>
         <li>factures et pièces comptables : 10 ans (article L123-22 du Code de commerce).</li>
       </ul>

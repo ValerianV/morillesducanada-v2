@@ -28,7 +28,8 @@ const lead: ProLeadInput = {
   establishment_type: "restaurant",
   city: "Lyon",
   postal_code: "69002",
-  address: "1 rue X",
+  address: null,
+  availability: null,
   kg: 5,
   message: "Ligne 1\n<img src=x>",
   locale: "fr",
@@ -51,7 +52,7 @@ function allEmails() {
   return [
     buildAdminEmail(lead, q, "id-1"),
     buildProspectEmail(lead, q),
-    buildProspectEmail({ ...lead, kind: "echantillon", kg: null, locale: "en" }, null),
+    buildProspectEmail({ ...lead, kind: "degustation", kg: null, availability: "Mardi après-midi", locale: "en" }, null),
     buildPreorderConfirmationEmail({ preorderId: "abcdef12-3", customerName: "Jeanne", amounts, locale: "fr" }),
     buildPreorderAdminEmail({ preorderId: "abcdef12-3", customerName: "Jeanne", amounts, locale: "fr", email: "j@x.fr", phone: null, company: null }),
     buildOrderConfirmationEmail({ orderId, customerName: "Jeanne", items, totalCents: 5290, shippingAddress: address }),

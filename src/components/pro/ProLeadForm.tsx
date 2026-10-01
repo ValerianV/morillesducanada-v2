@@ -13,6 +13,7 @@ import {
   type ProQuote,
 } from "@/lib/proPricing";
 import { ESTABLISHMENT_TYPES, validateProLead, type EstablishmentType, type ProLeadKind } from "@/lib/proLead";
+import { TASTING_TOUR } from "@/lib/tasting";
 import { getUtm } from "@/lib/utm";
 
 interface Props {
@@ -35,7 +36,7 @@ const emptyForm = {
   phone: "",
   postal_code: "",
   city: "",
-  address: "",
+  availability: "",
   kg: "5",
   message: "",
   website: "",
@@ -124,7 +125,7 @@ const ProLeadForm = ({ kind, onKindChange }: Props) => {
       establishment_type: form.establishment_type,
       city: form.city,
       postal_code: form.postal_code,
-      address: form.address,
+      availability: kind === "degustation" ? form.availability : undefined,
       kg: kind === "devis" ? parseKg(form.kg) : undefined,
       message: form.message,
       locale,
@@ -160,8 +161,6 @@ const ProLeadForm = ({ kind, onKindChange }: Props) => {
           setFormError(t("pro.form.errors.validation"));
         } else if (code === "rate_limited") {
           setFormError(t("pro.form.errors.rateLimited"));
-        } else if (code === "sample_already_requested") {
-          setFormError(t("pro.form.errors.sampleExists"));
         } else {
           setFormError(t("pro.form.errors.generic"));
         }
@@ -188,7 +187,7 @@ const ProLeadForm = ({ kind, onKindChange }: Props) => {
         <CheckCircle className="w-10 h-10 text-primary mb-4" />
         <h3 className="font-serif text-2xl mb-3">{t("pro.form.successTitle")}</h3>
         <p className="text-base text-foreground/90 leading-relaxed">
-          {success.kind === "devis" ? t("pro.form.successQuote") : t("pro.form.successSample")}
+          {success.kind === "devis" ? t("pro.form.successQuote") : t("pro.form.successTasting")}
         </p>
         {success.quote && (
           <p className="mt-4 text-base text-foreground">
@@ -253,15 +252,8 @@ const ProLeadForm = ({ kind, onKindChange }: Props) => {
     </>
   );
 
-  const locationFields = (requireAddress: boolean) => (
+  const locationFields = (
     <>
-      {requireAddress &&
-        field(
-          "address",
-          t("pro.form.address"),
-          textInput("address", { autoComplete: "street-address", placeholder: t("pro.form.addressPlaceholder") }),
-          true,
-        )}
       <div className="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-4">
         {field("postal_code", t("pro.form.postalCode"), textInput("postal_code", { autoComplete: "postal-code" }), true)}
         {field("city", t("pro.form.city"), textInput("city", { autoComplete: "address-level2" }), true)}
@@ -336,10 +328,10 @@ const ProLeadForm = ({ kind, onKindChange }: Props) => {
           {t("pro.form.tabQuote")}
         </TabsTrigger>
         <TabsTrigger
-          value="echantillon"
+          value="degustation"
           className="py-3 text-base rounded-sm text-foreground/75 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
         >
-          {t("pro.form.tabSample")}
+          {t("pro.form.tabTasting")}
         </TabsTrigger>
       </TabsList>
 
@@ -416,20 +408,38 @@ const ProLeadForm = ({ kind, onKindChange }: Props) => {
             </div>
           </div>
 
-          {locationFields(false)}
+          {locationFields}
           {messageField(t("pro.form.messageQuotePlaceholder"))}
           {submitButton(t("pro.form.submitQuote"))}
         </form>
       </TabsContent>
 
-      <TabsContent value="echantillon" className="mt-6">
+      <TabsContent value="degustation" className="mt-6">
         <form onSubmit={handleSubmit} noValidate className="relative space-y-6">
           {honeypot}
-          <p className="text-base text-foreground/90">{t("pro.form.sampleInfo")}</p>
+          <p className="text-base text-foreground/90">{t("pro.form.tastingInfo")}</p>
+          <div className="p-4 border border-gold/20 rounded-sm bg-background/50">
+            <p className="text-sm font-medium uppercase tracking-wider text-foreground/70 mb-2">{t("pro.sample.tourTitle")}</p>
+            <ul className="space-y-1 text-base text-foreground">
+              {TASTING_TOUR.map((stop) => (
+                <li key={stop.id}>
+                  <span className="font-medium">{stop.zone[locale]}</span>
+                  {stop.places && <span className="text-foreground/80"> ({stop.places[locale]})</span>} · {stop.period[locale]}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-2 text-sm text-foreground/75">{t("pro.sample.tourNote")}</p>
+          </div>
           {commonFields}
-          {locationFields(true)}
-          {messageField(t("pro.form.messageSamplePlaceholder"))}
-          {submitButton(t("pro.form.submitSample"))}
+          {locationFields}
+          {field(
+            "availability",
+            t("pro.form.availability"),
+            textInput("availability", { placeholder: t("pro.form.availabilityPlaceholder") }),
+            true,
+          )}
+          {messageField(t("pro.form.messageTastingPlaceholder"))}
+          {submitButton(t("pro.form.submitTasting"))}
         </form>
       </TabsContent>
     </Tabs>

@@ -1,4 +1,4 @@
-// Demandes professionnelles (devis au kilo, échantillon gratuit).
+// Demandes professionnelles (devis au kilo, dégustation en main propre).
 // Appelée depuis /professionnels avec la clé anon (verify_jwt = false dans config.toml).
 // Validation, honeypot, limite de 5 envois par heure par email ou par IP, devis recalculé
 // avec la grille partagée, insertion en service_role, puis 2 emails Resend.
@@ -146,6 +146,7 @@ serve(async (req) => {
       city: lead.city,
       postal_code: lead.postal_code,
       address: lead.address,
+      availability: lead.availability,
       kg: lead.kg,
       message: lead.message,
       utm: lead.utm,
@@ -159,8 +160,6 @@ serve(async (req) => {
     .single();
 
   if (insertError || !inserted) {
-    // 23505 : un échantillon a déjà été demandé pour cet email ou cet établissement.
-    if (insertError?.code === "23505") return json({ error: "sample_already_requested" }, 409);
     console.error("submit-pro-lead: insertion impossible", insertError?.message);
     return json({ error: "server_error" }, 500);
   }

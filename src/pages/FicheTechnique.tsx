@@ -61,7 +61,7 @@ const FicheTechnique = () => (
 
         <Section title="Conditionnement">
           <Row label="Commandes au kilo" value={`Sachets sous vide de ${PRO_PACK_GRAMS} g (par exemple, 3 kg = 12 sachets)`} />
-          <Row label="Échantillon" value={`Pot en verre refermable de ${PRO_SAMPLE_GRAMS} g`} />
+          <Row label="Échantillon" value={`Pot en verre refermable de ${PRO_SAMPLE_GRAMS} g, remis en main propre lors d'une dégustation`} />
           <Row label="Stock" value="En France" />
         </Section>
 

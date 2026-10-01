@@ -18,6 +18,7 @@ import Seo from "@/components/Seo";
 import { breadcrumbSchema, faqPageSchema, lowestProPricePerKg, proOfferSchema } from "@/lib/seo/schema";
 import { PRO_ONLY_MENTION, formatEurosLocale } from "@/lib/proPricing";
 import { EDITEUR } from "@/lib/legal";
+import { TASTING_TOUR } from "@/lib/tasting";
 
 const SectionHeading = ({ label, title }: { label: string; title: string }) => (
   <div className="mb-8">
@@ -30,16 +31,18 @@ const Professionnels = () => {
   const { t, translations, locale } = useI18n();
   const pro = translations.pro;
   const location = useLocation();
-  const [kind, setKind] = useState<ProLeadKind>(location.hash === "#echantillon" ? "echantillon" : "devis");
+  // #echantillon : ancienne ancre, conservée pour les liens existants.
+  const isTastingHash = location.hash === "#degustation" || location.hash === "#echantillon";
+  const [kind, setKind] = useState<ProLeadKind>(isTastingHash ? "degustation" : "devis");
 
   useEffect(() => {
-    if (location.hash === "#echantillon") setKind("echantillon");
+    if (isTastingHash) setKind("degustation");
     if (location.hash === "#devis") setKind("devis");
     if (location.hash) {
-      const target = document.getElementById(location.hash === "#echantillon" ? "devis" : location.hash.slice(1));
+      const target = document.getElementById(isTastingHash ? "devis" : location.hash.slice(1));
       target?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-  }, [location.hash]);
+  }, [location.hash, isTastingHash]);
 
   const goToForm = (next: ProLeadKind) => {
     setKind(next);
@@ -94,7 +97,7 @@ const Professionnels = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => goToForm("echantillon")}
+                  onClick={() => goToForm("degustation")}
                   className="px-8 py-4 border border-primary/60 text-foreground font-medium tracking-wider uppercase text-sm rounded-sm hover:border-primary hover:text-primary transition-colors"
                 >
                   {pro.hero.ctaSample}
@@ -230,17 +233,27 @@ const Professionnels = () => {
             </div>
           </section>
 
-          {/* 6. Échantillon */}
-          <section id="offre-echantillon" className={section}>
+          {/* 6. Dégustation en main propre */}
+          <section id="degustation" className={`${section} scroll-mt-24`}>
             <div className="p-6 md:p-10 border border-primary/40 rounded-sm bg-primary/5 md:flex md:items-center md:justify-between gap-8">
               <div>
                 <p className="text-sm tracking-[0.25em] uppercase text-primary mb-3">{pro.sample.label}</p>
                 <h2 className="font-serif text-3xl text-foreground mb-3">{pro.sample.title}</h2>
                 <p className="text-lg text-foreground/90 max-w-xl">{pro.sample.text}</p>
+                <h3 className="font-serif text-xl text-foreground mt-6 mb-2">{pro.sample.tourTitle}</h3>
+                <ul className="space-y-1.5 text-lg text-foreground/90">
+                  {TASTING_TOUR.map((stop) => (
+                    <li key={stop.id}>
+                      <span className="font-medium text-foreground">{stop.zone[locale]}</span>
+                      {stop.places && <span> ({stop.places[locale]})</span>} · {stop.period[locale]}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-3 text-base text-foreground/80 max-w-xl">{pro.sample.tourNote}</p>
               </div>
               <button
                 type="button"
-                onClick={() => goToForm("echantillon")}
+                onClick={() => goToForm("degustation")}
                 className="mt-6 md:mt-0 shrink-0 px-8 py-4 bg-primary text-primary-foreground font-medium tracking-wider uppercase text-sm rounded-sm hover:bg-gold-light transition-colors"
               >
                 {pro.sample.cta}

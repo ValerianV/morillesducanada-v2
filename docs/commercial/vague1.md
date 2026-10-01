@@ -34,7 +34,7 @@ Tarifs nets, port inclus, livraison en France (TVA non applicable, art. 293 B du
 
 Présentation complète : https://www.morillesducanada.com/professionnels?utm_source=prospection&utm_medium=email&utm_campaign=vague1-epiceries
 
-Je peux vous envoyer un pot de 30 g pour que vous jugiez sur pièce. Souhaitez-vous le recevoir ?
+Je peux vous remettre en main propre un pot de 30 g pour que vous jugiez sur pièce, lors de mon passage à [ZONE] ([PÉRIODE]). Quelles sont vos disponibilités ?
 
 Valérian — Morilles du Canada — contact@morillesducanada.com
 morillesducanada.com
@@ -61,7 +61,7 @@ Tarifs nets, port inclus, livraison en France (TVA non applicable, art. 293 B du
 
 Présentation complète : https://www.morillesducanada.com/professionnels?utm_source=prospection&utm_medium=email&utm_campaign=vague1-epiceries
 
-Je peux vous faire parvenir un pot de 30 g pour dégustation. Souhaitez-vous le recevoir ?
+Je peux vous remettre en main propre un pot de 30 g pour dégustation lors de mon passage à [ZONE] ([PÉRIODE]). Quelles sont vos disponibilités ?
 
 Valérian — Morilles du Canada — contact@morillesducanada.com
 morillesducanada.com
@@ -88,7 +88,7 @@ Tarifs nets, port inclus, livraison en France (TVA non applicable, art. 293 B du
 
 Présentation complète : https://www.morillesducanada.com/professionnels?utm_source=prospection&utm_medium=email&utm_campaign=vague1-epiceries
 
-Je peux envoyer un pot de 30 g à la personne en charge des achats. À qui dois-je l'adresser ?
+Je peux remettre en main propre un pot de 30 g à la personne en charge des achats, lors de mon passage à [ZONE] ([PÉRIODE]). À qui dois-je m'adresser ?
 
 Valérian — Morilles du Canada — contact@morillesducanada.com
 morillesducanada.com
@@ -115,7 +115,7 @@ Tarifs nets, port inclus, livraison en France (TVA non applicable, art. 293 B du
 
 Présentation complète : https://www.morillesducanada.com/professionnels?utm_source=prospection&utm_medium=email&utm_campaign=vague1-epiceries
 
-Je peux vous envoyer un pot de 30 g pour comparer. Souhaitez-vous le recevoir ?
+Je peux vous remettre en main propre un pot de 30 g pour comparer, lors de mon passage à [ZONE] ([PÉRIODE]). Quelles sont vos disponibilités ?
 
 Valérian — Morilles du Canada — contact@morillesducanada.com
 morillesducanada.com
@@ -142,7 +142,7 @@ Tarifs nets, port inclus, livraison en France (TVA non applicable, art. 293 B du
 
 Présentation complète : https://www.morillesducanada.com/professionnels?utm_source=prospection&utm_medium=email&utm_campaign=vague1-epiceries
 
-Je peux vous envoyer un pot de 30 g pour que vous jugiez sur pièce. Souhaitez-vous le recevoir ?
+Je peux vous remettre en main propre un pot de 30 g pour que vous jugiez sur pièce, lors de mon passage à [ZONE] ([PÉRIODE]). Quelles sont vos disponibilités ?
 
 Valérian — Morilles du Canada — contact@morillesducanada.com
 morillesducanada.com
@@ -169,7 +169,7 @@ Tarifs nets, port inclus, livraison en France (TVA non applicable, art. 293 B du
 
 Présentation complète : https://www.morillesducanada.com/professionnels?utm_source=prospection&utm_medium=email&utm_campaign=vague1-epiceries
 
-Je peux vous envoyer un pot de 30 g pour dégustation. Souhaitez-vous le recevoir ?
+Je peux vous remettre en main propre un pot de 30 g pour dégustation lors de mon passage à [ZONE] ([PÉRIODE]). Quelles sont vos disponibilités ?
 
 Valérian — Morilles du Canada — contact@morillesducanada.com
 morillesducanada.com
@@ -196,7 +196,7 @@ Tarifs nets, port inclus, livraison en France (TVA non applicable, art. 293 B du
 
 Présentation complète : https://www.morillesducanada.com/professionnels?utm_source=prospection&utm_medium=email&utm_campaign=vague1-epiceries
 
-Je peux vous envoyer un pot de 30 g pour que vous jugiez sur pièce. Souhaitez-vous le recevoir ?
+Je peux vous remettre en main propre un pot de 30 g pour que vous jugiez sur pièce, lors de mon passage à [ZONE] ([PÉRIODE]). Quelles sont vos disponibilités ?
 
 Valérian — Morilles du Canada — contact@morillesducanada.com
 morillesducanada.com
@@ -223,7 +223,7 @@ Tarifs nets, port inclus, livraison en France (TVA non applicable, art. 293 B du
 
 Présentation complète : https://www.morillesducanada.com/professionnels?utm_source=prospection&utm_medium=email&utm_campaign=vague1-epiceries
 
-Je peux vous envoyer un pot de 30 g pour que vous jugiez sur pièce. Souhaitez-vous le recevoir ?
+Je peux vous remettre en main propre un pot de 30 g pour que vous jugiez sur pièce, lors de mon passage à [ZONE] ([PÉRIODE]). Quelles sont vos disponibilités ?
 
 Valérian — Morilles du Canada — contact@morillesducanada.com
 morillesducanada.com
@@ -277,7 +277,7 @@ Tarifs nets, port inclus, livraison en France (TVA non applicable, art. 293 B du
 
 Présentation complète : https://www.morillesducanada.com/professionnels?utm_source=prospection&utm_medium=email&utm_campaign=vague1-traiteurs
 
-Je peux vous envoyer un pot de 30 g pour un essai en fabrication. Voulez-vous le recevoir ?
+Je peux vous remettre en main propre un pot de 30 g pour un essai en fabrication, lors de mon passage à [ZONE] ([PÉRIODE]). Quelles sont vos disponibilités ?
 
 Valérian — Morilles du Canada — contact@morillesducanada.com
 morillesducanada.com

@@ -43,9 +43,10 @@ non appliquées** : elles contiennent l'URL de l'ancien projet. Appliquer à la 
 | 7 | `20260928130000_siret_professionnels.sql` | colonnes `siret` (pro_leads, pre_orders), un échantillon par SIRET. **Avant** submit-pro-lead et stripe-webhook |
 | 8 | `20260928130100_recettes_sans_fume.sql` | textes des recettes sans « fumé » ni superlatifs (données) |
 | 9 | `20260929090000_orders_pro_pots.sql` | colonnes `orders` (type, société, SIRET, téléphone, kg, pots, vrac). **Avant** stripe-webhook : sinon toute commande échoue à l'insertion |
+| 10 | `20261001090000_pro_leads_degustation.sql` | dégustation en main propre : colonne `availability`, type `degustation`, nouveaux statuts. **Avant** submit-pro-lead |
 
 ```bash
-supabase migration repair --status applied 20260928090000 20260928090100 20260928090200 20260928100000 20260928110000 20260928120000 20260928130000 20260928130100 20260929090000 --project-ref oeweykyazadobobjncfg
+supabase migration repair --status applied 20260928090000 20260928090100 20260928090200 20260928100000 20260928110000 20260928120000 20260928130000 20260928130100 20260929090000 20261001090000 --project-ref oeweykyazadobobjncfg
 ```
 Toutes les migrations sont idempotentes (rejouables sans effet de bord).
 
@@ -85,8 +86,8 @@ curl -s "https://oeweykyazadobobjncfg.supabase.co/rest/v1/reviews?select=email" 
 curl -s https://www.morillesducanada.com/professionnels | grep -c canonical
 ```
 
-Puis : un devis test et une demande d'échantillon avec SIRET (arrivée sur contact@, reply-to correct,
-ligne dans l'admin avec le SIRET), une précommande test (champs Société et SIRET obligatoires dans
+Puis : un devis test et une demande de dégustation avec SIRET (arrivée sur contact@, reply-to correct,
+ligne dans l'admin avec le SIRET et les disponibilités ; accusé de réception avec le calendrier), une précommande test (champs Société et SIRET obligatoires dans
 Stripe, SIRET enregistré dans `pre_orders`). Côté Stripe : ajouter les champs personnalisés `company`
 et `siret` aux quatre liens de paiement, puis archiver les anciens prix de détail (voir `offre.md`).
 

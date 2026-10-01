@@ -20,8 +20,9 @@ const FORBIDDEN = [
   /monopole|monopoly|grossiste|wholesaler/i,
   /le soir même|same evening/i,
   /douane|customs/i,
-  // Avignon n'est autorisé que pour le tribunal compétent des CGV (« ressort d'Avignon »).
-  /(?<!ressort d')Avignon|Piolenc/i,
+  // Avignon n'est autorisé que pour le tribunal compétent des CGV (« ressort d'Avignon ») et pour la zone
+  // de dégustation « Avignon et Provence » (décision du fondateur, 2026-10-01).
+  /(?<!ressort d')Avignon(?! et Provence| and Provence)|Piolenc/i,
   /lot identifi|identified batch|traçabilité totale|full traceability/i,
 ];
 

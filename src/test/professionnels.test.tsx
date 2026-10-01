@@ -244,21 +244,26 @@ describe("page /professionnels", () => {
     expect(screen.queryByText("Demande envoyée")).not.toBeInTheDocument();
   });
 
-  it("onglet échantillon : adresse obligatoire, pas de quantité envoyée", async () => {
+  it("onglet dégustation : pas d'adresse, disponibilités obligatoires, calendrier affiché, pas de quantité envoyée", async () => {
     invoke.mockResolvedValue({ data: { ok: true, id: "y" }, error: null });
     renderPage();
-    const tab = screen.getByRole("tab", { name: "Échantillon gratuit" });
+    const tab = screen.getByRole("tab", { name: "Dégustation en main propre" });
     fireEvent.mouseDown(tab);
     fireEvent.click(tab);
-    await waitFor(() => expect(screen.getByLabelText(/Adresse de livraison/)).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByLabelText(/Vos disponibilités/)).toBeInTheDocument());
+    expect(screen.queryByLabelText(/Adresse de livraison/)).not.toBeInTheDocument();
+    expect(screen.getAllByText("Avignon et Provence").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Chamonix et Mont-Blanc").length).toBeGreaterThan(0);
     fillCommon();
-    fireEvent.click(submitButton("Demander mon échantillon"));
+    fireEvent.click(submitButton("Demander ma dégustation"));
     expect(invoke).not.toHaveBeenCalled();
-    fireEvent.change(screen.getByLabelText(/Adresse de livraison/), { target: { value: "12 rue Mercière" } });
-    fireEvent.click(submitButton("Demander mon échantillon"));
+    fireEvent.change(screen.getByLabelText(/Vos disponibilités/), { target: { value: "Mardi après-midi" } });
+    fireEvent.click(submitButton("Demander ma dégustation"));
     await waitFor(() => expect(screen.getByText("Demande envoyée")).toBeInTheDocument());
     const body = invoke.mock.calls[0][1].body;
-    expect(body.kind).toBe("echantillon");
+    expect(body.kind).toBe("degustation");
+    expect(body.availability).toBe("Mardi après-midi");
+    expect(body.address).toBeUndefined();
     expect(body.kg).toBeUndefined();
     expect(within(document.body).queryByText(/Estimation/)).not.toBeInTheDocument();
   });

@@ -36,7 +36,7 @@ Formulation à reprendre telle quelle :
 **Autres conditions**
 - Commande minimum : 1 kg.
 - Expédition sous 5 jours ouvrés.
-- Échantillon offert : un pot de 30 g par établissement qualifié.
+- Dégustation en main propre : un pot de 30 g offert, remis uniquement lors d'un passage de Valérian dans la zone du prospect (calendrier dans `supabase/functions/_shared/tasting.ts`). Jamais d'envoi postal. Hors zone : proposer le devis ou la commande en ligne. À proposer seulement aux prospects situés dans une zone du calendrier.
 
 **Ne jamais écrire**
 - « Je suis sur le terrain pendant la cueillette » ou toute présence actuelle sur le terrain. Seules les trois saisons 2022-2024 sont vérifiées.
@@ -102,18 +102,18 @@ Tarifs nets, port inclus, livraison en France (TVA non applicable, art. 293 B du
 
 Présentation complète : [LIEN PRO]
 
-Je peux vous envoyer un pot de 30 g pour que vous jugiez sur pièce. Souhaitez-vous le recevoir ?
+Je peux vous remettre en main propre un pot de 30 g pour que vous jugiez sur pièce, lors de mon passage à [ZONE] ([PÉRIODE]). Quelles sont vos disponibilités ?
 
 Valérian — Morilles du Canada — contact@morillesducanada.com
 [pied de message obligatoire]
 
 ### Relance J+5
 
-**Objet :** Re : morilles de feu — échantillon pour [Établissement]
+**Objet :** Re : morilles de feu — dégustation pour [Établissement]
 
 Bonjour,
 
-Je reviens vers vous au sujet des morilles de feu sauvages du Canada, entières et équeutées, stockées en France. Pour un rayon de Noël, les commandes se décident en ce moment : si l'échantillon de 30 g vous intéresse, il me suffit d'une adresse et du nom de la personne qui s'occupe des achats.
+Je reviens vers vous au sujet des morilles de feu sauvages du Canada, entières et équeutées, stockées en France. Pour un rayon de Noël, les commandes se décident en ce moment : si une dégustation vous intéresse, je peux passer vous remettre un pot de 30 g en main propre lors de mon passage à [ZONE] ([PÉRIODE]). Indiquez-moi vos disponibilités et le nom de la personne qui s'occupe des achats.
 
 Pour la saison 2027, vous pouvez aussi précommander de 1 à 15 kg à 300 €/kg avec un acompte de 50 % : livraison garantie en octobre 2027, remboursement intégral si nous ne pouvons pas fournir ([LIEN PRÉCOMMANDE]).
 
@@ -208,7 +208,7 @@ Tarifs nets, port inclus, livraison en France (TVA non applicable, art. 293 B du
 
 Présentation complète : [LIEN PRO]
 
-Je peux faire parvenir un pot de 30 g en cuisine pour un essai. Si ce message n'arrive pas à la bonne personne, pouvez-vous me dire à qui le transmettre ?
+Je peux remettre en main propre un pot de 30 g en cuisine pour un essai, lors de mon passage à [ZONE] ([PÉRIODE]). Si ce message n'arrive pas à la bonne personne, pouvez-vous me dire à qui le transmettre ?
 
 Valérian — Morilles du Canada — contact@morillesducanada.com
 [pied de message obligatoire]
@@ -219,7 +219,7 @@ Valérian — Morilles du Canada — contact@morillesducanada.com
 
 Bonjour,
 
-Je reviens vers vous au sujet de l'échantillon de morilles de feu sauvages. Un pot de 30 g permet de juger la tenue à la réhydratation et le goût en sauce ; il me suffit du nom de la personne en cuisine.
+Je reviens vers vous au sujet d'une dégustation de morilles de feu sauvages. Un pot de 30 g, remis en main propre lors de mon passage à [ZONE] ([PÉRIODE]), permet de juger la tenue à la réhydratation et le goût en sauce ; il me suffit de vos disponibilités et du nom de la personne en cuisine.
 
 Pour la carte du printemps et de l'automne prochains, la précommande saison 2027 est ouverte de 1 à 15 kg à 300 €/kg avec un acompte de 50 %, livraison garantie en octobre 2027 ou remboursement intégral ([LIEN PRÉCOMMANDE]).
 
@@ -298,11 +298,11 @@ Valérian — Morilles du Canada — contact@morillesducanada.com
 
 **Formulaire de contact (texte court, 600 caractères environ)**
 
-> Bonjour, je suis Valérian, de Morilles du Canada. J'ai cueilli des morilles de feu pendant trois saisons (2022-2024) sur les forêts brûlées de Colombie-Britannique et du Yukon, et je travaille avec un réseau de cueilleurs sur les feux canadiens. Je propose aux professionnels des morilles sauvages entières et équeutées, stockées en France, dès 1 kg, port inclus. [Détail observé.] Je peux vous envoyer un pot de 30 g pour essai : [LIEN PRO]. À qui m'adresser pour les achats ? Valérian — contact@morillesducanada.com. Si vous ne souhaitez pas être recontacté, dites-le-moi simplement en réponse.
+> Bonjour, je suis Valérian, de Morilles du Canada. J'ai cueilli des morilles de feu pendant trois saisons (2022-2024) sur les forêts brûlées de Colombie-Britannique et du Yukon, et je travaille avec un réseau de cueilleurs sur les feux canadiens. Je propose aux professionnels des morilles sauvages entières et équeutées, stockées en France, dès 1 kg, port inclus. [Détail observé.] Je peux vous remettre un pot de 30 g en main propre à [ZONE] ([PÉRIODE]) : [LIEN PRO]. À qui m'adresser pour les achats ? Valérian — contact@morillesducanada.com. Si vous ne souhaitez pas être recontacté, dites-le-moi simplement en réponse.
 
 **Appel au standard (30 secondes, pour obtenir le bon interlocuteur)**
 
-> Bonjour, Valérian, de Morilles du Canada. Je fournis des morilles de feu sauvages aux professionnels : j'en ai cueilli moi-même pendant trois saisons au Canada. J'aimerais proposer un échantillon à la personne qui gère les achats [épicerie / cuisine / production]. Pouvez-vous me donner son nom et la meilleure adresse email pour lui écrire ?
+> Bonjour, Valérian, de Morilles du Canada. Je fournis des morilles de feu sauvages aux professionnels : j'en ai cueilli moi-même pendant trois saisons au Canada. J'aimerais proposer une dégustation en main propre à la personne qui gère les achats [épicerie / cuisine / production]. Pouvez-vous me donner son nom et la meilleure adresse email pour lui écrire ?
 
 Noter ensuite le nom et l'adresse obtenus dans le CSV, puis envoyer l'Email 1 du segment.
 
@@ -314,7 +314,7 @@ Noter ensuite le nom et l'adresse obtenus dans le CSV, puis envoyer l'Email 1 du
 PROSPECT : [Établissement] — segment [A/B/C/D] — priorité [1-3]
 CONTACT : [nom si obtenu] — [email / téléphone]
 EMAIL 1 : [date]      RELANCE J+5 : [date]      RELANCE J+12 : [date]
-ÉCHANTILLON 30 g : [demandé / envoyé le ... / retour]
+DÉGUSTATION 30 g : [demandée / remise en main propre le ... / retour]
 PRÉCOMMANDE 2027 : [non / intéressé / acompte reçu]
 STATUT : [en attente / intéressé / refus / STOP (ne plus contacter)]
 NOTES : [plat, produit ou besoin observé]

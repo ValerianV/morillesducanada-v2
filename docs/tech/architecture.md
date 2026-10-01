@@ -23,7 +23,7 @@ Navigateur ──► Vercel (SPA React prérendue, dist/)
 | `create-pro-checkout` | Commande pro en ligne : kg + pots en option (`_shared/potAllocation.ts`), session Stripe en `price_data` recalculée côté serveur, société et SIRET obligatoires, France uniquement, `metadata.type=pro_order` | publique (anon) |
 | `create-preorder-checkout` | Précommande 2027 (pros) : acompte 50 %, 1–15 kg, société et SIRET obligatoires (champs Stripe) | publique (anon) |
 | `stripe-webhook` | `checkout.session.completed` (commande pro en ligne, liens de paiement pros, précommande) → orders / pre_orders + emails (liste de préparation pour l'admin) ; enregistre société, SIRET, téléphone, kg, pots | signature Stripe |
-| `submit-pro-lead` | Devis / échantillon pro (SIRET obligatoire, clé de Luhn) → `pro_leads` + alerte contact@ + accusé de réception | publique, honeypot, 5/h |
+| `submit-pro-lead` | Devis / dégustation en main propre pro (SIRET obligatoire, clé de Luhn) → `pro_leads` + alerte contact@ + accusé de réception | publique, honeypot, 5/h |
 | `notify-order-status` | Emails de changement de statut | admin ou service_role |
 | `notify-contact` | Alerte formulaire de contact | publique (à durcir, voir backlog) |
 | `auth-email-hook` | Emails d'authentification via Resend (`_shared/authEmails.ts`) | signature Standard Webhooks |
@@ -37,7 +37,7 @@ Code partagé : `supabase/functions/_shared/` (catalogue, grille pro, formatage,
 Tous les emails passent par une seule mise en page, `_shared/emailLayout.ts` (fond sombre chaud, or,
 texte crème, titres serif, logo `https://www.morillesducanada.com/logo.png`, 600 px, tables et styles
 en ligne, bouton compatible Outlook, pied de page avec la mention fiscale sur les emails commerciaux).
-Contenus : `_shared/proLead.ts` (devis, échantillon), `_shared/preorderEmail.ts` (précommande),
+Contenus : `_shared/proLead.ts` (devis, dégustation), `_shared/tasting.ts` (calendrier des dégustations), `_shared/preorderEmail.ts` (précommande),
 `_shared/orderEmails.ts` (commande, statuts, contact), `_shared/authEmails.ts` (authentification,
 lien de vérification Supabase construit avec `token_hash`). Modules purs, testés dans
 `src/test/emails.test.ts`. Tout texte dynamique est échappé ; aucun emoji dans les objets.

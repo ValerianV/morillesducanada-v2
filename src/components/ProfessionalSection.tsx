@@ -14,7 +14,7 @@ function perKgRange(locale: "fr" | "en"): string {
   return `${min} – ${max}/kg`;
 }
 
-// Accueil : l'offre au kilo (grille, conditionnement, échantillon, précommande), réservée aux professionnels.
+// Accueil : l'offre au kilo (grille, conditionnement, dégustation, précommande), réservée aux professionnels.
 const ProfessionalSection = () => {
   const { t, locale } = useI18n();
 
@@ -26,7 +26,7 @@ const ProfessionalSection = () => {
 
   const cards = [
     { icon: Package, title: t("professional.packTitle"), text: t("professional.packText") },
-    { icon: Gift, title: t("professional.sampleTitle"), text: t("professional.sampleText"), to: "/professionnels#echantillon", cta: t("professional.ctaSample") },
+    { icon: Gift, title: t("professional.sampleTitle"), text: t("professional.sampleText"), to: "/professionnels#degustation", cta: t("professional.ctaSample") },
     { icon: CalendarClock, title: t("professional.preorderTitle"), text: t("professional.preorderText"), to: "/precommande-2027", cta: t("professional.preorderCta") },
   ];
 

@@ -3,7 +3,7 @@ import { Download, Loader2, Phone } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { PRO_STOCK_KG, formatEurosLocale, formatKg } from "@/lib/proPricing";
-import { PRO_LEAD_STATUSES, type ProLeadStatus } from "@/lib/proLead";
+import { LEGACY_SAMPLE_KIND, PRO_LEAD_STATUSES, type ProLeadStatus } from "@/lib/proLead";
 import { exportCsv } from "@/lib/csv";
 
 type ProLead = {
@@ -20,6 +20,7 @@ type ProLead = {
   city: string;
   postal_code: string;
   address: string | null;
+  availability: string | null;
   kg: number | string | null;
   message: string | null;
   utm: unknown;
@@ -33,7 +34,9 @@ const STATUS_LABELS: Record<ProLeadStatus, string> = {
   nouveau: "Nouveau",
   contacte: "Contacté",
   devis_envoye: "Devis envoyé",
-  echantillon_envoye: "Échantillon envoyé",
+  degustation_planifiee: "Dégustation planifiée",
+  echantillon_remis: "Échantillon remis",
+  echantillon_envoye: "Échantillon posté (ancien)",
   gagne: "Gagné",
   perdu: "Perdu",
 };
@@ -42,6 +45,8 @@ const STATUS_COLORS: Record<string, string> = {
   nouveau: "bg-yellow-500/20 text-yellow-300",
   contacte: "bg-blue-500/20 text-blue-300",
   devis_envoye: "bg-indigo-500/20 text-indigo-300",
+  degustation_planifiee: "bg-indigo-500/20 text-indigo-300",
+  echantillon_remis: "bg-indigo-500/20 text-indigo-300",
   echantillon_envoye: "bg-indigo-500/20 text-indigo-300",
   gagne: "bg-green-500/20 text-green-300",
   perdu: "bg-red-500/20 text-red-300",
@@ -56,7 +61,7 @@ const ESTABLISHMENT_LABELS: Record<string, string> = {
 };
 
 const COLUMNS =
-  "id, created_at, kind, status, company, siret, contact_name, email, phone, establishment_type, city, postal_code, address, kg, message, utm, price_tier, unit_price_cents, total_cents, admin_notified_at";
+  "id, created_at, kind, status, company, siret, contact_name, email, phone, establishment_type, city, postal_code, address, availability, kg, message, utm, price_tier, unit_price_cents, total_cents, admin_notified_at";
 
 const leadKg = (lead: ProLead) => (lead.kg === null || lead.kg === undefined ? 0 : Number(lead.kg));
 
@@ -98,7 +103,7 @@ const ProLeadsTab = ({ refreshToken }: { refreshToken: number }) => {
     () => leads.filter((l) => l.kind === "devis" && l.status === "gagne").reduce((s, l) => s + leadKg(l), 0),
     [leads],
   );
-  const sampleCount = leads.filter((l) => l.kind === "echantillon").length;
+  const sampleCount = leads.filter((l) => l.kind !== "devis").length;
   const progress = Math.min(100, (requestedKg / PRO_STOCK_KG) * 100);
 
   const filtered = leads.filter(
@@ -119,7 +124,7 @@ const ProLeadsTab = ({ refreshToken }: { refreshToken: number }) => {
   const handleExport = () => {
     exportCsv(
       "leads-pro.csv",
-      ["Date", "Type", "Statut", "Établissement", "SIRET", "Type d'établissement", "Contact", "Email", "Téléphone", "Adresse", "Code postal", "Ville", "Kg", "Prix €/kg", "Total €", "Message", "UTM"],
+      ["Date", "Type", "Statut", "Établissement", "SIRET", "Type d'établissement", "Contact", "Email", "Téléphone", "Adresse", "Disponibilités", "Code postal", "Ville", "Kg", "Prix €/kg", "Total €", "Message", "UTM"],
       filtered.map((l) => [
         new Date(l.created_at).toLocaleString("fr-FR"),
         l.kind,
@@ -131,6 +136,7 @@ const ProLeadsTab = ({ refreshToken }: { refreshToken: number }) => {
         l.email,
         l.phone ?? "",
         l.address ?? "",
+        l.availability ?? "",
         l.postal_code,
         l.city,
         l.kg ?? "",
@@ -168,7 +174,7 @@ const ProLeadsTab = ({ refreshToken }: { refreshToken: number }) => {
           <p className="text-sm text-foreground/80 tracking-wider uppercase">Leads</p>
           <p className="font-serif text-3xl text-primary mt-1">{leads.length}</p>
           <p className="text-sm text-foreground/75 mt-2">
-            {leads.length - sampleCount} devis · {sampleCount} échantillon{sampleCount > 1 ? "s" : ""}
+            {leads.length - sampleCount} devis · {sampleCount} dégustation{sampleCount > 1 ? "s" : ""}
           </p>
         </div>
       </div>
@@ -180,9 +186,10 @@ const ProLeadsTab = ({ refreshToken }: { refreshToken: number }) => {
           onChange={(e) => setKindFilter(e.target.value)}
           className="px-3 py-2 bg-secondary/30 border border-gold/15 rounded-sm text-sm text-foreground focus:outline-none focus:border-primary"
         >
-          <option value="all">Devis et échantillons</option>
+          <option value="all">Devis et dégustations</option>
           <option value="devis">Devis</option>
-          <option value="echantillon">Échantillons</option>
+          <option value="degustation">Dégustations</option>
+          <option value={LEGACY_SAMPLE_KIND}>Échantillons postés (anciens)</option>
         </select>
         <select
           value={statusFilter}
@@ -237,7 +244,7 @@ const ProLeadsTab = ({ refreshToken }: { refreshToken: number }) => {
                       <div className="text-xs">{new Date(lead.created_at).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}</div>
                     </td>
                     <td className="py-3 px-3 whitespace-nowrap">
-                      {lead.kind === "devis" ? "Devis" : "Échantillon"}
+                      {lead.kind === "devis" ? "Devis" : lead.kind === LEGACY_SAMPLE_KIND ? "Échantillon (ancien)" : "Dégustation"}
                       {!lead.admin_notified_at && (
                         <div className="text-xs text-red-300" title="L'alerte email n'a pas été envoyée">email non envoyé</div>
                       )}
@@ -273,7 +280,10 @@ const ProLeadsTab = ({ refreshToken }: { refreshToken: number }) => {
                           )}
                         </>
                       ) : (
-                        <span className="text-foreground/75">Pot 30 g</span>
+                        <>
+                          <span className="text-foreground/75">Pot 30 g</span>
+                          {lead.availability && <div className="text-xs text-primary whitespace-normal max-w-[14rem]">{lead.availability}</div>}
+                        </>
                       )}
                     </td>
                     <td className="py-3 px-3 max-w-xs">
@@ -299,6 +309,9 @@ const ProLeadsTab = ({ refreshToken }: { refreshToken: number }) => {
                         aria-label={`Statut du lead ${lead.company}`}
                         className="block px-2 py-1 bg-secondary/30 border border-gold/15 rounded-sm text-xs focus:outline-none focus:border-primary"
                       >
+                        {(PRO_LEAD_STATUSES as readonly string[]).includes(lead.status) ? null : (
+                          <option value={lead.status}>{STATUS_LABELS[lead.status as ProLeadStatus] ?? lead.status}</option>
+                        )}
                         {PRO_LEAD_STATUSES.map((s) => (
                           <option key={s} value={s}>
                             {STATUS_LABELS[s]}

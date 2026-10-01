@@ -209,8 +209,10 @@ const PlaquettePro = () => (
 
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="bg-[#1a1612] text-[#f4efe4] rounded-sm p-5">
-              <Eyebrow light>Échantillon offert</Eyebrow>
-              <p className="text-base leading-relaxed">Un pot en verre de {PRO_SAMPLE_GRAMS} g par établissement, pour goûter avant de commander.</p>
+              <Eyebrow light>Dégustation en main propre</Eyebrow>
+              <p className="text-base leading-relaxed">
+                Un pot en verre de {PRO_SAMPLE_GRAMS} g offert, remis en main propre lors d'un passage de Valérian dans votre zone, pour goûter avant de commander.
+              </p>
             </div>
             <div className="bg-[#1a1612] text-[#f4efe4] rounded-sm p-5">
               <Eyebrow light>Précommande saison {PREORDER_2027.season}</Eyebrow>
@@ -230,7 +232,7 @@ const PlaquettePro = () => (
             <Eyebrow light>Commander · Goûter · Précommander</Eyebrow>
             <h2 className="font-serif text-4xl font-light">Travaillons ensemble</h2>
             <p className="mt-4 text-base text-[#f4efe4]/85 max-w-md mx-auto leading-relaxed">
-              Un appel ou un email suffit pour un devis, une commande ou un échantillon. Valérian est votre interlocuteur unique.
+              Un appel ou un email suffit pour un devis, une commande ou une dégustation. Valérian est votre interlocuteur unique.
             </p>
           </div>
 
@@ -238,7 +240,7 @@ const PlaquettePro = () => (
             {[
               { label: "Téléphone", value: EDITEUR.telephone, href: EDITEUR.telephoneHref },
               { label: "Email", value: EDITEUR.email, href: `mailto:${EDITEUR.email}` },
-              { label: "Devis et échantillon", value: "morillesducanada.com/professionnels", href: "/professionnels" },
+              { label: "Devis et dégustation", value: "morillesducanada.com/professionnels", href: "/professionnels" },
             ].map((c) => (
               <div key={c.label} className="border-t border-[#d4b25c]/40 pt-4">
                 <p className="text-xs tracking-[0.25em] uppercase text-[#d4b25c] mb-2">{c.label}</p>

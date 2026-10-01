@@ -52,17 +52,43 @@ describe("validateProLead", () => {
     expect(validateProLead({ ...base, kg: 30 }).ok).toBe(true);
   });
 
-  it("exige une adresse pour l'échantillon et ignore la quantité", () => {
-    const missing = validateProLead({ ...base, kind: "echantillon", kg: 3 });
+  it("dégustation : disponibilités obligatoires, ni quantité ni adresse conservées", () => {
+    const missing = validateProLead({ ...base, kind: "degustation", kg: 3 });
     expect(missing.ok).toBe(false);
-    if ("errors" in missing) expect(missing.errors.address).toBeDefined();
+    if ("errors" in missing) expect(missing.errors.availability).toBeDefined();
 
-    const ok = validateProLead({ ...base, kind: "echantillon", kg: 3, address: "12 rue Mercière" });
+    const ok = validateProLead({
+      ...base,
+      kind: "degustation",
+      kg: 3,
+      address: "12 rue Mercière",
+      availability: "  Mardi et jeudi,\n après 15 h ",
+    });
     expect(ok.ok).toBe(true);
     if (ok.ok) {
+      expect(ok.lead.kind).toBe("degustation");
       expect(ok.lead.kg).toBeNull();
+      expect(ok.lead.address).toBeNull();
+      expect(ok.lead.availability).toBe("Mardi et jeudi, après 15 h");
       expect(ok.quote).toBeNull();
     }
+    const tooLong = validateProLead({ ...base, kind: "degustation", availability: "x".repeat(301) });
+    expect(tooLong.ok).toBe(false);
+  });
+
+  it("l'ancien type « echantillon » (page en cache) est traité comme une dégustation, sans adresse", () => {
+    const r = validateProLead({ ...base, kind: "echantillon", address: "12 rue Mercière" });
+    expect(r.ok).toBe(true);
+    if (r.ok) {
+      expect(r.lead.kind).toBe("degustation");
+      expect(r.lead.address).toBeNull();
+      expect(r.lead.availability).toBeNull();
+    }
+  });
+
+  it("un devis n'enregistre pas de disponibilités", () => {
+    const r = validateProLead({ ...base, availability: "mardi" });
+    expect(r.ok && r.lead.availability).toBeNull();
   });
 
   it("refuse les champs invalides", () => {
@@ -110,8 +136,8 @@ describe("emails", () => {
     const oneAndHalf = validateProLead({ ...base, kg: 1.5 });
     expect(oneAndHalf.ok && adminSubject(oneAndHalf.lead)).toBe("[DEVIS] 1,5 kg — Le Gourmet (Lyon)");
     expect(validateProLead({ ...base, kg: 0.5 }).ok).toBe(false);
-    const sample = validateProLead({ ...base, kind: "echantillon", address: "12 rue Mercière" });
-    expect(sample.ok && adminSubject(sample.lead)).toBe("[ÉCHANTILLON] Le Gourmet (Lyon)");
+    const tasting = validateProLead({ ...base, kind: "degustation", availability: "mardi" });
+    expect(tasting.ok && adminSubject(tasting.lead)).toBe("[DÉGUSTATION] Le Gourmet (Lyon)");
   });
 
   it("échappe le HTML saisi par le prospect", () => {
@@ -138,11 +164,37 @@ describe("emails", () => {
     expect(text).toContain("250 g");
   });
 
-  it("accusé de réception EN pour l'échantillon", () => {
-    const r = validateProLead({ ...base, kind: "echantillon", address: "1 Main St", locale: "en" });
+  it("accusé de réception FR de la dégustation : main propre, calendrier, aucun envoi", () => {
+    const r = validateProLead({ ...base, kind: "degustation", availability: "Mardi après-midi" });
     if (!r.ok) throw new Error("fixture invalide");
     const mail = buildProspectEmail(r.lead, r.quote);
-    expect(mail.subject).toBe("Your sample request — Morilles du Canada");
+    expect(mail.subject).toBe("Votre demande de dégustation — Morilles du Canada");
     expect(mail.text).toContain("30 g");
+    expect(mail.text).toContain("en main propre");
+    expect(mail.text).toContain("Mardi après-midi");
+    expect(mail.text).toContain("Avignon et Provence");
+    expect(mail.text).toContain("Chamonix et Mont-Blanc");
+    expect(mail.text).toContain("Maurienne");
+    expect(mail.html).toContain("Où Valérian passe");
+    expect(`${mail.subject} ${mail.text} ${mail.html}`).not.toMatch(/confirmer l'envoi|vous envoyons|envoyé à l'adresse/i);
+  });
+
+  it("accusé de réception EN de la dégustation", () => {
+    const r = validateProLead({ ...base, kind: "degustation", availability: "Tuesday afternoon", locale: "en" });
+    if (!r.ok) throw new Error("fixture invalide");
+    const mail = buildProspectEmail(r.lead, r.quote);
+    expect(mail.subject).toBe("Your tasting request — Morilles du Canada");
+    expect(mail.text).toContain("30 g");
+    expect(mail.text).toContain("in person");
+    expect(mail.text).toContain("Chamonix and Mont-Blanc");
+  });
+
+  it("alerte admin de la dégustation : disponibilités, pas d'adresse de livraison", () => {
+    const r = validateProLead({ ...base, kind: "degustation", availability: "Mardi après-midi" });
+    if (!r.ok) throw new Error("fixture invalide");
+    const mail = buildAdminEmail(r.lead, r.quote, "abc");
+    expect(mail.text).toContain("Dégustation en main propre");
+    expect(mail.text).toContain("Disponibilités : Mardi après-midi");
+    expect(mail.text).not.toContain("Adresse :");
   });
 });

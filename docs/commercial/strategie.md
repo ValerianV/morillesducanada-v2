@@ -46,6 +46,6 @@ identifie clairement l'expéditeur et propose une désinscription simple.
 
 ## Offre à mettre en avant
 
-Stock disponible (argument fêtes) + échantillon 30 g (pot en verre) + sachets sous vide de 250 g
+Stock disponible (argument fêtes) + dégustation en main propre d'un pot de 30 g (zones et dates du calendrier ; jamais d'envoi postal) + sachets sous vide de 250 g
 + devis sous 48 h ouvrées + précommande 2027 (réservée aux pros) dans les relances.
 Prix : voir `docs/business/offre.md`. Ne jamais citer le prix plancher.

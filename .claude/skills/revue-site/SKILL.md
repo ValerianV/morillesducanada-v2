@@ -12,7 +12,7 @@ description: Audit mensuel du site morillesducanada.com — bugs, SEO, performan
    - accueil ;
    - `/produits` et une fiche sous vide ;
    - panier jusqu'à la page Stripe (sans payer) ;
-   - `/professionnels` (devis et échantillon, sans envoyer) ;
+   - `/professionnels` (devis et dégustation, sans envoyer) ;
    - `/precommande-2027` ;
    - passage FR/EN ;
    - page 404 ;
