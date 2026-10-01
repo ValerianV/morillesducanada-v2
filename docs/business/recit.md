@@ -14,7 +14,8 @@ C'est ce qui plaît aux chefs et aux commerçants, et ce qui justifie le prix fa
 - Expédition sous 5 jours ouvrés. Prix nets, TVA non applicable (art. 293 B).
 - Vente réservée aux professionnels ; commandes en sachets sous vide de 250 g ; échantillon en pot
   en verre de 30 g, refermable (validés le 2026-09-28). Depuis le 2026-10-01, l'échantillon est remis
-  **uniquement en main propre** lors d'une dégustation (calendrier dans `docs/business/offre.md`) : jamais d'envoi postal.
+  remis **en main propre** lors d'une dégustation (calendrier dans `docs/business/offre.md`) ; envoi possible au cas par cas, après
+  échange avec Valérian, jamais sur simple demande du formulaire.
 - Option pots : pots en verre vides de 12, 30 et 45 g, sans étiquette, 1,50 € le pot, livrés à part ;
   le client les remplit et les étiquette (validé le 2026-09-29).
 - Goût : **arôme intense, chair ferme**. Jamais de note « fumée ».

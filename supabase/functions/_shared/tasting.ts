@@ -1,5 +1,6 @@
-// Dégustation en main propre (décision du fondateur, 2026-10-01) : le pot de 30 g n'est plus
-// envoyé par la poste, il est remis uniquement lors d'un passage de Valérian dans la zone du prospect.
+// Dégustation en main propre (décision du fondateur, 2026-10-01) : le pot de 30 g offert est remis en main propre
+// lors d'un passage de Valérian dans la zone du prospect. Le site ne déclenche jamais d'envoi postal ; un envoi
+// reste possible au cas par cas, après échange avec Valérian (prospect démarché qui répond).
 // Module pur, partagé par le site (src/lib/tasting.ts), l'edge function submit-pro-lead et les emails.
 //
 // POUR METTRE À JOUR LE CALENDRIER : modifier TASTING_TOUR ci-dessous, puis lancer les tests

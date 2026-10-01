@@ -177,6 +177,7 @@ describe("emails", () => {
     expect(mail.text).toContain("Maurienne");
     expect(mail.html).toContain("Où Valérian passe");
     expect(`${mail.subject} ${mail.text} ${mail.html}`).not.toMatch(/confirmer l'envoi|vous envoyons|envoyé à l'adresse/i);
+    expect(mail.text).toContain("au cas par cas");
   });
 
   it("accusé de réception EN de la dégustation", () => {

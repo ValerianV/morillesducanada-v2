@@ -76,17 +76,19 @@ Paiement **à la commande** (carte ou virement). Pénalités de retard : 3 fois 
 indemnité forfaitaire de recouvrement : 40 €. Pas de droit de rétractation (ventes entre professionnels).
 Réclamation transport : sous 48 h à réception.
 
-## Échantillon : dégustation en main propre uniquement (décision du 2026-10-01)
+## Échantillon : remis en main propre lors d'une dégustation (décisions du 2026-10-01)
 
-Un **pot en verre de 30 g**, refermable, offert, **remis uniquement en main propre** lors d'une dégustation, quand
-le fondateur est dans la zone du prospect. **Aucun envoi postal** : on peut trop facilement usurper l'identité de
-plusieurs établissements pour obtenir plusieurs échantillons par la poste.
+Un **pot en verre de 30 g**, refermable, offert, **remis en main propre** lors d'une dégustation, quand le fondateur
+est dans la zone du prospect. **Envoi possible au cas par cas, après échange avec Valérian**, uniquement à un
+établissement que nous avons démarché et qui répond. Le formulaire du site ne déclenche **jamais** d'envoi, et
+« envoi gratuit sur simple demande » ne doit apparaître nulle part. Raison : on peut trop facilement usurper
+l'identité de plusieurs établissements pour obtenir plusieurs échantillons par la poste.
 
 - Demande : onglet « Dégustation en main propre » de `/professionnels` (SIRET, ville, code postal, disponibilités ;
   plus d'adresse de livraison). Valérian recontacte le prospect pour convenir d'un rendez-vous.
 - Calendrier 2026 (constante `TASTING_TOUR` dans `supabase/functions/_shared/tasting.ts`, à modifier à cet endroit) :
   **Avignon et Provence jusqu'au 7 novembre** ; **Chamonix et Mont-Blanc à partir du 8 novembre** ;
-  **Maurienne (Val Cenis, Valloire) en décembre**. Hors de ces zones : pas de dégustation, devis ou commande en ligne.
+  **Maurienne (Val Cenis, Valloire) en décembre**. Hors de ces zones : « contactez-nous, nous étudions chaque demande ».
 - Après modification du calendrier : reporter les zones à la main dans `public/llms.txt` et `public/llms-full.txt`.
 - Les pots de 12, 30 et 45 g (en verre, refermables) servent aussi à l'option pots (livrés vides, voir plus haut).
 

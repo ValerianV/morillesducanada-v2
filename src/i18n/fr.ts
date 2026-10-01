@@ -235,9 +235,9 @@ export const fr = {
     sample: {
       label: "Dégustation",
       title: "Goûtez avant de commander",
-      text: "Le pot de 30 g est offert et remis uniquement en main propre, lors d'une dégustation : Valérian passe dans votre zone aux dates ci-dessous. Il n'est pas envoyé par la poste.",
+      text: "Le pot de 30 g offert est remis en main propre lors d'une dégustation : Valérian passe dans votre zone aux dates ci-dessous. Un envoi est possible au cas par cas, après échange avec Valérian.",
       tourTitle: "Où et quand Valérian passe",
-      tourNote: "Hors de ces zones, il n'y a pas de dégustation pour le moment : vous pouvez demander un devis ou commander en ligne.",
+      tourNote: "Hors de ces zones, contactez-nous : nous étudions chaque demande.",
       cta: "Demander une dégustation",
     },
     preorder: {
@@ -323,7 +323,7 @@ export const fr = {
         { q: "Quelles variétés vais-je recevoir ?", a: "Des morilles sauvages du Canada, variétés mélangées, séchées, entières et équeutées. L'offre professionnelle ne propose pas de tri par variété." },
         { q: "Comment le tarif dégressif est-il calculé ?", a: "Le prix au kilo dépend de la quantité totale commandée. Le palier atteint s'applique à toute la commande (voir le tableau des tarifs)." },
         { q: "Quel est le délai d'expédition ?", a: "Sous 5 jours ouvrés après confirmation de la commande, en colis suivi." },
-        { q: "Comment goûter avant de commander ?", a: "Le pot de 30 g offert est remis uniquement en main propre, lors d'une dégustation : Valérian passe dans votre zone à des dates précises (calendrier sur cette page). Remplissez l'onglet « Dégustation en main propre » avec votre ville et vos disponibilités. Il n'y a pas d'envoi postal." },
+        { q: "Comment goûter avant de commander ?", a: "Le pot de 30 g offert est remis en main propre lors d'une dégustation : Valérian passe dans votre zone à des dates précises (calendrier sur cette page). Remplissez l'onglet « Dégustation en main propre » avec votre ville et vos disponibilités. Hors de ces zones, contactez-nous : un envoi est possible au cas par cas, après échange avec Valérian." },
         { q: "Quelle quantité puis-je commander ?", a: "De 1 kg à 45 kg, par tranche de 500 g, dans la limite du stock disponible en France." },
         { q: "Sous quelle forme les morilles sont-elles livrées ?", a: "En sachets sous vide de 250 g : par exemple, 3 kg = 12 sachets de 250 g. Les épiceries fines peuvent les reconditionner sous leur marque." },
         { q: "Comment payer ?", a: "À la commande : par carte en ligne, pour la quantité de votre choix (de 1 à 45 kg, pots en option), sur une page de paiement sécurisée Stripe ; ou par virement sur facture après devis. Le devis est confirmé sous 48 h ouvrées." },

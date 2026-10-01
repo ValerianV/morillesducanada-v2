@@ -330,8 +330,8 @@ export function buildProspectEmail(lead: ProLeadInput, q: ProQuote | null): Emai
       ? `We have received your quote request for ${formatKg(q!.kg, "en")} of wild Canadian morels, dried, whole and stemless.`
       : `Nous avons bien reçu votre demande de devis pour ${formatKg(q!.kg)} de morilles sauvages du Canada, séchées, entières et équeutées.`
     : en
-      ? `We have received your tasting request. The free ${PRO_SAMPLE_GRAMS} g jar is handed over in person only, when Valérian visits your area: it is not sent by post.`
-      : `Nous avons bien reçu votre demande de dégustation. Le pot de ${PRO_SAMPLE_GRAMS} g offert est remis uniquement en main propre, lors d'un passage de Valérian dans votre zone : il n'est pas envoyé par la poste.`;
+      ? `We have received your tasting request. The free ${PRO_SAMPLE_GRAMS} g jar is handed over in person at a tasting, when Valérian visits your area. Shipping is possible case by case, after a conversation with him.`
+      : `Nous avons bien reçu votre demande de dégustation. Le pot de ${PRO_SAMPLE_GRAMS} g offert est remis en main propre lors d'une dégustation, quand Valérian passe dans votre zone. Un envoi est possible au cas par cas, après échange avec lui.`;
 
   const next = isQuote
     ? en

@@ -36,7 +36,7 @@ Formulation à reprendre telle quelle :
 **Autres conditions**
 - Commande minimum : 1 kg.
 - Expédition sous 5 jours ouvrés.
-- Dégustation en main propre : un pot de 30 g offert, remis uniquement lors d'un passage de Valérian dans la zone du prospect (calendrier dans `supabase/functions/_shared/tasting.ts`). Jamais d'envoi postal. Hors zone : proposer le devis ou la commande en ligne. À proposer seulement aux prospects situés dans une zone du calendrier.
+- Dégustation en main propre : un pot de 30 g offert, remis en main propre lors d'un passage de Valérian dans la zone du prospect (calendrier dans `supabase/functions/_shared/tasting.ts`). Hors zone : envoi possible au cas par cas, seulement après échange avec Valérian avec un prospect démarché qui répond ; jamais « envoi gratuit sur simple demande ».
 
 **Ne jamais écrire**
 - « Je suis sur le terrain pendant la cueillette » ou toute présence actuelle sur le terrain. Seules les trois saisons 2022-2024 sont vérifiées.

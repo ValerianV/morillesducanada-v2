@@ -6,9 +6,12 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 
 ## 2026-10-01 — Échantillon remis en main propre uniquement
 
-- Décision du fondateur : le pot de 30 g offert n'est **plus envoyé par la poste**. Il est remis **uniquement en
-  main propre**, lors d'une dégustation, quand Valérian est dans la zone du prospect. Raison : on peut trop
-  facilement usurper l'identité de plusieurs établissements pour obtenir plusieurs échantillons par la poste.
+- Décision du fondateur : le pot de 30 g offert est **remis en main propre**, lors d'une dégustation, quand Valérian
+  est dans la zone du prospect. Raison : on peut trop facilement usurper l'identité de plusieurs établissements
+  pour obtenir plusieurs échantillons par la poste.
+- Précision du même jour : un **envoi postal reste possible au cas par cas**, après échange avec Valérian, uniquement
+  pour un établissement que nous avons démarché et qui répond. Le formulaire du site ne déclenche jamais d'envoi ;
+  jamais « envoi gratuit sur simple demande ». Hors zones, le site dit : « contactez-nous, nous étudions chaque demande ».
 - Calendrier : Avignon et Provence jusqu'au 7 novembre 2026 ; Chamonix et Mont-Blanc à partir du 8 novembre ;
   Maurienne (Val Cenis, Valloire) en décembre. Constante `TASTING_TOUR` (`supabase/functions/_shared/tasting.ts`).
 - `/professionnels` : onglet « Dégustation en main propre » (ville, code postal, disponibilités ; plus d'adresse

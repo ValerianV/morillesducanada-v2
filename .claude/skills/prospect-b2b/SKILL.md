@@ -30,7 +30,7 @@ Exemples : `/prospect-b2b epiceries 20 "fêtes de fin d'année"`, `/prospect-b2b
    - produit : entières, équeutées, stock en France, 5 jours ouvrés ;
    - grille nette avec la mention art. 293 B ;
    - lien `/professionnels` avec UTM ;
-   - proposition de dégustation en main propre (pot de 30 g) uniquement si le prospect est dans une zone du calendrier (`supabase/functions/_shared/tasting.ts`), avec la zone et la période ; jamais d'envoi postal. Hors zone : devis ou commande en ligne ;
+   - proposition de dégustation en main propre (pot de 30 g) si le prospect est dans une zone du calendrier (`supabase/functions/_shared/tasting.ts`), avec la zone et la période. Hors zone : un envoi n'est possible qu'au cas par cas, après réponse du prospect et échange avec Valérian ; jamais « envoi gratuit sur simple demande » ;
    - signature et ligne STOP.
 
    Relances J+5 et J+12, dont une qui cite la précommande 2027.
