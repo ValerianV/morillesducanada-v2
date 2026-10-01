@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useI18n } from "@/i18n/context";
 import { EDITEUR } from "@/lib/legal";
 import { PRO_TAX_MENTION } from "@/lib/proPricing";
+import { ARTICLES, CONTENT_LINK_LABELS } from "@/lib/seo/articles";
 
 const LINKS = [
   { to: "/professionnels", key: "footer.pro" },
@@ -43,6 +44,18 @@ const Footer = () => {
             ))}
           </nav>
         </div>
+        <nav aria-label={t("footer.guides")} className="mt-8 text-center md:text-left">
+          <p className="text-sm tracking-[0.2em] uppercase text-foreground/70 mb-3">{t("footer.guides")}</p>
+          <ul lang="fr" className="flex flex-wrap justify-center md:justify-start gap-x-5 gap-y-2 text-sm text-foreground/80">
+            {ARTICLES.map((article) => (
+              <li key={article.path}>
+                <Link to={article.path} className="hover:text-primary transition-colors">
+                  {CONTENT_LINK_LABELS[article.path]}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
         <p className="mt-8 text-center md:text-left text-sm text-foreground/70">
           {PRO_TAX_MENTION[locale]} · © {new Date().getFullYear()} Morilles du Canada · {EDITEUR.ville}
         </p>

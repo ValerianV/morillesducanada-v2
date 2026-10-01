@@ -6,7 +6,8 @@ import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import { useI18n } from "@/i18n/context";
 import { loadSupabase } from "@/integrations/supabase/lazy";
-import { breadcrumbSchema, preorderSchema } from "@/lib/seo/schema";
+import { breadcrumbSchema, preorderSchema, webPageSchema } from "@/lib/seo/schema";
+import { OFFER_LAST_REVIEWED } from "@/lib/seo/site";
 import { PREORDER_2027, preorderAmounts } from "@/lib/preorder";
 import { PRO_ONLY_MENTION, PRO_TAX_MENTION, formatEurosLocale } from "@/lib/proPricing";
 import harvestPhoto from "@/assets/morels/caisses-recolte-morilles-canada.webp";
@@ -53,7 +54,16 @@ const Precommande2027 = () => {
         title={t("preorder.metaTitle")}
         description={t("preorder.metaDescription")}
         path="/precommande-2027"
-        jsonLd={[preorderSchema(), breadcrumbSchema([{ name: "Précommande saison 2027", path: "/precommande-2027" }])]}
+        jsonLd={[
+          webPageSchema({
+            path: "/precommande-2027",
+            name: t("preorder.metaTitle"),
+            description: t("preorder.metaDescription"),
+            dateModified: OFFER_LAST_REVIEWED,
+          }),
+          preorderSchema(),
+          breadcrumbSchema([{ name: "Précommande saison 2027", path: "/precommande-2027" }]),
+        ]}
       />
       <Navbar />
 

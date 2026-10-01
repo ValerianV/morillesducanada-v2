@@ -16,7 +16,10 @@ import {
   absoluteUrl,
   CONTACT_EMAIL,
   CONTACT_PHONE,
+  DEFAULT_OG_IMAGE,
+  FOUNDER_NAME,
   LOGO_URL,
+  SAME_AS_URLS,
   SITE_NAME,
   SITE_URL,
 } from "./site";
@@ -24,6 +27,7 @@ import {
 export type JsonLd = Record<string, unknown>;
 
 const ORG_ID = `${SITE_URL}/#organization`;
+const FOUNDER_ID = `${SITE_URL}/#valerian-vilane`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
 const IN_STOCK = "https://schema.org/InStock";
 const NEW_CONDITION = "https://schema.org/NewCondition";
@@ -31,6 +35,29 @@ const BUSINESS_CUSTOMER = "http://purl.org/goodrelations/v1#Business";
 
 const euros = (value: number) => value.toFixed(2);
 const orgRef = { "@id": ORG_ID };
+
+const KNOWS_ABOUT = [
+  "Morilles de feu",
+  "Morilles séchées",
+  "Cueillette de champignons sauvages",
+  "Champignons séchés pour la restauration",
+  "Morille sauvage et morille de culture",
+];
+
+// Auteur et fondateur : Valérian Vilane. Faits du récit de marque uniquement (docs/business/recit.md).
+export function founderPerson(): JsonLd {
+  return {
+    "@type": "Person",
+    "@id": FOUNDER_ID,
+    name: FOUNDER_NAME,
+    jobTitle: "Fondateur de Morilles du Canada",
+    description:
+      "Fondateur de Morilles du Canada et ancien cueilleur de morilles de feu : trois saisons, de 2022 à 2024, en Colombie-Britannique et au Yukon.",
+    worksFor: orgRef,
+    url: `${SITE_URL}/professionnels`,
+    knowsAbout: KNOWS_ABOUT,
+  };
+}
 
 export function organizationSchema(): JsonLd {
   return {
@@ -44,6 +71,10 @@ export function organizationSchema(): JsonLd {
     telephone: CONTACT_PHONE,
     description:
       "Morilles sauvages du Canada séchées, entières et équeutées, en stock en France. Vente au kilo réservée aux professionnels.",
+    address: { "@type": "PostalAddress", addressLocality: "Aubignan", addressRegion: "Vaucluse", addressCountry: "FR" },
+    founder: founderPerson(),
+    knowsAbout: KNOWS_ABOUT,
+    ...(SAME_AS_URLS.length > 0 ? { sameAs: [...SAME_AS_URLS] } : {}),
     areaServed: { "@type": "Country", name: "France" },
     contactPoint: {
       "@type": "ContactPoint",
@@ -70,6 +101,60 @@ export function websiteSchema(): JsonLd {
 export interface BreadcrumbItem {
   name: string;
   path: string;
+}
+
+export interface WebPageInput {
+  path: string;
+  name: string;
+  description: string;
+  dateModified: string;
+}
+
+// Page d'offre ou de présentation : dateModified lisible par les moteurs de réponse.
+export function webPageSchema(page: WebPageInput): JsonLd {
+  const url = absoluteUrl(page.path);
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${url}#webpage`,
+    url,
+    name: page.name,
+    description: page.description,
+    inLanguage: "fr-FR",
+    dateModified: page.dateModified,
+    isPartOf: { "@id": WEBSITE_ID },
+    publisher: orgRef,
+  };
+}
+
+export interface ArticleInput {
+  path: string;
+  headline: string;
+  description: string;
+  datePublished: string;
+  dateModified: string;
+  keywords?: readonly string[];
+}
+
+// Article signé : auteur Person (fondateur et ancien cueilleur), éditeur Organization.
+export function articleSchema(article: ArticleInput): JsonLd {
+  const url = absoluteUrl(article.path);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${url}#article`,
+    headline: article.headline,
+    description: article.description,
+    inLanguage: "fr-FR",
+    datePublished: article.datePublished,
+    dateModified: article.dateModified,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    image: DEFAULT_OG_IMAGE.url,
+    author: founderPerson(),
+    publisher: { "@type": "Organization", "@id": ORG_ID, name: SITE_NAME, logo: { "@type": "ImageObject", url: LOGO_URL } },
+    isPartOf: { "@id": WEBSITE_ID },
+    ...(article.keywords?.length ? { keywords: article.keywords.join(", ") } : {}),
+  };
 }
 
 export function breadcrumbSchema(items: BreadcrumbItem[]): JsonLd {
@@ -114,10 +199,19 @@ export function proOfferSchema(): JsonLd {
         "@type": "UnitPriceSpecification",
         price: cents(tier.priceCents),
         priceCurrency: "EUR",
+        unitCode: "KGM",
+        unitText: "kg",
+        valueAddedTaxIncluded: false,
         referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "KGM" },
+        eligibleQuantity: { "@type": "QuantitativeValue", minValue: tier.minKg, maxValue: maxKg, unitCode: "KGM" },
       },
       eligibleQuantity: { "@type": "QuantitativeValue", minValue: tier.minKg, maxValue: maxKg, unitCode: "KGM" },
       eligibleCustomerType: BUSINESS_CUSTOMER,
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: { "@type": "MonetaryAmount", value: 0, currency: "EUR" },
+        shippingDestination: { "@type": "DefinedRegion", addressCountry: "FR" },
+      },
       availability: IN_STOCK,
       itemCondition: NEW_CONDITION,
       inventoryLevel: { "@type": "QuantitativeValue", value: PRO_STOCK_KG, unitCode: "KGM" },
@@ -136,6 +230,7 @@ export function proOfferSchema(): JsonLd {
     brand: { "@type": "Brand", name: SITE_NAME },
     category: "Champignons séchés",
     countryOfOrigin: { "@type": "Country", name: "Canada" },
+    image: DEFAULT_OG_IMAGE.url,
     url: absoluteUrl("/professionnels"),
     offers,
   };
@@ -162,6 +257,9 @@ export function preorderSchema(): JsonLd {
         "@type": "UnitPriceSpecification",
         price,
         priceCurrency: "EUR",
+        unitCode: "KGM",
+        unitText: "kg",
+        valueAddedTaxIncluded: false,
         referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "KGM" },
       },
       eligibleQuantity: {

@@ -73,6 +73,8 @@ const ROUTES = [
   "/profil", "/guide-morilles-de-feu", "/professionnels", "/pre-commande", "/paiement-reussi", "/paiement-annule",
   "/precommande-confirmee", "/precommande-2027", "/admin", "/galerie", "/journal", "/plaquette-pro", "/fiche-technique", "/produits",
   "/produits/morilles-sous-vide", "/page-inexistante",
+  "/acheter-morilles-sechees-restauration", "/prix-morilles-sechees-kilo-professionnels", "/morille-de-feu-ou-morille-de-culture",
+  "/rehydrater-morilles-sechees-guide-pro", "/morilles-sechees-epicerie-fine",
 ];
 
 // Avertissements React propres au mode développement / à jsdom, absents du build de production.

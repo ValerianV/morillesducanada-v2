@@ -323,13 +323,13 @@ const ProLeadForm = ({ kind, onKindChange }: Props) => {
       <TabsList className="grid w-full grid-cols-2 h-auto p-1 bg-secondary/50 border border-gold/20 rounded-sm">
         <TabsTrigger
           value="devis"
-          className="py-3 text-base rounded-sm text-foreground/75 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+          className="py-3 px-2 text-base leading-tight whitespace-normal text-center rounded-sm text-foreground/75 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
         >
           {t("pro.form.tabQuote")}
         </TabsTrigger>
         <TabsTrigger
           value="degustation"
-          className="py-3 text-base rounded-sm text-foreground/75 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+          className="py-3 px-2 text-base leading-tight whitespace-normal text-center rounded-sm text-foreground/75 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
         >
           {t("pro.form.tabTasting")}
         </TabsTrigger>

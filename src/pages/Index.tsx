@@ -6,7 +6,8 @@ import TrustBandeau from "@/components/TrustBandeau";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import { useI18n } from "@/i18n/context";
-import { faqPageSchema, lowestProPricePerKg, organizationSchema, websiteSchema } from "@/lib/seo/schema";
+import { faqPageSchema, lowestProPricePerKg, organizationSchema, webPageSchema, websiteSchema } from "@/lib/seo/schema";
+import { OFFER_LAST_REVIEWED } from "@/lib/seo/site";
 import { formatEurosLocale } from "@/lib/proPricing";
 import heroImage from "@/assets/landscape-canada.webp";
 
@@ -60,7 +61,12 @@ const Index = () => {
         description={DESCRIPTION}
         path="/"
         preloadImage={heroImage}
-        jsonLd={[organizationSchema(), websiteSchema(), faqPageSchema(translations.faq.items)]}
+        jsonLd={[
+          organizationSchema(),
+          websiteSchema(),
+          webPageSchema({ path: "/", name: TITLE, description: DESCRIPTION, dateModified: OFFER_LAST_REVIEWED }),
+          faqPageSchema(translations.faq.items),
+        ]}
       />
       <Navbar />
       <main>

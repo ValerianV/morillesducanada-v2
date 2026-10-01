@@ -1,9 +1,13 @@
 export type ChangeFreq = "daily" | "weekly" | "monthly" | "yearly";
 
+import { ARTICLES } from "./articles";
+
 export interface IndexableRoute {
   path: string;
   priority: number;
   changefreq: ChangeFreq;
+  // Date <lastmod> imposée (articles : leur dateModified) ; sinon dernier commit des fichiers sources.
+  lastmod?: string;
   // Fichiers dont la date du dernier commit sert de <lastmod> dans le sitemap.
   sources: string[];
 }
@@ -13,6 +17,13 @@ export const STATIC_ROUTES: IndexableRoute[] = [
   { path: "/", priority: 1, changefreq: "weekly", sources: ["src/pages/Index.tsx", "src/components", "src/i18n/fr.ts", "supabase/functions/_shared/proPricing.ts"] },
   { path: "/professionnels", priority: 0.9, changefreq: "weekly", sources: ["src/pages/Professionnels.tsx", "src/components/pro", "src/i18n/fr.ts", "supabase/functions/_shared/proPricing.ts"] },
   { path: "/precommande-2027", priority: 0.8, changefreq: "weekly", sources: ["src/pages/Precommande2027.tsx", "src/i18n/fr.ts", "supabase/functions/_shared/catalog.ts"] },
+  ...ARTICLES.map((article): IndexableRoute => ({
+    path: article.path,
+    priority: article.priority,
+    changefreq: "monthly",
+    lastmod: article.dateModified,
+    sources: ["src/lib/seo/articles.ts", "src/pages/ContentArticle.tsx"],
+  })),
   { path: "/guide-morilles-de-feu", priority: 0.7, changefreq: "monthly", sources: ["src/pages/GuideMorellesDeFeu.tsx"] },
   { path: "/recettes", priority: 0.7, changefreq: "weekly", sources: ["src/pages/Recettes.tsx"] },
   { path: "/fiche-technique", priority: 0.6, changefreq: "monthly", sources: ["src/pages/FicheTechnique.tsx"] },

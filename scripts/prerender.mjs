@@ -4,7 +4,7 @@
 // 2. Rendu React de chaque route publique → dist/<route>/index.html, avec title, meta,
 //    canonical, Open Graph et JSON-LD dans le <head>. Le client hydrate ce HTML (src/main.tsx).
 // 3. dist/spa.html : coquille vide pour les routes non prérendues (vercel.json la sert en repli).
-// 4. dist/sitemap.xml et dist/robots.txt générés depuis src/lib/seo.
+// 4. dist/sitemap.xml, dist/robots.txt, dist/llms.txt et dist/llms-full.txt générés depuis src/lib/seo.
 //
 // Les recettes viennent de Supabase : si VITE_SUPABASE_URL et VITE_SUPABASE_PUBLISHABLE_KEY sont
 // définies au build (Vercel), elles sont prérendues et ajoutées au sitemap ; sinon elles restent
@@ -123,7 +123,7 @@ function renderDocument(template, { html, helmet }, data) {
 }
 
 // Garde-fous : un problème SEO sur une page publique fait échouer le build.
-function checkPage(route, doc, siteUrl) {
+function checkPage(route, doc, siteUrl, articlePaths = []) {
   const expected = route === "/" ? `${siteUrl}/` : `${siteUrl}${route}`;
   const count = (re) => (doc.match(re) || []).length;
   const problems = [];
@@ -132,6 +132,12 @@ function checkPage(route, doc, siteUrl) {
   if (!doc.includes(`<link data-rh="true" rel="canonical" href="${expected}"/>`)) problems.push(`canonical ≠ ${expected}`);
   if (count(/<h1[\s>]/g) !== 1) problems.push(`${count(/<h1[\s>]/g)} balise(s) h1`);
   if (/name="robots" content="noindex/.test(doc)) problems.push("page publique en noindex");
+  // Pages de contenu : Article signé par le fondateur, avec dates, et FAQPage.
+  if (articlePaths.includes(route)) {
+    for (const needle of ['"@type":"Article"', '"datePublished"', '"dateModified"', '"Valérian Vilane"', '"@type":"FAQPage"', '"@type":"BreadcrumbList"']) {
+      if (!doc.includes(needle)) problems.push(`JSON-LD : ${needle} absent`);
+    }
+  }
   // Pages légales : aucun crochet (placeholder « [Nom du médiateur] » oublié) dans le texte visible.
   if (["/cgv", "/mentions-legales", "/livraison"].includes(route)) {
     const body = doc.replace(/^[\s\S]*?<div id="root"[^>]*>/, "").replace(/<script[\s\S]*?<\/script>/g, "").replace(/<[^>]+>/g, " ");
@@ -163,13 +169,13 @@ async function main() {
   const sitemap = [];
   for (const { route, data, lastmod } of pages) {
     const doc = renderDocument(template, await server.render(route.path, data), data);
-    checkPage(route.path, doc, server.SITE_URL);
+    checkPage(route.path, doc, server.SITE_URL, server.ARTICLES.map((a) => a.path));
     const file = route.path === "/" ? path.join(distDir, "index.html") : path.join(distDir, route.path, "index.html");
     await mkdir(path.dirname(file), { recursive: true });
     await writeFile(file, doc);
     sitemap.push({
       loc: route.path === "/" ? `${server.SITE_URL}/` : `${server.SITE_URL}${route.path}`,
-      lastmod: lastmod || gitLastModified(route.sources),
+      lastmod: lastmod || route.lastmod || gitLastModified(route.sources),
       changefreq: route.changefreq,
       priority: route.priority.toFixed(1),
     });
@@ -188,22 +194,17 @@ async function main() {
   ].join("\n");
   await writeFile(path.join(distDir, "sitemap.xml"), sitemapXml);
 
-  const robots = [
-    "User-agent: *",
-    "Allow: /",
-    ...server.NOINDEX_PREFIXES.map((prefix) => `Disallow: ${prefix}`),
-    "",
-    `Sitemap: ${server.SITE_URL}/sitemap.xml`,
-    "",
-  ].join("\n");
+  const robots = server.buildRobotsTxt(server.SITE_URL, server.NOINDEX_PREFIXES);
   await writeFile(path.join(distDir, "robots.txt"), robots);
+  await writeFile(path.join(distDir, "llms.txt"), server.buildLlmsTxt());
+  await writeFile(path.join(distDir, "llms-full.txt"), server.buildLlmsFullTxt());
 
   // Page 404 statique : Vercel la sert avec le code HTTP 404 pour toute adresse inconnue
   // (vercel.json ne réécrit plus tout vers spa.html, seulement les routes applicatives connues).
   const notFound = await server.render("/page-introuvable-404");
   await writeFile(path.join(distDir, "404.html"), renderDocument(template, notFound));
 
-  console.log(`[prerender] ${pages.length} pages, 404.html, sitemap.xml (${sitemap.length} URL), robots.txt`);
+  console.log(`[prerender] ${pages.length} pages, 404.html, sitemap.xml (${sitemap.length} URL), robots.txt, llms.txt, llms-full.txt`);
 }
 
 try {

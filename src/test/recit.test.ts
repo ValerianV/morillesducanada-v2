@@ -2,6 +2,8 @@ import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import { fr } from "@/i18n/fr";
 import { en } from "@/i18n/en";
+import { buildLlmsFullTxt, buildLlmsTxt } from "@/lib/seo/llms";
+import { ARTICLES } from "@/lib/seo/articles";
 
 // Garde-fou éditorial : faits autorisés par le fondateur uniquement, sans affirmation invérifiable.
 const FORBIDDEN = [
@@ -36,10 +38,12 @@ const sources = [
     "src/pages/CGV.tsx",
     "src/pages/Livraison.tsx",
     "src/components/ContactSection.tsx",
-    "public/llms.txt",
   ].map(
     (path) => [path, readFileSync(path, "utf8")],
   ),
+  ["llms.txt (généré)", buildLlmsTxt()],
+  ["llms-full.txt (généré)", buildLlmsFullTxt()],
+  ...ARTICLES.map((a) => [`${a.path} (page de contenu)`, JSON.stringify(a)] as const),
 ] as const;
 
 describe("récit de marque", () => {

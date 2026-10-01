@@ -1,26 +1,22 @@
 import Seo from "@/components/Seo";
-import { breadcrumbSchema } from "@/lib/seo/schema";
-import { absoluteUrl, DEFAULT_OG_IMAGE, LOGO_URL, SITE_NAME } from "@/lib/seo/site";
+import { articleSchema, breadcrumbSchema } from "@/lib/seo/schema";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import WildVsCultivated from "@/components/WildVsCultivated";
+import { ARTICLES, CONTENT_LINK_LABELS } from "@/lib/seo/articles";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Flame, TreePine, ChefHat, AlertTriangle, Thermometer, Clock, Mountain } from "lucide-react";
 
-const guideJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
+const guideJsonLd = articleSchema({
+  path: "/guide-morilles-de-feu",
   headline: "Guide de la morille de feu du Canada",
   description:
     "Tout savoir sur les morilles de feu (fire morels) : origine, cueillette sauvage, différence avec les morilles de culture, préparation, conservation et cuisine.",
-  author: { "@type": "Organization", name: SITE_NAME },
-  publisher: { "@type": "Organization", name: SITE_NAME, logo: { "@type": "ImageObject", url: LOGO_URL } },
-  mainEntityOfPage: absoluteUrl("/guide-morilles-de-feu"),
-  image: DEFAULT_OG_IMAGE.url,
-  inLanguage: "fr-FR",
   datePublished: "2026-01-01",
-};
+  dateModified: "2026-10-01",
+  keywords: ["morille de feu", "fire morels", "morilles du Canada", "morille sauvage"],
+});
 
 const GuideMorellesDeFeu = () => {
   return (
@@ -209,6 +205,21 @@ const GuideMorellesDeFeu = () => {
                   </Link>
                 </p>
               </div>
+            </section>
+          </ScrollReveal>
+
+          <ScrollReveal>
+            <section className="mb-16" id="guides-pro">
+              <h2 className="font-serif text-2xl md:text-3xl font-light mb-6">Guides pour les professionnels</h2>
+              <ul className="space-y-2 text-lg">
+                {ARTICLES.map((article) => (
+                  <li key={article.path}>
+                    <Link to={article.path} className="text-primary hover:text-primary/80 underline underline-offset-4">
+                      {CONTENT_LINK_LABELS[article.path]}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </section>
           </ScrollReveal>
 

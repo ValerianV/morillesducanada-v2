@@ -7,6 +7,9 @@ import { setPrerenderData } from "@/lib/prerenderData";
 
 export { STATIC_ROUTES, recipeRoute } from "@/lib/seo/routes";
 export { NOINDEX_PREFIXES } from "@/lib/seo/noindex";
+export { buildRobotsTxt } from "@/lib/seo/robots";
+export { ARTICLES } from "@/lib/seo/articles";
+export { buildLlmsTxt, buildLlmsFullTxt } from "@/lib/seo/llms";
 export { SITE_URL } from "@/lib/seo/site";
 export { RECIPES_KEY, recipeKey } from "@/lib/prerenderData";
 

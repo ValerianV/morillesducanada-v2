@@ -21,6 +21,17 @@ export const DEFAULT_OG_IMAGE: SeoImage = {
 
 export const LOGO_URL = `${SITE_URL}/logo.png`;
 
+export const FOUNDER_NAME = "Valérian Vilane";
+
+// Profils publics réels de l'entreprise (fiche Google, LinkedIn, Instagram…), à ajouter UN PAR UN
+// quand le fondateur les a créés (voir docs/marketing/seo-geo.md). Vide tant qu'aucune URL réelle
+// n'existe : le balisage Organization omet alors « sameAs ».
+export const SAME_AS_URLS: readonly string[] = [];
+
+// Date de dernière vérification de l'offre (prix, conditions) : dateModified des pages d'offre.
+// À mettre à jour à chaque changement de grille ou de conditions.
+export const OFFER_LAST_REVIEWED = "2026-10-01";
+
 export function absoluteUrl(pathOrUrl: string): string {
   if (/^https?:\/\//.test(pathOrUrl)) return pathOrUrl;
   const path = pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`;

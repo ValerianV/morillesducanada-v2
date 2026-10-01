@@ -8,6 +8,7 @@ import { isNoindexPath } from "@/lib/seo/noindex";
 import { I18nProvider } from "@/i18n/context";
 import { lazy, Suspense, useEffect, useState } from "react";
 import Index from "./pages/Index";
+import { ARTICLES } from "@/lib/seo/articles";
 import NotFound from "./pages/NotFound";
 
 const Auth = lazy(() => import("./pages/Auth"));
@@ -28,6 +29,7 @@ const Galerie = lazy(() => import("./pages/Galerie"));
 const Journal = lazy(() => import("./pages/Journal"));
 const PlaquettePro = lazy(() => import("./pages/PlaquettePro"));
 const FicheTechnique = lazy(() => import("./pages/FicheTechnique"));
+const ContentArticle = lazy(() => import("./pages/ContentArticle"));
 
 const queryClient = new QueryClient();
 
@@ -104,6 +106,9 @@ const App = ({ ssrPath, helmetContext }: AppProps = {}) => {
           <Route path="/journal" element={<Journal />} />
           <Route path="/plaquette-pro" element={<PlaquettePro />} />
           <Route path="/fiche-technique" element={<FicheTechnique />} />
+          {ARTICLES.map((article) => (
+            <Route key={article.path} path={article.path} element={<ContentArticle article={article} />} />
+          ))}
           {/* Vente au détail fermée (site réservé aux professionnels) : 301 dans vercel.json. */}
           <Route path="/produits" element={<Navigate to="/professionnels" replace />} />
           <Route path="/produits/*" element={<Navigate to="/professionnels" replace />} />

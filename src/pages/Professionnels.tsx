@@ -15,7 +15,9 @@ import valerianPortrait from "@/assets/valerian-portrait.webp";
 import terrainPhoto from "@/assets/morels/morels-group-golden.webp";
 import closeUpPhoto from "@/assets/morels/gros-plan-alveoles-morille.webp";
 import Seo from "@/components/Seo";
-import { breadcrumbSchema, faqPageSchema, lowestProPricePerKg, proOfferSchema } from "@/lib/seo/schema";
+import { breadcrumbSchema, faqPageSchema, lowestProPricePerKg, proOfferSchema, webPageSchema } from "@/lib/seo/schema";
+import { OFFER_LAST_REVIEWED } from "@/lib/seo/site";
+import { ARTICLES, CONTENT_LINK_LABELS } from "@/lib/seo/articles";
 import { PRO_ONLY_MENTION, formatEurosLocale } from "@/lib/proPricing";
 import { EDITEUR } from "@/lib/legal";
 import { TASTING_TOUR } from "@/lib/tasting";
@@ -59,6 +61,12 @@ const Professionnels = () => {
         path="/professionnels"
         preloadImage={productVacuumBag}
         jsonLd={[
+          webPageSchema({
+            path: "/professionnels",
+            name: t("pro.metaTitle"),
+            description: t("pro.metaDescription").replace("{minPrice}", formatEurosLocale(lowestProPricePerKg() * 100, locale)),
+            dateModified: OFFER_LAST_REVIEWED,
+          }),
           proOfferSchema(),
           faqPageSchema(pro.faq.items),
           breadcrumbSchema([{ name: "Professionnels", path: "/professionnels" }]),
@@ -314,6 +322,22 @@ const Professionnels = () => {
                 </div>
               </aside>
             </div>
+          </section>
+
+          {/* Guides pour les professionnels */}
+          <section className={section} aria-labelledby="guides-pro">
+            <h2 id="guides-pro" className="font-serif text-2xl md:text-3xl text-foreground mb-5">
+              {t("footer.guides")}
+            </h2>
+            <ul lang="fr" className="grid sm:grid-cols-2 gap-x-10 gap-y-2 text-lg max-w-4xl">
+              {ARTICLES.map((article) => (
+                <li key={article.path}>
+                  <Link to={article.path} className="text-primary hover:text-gold-light underline underline-offset-4">
+                    {CONTENT_LINK_LABELS[article.path]}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </section>
 
           {/* 9. FAQ pro */}
