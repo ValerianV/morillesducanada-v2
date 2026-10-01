@@ -48,6 +48,9 @@ Le front réexporte la grille via `src/lib/proPricing.ts` : **une seule source d
 - `src/pages/` : pages (Index, Professionnels, Precommande2027, CGV, MentionsLegales, AdminDashboard…).
   Site réservé aux professionnels : ni panier ni fiches produits ; `/produits*` redirigé (vercel.json).
 - `src/components/Seo.tsx` : balises par page ; `src/lib/seo/` : routes et JSON-LD.
+  `src/lib/seo/articles.ts` : pages de contenu (une route prérendue chacune, `src/pages/ContentArticle.tsx`) ;
+  `robots.ts`, `llms.ts` : `robots.txt`, `llms.txt` et `llms-full.txt` générés au build par le prérendu ;
+  `scripts/indexnow.mjs` : soumission IndexNow après déploiement (clé publique dans `public/`). Voir `docs/marketing/seo-geo.md`.
 - `scripts/prerender.mjs` : rendu SSR des routes publiques après `vite build` ; `dist/spa.html` pour les
   routes applicatives (`/auth`, `/admin`, `/journal`…, réécritures explicites dans `vercel.json`) ;
   `dist/404.html` servi par Vercel avec un vrai code 404 pour toute autre adresse. Le build échoue si

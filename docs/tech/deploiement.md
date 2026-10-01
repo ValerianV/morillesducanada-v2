@@ -94,8 +94,33 @@ et `siret` aux quatre liens de paiement, puis archiver les anciens prix de déta
 ## 6. Après la mise en ligne
 
 Google Search Console : propriété de domaine, soumettre `/sitemap.xml`, demander l'indexation
-de `/`, `/professionnels`, `/precommande-2027`. Idem Bing Webmaster Tools.
-Rich Results Test sur `/professionnels` et `/precommande-2027`.
+de `/`, `/professionnels`, `/precommande-2027` et des 5 pages de contenu. Idem Bing Webmaster Tools.
+Rich Results Test sur `/professionnels`, `/precommande-2027` et une page de contenu (Article, FAQPage).
+
+**IndexNow (Bing, Yandex ; ChatGPT Search s'appuie sur Bing)** : à lancer APRÈS le déploiement en production,
+jamais avant (le fichier de clé doit être en ligne). Le script lit le sitemap en ligne et soumet toutes les URL.
+
+```bash
+node scripts/indexnow.mjs --dry-run   # liste les URL, n'envoie rien
+node scripts/indexnow.mjs             # soumet (HTTP 200 ou 202 attendu)
+node scripts/indexnow.mjs --urls /professionnels,/cgv   # seulement certaines pages
+```
+
+La clé est le nom du fichier `public/<clé>.txt` (publique par conception). Erreurs : 403 = fichier de clé absent du site
+en ligne (déployer d'abord) ; 422 = URL hors du domaine ; 429 = trop de soumissions, réessayer plus tard.
+Contrôle : `curl -s https://www.morillesducanada.com/<clé>.txt` renvoie la clé.
+
+**Contrôles SEO et GEO** :
+
+```bash
+curl -s https://www.morillesducanada.com/robots.txt | grep -c "^User-agent"   # 13 (12 robots + *)
+curl -s https://www.morillesducanada.com/llms.txt | head -5
+curl -s https://www.morillesducanada.com/llms-full.txt | grep -c "^### "
+curl -s https://www.morillesducanada.com/sitemap.xml | grep -c "<loc>"          # 26
+curl -s https://www.morillesducanada.com/prix-morilles-sechees-kilo-professionnels | grep -c '"@type":"Article"'
+```
+
+Détail du plan hors site (Search Console, Bing, fiche Google, avis, test mensuel des IA) : `docs/marketing/seo-geo.md`.
 
 ## Retour arrière
 

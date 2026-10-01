@@ -4,6 +4,17 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-10-01 — SEO approfondi et GEO (être cité par les IA)
+
+- Objectif du fondateur : être cité par ChatGPT, Claude, Perplexity et Gemini quand un professionnel cherche où acheter
+  des morilles séchées. Plan hors site : `docs/marketing/seo-geo.md`.
+- Site : robots.txt explicite pour les robots des moteurs et des IA (Disallow conservés) ; `llms.txt` et `llms-full.txt`
+  générés au build ; 5 pages de contenu (acheter pour la restauration, prix au kilo, morille de feu ou de culture,
+  réhydratation, épiceries fines) signées Valérian Vilane ; Organization (founder, knowsAbout, areaServed), Offer avec
+  UnitPriceSpecification au kilo, FAQPage enrichie, dateModified ; IndexNow (`scripts/indexnow.mjs`, clé dans `public/`).
+- Chiffres de marché : cités uniquement avec leur source (dossier de marché de septembre 2026), sans nommer de concurrent.
+- `sameAs` volontairement vide : à remplir quand les profils publics réels existent (`SAME_AS_URLS`).
+
 ## 2026-10-01 — Échantillon remis en main propre uniquement
 
 - Décision du fondateur : le pot de 30 g offert est **remis en main propre**, lors d'une dégustation, quand Valérian

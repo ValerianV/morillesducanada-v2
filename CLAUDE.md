@@ -25,6 +25,8 @@ envois de prospection et déploiements en production.
 | Récit de marque, faits autorisés / interdits | `docs/business/recit.md` | textes i18n `src/i18n/*.ts` |
 | Marché et positionnement prix | `docs/business/marche.md` | — |
 | Cibles, prospection, suivi commercial | `docs/commercial/strategie.md` | table `pro_leads` |
+| SEO et GEO (robots, llms.txt, pages de contenu, IndexNow, plan hors site) | `docs/marketing/seo-geo.md` | `src/lib/seo/` (articles, schema, robots, llms), `scripts/indexnow.mjs` |
+| Calendrier des dégustations en main propre | `docs/business/offre.md` | `supabase/functions/_shared/tasting.ts` |
 | Architecture technique | `docs/tech/architecture.md` | — |
 | Déploiement (runbook) | `docs/tech/deploiement.md` | — |
 | Accès et services externes | `docs/tech/acces.md` (jamais de secret en clair) | — |

@@ -89,7 +89,7 @@ l'identité de plusieurs établissements pour obtenir plusieurs échantillons pa
 - Calendrier 2026 (constante `TASTING_TOUR` dans `supabase/functions/_shared/tasting.ts`, à modifier à cet endroit) :
   **Avignon et Provence jusqu'au 7 novembre** ; **Chamonix et Mont-Blanc à partir du 8 novembre** ;
   **Maurienne (Val Cenis, Valloire) en décembre**. Hors de ces zones : « contactez-nous, nous étudions chaque demande ».
-- Après modification du calendrier : reporter les zones à la main dans `public/llms.txt` et `public/llms-full.txt`.
+- Après modification du calendrier : `llms.txt` et `llms-full.txt` (générés au build) suivent automatiquement ; reporter à la main dans la plaquette pro si besoin.
 - Les pots de 12, 30 et 45 g (en verre, refermables) servent aussi à l'option pots (livrés vides, voir plus haut).
 
 ## Précommande saison 2027 (professionnels uniquement)
