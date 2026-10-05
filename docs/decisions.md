@@ -20,7 +20,7 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 - Rapports DMARC (Google, Microsoft, 28/09 au 02/10) : 100 % des emails passent DMARC grâce à DKIM aligné.
   SPF non aligné sur le domaine principal : les enregistrements `send.morillesducanada.com` (MX et TXT Resend) sont
   absents du DNS. À rajouter chez IONOS avant de passer DMARC en `p=quarantine`.
-- Les expéditeurs de prospection ne recevaient rien : créer la redirection IONOS `valerian@morillesducanada.com` → contact@ ;
+- Les expéditeurs de prospection ne recevaient rien : redirection IONOS `valerian@morillesducanada.com` → contact@ créée le 05/10 ;
   les emails gardent `Reply-To: contact@`. Le sous-domaine `pro.` n'a pas de boîte : toujours mettre le Reply-To.
 - contact@ est transféré vers le Gmail du fondateur (copie conservée chez IONOS).
 
