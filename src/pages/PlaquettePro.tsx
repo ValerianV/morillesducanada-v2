@@ -211,7 +211,7 @@ const PlaquettePro = () => (
             <div className="bg-[#1a1612] text-[#f4efe4] rounded-sm p-5">
               <Eyebrow light>Dégustation en main propre</Eyebrow>
               <p className="text-base leading-relaxed">
-                Un pot en verre de {PRO_SAMPLE_GRAMS} g offert, remis en main propre lors de mon passage dans votre zone, pour goûter avant de commander. Envoi possible au cas par cas, après un échange avec moi.
+                Un pot en verre de {PRO_SAMPLE_GRAMS} g offert, remis en main propre lors de mon passage dans votre zone, pour goûter avant de commander. Envoi possible au cas par cas, après un échange téléphonique avec moi.
               </p>
             </div>
             <div className="bg-[#1a1612] text-[#f4efe4] rounded-sm p-5">

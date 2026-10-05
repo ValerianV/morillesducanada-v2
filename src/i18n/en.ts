@@ -235,7 +235,7 @@ export const en = {
     sample: {
       label: "Tasting",
       title: "Taste before you order",
-      text: "The free 30 g jar is handed over in person at a tasting: I visit your area on the dates below. Shipping is possible case by case, after a conversation with me.",
+      text: "The free 30 g jar is handed over in person at a tasting: I visit your area on the dates below. Shipping is possible case by case, after a phone call with me.",
       tourTitle: "Where and when I visit",
       tourNote: "Outside these areas, contact me: I look at each request.",
       cta: "Request a tasting",
@@ -323,7 +323,7 @@ export const en = {
         { q: "Which varieties will I receive?", a: "Wild Canadian morels, mixed varieties, dried, whole and stemless. The trade offer does not include sorting by variety." },
         { q: "How does volume pricing work?", a: "The price per kilo depends on the total quantity ordered. The tier you reach applies to the whole order (see the price table)." },
         { q: "How fast do you ship?", a: "Within 5 business days of order confirmation, by tracked parcel." },
-        { q: "How can I taste before ordering?", a: "The free 30 g jar is handed over in person at a tasting: I visit your area on specific dates (calendar on this page). Fill in the \"Tasting in person\" tab with your town and availability. Outside these areas, contact me: shipping is possible case by case, after a conversation with me." },
+        { q: "How can I taste before ordering?", a: "The free 30 g jar is handed over in person at a tasting: I visit your area on specific dates (calendar on this page). Fill in the \"Tasting in person\" tab with your town and availability. Outside these areas, contact me: shipping is possible case by case, after a phone call with me." },
         { q: "How much can I order?", a: "From 1 kg to 45 kg, in 500 g steps, subject to the stock available in France." },
         { q: "How are the morels packed?", a: "In 250 g vacuum packs: for example, 3 kg = 12 packs of 250 g. Delicatessens can repack them under their own brand." },
         { q: "How do I pay?", a: "When you order: by card online, for the quantity of your choice (1 to 45 kg, jars optional), on a secure Stripe payment page; or by bank transfer on invoice after a quote. Quotes are confirmed within 48 business hours." },

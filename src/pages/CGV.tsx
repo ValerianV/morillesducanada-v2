@@ -167,7 +167,7 @@ const CGV = () => (
       <p>
         Un pot en verre de {PRO_SAMPLE_GRAMS} g est offert, sans obligation d'achat et dans la limite des stocks. Il est remis
         en main propre lors d'une dégustation organisée par le vendeur dans la zone de l'acheteur, sur demande depuis la page
-        Professionnels (calendrier des passages indiqué sur cette page). Un envoi est possible au cas par cas, après échange
+        Professionnels (calendrier des passages indiqué sur cette page). Un envoi est possible au cas par cas, après échange téléphonique
         avec le vendeur ; la demande en ligne ne déclenche jamais d'envoi.
       </p>
     </section>

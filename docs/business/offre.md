@@ -79,7 +79,7 @@ Réclamation transport : sous 48 h à réception.
 ## Échantillon : remis en main propre lors d'une dégustation (décisions du 2026-10-01)
 
 Un **pot en verre de 30 g**, refermable, offert, **remis en main propre** lors d'une dégustation, quand le fondateur
-est dans la zone du prospect. **Envoi possible au cas par cas, après échange avec Valérian**, uniquement à un
+est dans la zone du prospect. **Envoi possible au cas par cas, après un échange téléphonique avec Valérian**, uniquement à un
 établissement que nous avons démarché et qui répond. Le formulaire du site ne déclenche **jamais** d'envoi, et
 « envoi gratuit sur simple demande » ne doit apparaître nulle part. Raison : on peut trop facilement usurper
 l'identité de plusieurs établissements pour obtenir plusieurs échantillons par la poste.

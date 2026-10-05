@@ -4,6 +4,12 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-10-05 — Échantillon envoyé seulement après un appel
+
+- Décision du fondateur : un pot de 30 g n'est envoyé par la poste qu'après un échange téléphonique avec le prospect
+  (toujours un prospect contacté par nous, au cas par cas). Raison : éviter les demandes d'échantillon sans suite ;
+  l'appel qualifie l'intérêt et c'est là que la vente se conclut. La remise en main propre lors d'une dégustation reste inchangée.
+
 ## 2026-10-05 — Le site parle à la première personne (« je »)
 
 - Décision du fondateur : un seul narrateur, Valérian, à la première personne. Plus aucun « nous » (site FR et EN,
