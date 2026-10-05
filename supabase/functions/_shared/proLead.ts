@@ -27,7 +27,7 @@ import {
 } from "./proPricing.ts";
 import { TASTING_TOUR, tastingTourLines } from "./tasting.ts";
 
-// Demandes acceptées depuis le 2026-10-01 : devis au kilo ou dégustation en main propre.
+// Demandes acceptées depuis le 2026-10-01 : devis au kilo ou échantillon en main propre.
 export const PRO_LEAD_KINDS = ["devis", "degustation"] as const;
 export type ProLeadKind = (typeof PRO_LEAD_KINDS)[number];
 // Ancien type (échantillon posté), encore présent dans la base et envoyé par une page en cache :
@@ -234,7 +234,7 @@ export function adminSubject(lead: ProLeadInput): string {
   const subject =
     lead.kind === "devis" && lead.kg !== null
       ? `[DEVIS] ${formatKg(lead.kg)} — ${who}`
-      : `[DÉGUSTATION] ${who}`;
+      : `[ÉCHANTILLON] ${who}`;
   return clip(subject.replace(/\s+/g, " "), 200);
 }
 
@@ -254,7 +254,7 @@ function textTable(rows: Array<[string, string]>): string {
 
 export function buildAdminEmail(lead: ProLeadInput, q: ProQuote | null, leadId: string): EmailContent {
   const rows: Array<[string, string]> = [
-    ["Type", lead.kind === "devis" ? "Devis au kilo" : `Dégustation en main propre (pot de ${PRO_SAMPLE_GRAMS} g)`],
+    ["Type", lead.kind === "devis" ? "Devis au kilo" : `Échantillon en main propre (pot de ${PRO_SAMPLE_GRAMS} g)`],
     ["Établissement", lead.company],
     ["SIRET", formatSiret(lead.siret)],
     ["Type d'établissement", ESTABLISHMENT_LABELS[lead.establishment_type].fr],
@@ -275,7 +275,7 @@ export function buildAdminEmail(lead: ProLeadInput, q: ProQuote | null, leadId: 
     emailText(
       lead.kind === "devis"
         ? `${lead.contact_name} (${lead.company}, ${lead.city}) demande un devis depuis /professionnels.`
-        : `${lead.contact_name} (${lead.company}, ${lead.city}) demande une dégustation en main propre (pot de ${PRO_SAMPLE_GRAMS} g). Rien à expédier : à planifier lors d'un passage dans sa zone.`,
+        : `${lead.contact_name} (${lead.company}, ${lead.city}) demande un échantillon en main propre (pot de ${PRO_SAMPLE_GRAMS} g). Rien à expédier : à planifier lors d'un passage dans sa zone.`,
     ),
     q ? emailHeading("Devis estimé") + emailDetails(quoteTable, { emphasizeLast: true }) : "",
     q ? emailText("Estimation calculée par le site avec la grille publique, à confirmer.", { muted: true, small: true }) : "",
@@ -290,8 +290,8 @@ export function buildAdminEmail(lead: ProLeadInput, q: ProQuote | null, leadId: 
   const html = renderEmailLayout({
     preheader: q
       ? `${lead.company} (${lead.city}) · ${formatKg(q.kg)} · ${formatEurosLocale(q.totalCents)}`
-      : `${lead.company} (${lead.city}) · dégustation en main propre`,
-    title: lead.kind === "devis" ? "Nouvelle demande de devis" : "Nouvelle demande de dégustation",
+      : `${lead.company} (${lead.city}) · échantillon en main propre`,
+    title: lead.kind === "devis" ? "Nouvelle demande de devis" : "Nouvelle demande d'échantillon",
     bodyHtml: body,
     cta: { label: "Ouvrir les leads pro", url: `${SITE_URL}/admin` },
     footerNote: "Alerte interne envoyée par le formulaire /professionnels.",
@@ -322,16 +322,16 @@ export function buildProspectEmail(lead: ProLeadInput, q: ProQuote | null): Emai
       ? "Your quote request — Morilles du Canada"
       : "Votre demande de devis — Morilles du Canada"
     : en
-      ? "Your tasting request — Morilles du Canada"
-      : "Votre demande de dégustation — Morilles du Canada";
+      ? "Your sample request — Morilles du Canada"
+      : "Votre demande d'échantillon — Morilles du Canada";
 
   const intro = isQuote
     ? en
-      ? `We have received your quote request for ${formatKg(q!.kg, "en")} of wild Canadian morels, dried, whole and stemless.`
+      ? `I have received your quote request for ${formatKg(q!.kg, "en")} of wild Canadian morels, dried, whole and stemless.`
       : `J'ai bien reçu votre demande de devis pour ${formatKg(q!.kg)} de morilles sauvages du Canada, séchées, entières et équeutées.`
     : en
-      ? `We have received your tasting request. The free ${PRO_SAMPLE_GRAMS} g jar is handed over in person at a tasting, when Valérian visits your area. Shipping is possible case by case, after a conversation with him.`
-      : `J'ai bien reçu votre demande de dégustation. Le pot de ${PRO_SAMPLE_GRAMS} g offert est remis en main propre lors d'une dégustation, quand Valérian passe dans votre zone. Un envoi est possible au cas par cas, après échange avec lui.`;
+      ? `I have received your sample request. The free ${PRO_SAMPLE_GRAMS} g jar is handed over in person when I visit your area. Shipping is possible case by case, after a phone call with me.`
+      : `J'ai bien reçu votre demande d'échantillon. Le pot de ${PRO_SAMPLE_GRAMS} g offert est remis en main propre lors de mon passage dans votre zone. Un envoi est possible au cas par cas, après un échange téléphonique avec moi.`;
 
   const next = isQuote
     ? en
@@ -378,11 +378,11 @@ export function buildProspectEmail(lead: ProLeadInput, q: ProQuote | null): Emai
         ? `${formatKg(q!.kg, "en")} at ${formatTierPrice(q!.tier, "en")}: estimated total ${formatEurosLocale(q!.totalCents, "en")}.`
         : `${formatKg(q!.kg)} à ${formatTierPrice(q!.tier)} : total estimé ${formatEurosLocale(q!.totalCents)}.`
       : en
-        ? `Your ${PRO_SAMPLE_GRAMS} g jar is handed over in person: Valérian will contact you to arrange a time.`
-        : `Votre pot de ${PRO_SAMPLE_GRAMS} g est remis en main propre : Valérian vous recontacte pour convenir d'un rendez-vous.`,
+        ? `Your ${PRO_SAMPLE_GRAMS} g jar is handed over in person: I will contact you to arrange a time.`
+        : `Votre pot de ${PRO_SAMPLE_GRAMS} g est remis en main propre : je vous recontacte pour convenir d'un rendez-vous.`,
     title: isQuote
       ? en ? "Your quote request" : "Votre demande de devis"
-      : en ? "Your tasting request" : "Votre demande de dégustation",
+      : en ? "Your sample request" : "Votre demande d'échantillon",
     bodyHtml: body,
     cta: { label: en ? "See per-kilo prices" : "Voir la grille au kilo", url: `${SITE_URL}/professionnels` },
     afterCtaHtml: `<div style="height:12px;line-height:12px;font-size:12px;">&nbsp;</div>${closing}`,

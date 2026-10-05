@@ -137,7 +137,7 @@ describe("emails", () => {
     expect(oneAndHalf.ok && adminSubject(oneAndHalf.lead)).toBe("[DEVIS] 1,5 kg — Le Gourmet (Lyon)");
     expect(validateProLead({ ...base, kg: 0.5 }).ok).toBe(false);
     const tasting = validateProLead({ ...base, kind: "degustation", availability: "mardi" });
-    expect(tasting.ok && adminSubject(tasting.lead)).toBe("[DÉGUSTATION] Le Gourmet (Lyon)");
+    expect(tasting.ok && adminSubject(tasting.lead)).toBe("[ÉCHANTILLON] Le Gourmet (Lyon)");
   });
 
   it("échappe le HTML saisi par le prospect", () => {
@@ -168,7 +168,7 @@ describe("emails", () => {
     const r = validateProLead({ ...base, kind: "degustation", availability: "Mardi après-midi" });
     if (!r.ok) throw new Error("fixture invalide");
     const mail = buildProspectEmail(r.lead, r.quote);
-    expect(mail.subject).toBe("Votre demande de dégustation — Morilles du Canada");
+    expect(mail.subject).toBe("Votre demande d'échantillon — Morilles du Canada");
     expect(mail.text).toContain("30 g");
     expect(mail.text).toContain("en main propre");
     expect(mail.text).toContain("Mardi après-midi");
@@ -184,7 +184,7 @@ describe("emails", () => {
     const r = validateProLead({ ...base, kind: "degustation", availability: "Tuesday afternoon", locale: "en" });
     if (!r.ok) throw new Error("fixture invalide");
     const mail = buildProspectEmail(r.lead, r.quote);
-    expect(mail.subject).toBe("Your tasting request — Morilles du Canada");
+    expect(mail.subject).toBe("Your sample request — Morilles du Canada");
     expect(mail.text).toContain("30 g");
     expect(mail.text).toContain("in person");
     expect(mail.text).toContain("Chamonix and Mont-Blanc");
@@ -194,7 +194,7 @@ describe("emails", () => {
     const r = validateProLead({ ...base, kind: "degustation", availability: "Mardi après-midi" });
     if (!r.ok) throw new Error("fixture invalide");
     const mail = buildAdminEmail(r.lead, r.quote, "abc");
-    expect(mail.text).toContain("Dégustation en main propre");
+    expect(mail.text).toContain("Échantillon en main propre");
     expect(mail.text).toContain("Disponibilités : Mardi après-midi");
     expect(mail.text).not.toContain("Adresse :");
   });

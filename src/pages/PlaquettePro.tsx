@@ -211,7 +211,7 @@ const PlaquettePro = () => (
             <div className="bg-[#1a1612] text-[#f4efe4] rounded-sm p-5">
               <Eyebrow light>Dégustation en main propre</Eyebrow>
               <p className="text-base leading-relaxed">
-                Un pot en verre de {PRO_SAMPLE_GRAMS} g offert, remis en main propre lors de mon passage dans votre zone, pour goûter avant de commander. Envoi possible au cas par cas, après un échange téléphonique avec moi.
+                Un pot en verre de {PRO_SAMPLE_GRAMS} g offert, remis en main propre lors de mon passage dans votre zone, pour juger sur pièce avant de commander. Envoi possible au cas par cas, après un échange téléphonique avec moi.
               </p>
             </div>
             <div className="bg-[#1a1612] text-[#f4efe4] rounded-sm p-5">
@@ -229,7 +229,7 @@ const PlaquettePro = () => (
       <Page dark>
         <div className="px-5 sm:px-12 py-12 space-y-10">
           <div className="text-center">
-            <Eyebrow light>Commander · Goûter · Précommander</Eyebrow>
+            <Eyebrow light>Commander · Échantillon · Précommander</Eyebrow>
             <h2 className="font-serif text-4xl font-light">Travaillons ensemble</h2>
             <p className="mt-4 text-base text-[#f4efe4]/85 max-w-md mx-auto leading-relaxed">
               Un appel ou un email suffit pour un devis, une commande ou une dégustation. Je suis votre interlocuteur unique.

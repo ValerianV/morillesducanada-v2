@@ -34,7 +34,7 @@ const STATUS_LABELS: Record<ProLeadStatus, string> = {
   nouveau: "Nouveau",
   contacte: "Contacté",
   devis_envoye: "Devis envoyé",
-  degustation_planifiee: "Dégustation planifiée",
+  degustation_planifiee: "Remise planifiée",
   echantillon_remis: "Échantillon remis",
   echantillon_envoye: "Échantillon posté (ancien)",
   gagne: "Gagné",
@@ -188,7 +188,7 @@ const ProLeadsTab = ({ refreshToken }: { refreshToken: number }) => {
         >
           <option value="all">Devis et dégustations</option>
           <option value="devis">Devis</option>
-          <option value="degustation">Dégustations</option>
+          <option value="degustation">Échantillons</option>
           <option value={LEGACY_SAMPLE_KIND}>Échantillons postés (anciens)</option>
         </select>
         <select

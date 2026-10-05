@@ -152,11 +152,11 @@ export const ARTICLES: readonly ArticleDef[] = [
       },
       {
         id: "gouter",
-        q: "Puis-je goûter avant de commander ?",
-        answer: `Oui : un pot en verre de ${PRO_SAMPLE_GRAMS} g est offert et remis en main propre lors d'une dégustation, quand Valérian passe dans votre zone. Hors de ces zones, contactez Valérian : il étudie chaque demande.`,
+        q: "Puis-je avoir un échantillon avant de commander ?",
+        answer: `Oui : un pot en verre de ${PRO_SAMPLE_GRAMS} g est offert et remis en main propre, quand Valérian passe dans votre zone. Hors de ces zones, contactez Valérian : il étudie chaque demande.`,
         blocks: [
           { type: "ul", items: tastingLines },
-          { type: "p", text: "La demande se fait depuis l'onglet « Dégustation en main propre » de la page [Professionnels](/professionnels#degustation)." },
+          { type: "p", text: "La demande se fait depuis l'onglet « Échantillon en main propre » de la page [Professionnels](/professionnels#degustation)." },
         ],
       },
       {
@@ -469,8 +469,8 @@ export const ARTICLES: readonly ArticleDef[] = [
       },
       {
         id: "gouter",
-        q: "Peut-on goûter avant de commander ?",
-        answer: `Oui : un pot en verre de ${PRO_SAMPLE_GRAMS} g est offert et remis en main propre lors d'une dégustation, quand Valérian passe dans votre zone. Hors de ces zones, contactez Valérian : il étudie chaque demande.`,
+        q: "Peut-on avoir un échantillon avant de commander ?",
+        answer: `Oui : un pot en verre de ${PRO_SAMPLE_GRAMS} g est offert et remis en main propre, quand Valérian passe dans votre zone. Hors de ces zones, contactez Valérian : il étudie chaque demande.`,
         blocks: [{ type: "ul", items: tastingLines }],
       },
       {

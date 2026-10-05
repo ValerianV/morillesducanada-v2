@@ -61,7 +61,7 @@ describe("page /professionnels", () => {
       "Une morille sauvage, cueillie après le feu",
       "Pourquoi des morilles équeutées",
       "De la forêt brûlée à votre cuisine",
-      "Goûtez avant de commander",
+      "Jugez sur pièce avant de commander",
       "Précommandez la saison 2027",
       "Conditions de vente",
       "Votre demande",
@@ -248,7 +248,7 @@ describe("page /professionnels", () => {
   it("onglet dégustation : pas d'adresse, disponibilités obligatoires, calendrier affiché, pas de quantité envoyée", async () => {
     invoke.mockResolvedValue({ data: { ok: true, id: "y" }, error: null });
     renderPage();
-    const tab = screen.getByRole("tab", { name: "Dégustation en main propre" });
+    const tab = screen.getByRole("tab", { name: "Échantillon en main propre" });
     fireEvent.mouseDown(tab);
     fireEvent.click(tab);
     await waitFor(() => expect(screen.getByLabelText(/Vos disponibilités/)).toBeInTheDocument());
@@ -256,10 +256,10 @@ describe("page /professionnels", () => {
     expect(screen.getAllByText("Avignon et Provence").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Chamonix et Mont-Blanc").length).toBeGreaterThan(0);
     fillCommon();
-    fireEvent.click(submitButton("Demander ma dégustation"));
+    fireEvent.click(submitButton("Demander mon échantillon"));
     expect(invoke).not.toHaveBeenCalled();
     fireEvent.change(screen.getByLabelText(/Vos disponibilités/), { target: { value: "Mardi après-midi" } });
-    fireEvent.click(submitButton("Demander ma dégustation"));
+    fireEvent.click(submitButton("Demander mon échantillon"));
     await waitFor(() => expect(screen.getByText("Demande envoyée")).toBeInTheDocument());
     const body = invoke.mock.calls[0][1].body;
     expect(body.kind).toBe("degustation");

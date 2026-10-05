@@ -102,7 +102,7 @@ coller la description unique, le NAP, le lien vers `/professionnels`. Noter chaq
 Les moteurs de réponse citent volontiers des articles de presse. Angle vrai et simple : un ancien cueilleur de
 morilles de feu (trois saisons, 2022 à 2024, Colombie-Britannique et Yukon) qui fournit désormais restaurants et épiceries.
 
-1. Liste courte : presse locale des zones de dégustation (Vaucluse, Haute-Savoie, Savoie : par exemple La Provence, Le Dauphiné Libéré, Le Messager), presse professionnelle de la restauration et de l'épicerie fine.
+1. Liste courte : presse locale des zones de passage (Vaucluse, Haute-Savoie, Savoie : par exemple La Provence, Le Dauphiné Libéré, Le Messager), presse professionnelle de la restauration et de l'épicerie fine.
 2. Écrire un email de 6 lignes à la rédaction : qui (Valérian), quoi (morilles de feu, rares, une saison), pourquoi maintenant (dégustations en main propre, calendrier de passage), contact. Joindre 2 photos de `src/assets/morels/`.
 3. Chaque mention obtenue : l'ajouter à `docs/marketing/` (date, média, lien) et, si elle est vérifiable, la citer sur le site avec la source.
 4. Aucun email de prospection de masse sans feu vert (règle `CLAUDE.md`).

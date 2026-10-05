@@ -4,6 +4,14 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-10-05 — « Échantillon en main propre » remplace « dégustation »
+
+- Précision du fondateur : il n'y a pas de dégustation (réhydrater et cuisiner prend trop de temps). Il passe remettre
+  en main propre un pot de 30 g de morilles séchées, avec une carte, au chef ou au directeur, et fait sa présentation
+  commerciale. Le site, les emails et les relances disaient « dégustation » : tout est renommé « échantillon en main propre ».
+- Identifiants techniques inchangés (`kind = "degustation"`, ancre `#degustation`, statut `degustation_planifiee`)
+  pour ne pas casser les liens ni les données existantes.
+
 ## 2026-10-05 — Échantillon envoyé seulement après un appel
 
 - Décision du fondateur : un pot de 30 g n'est envoyé par la poste qu'après un échange téléphonique avec le prospect

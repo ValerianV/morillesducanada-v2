@@ -76,15 +76,15 @@ Paiement **à la commande** (carte ou virement). Pénalités de retard : 3 fois 
 indemnité forfaitaire de recouvrement : 40 €. Pas de droit de rétractation (ventes entre professionnels).
 Réclamation transport : sous 48 h à réception.
 
-## Échantillon : remis en main propre lors d'une dégustation (décisions du 2026-10-01)
+## Échantillon : remis en main propre (décisions du 2026-10-01)
 
-Un **pot en verre de 30 g**, refermable, offert, **remis en main propre** lors d'une dégustation, quand le fondateur
+Un **pot en verre de 30 g**, refermable, offert, **remis en main propre** lors d'un passage, quand le fondateur
 est dans la zone du prospect. **Envoi possible au cas par cas, après un échange téléphonique avec Valérian**, uniquement à un
 établissement que nous avons démarché et qui répond. Le formulaire du site ne déclenche **jamais** d'envoi, et
 « envoi gratuit sur simple demande » ne doit apparaître nulle part. Raison : on peut trop facilement usurper
 l'identité de plusieurs établissements pour obtenir plusieurs échantillons par la poste.
 
-- Demande : onglet « Dégustation en main propre » de `/professionnels` (SIRET, ville, code postal, disponibilités ;
+- Demande : onglet « Échantillon en main propre » de `/professionnels` (SIRET, ville, code postal, disponibilités ;
   plus d'adresse de livraison). Valérian recontacte le prospect pour convenir d'un rendez-vous.
 - Calendrier 2026 (constante `TASTING_TOUR` dans `supabase/functions/_shared/tasting.ts`, à modifier à cet endroit) :
   **Avignon et Provence jusqu'au 7 novembre** ; **Chamonix et Mont-Blanc à partir du 8 novembre** ;
