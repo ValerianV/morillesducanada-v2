@@ -4,6 +4,26 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-10-05 — Le site parle à la première personne (« je »)
+
+- Décision du fondateur : un seul narrateur, Valérian, à la première personne. Plus aucun « nous » (site FR et EN,
+  pages, emails automatiques). Raison : il est seul, intermédiaire unique ; « nous » suggérait une équipe qui n'existe pas.
+- Le nom « Valérian » reste à la troisième personne uniquement pour l'identifier (titres, légendes, libellés de contact,
+  plaquette) et dans les contenus faits pour être cités hors contexte par les IA (`llms.txt`, réponses FAQ des articles,
+  données structurées) : une phrase extraite doit garder son sujet.
+- Nouvelle photo du fondateur (`src/assets/valerian-vilane-fondateur.webp`, 720×960, recadrée 3:4 ; version carrée
+  `public/images/valerian-vilane-fondateur-morilles-du-canada.webp` déclarée comme `image` de la Person en JSON-LD).
+- Titres en dégradé doré : marge interne pour ne plus couper le jambage des italiques (« f » de « professionnels »).
+
+## 2026-10-05 — Emails : authentification vérifiée, réponses sécurisées
+
+- Rapports DMARC (Google, Microsoft, 28/09 au 02/10) : 100 % des emails passent DMARC grâce à DKIM aligné.
+  SPF non aligné sur le domaine principal : les enregistrements `send.morillesducanada.com` (MX et TXT Resend) sont
+  absents du DNS. À rajouter chez IONOS avant de passer DMARC en `p=quarantine`.
+- Les expéditeurs de prospection ne recevaient rien : créer la redirection IONOS `valerian@morillesducanada.com` → contact@ ;
+  les emails gardent `Reply-To: contact@`. Le sous-domaine `pro.` n'a pas de boîte : toujours mettre le Reply-To.
+- contact@ est transféré vers le Gmail du fondateur (copie conservée chez IONOS).
+
 ## 2026-10-01 — SEO approfondi et GEO (être cité par les IA)
 
 - Objectif du fondateur : être cité par ChatGPT, Claude, Perplexity et Gemini quand un professionnel cherche où acheter

@@ -63,6 +63,8 @@ envois de prospection et déploiements en production.
 - Migrations SQL : idempotentes, datées, jamais `supabase db push` à l'aveugle (anciennes migrations
   Lovable présentes — voir `docs/tech/deploiement.md`).
 - Textes : vouvoiement, sobre, premium, sans superlatifs creux ni emojis. FR prioritaire, EN via i18n.
+  Narrateur : « je » (Valérian), jamais « nous » ; le nom à la troisième personne seulement pour l'identifier
+  ou dans un contenu fait pour être cité par les IA (voir `docs/decisions.md`, 2026-10-05).
 - Navigation web : skill `/browse` (gstack) pour les tests en local ; navigateur intégré pour les
   dashboards où le fondateur est connecté.
 

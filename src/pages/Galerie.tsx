@@ -38,7 +38,7 @@ const Galerie = () => {
             <div className="text-center mb-16">
               <p className="text-sm tracking-[0.3em] uppercase text-primary mb-4">{en ? "Gallery" : "Galerie"}</p>
               <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light">
-                {en ? "Our morels" : "Nos morilles"} <span className="italic text-gradient-gold">{en ? "in the forest" : "en forêt"}</span>
+                {en ? "My morels" : "Mes morilles"} <span className="italic text-gradient-gold">{en ? "in the forest" : "en forêt"}</span>
               </h1>
               <div className="divider-gold w-24 mx-auto mt-8" />
               <p className="text-base text-foreground/85 mt-6 max-w-2xl mx-auto">{t("gallery.description")}</p>

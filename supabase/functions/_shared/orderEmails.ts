@@ -190,10 +190,10 @@ export function buildOrderConfirmationEmail(input: OrderConfirmationInput): Buil
   const address = addressLines(input.shippingAddress);
 
   const greeting = `Bonjour ${input.customerName},`;
-  const intro = "Merci pour votre commande. Votre paiement est confirmé et nous préparons votre colis.";
+  const intro = "Merci pour votre commande. Votre paiement est confirmé et je prépare votre colis.";
   const shippingNote =
     "Votre colis sera expédié sous 5 jours ouvrés, en colis suivi. Vous recevrez un email avec le numéro de suivi dès son départ.";
-  const invoiceNote = `Votre facture ${invoice}, avec notre numéro SIRET, vous est envoyée par email.`;
+  const invoiceNote = `Votre facture ${invoice}, avec mon numéro SIRET, vous est envoyée par email.`;
   const delivery = input.proOrder ? proOrderDeliveryLines(input.proOrder) : [];
 
   const body = [
@@ -309,17 +309,17 @@ export const STATUS_LABELS: Record<string, string> = {
 
 // Titre et phrase d'introduction de l'email client selon le statut.
 const STATUS_COPY: Record<string, { title: string; intro: string }> = {
-  paid: { title: "Paiement confirmé", intro: "Votre paiement est confirmé. Nous préparons votre colis, expédié sous 5 jours ouvrés." },
+  paid: { title: "Paiement confirmé", intro: "Votre paiement est confirmé. Je prépare votre colis, expédié sous 5 jours ouvrés." },
   confirmed: { title: "Commande confirmée", intro: "Votre commande est confirmée. Elle sera expédiée sous 5 jours ouvrés." },
   shipped: { title: "Votre colis est en route", intro: "Votre commande vient d'être expédiée, en colis suivi." },
-  delivered: { title: "Votre commande est livrée", intro: "Votre commande est indiquée comme livrée. Nous espérons que vos morilles vous donneront satisfaction." },
-  cancelled: { title: "Commande annulée", intro: "Votre commande a été annulée. Pour toute question, écrivez-nous." },
-  acompte_paye: { title: "Acompte reçu", intro: "Nous avons bien reçu l'acompte de votre précommande." },
+  delivered: { title: "Votre commande est livrée", intro: "Votre commande est indiquée comme livrée. J'espère que vos morilles vous donneront satisfaction." },
+  cancelled: { title: "Commande annulée", intro: "Votre commande a été annulée. Pour toute question, écrivez-moi." },
+  acompte_paye: { title: "Acompte reçu", intro: "J'ai bien reçu l'acompte de votre précommande." },
   solde_facture: { title: "Solde de votre précommande", intro: "Le solde de votre précommande vous a été facturé, avant l'expédition." },
   expediee: { title: "Votre précommande est en route", intro: "Vos morilles viennent d'être expédiées, en colis suivi." },
   livree: { title: "Votre précommande est livrée", intro: "Votre précommande est indiquée comme livrée." },
   rembourse: { title: "Acompte remboursé", intro: "Votre acompte vous a été intégralement remboursé." },
-  annulee: { title: "Précommande annulée", intro: "Votre précommande a été annulée. Pour toute question, écrivez-nous." },
+  annulee: { title: "Précommande annulée", intro: "Votre précommande a été annulée. Pour toute question, écrivez-moi." },
 };
 
 export interface StatusRecord {
@@ -385,7 +385,7 @@ export function buildStatusEmail(type: NotificationType, record: StatusRecord): 
       blocks.push(emailHeading("Votre commande"), items.html);
       blocks.push(
         emailText(
-          `Votre facture ${invoiceNumber(record.id, record.created_at ?? new Date())}, avec notre numéro SIRET, vous est envoyée par email.`,
+          `Votre facture ${invoiceNumber(record.id, record.created_at ?? new Date())}, avec mon numéro SIRET, vous est envoyée par email.`,
           { muted: true, small: true },
         ),
       );
@@ -423,7 +423,7 @@ export function buildStatusEmail(type: NotificationType, record: StatusRecord): 
     blocks.push(emailDetails(rows));
     textLines.push(...rows.map(([l, v]) => `${l} : ${v}`));
     if (record.status !== "rembourse" && record.status !== "annulee") {
-      const guarantee = "S'il nous est impossible de fournir vos morilles, votre acompte vous est intégralement remboursé.";
+      const guarantee = "S'il m'est impossible de fournir vos morilles, votre acompte vous est intégralement remboursé.";
       blocks.push(emailPanel("Garantie de l'acompte", emailLines([guarantee])));
       textLines.push("", guarantee);
     }
@@ -439,7 +439,7 @@ export function buildStatusEmail(type: NotificationType, record: StatusRecord): 
     textLines.push(...rows.map(([l, v]) => `${l} : ${v}`));
   }
 
-  const help = "Une question : répondez à cet email ou écrivez-nous à";
+  const help = "Une question : répondez à cet email ou écrivez-moi à";
   blocks.push(emailParagraph(`${help} ${emailLink(BRAND.contactEmail, `mailto:${BRAND.contactEmail}`)}.`, { muted: true, small: true }));
   textLines.push("", `${help} ${BRAND.contactEmail}.`);
   if (commercial) textLines.push("", `${BRAND.taxMention}.`);

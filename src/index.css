@@ -113,6 +113,10 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    /* Le dégradé est découpé à la boîte du texte : sans cette marge, le jambage et la pente
+       des lettres italiques (f, j, g) sortent de la boîte et disparaissent. */
+    padding: 0 0.08em 0.14em;
+    margin: 0 -0.08em -0.14em;
   }
 
   .bg-gradient-dark {

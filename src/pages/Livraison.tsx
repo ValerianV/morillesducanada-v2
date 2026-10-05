@@ -35,7 +35,7 @@ const Livraison = () => (
       <p>
         Les morilles sont livrées en <strong>sachets sous vide de {PRO_PACK_GRAMS} g</strong> : par exemple, 3 kg = 12
         sachets. Produit sec, sans chaîne du froid.
-        L'échantillon offert (pot en verre de 30 g) est remis en main propre lors d'une dégustation ; un envoi est possible au cas par cas, après échange avec Valérian.
+        L'échantillon offert (pot en verre de 30 g) est remis en main propre lors d'une dégustation ; un envoi est possible au cas par cas, après un échange avec moi.
       </p>
     </section>
 
@@ -43,8 +43,8 @@ const Livraison = () => (
       <h2>Réception et réclamations</h2>
       <p>
         Vérifiez le colis à la réception. En cas d'avarie ou de manquant, émettez des réserves précises auprès du transporteur
-        et écrivez-nous <strong>dans les 48 heures</strong> à <a href={`mailto:${EDITEUR.email}`}>{EDITEUR.email}</a>, avec
-        des photos. Nous vous proposerons un renvoi ou un remboursement.
+        et écrivez-moi <strong>dans les 48 heures</strong> à <a href={`mailto:${EDITEUR.email}`}>{EDITEUR.email}</a>, avec
+        des photos. Je vous proposerai un renvoi ou un remboursement.
       </p>
     </section>
 

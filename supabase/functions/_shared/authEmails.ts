@@ -81,7 +81,7 @@ export function buildAuthEmail(type: AuthEmailType, input: AuthEmailInput): Buil
       subject = "Réinitialisation de votre mot de passe — Morilles du Canada";
       title = "Choisissez un nouveau mot de passe";
       preheader = "Vous avez demandé à réinitialiser votre mot de passe.";
-      lines = ["Nous avons reçu une demande de réinitialisation du mot de passe de votre compte.", "Le bouton ci-dessous vous permet d'en choisir un nouveau."];
+      lines = ["Une demande de réinitialisation du mot de passe de votre compte a été reçue.", "Le bouton ci-dessous vous permet d'en choisir un nouveau."];
       cta = { label: "Choisir un mot de passe", url };
       footerNote = "Si vous n'êtes pas à l'origine de cette demande, ignorez cet email : votre mot de passe reste inchangé.";
       break;
@@ -94,7 +94,7 @@ export function buildAuthEmail(type: AuthEmailType, input: AuthEmailInput): Buil
         "Confirmez ce changement avec le bouton ci-dessous.",
       ];
       cta = { label: "Confirmer le changement", url };
-      footerNote = "Si vous n'êtes pas à l'origine de cette demande, écrivez-nous sans attendre à contact@morillesducanada.com.";
+      footerNote = "Si vous n'êtes pas à l'origine de cette demande, écrivez-moi sans attendre à contact@morillesducanada.com.";
       break;
     case "reauthentication":
       subject = "Votre code de vérification — Morilles du Canada";

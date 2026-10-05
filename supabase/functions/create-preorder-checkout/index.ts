@@ -66,7 +66,7 @@ serve(async (req) => {
     const terms =
       locale === "en"
         ? `Professionals only. 50% deposit paid today. Balance of €${amounts.balanceCents / 100} invoiced before shipping. Delivery in France, shipping included, guaranteed in ${PREORDER_2027.delivery.en}. Full refund of the deposit if we cannot supply.`
-        : `Réservé aux professionnels. Acompte de 50 % payé aujourd'hui. Solde de ${amounts.balanceCents / 100} € facturé avant expédition. Livraison en France, port inclus, garantie en ${PREORDER_2027.delivery.fr}. Acompte intégralement remboursé s'il nous est impossible de fournir.`;
+        : `Réservé aux professionnels. Acompte de 50 % payé aujourd'hui. Solde de ${amounts.balanceCents / 100} € facturé avant expédition. Livraison en France, port inclus, garantie en ${PREORDER_2027.delivery.fr}. Acompte intégralement remboursé s'il m'est impossible de fournir.`;
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",

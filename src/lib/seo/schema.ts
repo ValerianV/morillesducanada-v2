@@ -55,6 +55,7 @@ export function founderPerson(): JsonLd {
       "Fondateur de Morilles du Canada et ancien cueilleur de morilles de feu : trois saisons, de 2022 à 2024, en Colombie-Britannique et au Yukon.",
     worksFor: orgRef,
     url: `${SITE_URL}/professionnels`,
+    image: `${SITE_URL}/images/valerian-vilane-fondateur-morilles-du-canada.webp`,
     knowsAbout: KNOWS_ABOUT,
   };
 }

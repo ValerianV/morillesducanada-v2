@@ -77,7 +77,7 @@ const GuideMorellesDeFeu = () => {
               </div>
               <div className="prose prose-lg text-foreground/85 leading-relaxed space-y-4">
                 <p>
-                  Plusieurs espèces de morilles poussent après un feu de forêt au Canada, en morilles noires, brunes, blondes ou grises. Nos morilles sont vendues en <strong>variétés mélangées</strong>, sans tri par espèce, <strong>entières et équeutées</strong> : le pied est retiré, vous achetez le chapeau alvéolé.
+                  Plusieurs espèces de morilles poussent après un feu de forêt au Canada, en morilles noires, brunes, blondes ou grises. Mes morilles sont vendues en <strong>variétés mélangées</strong>, sans tri par espèce, <strong>entières et équeutées</strong> : le pied est retiré, vous achetez le chapeau alvéolé.
                 </p>
               </div>
             </section>
@@ -99,7 +99,7 @@ const GuideMorellesDeFeu = () => {
             <section className="mb-16" id="cueillette">
               <div className="flex items-center gap-3 mb-6">
                 <Mountain className="w-6 h-6 text-primary" />
-                <h2 className="font-serif text-2xl md:text-3xl font-light">D'où viennent nos morilles</h2>
+                <h2 className="font-serif text-2xl md:text-3xl font-light">D'où viennent mes morilles</h2>
               </div>
               <div className="prose prose-lg text-foreground/85 leading-relaxed space-y-4">
                 <p>
@@ -121,7 +121,7 @@ const GuideMorellesDeFeu = () => {
               </div>
               <div className="prose prose-lg text-foreground/85 leading-relaxed space-y-4">
                 <p>
-                  Nos morilles sont séchées sur place par les cueilleurs. Une fois séchées, elles se conservent facilement :
+                  Mes morilles sont séchées sur place par les cueilleurs. Une fois séchées, elles se conservent facilement :
                 </p>
                 <ul className="space-y-2">
                   <li><strong>Contenant</strong> : Récipient hermétique (bocal en verre, boîte métallique ou sachet refermable)</li>
@@ -201,7 +201,7 @@ const GuideMorellesDeFeu = () => {
                 </ul>
                 <p className="mt-6">
                   <Link to="/recettes" className="text-primary hover:text-primary/80 underline underline-offset-4">
-                    Découvrez toutes nos recettes aux morilles de feu →
+                    Découvrez toutes les recettes aux morilles de feu →
                   </Link>
                 </p>
               </div>

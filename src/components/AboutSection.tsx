@@ -1,4 +1,4 @@
-import valerianPortrait from "@/assets/valerian-portrait.webp";
+import valerianPortrait from "@/assets/valerian-vilane-fondateur.webp";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useI18n } from "@/i18n/context";
 
@@ -23,9 +23,9 @@ const AboutSection = () => {
             <div className="relative rounded-sm overflow-hidden shadow-gold aspect-[3/4] max-h-[480px] mx-auto max-w-sm">
               <img
                 src={valerianPortrait}
-                alt="Valérian, fondateur de Morilles du Canada"
-                width={400}
-                height={600}
+                alt="Valérian Vilane, fondateur de Morilles du Canada"
+                width={720}
+                height={960}
                 loading="lazy"
                 decoding="async"
                 className="w-full h-full object-cover object-top"

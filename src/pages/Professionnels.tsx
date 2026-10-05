@@ -11,7 +11,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { useI18n } from "@/i18n/context";
 import type { ProLeadKind } from "@/lib/proLead";
 import productVacuumBag from "@/assets/product-vacuum-bag.webp";
-import valerianPortrait from "@/assets/valerian-portrait.webp";
+import valerianPortrait from "@/assets/valerian-vilane-fondateur.webp";
 import terrainPhoto from "@/assets/morels/morels-group-golden.webp";
 import closeUpPhoto from "@/assets/morels/gros-plan-alveoles-morille.webp";
 import Seo from "@/components/Seo";
@@ -167,9 +167,9 @@ const Professionnels = () => {
                 <figure>
                   <img
                     src={valerianPortrait}
-                    alt="Valérian, fondateur de Morilles du Canada"
-                    width={400}
-                    height={600}
+                    alt="Valérian Vilane, fondateur de Morilles du Canada"
+                    width={720}
+                    height={960}
                     loading="lazy"
                     decoding="async"
                     className="w-full aspect-[3/4] object-cover object-top rounded-sm border border-gold/15"

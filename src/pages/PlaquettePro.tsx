@@ -5,7 +5,7 @@ import { Download } from "lucide-react";
 import logo from "@/assets/logo.webp";
 import landscapeCanada from "@/assets/landscape-canada.webp";
 import productVacuumBag from "@/assets/product-vacuum-bag.webp";
-import valerianPortrait from "@/assets/valerian-portrait.webp";
+import valerianPortrait from "@/assets/valerian-vilane-fondateur.webp";
 import terrainPhoto from "@/assets/morels/morilles-groupe-foret-brulee.webp";
 import { EDITEUR } from "@/lib/legal";
 import { PREORDER_2027 } from "@/lib/preorder";
@@ -100,14 +100,14 @@ const PlaquettePro = () => (
         <div className="px-5 sm:px-12 py-10 space-y-10">
           <div className="grid sm:grid-cols-[180px_minmax(0,1fr)] gap-8 items-start">
             <figure>
-              <img src={valerianPortrait} alt="Valérian, fondateur de Morilles du Canada" className="w-full max-w-[220px] aspect-[3/4] object-cover rounded-sm" />
+              <img src={valerianPortrait} alt="Valérian Vilane, fondateur de Morilles du Canada" className="w-full max-w-[220px] aspect-[3/4] object-cover rounded-sm" />
               <figcaption className="mt-3 text-sm text-[#4a4a4a]">
                 <strong className="font-serif text-base text-[#1a1612]">Valérian</strong>, fondateur. Trois saisons de cueillette
                 (2022, 2023, 2024) en Colombie-Britannique et au Yukon.
               </figcaption>
             </figure>
             <div>
-              <Eyebrow>Notre histoire</Eyebrow>
+              <Eyebrow>Mon histoire</Eyebrow>
               <h2 className="font-serif text-3xl font-light leading-snug mb-4">Une morille sauvage, cueillie après le feu.</h2>
               <div className="space-y-3 text-base leading-relaxed text-[#3a3a3a]">
                 <p>
@@ -124,7 +124,7 @@ const PlaquettePro = () => (
           </div>
 
           <div>
-            <Eyebrow>Ce qui nous différencie</Eyebrow>
+            <Eyebrow>Ce qui me différencie</Eyebrow>
             <div className="grid sm:grid-cols-2 gap-6">
               {[
                 { t: "Cueillette sauvage", d: "À la main, au printemps, sur des forêts canadiennes brûlées l'année précédente. Jamais semées ni cultivées." },
@@ -211,7 +211,7 @@ const PlaquettePro = () => (
             <div className="bg-[#1a1612] text-[#f4efe4] rounded-sm p-5">
               <Eyebrow light>Dégustation en main propre</Eyebrow>
               <p className="text-base leading-relaxed">
-                Un pot en verre de {PRO_SAMPLE_GRAMS} g offert, remis en main propre lors d'un passage de Valérian dans votre zone, pour goûter avant de commander. Envoi possible au cas par cas, après échange avec Valérian.
+                Un pot en verre de {PRO_SAMPLE_GRAMS} g offert, remis en main propre lors de mon passage dans votre zone, pour goûter avant de commander. Envoi possible au cas par cas, après un échange avec moi.
               </p>
             </div>
             <div className="bg-[#1a1612] text-[#f4efe4] rounded-sm p-5">
@@ -232,7 +232,7 @@ const PlaquettePro = () => (
             <Eyebrow light>Commander · Goûter · Précommander</Eyebrow>
             <h2 className="font-serif text-4xl font-light">Travaillons ensemble</h2>
             <p className="mt-4 text-base text-[#f4efe4]/85 max-w-md mx-auto leading-relaxed">
-              Un appel ou un email suffit pour un devis, une commande ou une dégustation. Valérian est votre interlocuteur unique.
+              Un appel ou un email suffit pour un devis, une commande ou une dégustation. Je suis votre interlocuteur unique.
             </p>
           </div>
 

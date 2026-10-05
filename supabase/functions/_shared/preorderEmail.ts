@@ -49,14 +49,14 @@ export function buildPreorderConfirmationEmail({ preorderId, customerName, amoun
 
   const refund = en
     ? "If we are unable to supply your morels, your deposit will be refunded in full."
-    : "S'il nous est impossible de fournir vos morilles, votre acompte vous sera intégralement remboursé.";
+    : "S'il m'est impossible de fournir vos morilles, votre acompte vous sera intégralement remboursé.";
   const greeting = en ? `Hello ${customerName},` : `Bonjour ${customerName},`;
   const intro = en
     ? "Thank you for your pre-order. Your deposit has been received."
     : "Merci pour votre précommande. Votre acompte a bien été reçu.";
   const next = en
     ? `We will send you the balance invoice before shipping in ${delivery}. Any questions: contact@morillesducanada.com.`
-    : `Nous vous enverrons la facture du solde avant l'expédition, en ${delivery}. Pour toute question : contact@morillesducanada.com.`;
+    : `Je vous enverrai la facture du solde avant l'expédition, en ${delivery}. Pour toute question : contact@morillesducanada.com.`;
   const tax = PRO_TAX_MENTION[locale];
 
   const html = renderEmailLayout({
