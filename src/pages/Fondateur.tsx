@@ -143,7 +143,7 @@ const Fondateur = () => (
               <Link to="/professionnels#devis" className={LINK}>
                 Professionnels
               </Link>
-              . Pour goûter avant de commander, voir les{" "}
+              . Pour voir le produit avant de commander, je passe sur rendez-vous vous remettre un pot : voir les{" "}
               <Link to="/zones-de-passage" className={LINK}>
                 zones et dates de passage
               </Link>

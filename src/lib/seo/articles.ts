@@ -546,7 +546,7 @@ export const ARTICLES: readonly ArticleDef[] = [
       },
       {
         id: "echantillon",
-        q: "Puis-je goûter avant de commander ?",
+        q: "Puis-je avoir un échantillon avant de commander ?",
         answer: `Oui : un pot en verre de ${PRO_SAMPLE_GRAMS} g est offert et remis en main propre, sur rendez-vous, quand Valérian passe dans votre zone. Hors de ces zones, contactez-le : il étudie chaque demande.`,
         blocks: [
           { type: "ul", items: tastingLines },
