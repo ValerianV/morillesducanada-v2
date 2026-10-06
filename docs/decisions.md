@@ -4,6 +4,17 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-10-07 — Étiquette du pot de 30 g, date de durabilité, adresse, analyses
+
+- Nouvelle étiquette du pot de 30 g au style du site (fichiers hors dépôt : `~/Documents/Morilles/etiquettes-2026/`),
+  sans date ni lot ; mini-étiquette « lot + date de durabilité minimale » sous le pot, générée par `mini_etiquettes.py`,
+  avec un registre des lots (`registre-lots.csv`).
+- Date de durabilité minimale : 24 mois après la mise en pot. Ce n'est pas une durée légale (le règlement INCO impose
+  d'indiquer une date, sa durée relève de l'exploitant) ; c'est le choix du fondateur.
+- Adresse officielle de l'exploitant : 448 chemin de Patin, 84810 Aubignan (étiquettes, site, factures).
+- Pas d'analyse en laboratoire (humidité, calibre, contaminants) avant le lancement des précommandes : aucun chiffre
+  de ce type ne peut donc apparaître sur le site.
+
 ## 2026-10-07 — Audit SEO et GEO : corrections techniques et trois pages (validé par le fondateur)
 
 - Maillage : bloc « Pour aller plus loin » dans le corps de l'accueil et de `/professionnels` (`src/components/FurtherReading.tsx`,
@@ -15,6 +26,18 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
   Plus de « 45 kg » dans les métas. JSON-LD Recipe émis seulement avec une image. « Recettes de chefs » devient « recettes aux morilles de feu ».
 - Trois pages prérendues, au sitemap et dans `llms.txt` : `/valerian-vilane` (Person, `Person.url` pointe dessus),
   `/morilles-sechees-traiteurs` (6e page de contenu, dans `articles.ts`), `/zones-de-passage` (lit `TASTING_TOUR`).
+
+## 2026-10-07 — Démarchage : obtenir un rendez-vous, ne jamais visiter à l'improviste
+
+- Règle du fondateur : « démarcher pour visiter oui, visiter pour démarcher non ». Une visite spontanée tombe
+  toujours au mauvais moment. Le démarchage (téléphone, SMS, email, Instagram) a pour seul but d'obtenir un
+  rendez-vous ; le pot de 30 g est remis lors de ce rendez-vous.
+- Cibles prioritaires : restaurants de qualité, traiteurs et chefs à domicile. Fromagers et épiceries ne sont plus
+  prospectés (3 refus sur 3 réponses le 06/10, tous venus de ce segment).
+- Étiquettes : une étiquette permanente sans date ni lot, plus une mini-étiquette « lot + date de durabilité minimale »
+  collée sous chaque pot. Les étiquettes Vistaprint de 2024 ne sont plus utilisables : date dépassée, mais aussi
+  cuisson « au moins 5 minutes », nom et adresse de l'exploitant absents, superlatifs (« parmi les meilleures du marché »).
+- Carnet de démarchage : statuts « RDV demandé » (relance à 4 jours) puis « RDV pris » et « Visité, pot remis ».
 
 ## 2026-10-06 — Emails de prospection : écrire comme une personne, pas comme un robot
 
