@@ -186,6 +186,33 @@ export function faqPageSchema(items: readonly { q: string; a: string }[]): JsonL
 
 const cents = (value: number) => euros(value / 100);
 
+// Faits validés uniquement (docs/business/offre.md) : port inclus en France, expédition sous
+// PRO_SHIPPING_BUSINESS_DAYS jours ouvrés. Aucun délai de transport n'est promis, d'où l'absence de transitTime.
+const SHIPPING_DETAILS: JsonLd = {
+  "@type": "OfferShippingDetails",
+  shippingRate: { "@type": "MonetaryAmount", value: 0, currency: "EUR" },
+  shippingDestination: { "@type": "DefinedRegion", addressCountry: "FR" },
+  deliveryTime: {
+    "@type": "ShippingDeliveryTime",
+    handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: PRO_SHIPPING_BUSINESS_DAYS, unitCode: "DAY" },
+    businessDays: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map((d) => `https://schema.org/${d}`),
+    },
+  },
+};
+
+// Vente entre professionnels d'une denrée alimentaire : pas de retour ; un produit non conforme signalé
+// sous 48 h est remplacé ou remboursé (CGV, article 8 ; page /livraison).
+const RETURN_POLICY: JsonLd = {
+  "@type": "MerchantReturnPolicy",
+  applicableCountry: "FR",
+  returnPolicyCategory: "https://schema.org/MerchantReturnNotPermitted",
+  merchantReturnLink: absoluteUrl("/livraison"),
+};
+
+const PRODUCT_IMAGES = [DEFAULT_OG_IMAGE.url, `${SITE_URL}/images/morilles-trio-charbon.webp`];
+
 // Offre professionnelle au kilo : une Offer par palier de la grille src/lib/proPricing.ts.
 export function proOfferSchema(): JsonLd {
   const offers = PRO_TIERS.map((tier, i) => {
@@ -208,11 +235,8 @@ export function proOfferSchema(): JsonLd {
       },
       eligibleQuantity: { "@type": "QuantitativeValue", minValue: tier.minKg, maxValue: maxKg, unitCode: "KGM" },
       eligibleCustomerType: BUSINESS_CUSTOMER,
-      shippingDetails: {
-        "@type": "OfferShippingDetails",
-        shippingRate: { "@type": "MonetaryAmount", value: 0, currency: "EUR" },
-        shippingDestination: { "@type": "DefinedRegion", addressCountry: "FR" },
-      },
+      shippingDetails: SHIPPING_DETAILS,
+      hasMerchantReturnPolicy: RETURN_POLICY,
       availability: IN_STOCK,
       itemCondition: NEW_CONDITION,
       inventoryLevel: { "@type": "QuantitativeValue", value: PRO_STOCK_KG, unitCode: "KGM" },
@@ -231,7 +255,7 @@ export function proOfferSchema(): JsonLd {
     brand: { "@type": "Brand", name: SITE_NAME },
     category: "Champignons séchés",
     countryOfOrigin: { "@type": "Country", name: "Canada" },
-    image: DEFAULT_OG_IMAGE.url,
+    image: PRODUCT_IMAGES,
     url: absoluteUrl("/professionnels"),
     offers,
   };
@@ -249,6 +273,7 @@ export function preorderSchema(): JsonLd {
     brand: { "@type": "Brand", name: SITE_NAME },
     category: "Champignons séchés",
     countryOfOrigin: { "@type": "Country", name: "Canada" },
+    image: PRODUCT_IMAGES,
     url: absoluteUrl("/precommande-2027"),
     offers: {
       "@type": "Offer",
@@ -274,6 +299,8 @@ export function preorderSchema(): JsonLd {
       eligibleCustomerType: BUSINESS_CUSTOMER,
       areaServed: { "@type": "Country", name: "France" },
       itemCondition: NEW_CONDITION,
+      shippingDetails: SHIPPING_DETAILS,
+      hasMerchantReturnPolicy: RETURN_POLICY,
       url: absoluteUrl("/precommande-2027"),
       seller: orgRef,
     },
