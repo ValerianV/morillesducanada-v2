@@ -4,6 +4,34 @@ Document de travail. Rien n'a été envoyé. Version révisée du 28/09/2026 : g
 
 ---
 
+## 0. Règle d'or : le prospect doit lire un message de Valérian, pas d'un robot (décision du 2026-10-06)
+
+Constat du fondateur sur les relances du 6 octobre : on reconnaissait un envoi automatisé au premier coup d'œil.
+Un chef ou un épicier veut avoir affaire à une personne. Chaque email doit pouvoir avoir été tapé par Valérian
+depuis sa boîte mail, en deux minutes.
+
+**À ne jamais faire**
+- Formule de désinscription type « répondez STOP », « vous recevez ce message parce que… », pied de page légal.
+- Lien suivi ou à rallonge (`?utm_source=…&utm_campaign=vague1-relance`). Au plus un lien nu et lisible :
+  `morillesducanada.com` ou `morillesducanada.com/professionnels`. Souvent, aucun lien.
+- Parler de la précommande 2027 à quelqu'un qui n'a jamais eu le produit en main.
+- Recopier la grille de prix complète dans une relance. Le prix vient quand le prospect le demande
+  (avec la mention « prix nets, TVA non applicable, art. 293 B du CGI » dès qu'un prix apparaît).
+- Un en-tête `List-Unsubscribe` : Gmail affiche alors un bouton « Se désabonner », signature d'un envoi de masse.
+- La même phrase d'ouverture pour tout le monde, ou des envois tous à la même minute.
+
+**À faire**
+- Texte brut, sans mise en forme, 50 à 120 mots, une seule idée et une seule question.
+- Une relance est une vraie réponse dans le fil : objet « Re: » + le message d'origine cité dessous,
+  comme le fait Gmail (« Le jeu. 1 oct. 2026 à 09:00, Valérian <…> a écrit : » puis les lignes en « > »).
+- Ton parlé, phrases courtes, une ou deux phrases propres au prospect (un plat de sa carte, son rayon, son métier).
+- Signature courte : « Valérian » puis « 07 82 16 27 08 ». Pas de bloc marketing.
+- Laisser une porte de sortie humaine, qui vaut droit d'opposition (exigé en prospection B2B) :
+  « Si ce n'est pas le bon moment ou pas pour vous, dites-le-moi, je ne vous relancerai pas. »
+- Étaler les envois sur une plage horaire de bureau (par exemple 8 à 12 par heure, minutes irrégulières).
+- Expéditeur des nouvelles vagues : `valerian@morillesducanada.com` (redirigée vers contact@), pas le sous-domaine `pro.`.
+  Une relance garde l'expéditeur du premier message pour rester dans le même fil.
+
 ## 1. Cadre commun (à respecter dans tous les envois)
 
 **Récit : faits autorisés, et seulement ceux-là**

@@ -5,7 +5,7 @@ description: Préparer une vague de prospection B2B Morilles du Canada (épiceri
 
 # /prospect-b2b [segment] [nombre] [contexte]
 
-Exemples : `/prospect-b2b epiceries 20 "fêtes de fin d'année"`, `/prospect-b2b chefs 10 "précommande 2027"`.
+Exemples : `/prospect-b2b epiceries 20 "fêtes de fin d'année"`, `/prospect-b2b chefs 10 "carte d'hiver"`.
 
 ## Sources obligatoires (à lire avant d'écrire une ligne)
 
@@ -22,22 +22,24 @@ Exemples : `/prospect-b2b epiceries 20 "fêtes de fin d'année"`, `/prospect-b2b
    prix moyen, grossistes de volume et prospects hors de France.
 2. **Personnalisation** : un fait vérifiable et récent sur l'établissement (plat à la carte, rayon,
    produit fabriqué), vérifié le jour même avec WebFetch.
-3. **Email** (modèle dans `emails-prospection.md`) :
-   - objet concret ;
-   - 1 phrase de personnalisation ;
-   - 2 phrases de récit : 3 saisons de cueillette du fondateur (2022–2024, Colombie-Britannique et
-     Yukon), réseau de cueilleurs, sauvage et non de culture ;
-   - produit : entières, équeutées, stock en France, 5 jours ouvrés ;
-   - grille nette avec la mention art. 293 B ;
-   - lien `/professionnels` avec UTM ;
-   - proposition de dégustation en main propre (pot de 30 g) si le prospect est dans une zone du calendrier (`supabase/functions/_shared/tasting.ts`), avec la zone et la période. Hors zone : un envoi n'est possible qu'au cas par cas, après réponse du prospect et échange avec Valérian ; jamais « envoi gratuit sur simple demande » ;
-   - signature et ligne STOP.
+3. **Email** : appliquer d'abord la **section 0 de `emails-prospection.md`** (un humain, pas un robot). En bref :
+   - texte brut, 50 à 120 mots, ton parlé, une seule question ;
+   - 1 ou 2 phrases propres au prospect (un plat, un rayon, son métier) ;
+   - 1 phrase de récit (3 saisons de cueillette 2022–2024, Colombie-Britannique et Yukon ; morille sauvage) ;
+   - prix seulement dans le premier email et sans tableau (« à partir de 290 €/kg selon la quantité, port inclus »),
+     toujours avec « prix nets, TVA non applicable, art. 293 B du CGI » ;
+   - aucun lien suivi : au plus `morillesducanada.com/professionnels`, en clair ;
+   - échantillon en main propre (pot de 30 g sec) si le prospect est dans une zone du calendrier
+     (`supabase/functions/_shared/tasting.ts`) ; hors zone, envoi postal seulement après un échange téléphonique ;
+   - signature « Valérian » + téléphone ; porte de sortie humaine (« dites-le-moi, je ne vous relancerai pas »),
+     jamais de ligne STOP ni de pied de page automatique.
 
-   Relances J+5 et J+12, dont une qui cite la précommande 2027.
+   Relances J+5 et J+12 : vraies réponses dans le fil (« Re: » + message d'origine cité). Pas de précommande 2027
+   tant que le prospect n'a pas eu le produit en main.
 4. **Livrable** : `docs/commercial/vagueN.md` (une section par prospect : destinataire, objet, corps),
    plus la liste à part des prospects qui ne sont joignables que par téléphone ou formulaire.
 5. **Validation** : présenter la vague au fondateur. **Aucun envoi sans son feu vert explicite.**
-6. **Après validation** : envoi via Resend depuis `Valérian <valerian@pro.morillesducanada.com>`,
+6. **Après validation** : envoi via Resend depuis `Valérian <valerian@morillesducanada.com>` (sans en-tête List-Unsubscribe, envois étalés),
    `reply_to: contact@morillesducanada.com`, 20 emails par jour au maximum, puis statut mis à jour
    dans `prospects.csv`.
 

@@ -4,6 +4,14 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-10-06 — Emails de prospection : écrire comme une personne, pas comme un robot
+
+- Retour du fondateur sur les relances J+5 : formule « répondez STOP », liens UTM visibles et précommande détaillée
+  trahissaient l'envoi automatisé. Nouvelles règles d'écriture : `docs/commercial/emails-prospection.md`, section 0.
+- La précommande 2027 n'est plus proposée à un prospect qui n'a pas encore eu le produit en main.
+- Données structurées : image, délai d'expédition (sous 5 jours ouvrés, sans délai de transport promis) et politique
+  de retour (pas de retour entre professionnels ; non-conformité remplacée ou remboursée) ajoutés aux Product.
+
 ## 2026-10-05 — « Échantillon en main propre » remplace « dégustation »
 
 - Précision du fondateur : il n'y a pas de dégustation (réhydrater et cuisiner prend trop de temps). Il passe remettre
