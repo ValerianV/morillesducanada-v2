@@ -53,8 +53,9 @@ Le front réexporte la grille via `src/lib/proPricing.ts` : **une seule source d
   `scripts/indexnow.mjs` : soumission IndexNow après déploiement (clé publique dans `public/`). Voir `docs/marketing/seo-geo.md`.
 - `scripts/prerender.mjs` : rendu SSR des routes publiques après `vite build` ; `dist/spa.html` pour les
   routes applicatives (`/auth`, `/admin`, `/journal`…, réécritures explicites dans `vercel.json`) ;
-  `dist/404.html` servi par Vercel avec un vrai code 404 pour toute autre adresse. Le build échoue si
-  une page légale contient un crochet.
+  `dist/404.html` servi par Vercel avec un vrai code 404 pour toute autre adresse (y compris `/recettes/<slug inconnu>` :
+  les recettes sont prérendues depuis Supabase, sans réécriture). Le build échoue si une page légale contient un crochet,
+  si un titre dépasse 60 caractères ou une description 155, ou (production) si aucune recette n'est récupérée.
 - i18n : `src/i18n/{fr,en}.ts`, langue stockée côté navigateur (même URL en FR/EN, pas de hreflang).
 - Tests : `src/test/` (vitest + jsdom, client Supabase simulé) — cohérence prix front/serveur,
   routes FR/EN, SIRET, SEO, formulaires, CGV et mentions légales.

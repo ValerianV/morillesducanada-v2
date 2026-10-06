@@ -1,5 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { readFileSync } from "node:fs";
 import { cleanup, fireEvent, screen, waitFor } from "@testing-library/react";
+import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from "@/lib/seo/site";
 import { RAW_KEY, installBrowserStubs, renderAt, supabaseMock, supabaseModule, supabaseLazyModule } from "./qaHarness";
 
 vi.mock("@/integrations/supabase/client", () => supabaseModule);
@@ -21,6 +23,77 @@ describe("page 404", () => {
     expect(errors.mock.calls.filter((c) => String(c[0]).includes("404"))).toEqual([]);
     errors.mockRestore();
   });
+});
+
+describe("recette inconnue (soft 404)", () => {
+  it("/recettes/<slug inconnu> affiche « Recette introuvable » en noindex, sans réécriture vers la coquille SPA", async () => {
+    await renderAt("/recettes/slug-qui-n-existe-pas", "fr");
+    expect(await screen.findByRole("heading", { name: "Recette introuvable" })).toBeInTheDocument();
+    await waitFor(() => expect(document.querySelector('meta[name="robots"]')?.getAttribute("content")).toMatch(/noindex/));
+    // vercel.json : aucune réécriture ne couvre /recettes/*, donc Vercel répond 404 (404.html) aux slugs absents du prérendu.
+    const vercel = JSON.parse(readFileSync("vercel.json", "utf8")) as { rewrites: { source: string }[] };
+    expect(vercel.rewrites.filter((r) => r.source.startsWith("/recettes"))).toEqual([]);
+  });
+});
+
+describe("maillage interne : « Pour aller plus loin » dans le corps des pages", () => {
+  const TARGETS = [
+    "/acheter-morilles-sechees-restauration",
+    "/prix-morilles-sechees-kilo-professionnels",
+    "/morille-de-feu-ou-morille-de-culture",
+    "/rehydrater-morilles-sechees-guide-pro",
+    "/morilles-sechees-epicerie-fine",
+    "/morilles-sechees-traiteurs",
+    "/guide-morilles-de-feu",
+    "/fiche-technique",
+    "/plaquette-pro",
+    "/valerian-vilane",
+    "/zones-de-passage",
+  ];
+
+  for (const route of ["/", "/professionnels"]) {
+    it(`${route} lie les pages de contenu, la fiche technique et la plaquette depuis le corps (hors pied de page)`, async () => {
+      await renderAt(route, "fr");
+      const heading = await screen.findByRole("heading", { name: "Pour aller plus loin" });
+      const block = heading.closest("nav")!;
+      const hrefs = [...block.querySelectorAll("a")].map((a) => a.getAttribute("href"));
+      for (const target of TARGETS) expect(hrefs, `${route} → ${target}`).toContain(target);
+      expect(block.closest("footer")).toBeNull();
+    });
+  }
+
+  for (const route of ["/fiche-technique", "/plaquette-pro"]) {
+    it(`${route} n'est plus un cul-de-sac : liens vers le devis et les guides`, async () => {
+      await renderAt(route, "fr");
+      const nav = await screen.findByRole("navigation", { name: "Pour aller plus loin" });
+      const hrefs = [...nav.querySelectorAll("a")].map((a) => a.getAttribute("href"));
+      expect(hrefs).toContain("/professionnels#devis");
+      expect(hrefs).toContain("/valerian-vilane");
+      expect(hrefs.length).toBeGreaterThanOrEqual(5);
+    });
+  }
+});
+
+describe("titres et descriptions des pages publiques", () => {
+  const PUBLIC = [
+    "/", "/professionnels", "/precommande-2027", "/guide-morilles-de-feu", "/recettes", "/fiche-technique", "/plaquette-pro",
+    "/galerie", "/livraison", "/cgv", "/mentions-legales",
+    "/acheter-morilles-sechees-restauration", "/prix-morilles-sechees-kilo-professionnels", "/morille-de-feu-ou-morille-de-culture",
+    "/rehydrater-morilles-sechees-guide-pro", "/morilles-sechees-epicerie-fine", "/morilles-sechees-traiteurs",
+    "/valerian-vilane", "/zones-de-passage",
+  ];
+  for (const route of PUBLIC) {
+    it(`${route} : titre ≤ ${MAX_TITLE_LENGTH}, description ≤ ${MAX_DESCRIPTION_LENGTH}, sans stock chiffré`, async () => {
+      await renderAt(route, "fr");
+      const description = () => document.querySelector('meta[name="description"]')?.getAttribute("content") ?? "";
+      await waitFor(() => expect(description().length).toBeGreaterThan(20));
+      expect(document.title.length).toBeGreaterThan(5);
+      expect(document.title.length, document.title).toBeLessThanOrEqual(MAX_TITLE_LENGTH);
+      expect(description().length, description()).toBeLessThanOrEqual(MAX_DESCRIPTION_LENGTH);
+      expect(description()).not.toMatch(/\b45 kg/);
+      expect(description()).not.toMatch(/recettes? de chefs/i);
+    });
+  }
 });
 
 describe("pages de retour Stripe", () => {
@@ -75,6 +148,7 @@ const ROUTES = [
   "/produits/morilles-sous-vide", "/page-inexistante",
   "/acheter-morilles-sechees-restauration", "/prix-morilles-sechees-kilo-professionnels", "/morille-de-feu-ou-morille-de-culture",
   "/rehydrater-morilles-sechees-guide-pro", "/morilles-sechees-epicerie-fine",
+  "/morilles-sechees-traiteurs", "/valerian-vilane", "/zones-de-passage",
 ];
 
 // Avertissements React propres au mode développement / à jsdom, absents du build de production.

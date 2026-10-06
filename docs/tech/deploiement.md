@@ -75,6 +75,7 @@ curl -s -o /dev/null -w "%{http_code}\n" -X POST https://oeweykyazadobobjncfg.su
 # /produits → 301 vers /professionnels ; adresse inconnue → 404
 curl -s -o /dev/null -w "%{http_code} %{redirect_url}\n" https://www.morillesducanada.com/produits
 curl -s -o /dev/null -w "%{http_code}\n" https://www.morillesducanada.com/page-inexistante
+curl -s -o /dev/null -w "%{http_code}\n" https://www.morillesducanada.com/recettes/slug-inexistant   # 404 attendu
 # notify-order-status sans admin → 401/403
 curl -s -X POST https://oeweykyazadobobjncfg.supabase.co/functions/v1/notify-order-status \
   -H "Authorization: Bearer $ANON" -d '{"type":"order","id":"x"}'

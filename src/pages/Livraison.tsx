@@ -9,8 +9,8 @@ const Livraison = () => (
   <LegalPage
     title="Livraison"
     titleHighlight="et réclamations"
-    seoTitle="Livraison des morilles au kilo, port inclus | Morilles du Canada"
-    description={`Commandes professionnelles livrées en France, port inclus, en sachets sous vide de ${PRO_PACK_GRAMS} g, expédiées sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés en colis suivi. Réclamation sous 48 h.`}
+    seoTitle="Livraison des morilles, port inclus | Morilles du Canada"
+    description={`Commandes professionnelles livrées en France, port inclus, en sachets sous vide de ${PRO_PACK_GRAMS} g, expédiées sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés en colis suivi.`}
     path="/livraison"
     breadcrumb="Livraison"
   >

@@ -22,6 +22,26 @@ export const DEFAULT_OG_IMAGE: SeoImage = {
 export const LOGO_URL = `${SITE_URL}/logo.png`;
 
 export const FOUNDER_NAME = "Valérian Vilane";
+// Page qui présente le fondateur : url de la Person (schema.org) et lien d'identité.
+export const FOUNDER_PATH = "/valerian-vilane";
+
+// Longueurs au-delà desquelles Google tronque ou réécrit titre et description (audit SEO d'octobre 2026).
+// Vérifiées par scripts/prerender.mjs (le build échoue) et par src/test/seo.test.ts.
+export const MAX_TITLE_LENGTH = 60;
+export const MAX_DESCRIPTION_LENGTH = 155;
+const TITLE_BRAND = " | Morilles du Canada";
+
+// Coupe une description trop longue au dernier mot entier, avec une ellipse.
+export function clipDescription(text: string): string {
+  if (text.length <= MAX_DESCRIPTION_LENGTH) return text;
+  const cut = text.slice(0, MAX_DESCRIPTION_LENGTH - 1).replace(/\s+\S*$/, "");
+  return `${cut}…`;
+}
+
+// Ajoute la marque au titre seulement si l'ensemble tient en MAX_TITLE_LENGTH caractères.
+export function fitTitle(base: string): string {
+  return base.length + TITLE_BRAND.length <= MAX_TITLE_LENGTH ? `${base}${TITLE_BRAND}` : base;
+}
 
 // Profils publics réels de l'entreprise (fiche Google, LinkedIn, Instagram…), à ajouter UN PAR UN
 // quand le fondateur les a créés (voir docs/marketing/seo-geo.md). Vide tant qu'aucune URL réelle

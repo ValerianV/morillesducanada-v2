@@ -140,7 +140,7 @@ export const fr = {
   },
   pro: {
     metaTitle: "Morilles séchées au kilo, prix pro | Morilles du Canada",
-    metaDescription: "Morilles séchées pour les pros : sauvages du Canada, entières, équeutées, 45 kg en stock en France. Prix nets dès {minPrice}/kg, expédition sous 5 jours ouvrés.",
+    metaDescription: "Morilles séchées pour les pros : sauvages du Canada, entières, équeutées, en stock en France. Prix nets dès {minPrice}/kg, expédition sous 5 jours ouvrés.",
     hero: {
       label: "Restaurants · Épiceries fines · Traiteurs",
       title: "Morilles sauvages du Canada,",
@@ -372,8 +372,8 @@ export const fr = {
     home: "Retour à l'accueil",
   },
   preorder: {
-    metaTitle: "Précommande morilles sauvages saison 2027 | Morilles du Canada",
-    metaDescription: "Professionnels : précommandez vos morilles sauvages du Canada de la saison 2027. 300 €/kg, acompte de 50 %, de 1 à 15 kg, livraison garantie en octobre 2027, port inclus en France.",
+    metaTitle: "Précommande de morilles, saison 2027 | Morilles du Canada",
+    metaDescription: "Professionnels : précommandez des morilles sauvages du Canada, saison 2027. 300 €/kg net, acompte de 50 %, de 1 à 15 kg, livraison en octobre 2027.",
     label: "Saison 2027",
     title: "Précommande",
     titleHighlight: "saison 2027",
@@ -415,6 +415,10 @@ export const fr = {
     nextText: "Le solde vous sera facturé avant l'expédition, en octobre 2027. S'il m'est impossible de fournir, votre acompte vous sera intégralement remboursé.",
     home: "Retour à l'accueil",
   },
+  furtherReading: {
+    title: "Pour aller plus loin",
+    intro: "Guides d'achat, fiche technique, plaquette, mon parcours et mes zones de passage.",
+  },
   footer: {
     pro: "Tarifs et devis",
     preorder: "Précommande 2027",
@@ -426,6 +430,8 @@ export const fr = {
     terms: "CGV professionnelles",
     delivery: "Livraison",
     guides: "Guides pour les professionnels",
+    founder: "Qui je suis",
+    zones: "Zones de passage",
     proOnly: "Vente réservée aux professionnels",
   },
 };

@@ -140,7 +140,7 @@ export const en = {
   },
   pro: {
     metaTitle: "Dried morels by the kilo, trade prices | Morilles du Canada",
-    metaDescription: "Dried morels for professionals: wild from Canada, whole, stemless, 45 kg in stock in France. Net prices from {minPrice}/kg, shipped within 5 business days.",
+    metaDescription: "Dried morels for professionals: wild from Canada, whole, stemless, in stock in France. Net prices from {minPrice}/kg, shipped within 5 business days.",
     hero: {
       label: "Restaurants · Delicatessens · Caterers",
       title: "Wild Canadian morels,",
@@ -415,6 +415,10 @@ export const en = {
     nextText: "The balance will be invoiced before shipping, in October 2027. If I am unable to supply, your deposit will be refunded in full.",
     home: "Back to home",
   },
+  furtherReading: {
+    title: "Going further",
+    intro: "Buying guides, technical sheet, brochure, my background and where I visit (in French).",
+  },
   footer: {
     pro: "Prices & quotes",
     preorder: "2027 pre-order",
@@ -425,6 +429,8 @@ export const en = {
     legal: "Legal notice",
     terms: "Trade terms",
     delivery: "Delivery",
+    founder: "About me",
+    zones: "Where I visit",
     guides: "Guides for professionals (in French)",
     proOnly: "Trade only",
   },

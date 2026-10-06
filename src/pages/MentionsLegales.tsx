@@ -6,7 +6,7 @@ const MentionsLegales = () => (
     title="Mentions"
     titleHighlight="légales"
     seoTitle="Mentions légales | Morilles du Canada"
-    description="Mentions légales de Morilles du Canada : éditeur (entrepreneur individuel), hébergeur, données personnelles, sous-traitants, durées de conservation et droits."
+    description="Mentions légales de Morilles du Canada : éditeur (entrepreneur individuel), hébergeur, données personnelles et droits."
     path="/mentions-legales"
     breadcrumb="Mentions légales"
   >

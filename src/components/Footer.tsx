@@ -10,6 +10,8 @@ const LINKS = [
   { to: "/fiche-technique", key: "footer.sheet" },
   { to: "/plaquette-pro", key: "footer.brochure" },
   { to: "/guide-morilles-de-feu", key: "footer.guide" },
+  { to: "/valerian-vilane", key: "footer.founder" },
+  { to: "/zones-de-passage", key: "footer.zones" },
   { to: "/recettes", key: "footer.recipes" },
   { to: "/livraison", key: "footer.delivery" },
   { to: "/cgv", key: "footer.terms" },

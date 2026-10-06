@@ -5,6 +5,7 @@ import HeroSection from "@/components/HeroSection";
 import TrustBandeau from "@/components/TrustBandeau";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
+import FurtherReading from "@/components/FurtherReading";
 import { useI18n } from "@/i18n/context";
 import { faqPageSchema, lowestProPricePerKg, organizationSchema, webPageSchema, websiteSchema } from "@/lib/seo/schema";
 import { OFFER_LAST_REVIEWED } from "@/lib/seo/site";
@@ -21,9 +22,9 @@ const FAQSection = lazy(() => import("@/components/FAQSection"));
 const ContactSection = lazy(() => import("@/components/ContactSection"));
 const FloatingCTA = lazy(() => import("@/components/FloatingCTA"));
 
-const TITLE = "Morilles séchées sauvages du Canada au kilo, pour les professionnels | Morilles du Canada";
+const TITLE = "Morilles de feu séchées au kilo, pros | Morilles du Canada";
 const DESCRIPTION =
-  `Morilles de feu sauvages du Canada, séchées, entières et équeutées, au kilo pour les restaurants, épiceries fines et traiteurs. 45 kg en stock en France, port inclus, prix nets dès ${formatEurosLocale(lowestProPricePerKg() * 100)}/kg.`;
+  `Morilles de feu sauvages du Canada, séchées, entières et équeutées, au kilo pour les pros : prix nets dès ${formatEurosLocale(lowestProPricePerKg() * 100)}/kg, port inclus en France.`;
 
 // Arrivée depuis une autre page sur /#produits, /#contact… : les sections sont chargées à la
 // demande, donc absentes quand le navigateur tente le défilement natif vers l'ancre.
@@ -79,6 +80,11 @@ const Index = () => {
           <ProfessionalSection />
           <GallerySection />
           <FAQSection />
+          <section className="py-16 md:py-20 border-t border-gold/10">
+            <div className="container mx-auto px-6 max-w-6xl">
+              <FurtherReading id="pour-aller-plus-loin" />
+            </div>
+          </section>
           <ContactSection />
           <ReviewsSection />
         </Suspense>

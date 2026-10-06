@@ -122,6 +122,10 @@ function renderDocument(template, { html, helmet }, data) {
     .replace(APP_HTML, () => html);
 }
 
+const MAX_TITLE = 60;
+const MAX_DESCRIPTION = 155;
+const decodeEntities = (s) => s.replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+
 // Garde-fous : un problème SEO sur une page publique fait échouer le build.
 function checkPage(route, doc, siteUrl, articlePaths = []) {
   const expected = route === "/" ? `${siteUrl}/` : `${siteUrl}${route}`;
@@ -132,6 +136,17 @@ function checkPage(route, doc, siteUrl, articlePaths = []) {
   if (!doc.includes(`<link data-rh="true" rel="canonical" href="${expected}"/>`)) problems.push(`canonical ≠ ${expected}`);
   if (count(/<h1[\s>]/g) !== 1) problems.push(`${count(/<h1[\s>]/g)} balise(s) h1`);
   if (/name="robots" content="noindex/.test(doc)) problems.push("page publique en noindex");
+  // Google tronque les titres au-delà de 60 caractères et les descriptions au-delà de 155 (audit SEO d'octobre 2026).
+  const title = /<title[^>]*>([\s\S]*?)<\/title>/.exec(doc)?.[1];
+  const description = /<meta[^>]+name="description"[^>]+content="([^"]*)"/.exec(doc)?.[1];
+  if (title && decodeEntities(title).length > MAX_TITLE) problems.push(`titre de ${decodeEntities(title).length} caractères (max ${MAX_TITLE})`);
+  if (description && decodeEntities(description).length > MAX_DESCRIPTION) problems.push(`description de ${decodeEntities(description).length} caractères (max ${MAX_DESCRIPTION})`);
+  // Page fondateur : entité Person reliée à l'Organization.
+  if (route === "/valerian-vilane") {
+    for (const needle of ['"@type":"Person"', '"@type":"ProfilePage"', '"@id":"' + siteUrl + '/#valerian-vilane"', '"url":"' + siteUrl + '/valerian-vilane"']) {
+      if (!doc.includes(needle)) problems.push(`JSON-LD : ${needle} absent`);
+    }
+  }
   // Pages de contenu : Article signé par le fondateur, avec dates, et FAQPage.
   if (articlePaths.includes(route)) {
     for (const needle of ['"@type":"Article"', '"datePublished"', '"dateModified"', '"Valérian Vilane"', '"@type":"FAQPage"', '"@type":"BreadcrumbList"']) {
@@ -155,6 +170,11 @@ async function main() {
 
   const server = await buildServerEntry();
   const recipes = await fetchRecipes();
+  // Sans réécriture vers spa.html (vercel.json), une recette absente du prérendu répond 404 : on refuse de
+  // publier un site dont les 10 pages de recettes disparaîtraient parce que Supabase est injoignable au build.
+  if (process.env.VERCEL_ENV === "production" && recipes.length === 0) {
+    throw new Error("[prerender] aucune recette récupérée depuis Supabase : vérifier VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY et la table recipes (les URL /recettes/<slug> répondraient 404).");
+  }
   const listData = { [server.RECIPES_KEY]: recipes.map((r) => pick(r, LIST_FIELDS)) };
 
   const pages = [
@@ -202,7 +222,9 @@ async function main() {
   // Page 404 statique : Vercel la sert avec le code HTTP 404 pour toute adresse inconnue
   // (vercel.json ne réécrit plus tout vers spa.html, seulement les routes applicatives connues).
   const notFound = await server.render("/page-introuvable-404");
-  await writeFile(path.join(distDir, "404.html"), renderDocument(template, notFound));
+  // Sans data-prerendered, le client n'hydrate pas : sur /recettes/<slug inconnu>, l'application affiche
+  // « Recette introuvable » (noindex) au lieu d'une hydratation incohérente avec ce HTML.
+  await writeFile(path.join(distDir, "404.html"), renderDocument(template, notFound).replace(" data-prerendered", ""));
 
   console.log(`[prerender] ${pages.length} pages, 404.html, sitemap.xml (${sitemap.length} URL), robots.txt, llms.txt, llms-full.txt`);
 }

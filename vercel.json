@@ -18,7 +18,6 @@
     }
   ],
   "rewrites": [
-    { "source": "/:path(admin|auth|reset-password|paiement-reussi|paiement-annule|precommande-confirmee|journal)", "destination": "/spa.html" },
-    { "source": "/recettes/:slug", "destination": "/spa.html" }
+    { "source": "/:path(admin|auth|reset-password|paiement-reussi|paiement-annule|precommande-confirmee|journal)", "destination": "/spa.html" }
   ]
 }

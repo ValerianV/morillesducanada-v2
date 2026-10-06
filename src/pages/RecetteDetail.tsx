@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Seo from "@/components/Seo";
-import { breadcrumbSchema, recipeSchema } from "@/lib/seo/schema";
+import { breadcrumbSchema, recipeSchema, type JsonLd } from "@/lib/seo/schema";
+import { clipDescription, fitTitle, MAX_TITLE_LENGTH } from "@/lib/seo/site";
 import { getPrerenderData, recipeKey } from "@/lib/prerenderData";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -48,6 +49,11 @@ function normalizeRecipe(data: Record<string, unknown>): Recipe {
     steps: Array.isArray(data.steps) ? data.steps : [],
   } as unknown as Recipe;
 }
+
+const recipeTitle = (title: string) => {
+  const withLabel = `${title} | Recette aux morilles`;
+  return withLabel.length <= MAX_TITLE_LENGTH ? withLabel : fitTitle(title.slice(0, MAX_TITLE_LENGTH));
+};
 
 const RecetteDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -106,8 +112,8 @@ const RecetteDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title={`${recipe.title} | Recette aux morilles`}
-        description={recipe.description}
+        title={recipeTitle(recipe.title)}
+        description={clipDescription(recipe.description)}
         path={`/recettes/${recipe.slug}`}
         type="article"
         image={recipe.image_url ? { url: recipe.image_url, alt: recipe.title } : undefined}
@@ -117,7 +123,7 @@ const RecetteDetail = () => {
             { name: "Recettes", path: "/recettes" },
             { name: recipe.title, path: `/recettes/${recipe.slug}` },
           ]),
-        ]}
+        ].filter((schema): schema is JsonLd => schema !== null)}
       />
 
       <Navbar />

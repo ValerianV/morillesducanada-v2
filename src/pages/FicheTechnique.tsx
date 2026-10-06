@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Seo from "@/components/Seo";
 import { breadcrumbSchema } from "@/lib/seo/schema";
+import { Link } from "react-router-dom";
 import { Download } from "lucide-react";
 import logo from "@/assets/logo.webp";
 import { EDITEUR } from "@/lib/legal";
@@ -26,8 +27,8 @@ const Row = ({ label, value }: { label: string; value: ReactNode }) => (
 const FicheTechnique = () => (
   <div className="bg-[#ddd9d0] min-h-screen">
     <Seo
-      title="Fiche technique : morilles séchées sauvages | Morilles du Canada"
-      description="Fiche technique des morilles séchées sauvages du Canada pour les professionnels : origine, entières et équeutées, variétés mélangées, conditionnement, réhydratation et conservation."
+      title="Fiche technique des morilles séchées | Morilles du Canada"
+      description="Fiche technique des morilles de feu séchées du Canada : origine, entières et équeutées, conditionnement, réhydratation et conservation."
       path="/fiche-technique"
       jsonLd={breadcrumbSchema([
         { name: "Professionnels", path: "/professionnels" },
@@ -97,6 +98,20 @@ const FicheTechnique = () => (
         Télécharger en PDF
       </button>
     </div>
+
+    <nav aria-label="Pour aller plus loin" className="mx-auto max-w-[210mm] px-5 pb-10 text-base text-[#1a1612] print:hidden">
+      <p className="font-medium mb-2">Pour aller plus loin</p>
+      <ul className="space-y-1.5">
+        <li><Link to="/professionnels#devis" className="underline underline-offset-4 hover:text-[#8a6a1c]">Demander un devis ou un échantillon</Link></li>
+        <li><Link to="/plaquette-pro" className="underline underline-offset-4 hover:text-[#8a6a1c]">Plaquette professionnelle et tarifs au kilo</Link></li>
+        <li><Link to="/rehydrater-morilles-sechees-guide-pro" className="underline underline-offset-4 hover:text-[#8a6a1c]">Réhydrater des morilles séchées</Link></li>
+        <li><Link to="/acheter-morilles-sechees-restauration" className="underline underline-offset-4 hover:text-[#8a6a1c]">Acheter des morilles séchées pour la restauration</Link></li>
+        <li><Link to="/valerian-vilane" className="underline underline-offset-4 hover:text-[#8a6a1c]">Valérian Vilane, fondateur</Link></li>
+      </ul>
+      <p className="mt-3">
+        <a href={`mailto:${EDITEUR.email}`} className="underline underline-offset-4 hover:text-[#8a6a1c]">{EDITEUR.email}</a> · <a href={EDITEUR.telephoneHref} className="underline underline-offset-4 hover:text-[#8a6a1c]">{EDITEUR.telephone}</a>
+      </p>
+    </nav>
 
     <style>{`
       @media print {

@@ -4,6 +4,18 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-10-07 — Audit SEO et GEO : corrections techniques et trois pages (validé par le fondateur)
+
+- Maillage : bloc « Pour aller plus loin » dans le corps de l'accueil et de `/professionnels` (`src/components/FurtherReading.tsx`,
+  liste dans `FURTHER_READING_PATHS`) ; liens sortants sur `/fiche-technique` et `/plaquette-pro` (masqués à l'impression).
+- Soft 404 : la réécriture `/recettes/:slug` → `spa.html` est supprimée de `vercel.json`. Une recette absente du prérendu répond
+  404 (`404.html`, `noindex`). Contrepartie : une recette ajoutée en base n'est joignable par son adresse directe qu'après un
+  nouveau build ; le build de production échoue si aucune recette n'est récupérée (`scripts/prerender.mjs`).
+- Titres ≤ 60 caractères et descriptions ≤ 155, vérifiés au build et par test (`fitTitle` n'ajoute « | Morilles du Canada » que si ça tient).
+  Plus de « 45 kg » dans les métas. JSON-LD Recipe émis seulement avec une image. « Recettes de chefs » devient « recettes aux morilles de feu ».
+- Trois pages prérendues, au sitemap et dans `llms.txt` : `/valerian-vilane` (Person, `Person.url` pointe dessus),
+  `/morilles-sechees-traiteurs` (6e page de contenu, dans `articles.ts`), `/zones-de-passage` (lit `TASTING_TOUR`).
+
 ## 2026-10-06 — Emails de prospection : écrire comme une personne, pas comme un robot
 
 - Retour du fondateur sur les relances J+5 : formule « répondez STOP », liens UTM visibles et précommande détaillée

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Seo from "@/components/Seo";
 import { breadcrumbSchema } from "@/lib/seo/schema";
+import { Link } from "react-router-dom";
 import { Download } from "lucide-react";
 import logo from "@/assets/logo.webp";
 import landscapeCanada from "@/assets/landscape-canada.webp";
@@ -52,8 +53,8 @@ const Eyebrow = ({ children, light = false }: { children: ReactNode; light?: boo
 const PlaquettePro = () => (
   <div className="bg-[#ddd9d0] min-h-screen">
     <Seo
-      title="Plaquette pro : morilles séchées au kilo | Morilles du Canada"
-      description="Plaquette professionnelle Morilles du Canada : morilles sauvages du Canada séchées, entières et équeutées, au kilo en sachets sous vide de 250 g, tarifs nets, stock en France."
+      title="Plaquette pro des morilles séchées | Morilles du Canada"
+      description="Plaquette professionnelle : morilles sauvages du Canada séchées, entières et équeutées, sachets sous vide de 250 g, prix nets au kilo, en stock en France."
       path="/plaquette-pro"
       jsonLd={breadcrumbSchema([
         { name: "Professionnels", path: "/professionnels" },
@@ -290,6 +291,18 @@ const PlaquettePro = () => (
         Télécharger en PDF
       </button>
     </div>
+
+    <nav aria-label="Pour aller plus loin" className="mx-auto max-w-[210mm] px-5 pb-10 text-base text-[#1a1612] print:hidden">
+      <p className="font-medium mb-2">Pour aller plus loin</p>
+      <ul className="space-y-1.5">
+        <li><Link to="/professionnels#devis" className="underline underline-offset-4 hover:text-[#8a6a1c]">Demander un devis ou un échantillon</Link></li>
+        <li><Link to="/fiche-technique" className="underline underline-offset-4 hover:text-[#8a6a1c]">Fiche technique du produit</Link></li>
+        <li><Link to="/prix-morilles-sechees-kilo-professionnels" className="underline underline-offset-4 hover:text-[#8a6a1c]">Prix des morilles séchées au kilo</Link></li>
+        <li><Link to="/morilles-sechees-traiteurs" className="underline underline-offset-4 hover:text-[#8a6a1c]">Morilles séchées pour traiteurs</Link></li>
+        <li><Link to="/zones-de-passage" className="underline underline-offset-4 hover:text-[#8a6a1c]">Zones et dates de passage pour l'échantillon</Link></li>
+        <li><Link to="/valerian-vilane" className="underline underline-offset-4 hover:text-[#8a6a1c]">Valérian Vilane, fondateur</Link></li>
+      </ul>
+    </nav>
 
     <style>{`
       @media print {

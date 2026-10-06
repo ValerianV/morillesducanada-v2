@@ -7,7 +7,7 @@ import { buildLlmsFullTxt, buildLlmsTxt, plainText } from "@/lib/seo/llms";
 import { buildRobotsTxt, SEARCH_AND_AI_BOTS } from "@/lib/seo/robots";
 import { NOINDEX_PREFIXES } from "@/lib/seo/noindex";
 import { STATIC_ROUTES } from "@/lib/seo/routes";
-import { OFFER_LAST_REVIEWED, SITE_URL } from "@/lib/seo/site";
+import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH, OFFER_LAST_REVIEWED, SITE_URL } from "@/lib/seo/site";
 import { articleSchema, founderPerson, organizationSchema, proOfferSchema, webPageSchema } from "@/lib/seo/schema";
 
 describe("robots.txt", () => {
@@ -154,6 +154,47 @@ describe("pages de contenu", () => {
     const all = JSON.stringify(ARTICLES);
     expect(all).not.toMatch(/Plantin|Sabarot|Borde|Adler|Gina|Chef Morel|Maison Masse|Ankorstore|Metro|Terres/i);
     expect(all).not.toMatch(/meilleur|le moins cher|unique au monde|exceptionnel|fumé/i);
+  });
+});
+
+describe("pages ajoutées en octobre 2026", () => {
+  const short = buildLlmsTxt();
+  const full = buildLlmsFullTxt();
+
+  it("titres ≤ 60 caractères et descriptions ≤ 155 pour toutes les pages de contenu, sans stock chiffré", () => {
+    for (const a of ARTICLES) {
+      expect(a.metaTitle.length, a.metaTitle).toBeLessThanOrEqual(MAX_TITLE_LENGTH);
+      expect(a.metaDescription.length, a.metaDescription).toBeLessThanOrEqual(MAX_DESCRIPTION_LENGTH);
+      expect(a.metaDescription).not.toMatch(/45 kg/);
+    }
+  });
+
+  it("la page traiteurs reprend la grille, les sachets de 250 g, la dose par couvert et les règles de l'échantillon", () => {
+    const article = ARTICLES.find((a) => a.path === "/morilles-sechees-traiteurs")!;
+    expect(article).toBeDefined();
+    const text = JSON.stringify(article);
+    for (const tier of PRO_TIERS) expect(text).toContain(formatTierPrice(tier));
+    expect(text).toContain("TVA non applicable, art. 293 B du CGI");
+    expect(text).toContain("sachets sous vide de 250 g");
+    expect(text).toContain("5 à 8 g");
+    expect(text).toContain("5 jours ouvrés");
+    expect(text).toContain("port inclus");
+    expect(text).toContain("en main propre");
+    expect(text).toContain("](/zones-de-passage)");
+    expect(article.sections.length).toBeGreaterThanOrEqual(5);
+    expect(STATIC_ROUTES.find((r) => r.path === article.path)?.lastmod).toBe(article.dateModified);
+  });
+
+  it("llms.txt et llms-full.txt listent les trois pages, sans « recettes de chefs »", () => {
+    for (const text of [short, full]) {
+      for (const p of ["/morilles-sechees-traiteurs", "/valerian-vilane", "/zones-de-passage"]) expect(text).toContain(`${SITE_URL}${p}`);
+      expect(text).not.toMatch(/recettes de chefs/i);
+    }
+    expect(short).toContain("## Qui et où");
+  });
+
+  it("aucune page ne nomme de partenaire ni ne cite de prix plancher", () => {
+    expect(`${short}${full}`).not.toMatch(/plancher|cueilleurs? partenaires?/i);
   });
 });
 

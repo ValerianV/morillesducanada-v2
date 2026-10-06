@@ -65,7 +65,7 @@ describe("page /professionnels", () => {
       "Précommandez la saison 2027",
       "Conditions de vente",
       "Votre demande",
-      "Guides pour les professionnels",
+      "Pour aller plus loin",
       "Questions des professionnels",
     ]);
     expect(screen.getByText("45 kg en stock")).toBeInTheDocument();

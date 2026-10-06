@@ -25,6 +25,8 @@ export const STATIC_ROUTES: IndexableRoute[] = [
     sources: ["src/lib/seo/articles.ts", "src/pages/ContentArticle.tsx"],
   })),
   { path: "/guide-morilles-de-feu", priority: 0.7, changefreq: "monthly", sources: ["src/pages/GuideMorellesDeFeu.tsx"] },
+  { path: "/valerian-vilane", priority: 0.7, changefreq: "monthly", sources: ["src/pages/Fondateur.tsx", "src/lib/seo/schema.ts"] },
+  { path: "/zones-de-passage", priority: 0.7, changefreq: "weekly", sources: ["src/pages/ZonesDePassage.tsx", "supabase/functions/_shared/tasting.ts"] },
   { path: "/recettes", priority: 0.7, changefreq: "weekly", sources: ["src/pages/Recettes.tsx"] },
   { path: "/fiche-technique", priority: 0.6, changefreq: "monthly", sources: ["src/pages/FicheTechnique.tsx"] },
   { path: "/plaquette-pro", priority: 0.6, changefreq: "monthly", sources: ["src/pages/PlaquettePro.tsx", "supabase/functions/_shared/proPricing.ts"] },

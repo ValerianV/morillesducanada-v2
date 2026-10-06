@@ -30,6 +30,8 @@ const Journal = lazy(() => import("./pages/Journal"));
 const PlaquettePro = lazy(() => import("./pages/PlaquettePro"));
 const FicheTechnique = lazy(() => import("./pages/FicheTechnique"));
 const ContentArticle = lazy(() => import("./pages/ContentArticle"));
+const Fondateur = lazy(() => import("./pages/Fondateur"));
+const ZonesDePassage = lazy(() => import("./pages/ZonesDePassage"));
 
 const queryClient = new QueryClient();
 
@@ -106,6 +108,8 @@ const App = ({ ssrPath, helmetContext }: AppProps = {}) => {
           <Route path="/journal" element={<Journal />} />
           <Route path="/plaquette-pro" element={<PlaquettePro />} />
           <Route path="/fiche-technique" element={<FicheTechnique />} />
+          <Route path="/valerian-vilane" element={<Fondateur />} />
+          <Route path="/zones-de-passage" element={<ZonesDePassage />} />
           {ARTICLES.map((article) => (
             <Route key={article.path} path={article.path} element={<ContentArticle article={article} />} />
           ))}

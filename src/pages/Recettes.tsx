@@ -79,7 +79,7 @@ const Recettes = () => {
     <div className="min-h-screen bg-background">
       <Seo
         title="Recettes aux morilles séchées | Morilles du Canada"
-        description="Recettes de chefs aux morilles séchées sauvages du Canada, pas à pas : risotto, velouté, pâtes, filet de bœuf en croûte et plus encore."
+        description="Recettes aux morilles de feu séchées du Canada, pas à pas : risotto, velouté, pâtes, filet de bœuf en croûte et plus encore."
         path="/recettes"
         jsonLd={[
           {

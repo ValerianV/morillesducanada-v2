@@ -1,13 +1,15 @@
 import { describe, it, expect } from "vitest";
 import { PRO_TIERS } from "@/lib/proPricing";
 import { fr } from "@/i18n/fr";
-import { absoluteUrl, SITE_URL } from "@/lib/seo/site";
+import { absoluteUrl, clipDescription, fitTitle, FOUNDER_PATH, MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH, SITE_URL } from "@/lib/seo/site";
 import {
   breadcrumbSchema,
   faqPageSchema,
+  founderPerson,
   lowestProPricePerKg,
   organizationSchema,
   preorderSchema,
+  profilePageSchema,
   proOfferSchema,
   recipeSchema,
   serializeJsonLd,
@@ -101,7 +103,26 @@ describe("FAQPage et fil d'Ariane", () => {
 });
 
 describe("Recipe", () => {
-  it("calcule les durées ISO 8601 et liste les ingrédients", () => {
+  const base = {
+    slug: "risotto",
+    title: "Risotto aux morilles",
+    description: "Un risotto.",
+    chef_name: "Chef",
+    prep_time: 20,
+    cook_time: 25,
+    servings: 4,
+    ingredients: [{ quantity: "20", unit: "g", name: "morilles séchées" }],
+    steps: [{ step: 1, title: "Réhydrater", description: "Tremper 20 min." }],
+    tags: ["risotto"],
+    created_at: "2026-03-01T10:00:00Z",
+  };
+
+  it("n'émet aucun JSON-LD Recipe sans image (Google l'exige, la page doit la montrer)", () => {
+    expect(recipeSchema({ ...base, image_url: null })).toBeNull();
+    expect(recipeSchema({ ...base, image_url: "" })).toBeNull();
+  });
+
+  it("calcule les durées ISO 8601, liste les ingrédients et porte l'image en URL absolue", () => {
     const schema = recipeSchema({
       slug: "risotto",
       title: "Risotto aux morilles",
@@ -110,14 +131,49 @@ describe("Recipe", () => {
       prep_time: 20,
       cook_time: 25,
       servings: 4,
-      image_url: null,
+      image_url: "/images/risotto.webp",
       ingredients: [{ quantity: "20", unit: "g", name: "morilles séchées" }],
       steps: [{ step: 1, title: "Réhydrater", description: "Tremper 20 min." }],
       tags: ["risotto"],
       created_at: "2026-03-01T10:00:00Z",
     });
-    expect(schema).toMatchObject({ totalTime: "PT45M", recipeIngredient: ["20 g morilles séchées"], datePublished: "2026-03-01" });
-    expect(schema).not.toHaveProperty("image");
+    expect(schema).toMatchObject({
+      totalTime: "PT45M",
+      recipeIngredient: ["20 g morilles séchées"],
+      datePublished: "2026-03-01",
+      image: [`${SITE_URL}/images/risotto.webp`],
+    });
+  });
+});
+
+describe("titres et descriptions", () => {
+  it("fitTitle n'ajoute la marque que si le titre reste sous la limite", () => {
+    expect(fitTitle("Mentions légales")).toBe("Mentions légales | Morilles du Canada");
+    const long = "Prix des morilles séchées au kilo pour les professionnels";
+    expect(fitTitle(long)).toBe(long);
+    expect(fitTitle("x".repeat(39)).length).toBeLessThanOrEqual(MAX_TITLE_LENGTH);
+  });
+
+  it("clipDescription coupe au dernier mot entier et reste sous la limite", () => {
+    const text = "morille ".repeat(40).trim();
+    const clipped = clipDescription(text);
+    expect(clipped.length).toBeLessThanOrEqual(MAX_DESCRIPTION_LENGTH);
+    expect(clipped.endsWith("…")).toBe(true);
+    expect(clipDescription("Courte.")).toBe("Courte.");
+  });
+});
+
+describe("page fondateur", () => {
+  it("la Person pointe vers /valerian-vilane et la page déclare un ProfilePage dont elle est l'entité principale", () => {
+    const person = founderPerson();
+    expect(person.url).toBe(`${SITE_URL}${FOUNDER_PATH}`);
+    expect(FOUNDER_PATH).toBe("/valerian-vilane");
+    const page = profilePageSchema({ path: FOUNDER_PATH, name: "x", description: "y", dateModified: "2026-10-07" }) as {
+      "@type": string;
+      mainEntity: { "@type": string; "@id": string; name: string };
+    };
+    expect(page["@type"]).toBe("ProfilePage");
+    expect(page.mainEntity).toMatchObject({ "@type": "Person", "@id": `${SITE_URL}/#valerian-vilane`, name: "Valérian Vilane" });
   });
 });
 
@@ -132,6 +188,11 @@ describe("routes du sitemap", () => {
     const paths = STATIC_ROUTES.map((r) => r.path);
     expect(new Set(paths).size).toBe(paths.length);
     paths.forEach((p) => expect(isNoindexPath(p)).toBe(false));
+  });
+
+  it("listent les trois pages ajoutées en octobre 2026", () => {
+    const paths = STATIC_ROUTES.map((r) => r.path);
+    for (const p of ["/valerian-vilane", "/morilles-sechees-traiteurs", "/zones-de-passage"]) expect(paths).toContain(p);
   });
 
   it("marque les pages privées en noindex", () => {

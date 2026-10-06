@@ -22,6 +22,7 @@ import {
 import { PREORDER_2027 } from "@/lib/preorder";
 import { POT_PRICE_CENTS, POT_SIZES_G } from "@/lib/potAllocation";
 import { tastingTourLines } from "@/lib/tasting";
+import { fitTitle } from "./site";
 
 export type ArticleBlock =
   | { type: "p"; text: string }
@@ -83,8 +84,8 @@ const priceRows = PRO_TIERS.map((tier) => [
 export const ARTICLES: readonly ArticleDef[] = [
   {
     path: "/acheter-morilles-sechees-restauration",
-    metaTitle: "Acheter des morilles séchées pour la restauration | Morilles du Canada",
-    metaDescription: `Où acheter des morilles séchées pour un restaurant, un traiteur ou une épicerie fine : morilles de feu sauvages du Canada, au kilo, de ${formatTierPrice(PRO_TIERS[PRO_TIERS.length - 1])} à ${formatTierPrice(PRO_TIERS[0])}, port inclus en France.`,
+    metaTitle: fitTitle("Acheter des morilles séchées pour la restauration"),
+    metaDescription: `Où acheter des morilles séchées pour un restaurant ou un traiteur : morilles de feu sauvages du Canada, au kilo, de ${formatTierPrice(PRO_TIERS[PRO_TIERS.length - 1])} à ${formatTierPrice(PRO_TIERS[0])} net, port inclus.`,
     eyebrow: "Guide pour les professionnels",
     h1: "Acheter des morilles séchées pour la restauration",
     lead: `Morilles du Canada vend aux restaurants, traiteurs, épiceries fines et distributeurs des morilles de feu sauvages du Canada, séchées, entières et équeutées, au kilo (de ${PRO_MIN_KG} à ${PRO_MAX_KG} kg), en sachets sous vide de ${PRO_PACK_GRAMS} g. ${eur(lowest)} à ${eur(highest)} le kilo net selon la quantité, port inclus en France, expédition sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés.`,
@@ -170,8 +171,8 @@ export const ARTICLES: readonly ArticleDef[] = [
 
   {
     path: "/prix-morilles-sechees-kilo-professionnels",
-    metaTitle: "Prix des morilles séchées au kilo pour les professionnels | Morilles du Canada",
-    metaDescription: `Prix des morilles séchées au kilo pour les professionnels : ${formatTierPrice(PRO_TIERS[0])} (1 kg) à ${formatTierPrice(PRO_TIERS[PRO_TIERS.length - 1])} (10 kg et plus), net, port inclus en France. Grille, exemples et repères de marché sourcés.`,
+    metaTitle: fitTitle("Prix des morilles séchées au kilo pour les professionnels"),
+    metaDescription: `Prix des morilles séchées au kilo pour les professionnels : ${formatTierPrice(PRO_TIERS[0])} (1 kg) à ${formatTierPrice(PRO_TIERS[PRO_TIERS.length - 1])} (10 kg et plus), net, port inclus. Grille et repères de marché.`,
     eyebrow: "Guide pour les professionnels",
     h1: "Prix des morilles séchées au kilo pour les professionnels",
     lead: `Chez Morilles du Canada, les morilles de feu sauvages séchées coûtent ${formatTierPrice(PRO_TIERS[0])} pour 1 kg et ${formatTierPrice(PRO_TIERS[PRO_TIERS.length - 1])} à partir de 10 kg. ${TAX}, port inclus en France. Le prix du palier atteint s'applique à toute la quantité commandée.`,
@@ -269,8 +270,8 @@ export const ARTICLES: readonly ArticleDef[] = [
 
   {
     path: "/morille-de-feu-ou-morille-de-culture",
-    metaTitle: "Morille de feu ou morille de culture : la différence | Morilles du Canada",
-    metaDescription: "Morille de feu sauvage ou morille de culture : origine, pousse, récolte, disponibilité et prix. Ce qu'un professionnel doit demander à son fournisseur de morilles séchées.",
+    metaTitle: fitTitle("Morille de feu ou morille de culture : la différence"),
+    metaDescription: "Morille de feu sauvage ou morille de culture : origine, pousse, récolte, disponibilité et prix. Ce qu'un professionnel doit demander à son fournisseur.",
     eyebrow: "Guide pour les professionnels",
     h1: "Morille de feu ou morille de culture : la différence",
     lead: "La morille de feu est sauvage : elle pousse d'elle-même au printemps qui suit un feu de forêt et se cueille à la main. La morille de culture est produite en serre ou en plein champ, à partir de semis. La différence tient à l'origine, à la rareté et au prix.",
@@ -349,8 +350,8 @@ export const ARTICLES: readonly ArticleDef[] = [
 
   {
     path: "/rehydrater-morilles-sechees-guide-pro",
-    metaTitle: "Comment réhydrater des morilles séchées (guide pro) | Morilles du Canada",
-    metaDescription: `Réhydrater des morilles séchées en cuisine professionnelle : eau tiède 30 à 40 °C, 20 à 30 minutes, jus de trempage filtré, dosage de ${DOSE_MIN_G} à ${DOSE_MAX_G} g par couvert, cuisson et conservation.`,
+    metaTitle: fitTitle("Comment réhydrater des morilles séchées (guide pro)"),
+    metaDescription: `Réhydrater des morilles séchées en cuisine pro : eau tiède 30 à 40 °C, 20 à 30 minutes, jus filtré, ${DOSE_MIN_G} à ${DOSE_MAX_G} g par couvert, cuisson et conservation.`,
     eyebrow: "Guide pour les professionnels",
     h1: "Comment réhydrater des morilles séchées (guide pro)",
     lead: "Plongez les morilles séchées dans de l'eau tiède (30 à 40 °C, jamais bouillante) pendant 20 à 30 minutes, soulevez-les sans les presser, filtrez le jus de trempage et gardez-le pour vos sauces. Cuisez toujours bien les morilles : Tox Info Suisse recommande au moins 20 minutes.",
@@ -424,8 +425,8 @@ export const ARTICLES: readonly ArticleDef[] = [
 
   {
     path: "/morilles-sechees-epicerie-fine",
-    metaTitle: "Morilles séchées pour épiceries fines : sachets et pots | Morilles du Canada",
-    metaDescription: `Morilles de feu séchées pour épiceries fines : sachets sous vide de ${PRO_PACK_GRAMS} g à reconditionner sous votre marque, pots en verre vides de ${potSizes} g à ${potPrice} net le pot, prix nets au kilo.`,
+    metaTitle: fitTitle("Morilles séchées pour épiceries fines : sachets et pots"),
+    metaDescription: `Morilles de feu séchées pour épiceries fines : sachets sous vide de ${PRO_PACK_GRAMS} g à reconditionner, pots en verre vides de ${potSizes} g à ${potPrice} net le pot.`,
     eyebrow: "Guide pour les professionnels",
     h1: "Morilles séchées pour épiceries fines : sachets sous vide et pots à remplir",
     lead: `Les épiceries fines reçoivent les morilles de feu en sachets sous vide de ${PRO_PACK_GRAMS} g, au prix au kilo de la grille (${eur(lowest)} à ${eur(highest)} net), et peuvent ajouter des pots en verre vides de ${potSizes} g, sans étiquette, à ${potPrice} net le pot, pour remplir et étiqueter sous leur marque.`,
@@ -480,11 +481,100 @@ export const ARTICLES: readonly ArticleDef[] = [
       },
     ],
   },
+
+  {
+    path: "/morilles-sechees-traiteurs",
+    metaTitle: fitTitle("Morilles séchées pour traiteurs : prix et quantités"),
+    metaDescription: `Morilles de feu séchées pour traiteurs : sachets sous vide de ${PRO_PACK_GRAMS} g, de ${formatTierPrice(PRO_TIERS[PRO_TIERS.length - 1])} à ${formatTierPrice(PRO_TIERS[0])} net, port inclus, quantité par couvert et coût par convive.`,
+    eyebrow: "Guide pour les professionnels",
+    h1: "Morilles séchées pour traiteurs : formats, quantités et prix",
+    lead: `Les traiteurs reçoivent les morilles de feu sauvages du Canada, séchées, entières et équeutées, en sachets sous vide de ${PRO_PACK_GRAMS} g, de ${PRO_MIN_KG} à ${PRO_MAX_KG} kg, de ${eur(lowest)} à ${eur(highest)} le kilo net selon la quantité. Port inclus en France, expédition sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés.`,
+    datePublished: "2026-10-07",
+    dateModified: "2026-10-07",
+    keywords: ["morilles séchées traiteur", "morilles séchées pour traiteur événementiel", "morilles séchées quantité par couvert", "fournisseur morilles traiteur", "morilles séchées prix kilo traiteur"],
+    related: ["/prix-morilles-sechees-kilo-professionnels", "/rehydrater-morilles-sechees-guide-pro", "/zones-de-passage", "/acheter-morilles-sechees-restauration"],
+    priority: 0.7,
+    sections: [
+      {
+        id: "formats",
+        q: "Quels formats et quels prix pour un traiteur ?",
+        answer: `Des sachets sous vide de ${PRO_PACK_GRAMS} g, de ${PRO_MIN_KG} à ${PRO_MAX_KG} kg par pas de 500 g : par exemple, 3 kg = 12 sachets. Le prix au kilo baisse avec la quantité, et le palier atteint s'applique à toute la commande. Port inclus en France.`,
+        blocks: [
+          {
+            type: "table",
+            caption: "Grille professionnelle au kilo (prix nets, port inclus en France)",
+            head: ["Quantité", "Prix net au kilo", "Exemple"],
+            rows: priceRows,
+          },
+          { type: "p", text: `${TAX}. [Détail de la grille et repères de marché](/prix-morilles-sechees-kilo-professionnels).` },
+        ],
+      },
+      {
+        id: "quantite",
+        q: "Quelle quantité prévoir pour un événement ?",
+        answer: `Comptez ${DOSE_MIN_G} à ${DOSE_MAX_G} g de morilles séchées par convive : 20 couverts demandent ${20 * DOSE_MIN_G} à ${20 * DOSE_MAX_G} g, 100 couverts ${100 * DOSE_MIN_G} à ${100 * DOSE_MAX_G} g. Les morilles gonflent nettement à la réhydratation.`,
+        blocks: [
+          {
+            type: "table",
+            caption: `Repères de quantité (produit sec, de ${DOSE_MIN_G} à ${DOSE_MAX_G} g par convive)`,
+            head: ["Couverts", "Morilles séchées", `Sachets de ${PRO_PACK_GRAMS} g`],
+            rows: [20, 50, 100, 200].map((n) => [
+              `${n} couverts`,
+              `${n * DOSE_MIN_G} à ${n * DOSE_MAX_G} g`,
+              `${Math.ceil((n * DOSE_MIN_G) / PRO_PACK_GRAMS)} à ${Math.ceil((n * DOSE_MAX_G) / PRO_PACK_GRAMS)} sachets`,
+            ]),
+          },
+        ],
+      },
+      {
+        id: "cout",
+        q: "Combien coûte la morille par convive ?",
+        answer: `Avec ${DOSE_MIN_G} à ${DOSE_MAX_G} g par convive, le coût matière des morilles va de ${costPerCover(lowest, DOSE_MIN_G)} (${DOSE_MIN_G} g à ${formatEurosLocale(lowest)}/kg) à ${costPerCover(highest, DOSE_MAX_G)} (${DOSE_MAX_G} g à ${formatEurosLocale(highest)}/kg), hors autres ingrédients.`,
+        blocks: [{ type: "p", text: `Le détail par palier figure dans le [guide des prix](/prix-morilles-sechees-kilo-professionnels). ${TAX}.` }],
+      },
+      {
+        id: "rehydrater",
+        q: "Comment réhydrater de grandes quantités ?",
+        answer: "Selon la même méthode qu'en petite quantité : eau tiède (30 à 40 °C), 20 à 30 minutes de trempage, égouttage délicat, puis filtrage du jus de trempage pour vos sauces. Cuisez toujours bien les morilles : Tox Info Suisse recommande au moins 20 minutes.",
+        blocks: [{ type: "p", text: "Les étapes détaillées et le dosage sont dans le [guide de réhydratation](/rehydrater-morilles-sechees-guide-pro)." }],
+      },
+      {
+        id: "commander",
+        q: "Comment commander pour un événement à date fixe ?",
+        answer: `Commandez en ligne ou demandez un devis, que Valérian vous renvoie sous ${PRO_QUOTE_REPLY_HOURS} h ouvrées. Le paiement se fait à la commande, par carte ou par virement sur facture avec SIRET, et l'expédition part sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés : prenez cette marge avant la date de votre prestation.`,
+        blocks: [{ type: "p", text: "[Commander ou demander un devis](/professionnels#commander). Vente réservée aux professionnels, SIRET demandé à la commande ; livraison en France uniquement." }],
+      },
+      {
+        id: "echantillon",
+        q: "Puis-je goûter avant de commander ?",
+        answer: `Oui : un pot en verre de ${PRO_SAMPLE_GRAMS} g est offert et remis en main propre, sur rendez-vous, quand Valérian passe dans votre zone. Hors de ces zones, contactez-le : il étudie chaque demande.`,
+        blocks: [
+          { type: "ul", items: tastingLines },
+          { type: "p", text: "Calendrier et conditions : [zones et dates de passage](/zones-de-passage). Demande depuis la page [Professionnels](/professionnels#degustation)." },
+        ],
+      },
+      {
+        id: "minimum",
+        q: "Y a-t-il un minimum de commande ?",
+        answer: `Oui : ${PRO_MIN_KG} kg, soit ${PRO_MIN_KG * 4} sachets de ${PRO_PACK_GRAMS} g. Jusqu'à ${PRO_MAX_KG} kg, par pas de 500 g, dans la limite du stock. Chaque commande donne lieu à une facture avec numéro SIRET.`,
+      },
+    ],
+  },
 ];
 
 export function getArticle(path: string): ArticleDef | undefined {
   return ARTICLES.find((a) => a.path === path);
 }
+
+// Pages proposées dans le bloc « Pour aller plus loin » (accueil et /professionnels).
+export const FURTHER_READING_PATHS: readonly string[] = [
+  ...ARTICLES.map((article) => article.path),
+  "/guide-morilles-de-feu",
+  "/fiche-technique",
+  "/plaquette-pro",
+  "/valerian-vilane",
+  "/zones-de-passage",
+];
 
 // Titres courts des pages, pour les liens « à lire aussi » et le pied de page.
 export const CONTENT_LINK_LABELS: Record<string, string> = {
@@ -493,6 +583,9 @@ export const CONTENT_LINK_LABELS: Record<string, string> = {
   "/morille-de-feu-ou-morille-de-culture": "Morille de feu ou morille de culture",
   "/rehydrater-morilles-sechees-guide-pro": "Réhydrater des morilles séchées",
   "/morilles-sechees-epicerie-fine": "Morilles séchées pour épiceries fines",
+  "/morilles-sechees-traiteurs": "Morilles séchées pour traiteurs",
+  "/valerian-vilane": "Valérian Vilane, fondateur",
+  "/zones-de-passage": "Zones et dates de passage",
   "/guide-morilles-de-feu": "Guide de la morille de feu",
   "/recettes": "Recettes aux morilles",
   "/professionnels": "Tarifs et devis",

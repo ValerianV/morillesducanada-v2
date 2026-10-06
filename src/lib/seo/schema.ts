@@ -18,6 +18,7 @@ import {
   CONTACT_PHONE,
   DEFAULT_OG_IMAGE,
   FOUNDER_NAME,
+  FOUNDER_PATH,
   LOGO_URL,
   SAME_AS_URLS,
   SITE_NAME,
@@ -54,7 +55,7 @@ export function founderPerson(): JsonLd {
     description:
       "Fondateur de Morilles du Canada et ancien cueilleur de morilles de feu : trois saisons, de 2022 à 2024, en Colombie-Britannique et au Yukon.",
     worksFor: orgRef,
-    url: `${SITE_URL}/professionnels`,
+    url: absoluteUrl(FOUNDER_PATH),
     image: `${SITE_URL}/images/valerian-vilane-fondateur-morilles-du-canada.webp`,
     knowsAbout: KNOWS_ABOUT,
   };
@@ -96,6 +97,31 @@ export function websiteSchema(): JsonLd {
     url: `${SITE_URL}/`,
     inLanguage: "fr-FR",
     publisher: orgRef,
+  };
+}
+
+export interface ProfilePageInput {
+  path: string;
+  name: string;
+  description: string;
+  dateModified: string;
+}
+
+// Page « qui suis-je » : le fondateur (Person, même @id que l'auteur des articles) est l'entité principale.
+export function profilePageSchema(page: ProfilePageInput): JsonLd {
+  const url = absoluteUrl(page.path);
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "@id": `${url}#webpage`,
+    url,
+    name: page.name,
+    description: page.description,
+    inLanguage: "fr-FR",
+    dateModified: page.dateModified,
+    isPartOf: { "@id": WEBSITE_ID },
+    publisher: orgRef,
+    mainEntity: founderPerson(),
   };
 }
 
@@ -326,7 +352,10 @@ export interface RecipeSchemaInput {
   created_at?: string | null;
 }
 
-export function recipeSchema(recipe: RecipeSchemaInput): JsonLd {
+// Google exige une image pour les résultats enrichis Recipe, et le balisage doit décrire ce que la page montre :
+// sans image de recette, aucun JSON-LD Recipe n'est émis (le fil d'Ariane reste).
+export function recipeSchema(recipe: RecipeSchemaInput): JsonLd | null {
+  if (!recipe.image_url) return null;
   const url = absoluteUrl(`/recettes/${recipe.slug}`);
   const prep = Number(recipe.prep_time) || 0;
   const cook = Number(recipe.cook_time) || 0;
@@ -337,7 +366,7 @@ export function recipeSchema(recipe: RecipeSchemaInput): JsonLd {
     name: recipe.title,
     description: recipe.description,
     url,
-    ...(recipe.image_url ? { image: [absoluteUrl(recipe.image_url)] } : {}),
+    image: [absoluteUrl(recipe.image_url)],
     author: { "@type": "Person", name: recipe.chef_name },
     publisher: orgRef,
     ...(recipe.created_at ? { datePublished: recipe.created_at.slice(0, 10) } : {}),

@@ -26,8 +26,8 @@ const CGV = () => (
   <LegalPage
     title="Conditions générales"
     titleHighlight="de vente professionnelles"
-    seoTitle="Conditions générales de vente aux professionnels | Morilles du Canada"
-    description="CGV de Morilles du Canada, vente réservée aux professionnels : commande sur devis ou lien de paiement, prix nets (art. 293 B du CGI), paiement à la commande, livraison en France port inclus."
+    seoTitle="CGV professionnelles | Morilles du Canada"
+    description="CGV de Morilles du Canada, vente réservée aux professionnels : devis ou paiement en ligne, prix nets, paiement à la commande, livraison en France."
     path="/cgv"
     breadcrumb="CGV"
     intro={<p>Version du 29 septembre 2026. Les ventes de Morilles du Canada sont réservées aux professionnels.</p>}

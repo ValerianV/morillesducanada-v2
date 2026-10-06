@@ -23,7 +23,7 @@ const GuideMorellesDeFeu = () => {
     <div className="min-h-screen bg-background">
       <Seo
         title="Guide de la morille de feu du Canada | Morilles du Canada"
-        description="Tout savoir sur les morilles de feu du Canada : cueillette sauvage après incendie, différence avec la morille de culture, conservation, préparation et recettes."
+        description="Morille de feu du Canada : cueillette sauvage après incendie, différence avec la morille de culture, conservation, préparation et recettes."
         path="/guide-morilles-de-feu"
         type="article"
         jsonLd={[guideJsonLd, breadcrumbSchema([{ name: "Guide des morilles de feu", path: "/guide-morilles-de-feu" }])]}
