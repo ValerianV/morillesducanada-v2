@@ -4,6 +4,18 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-10-07 — Démarchage : obtenir un rendez-vous, ne jamais visiter à l'improviste
+
+- Règle du fondateur : « démarcher pour visiter oui, visiter pour démarcher non ». Une visite spontanée tombe
+  toujours au mauvais moment. Le démarchage (téléphone, SMS, email, Instagram) a pour seul but d'obtenir un
+  rendez-vous ; le pot de 30 g est remis lors de ce rendez-vous.
+- Cibles prioritaires : restaurants de qualité, traiteurs et chefs à domicile. Fromagers et épiceries ne sont plus
+  prospectés (3 refus sur 3 réponses le 06/10, tous venus de ce segment).
+- Étiquettes : une étiquette permanente sans date ni lot, plus une mini-étiquette « lot + date de durabilité minimale »
+  collée sous chaque pot. Les étiquettes Vistaprint de 2024 ne sont plus utilisables : date dépassée, mais aussi
+  cuisson « au moins 5 minutes », nom et adresse de l'exploitant absents, superlatifs (« parmi les meilleures du marché »).
+- Carnet de démarchage : statuts « RDV demandé » (relance à 4 jours) puis « RDV pris » et « Visité, pot remis ».
+
 ## 2026-10-06 — Emails de prospection : écrire comme une personne, pas comme un robot
 
 - Retour du fondateur sur les relances J+5 : formule « répondez STOP », liens UTM visibles et précommande détaillée

@@ -49,3 +49,11 @@ identifie clairement l'expéditeur et propose une désinscription simple.
 Stock disponible (argument fêtes) + remise en main propre d'un pot de 30 g (zones et dates du calendrier ; envoi possible au cas par cas après échange, jamais sur simple demande) + sachets sous vide de 250 g
 + devis sous 48 h ouvrées + précommande 2027 (réservée aux pros) dans les relances.
 Prix : voir `docs/business/offre.md`. Ne jamais citer le prix plancher.
+
+## Règle de démarchage (2026-10-07)
+
+**On démarche pour obtenir un rendez-vous ; on ne visite jamais sans rendez-vous.** Ordre des canaux pour un prospect :
+téléphone (après le service, 15 h – 17 h) → SMS ou WhatsApp si un mobile est publié → email court → Instagram.
+Le pot de 30 g est remis pendant le rendez-vous. Cibles : restaurants de qualité, traiteurs, chefs à domicile ;
+pas de fromagers ni d'épiceries. Suivi dans le carnet de démarchage (statuts « RDV demandé », « RDV pris »,
+« Visité, pot remis »).
