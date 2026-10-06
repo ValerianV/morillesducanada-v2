@@ -168,7 +168,7 @@ const GuideMorellesDeFeu = () => {
               </div>
               <div className="bg-card border border-primary/20 rounded-sm p-6 space-y-4">
                 <p className="text-foreground/85 leading-relaxed">
-                  <strong className="text-foreground">Ne jamais consommer de morilles crues.</strong> Toutes les morilles contiennent de l'<strong>hémolysine</strong>, une toxine thermolabile détruite uniquement par la cuisson. Faites cuire vos morilles <strong>minimum 15 minutes à feu moyen</strong>.
+                  <strong className="text-foreground">Ne jamais consommer de morilles crues.</strong> Crues ou insuffisamment cuites, les morilles peuvent provoquer une intoxication. Faites cuire vos morilles <strong>au moins 20 minutes</strong>, et restez sur des portions raisonnables.
                 </p>
                 <p className="text-foreground/85 leading-relaxed">
                   <strong className="text-foreground">Ne jamais utiliser d'eau bouillante</strong> pour la réhydratation. L'eau trop chaude détruit la texture alvéolée et les arômes délicats de la morille.

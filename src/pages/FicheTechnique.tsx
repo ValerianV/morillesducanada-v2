@@ -73,7 +73,7 @@ const FicheTechnique = () => (
 
         <Section title="Utilisation">
           <Row label="Réhydratation" value="20 à 30 minutes dans une eau tiède (30 à 40 °C). Filtrer le jus de trempage et le réutiliser en sauce ou en fond. Les morilles gonflent nettement." />
-          <Row label="Cuisson" value="Toujours cuire les morilles, au moins 15 minutes à feu moyen. Ne jamais les consommer crues." />
+          <Row label="Cuisson" value="Toujours cuire les morilles, au moins 20 minutes. Ne jamais les consommer crues." />
         </Section>
 
         <p className="text-base text-[#f4efe4]/85 mb-10">Informations complémentaires sur demande : {EDITEUR.email}.</p>
