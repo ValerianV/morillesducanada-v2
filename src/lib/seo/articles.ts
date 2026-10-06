@@ -353,7 +353,7 @@ export const ARTICLES: readonly ArticleDef[] = [
     metaDescription: `Réhydrater des morilles séchées en cuisine professionnelle : eau tiède 30 à 40 °C, 20 à 30 minutes, jus de trempage filtré, dosage de ${DOSE_MIN_G} à ${DOSE_MAX_G} g par couvert, cuisson et conservation.`,
     eyebrow: "Guide pour les professionnels",
     h1: "Comment réhydrater des morilles séchées (guide pro)",
-    lead: "Plongez les morilles séchées dans de l'eau tiède (30 à 40 °C, jamais bouillante) pendant 20 à 30 minutes, soulevez-les sans les presser, filtrez le jus de trempage et gardez-le pour vos sauces. Cuisez toujours les morilles au moins 20 minutes.",
+    lead: "Plongez les morilles séchées dans de l'eau tiède (30 à 40 °C, jamais bouillante) pendant 20 à 30 minutes, soulevez-les sans les presser, filtrez le jus de trempage et gardez-le pour vos sauces. Cuisez toujours bien les morilles : Tox Info Suisse recommande au moins 20 minutes.",
     datePublished: "2026-10-01",
     dateModified: "2026-10-01",
     keywords: ["réhydrater morilles séchées", "comment réhydrater des morilles", "dosage morilles séchées par personne", "jus de trempage morilles", "cuisson morilles séchées"],
@@ -406,7 +406,7 @@ export const ARTICLES: readonly ArticleDef[] = [
       {
         id: "cuisson",
         q: "Faut-il cuire les morilles ?",
-        answer: "Oui, toujours : crues ou insuffisamment cuites, les morilles peuvent provoquer une intoxication. Faites-les cuire au moins 20 minutes, ne les servez jamais crues et restez sur des portions raisonnables (une dizaine de grammes de morilles séchées par personne au plus).",
+        answer: "Oui, toujours : crues ou insuffisamment cuites, les morilles peuvent provoquer une intoxication. Tox Info Suisse recommande au moins 20 minutes de cuisson et des portions raisonnables (une dizaine de grammes de morilles séchées par personne au plus). Ne les servez jamais crues.",
         blocks: [
           { type: "p", text: "Attention aux fausses morilles : la vraie morille a un chapeau alvéolé creux à l'intérieur, alors que la fausse morille (Gyromitra esculenta) a un chapeau plissé irrégulièrement et n'est pas creuse." },
         ],

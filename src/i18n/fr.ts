@@ -104,7 +104,7 @@ export const fr = {
       { q: "Comment conserver les morilles séchées ?", a: "Au sec, à l'abri de la lumière et de l'humidité, dans leur sachet fermé ou un récipient hermétique. La date est indiquée sur l'emballage." },
       { q: "Comment réhydrater les morilles ?", a: "Plongez-les dans de l'eau tiède (30 à 40 °C) pendant 20 à 30 minutes, puis filtrez l'eau de trempage : elle parfume sauces, risottos et fonds. Vous pouvez aussi les réhydrater dans du vin blanc sec." },
       { q: "Quelle quantité par couvert ?", a: "Comptez environ 5 à 8 g de morilles séchées par personne : elles gonflent nettement à la réhydratation." },
-      { q: "Quelles précautions en cuisine ?", a: "Cuisez toujours les morilles, au moins 20 minutes : crues ou insuffisamment cuites, elles peuvent provoquer une intoxication. Ne les servez jamais crues. Ouvrez-les en deux après réhydratation pour vérifier qu'il ne reste ni sable ni aiguille dans le chapeau." },
+      { q: "Quelles précautions en cuisine ?", a: "Cuisez toujours bien les morilles : crues ou insuffisamment cuites, elles peuvent provoquer une intoxication. Tox Info Suisse recommande au moins 20 minutes. Ne les servez jamais crues. Ouvrez-les en deux après réhydratation pour vérifier qu'il ne reste ni sable ni aiguille dans le chapeau." },
     ],
   },
   contact: {

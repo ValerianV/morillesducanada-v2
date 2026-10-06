@@ -104,7 +104,7 @@ export const en = {
       { q: "How should dried morels be stored?", a: "In a dry place, away from light and moisture, in their closed pack or an airtight container. The date is shown on the packaging." },
       { q: "How do I rehydrate morels?", a: "Soak them in warm water (30 to 40 °C) for 20 to 30 minutes, then strain the soaking water: it flavours sauces, risottos and stocks. You can also rehydrate them in dry white wine." },
       { q: "How much per cover?", a: "Allow about 5 to 8 g of dried morels per person: they swell noticeably when rehydrated." },
-      { q: "Any precautions in the kitchen?", a: "Always cook morels for at least 20 minutes: raw or undercooked morels can cause poisoning. Never serve them raw. Split them in half after rehydration to check there is no sand or needle left in the cap." },
+      { q: "Any precautions in the kitchen?", a: "Always cook morels thoroughly: raw or undercooked morels can cause poisoning. Tox Info Suisse (the Swiss poison centre) recommends at least 20 minutes. Never serve them raw. Split them in half after rehydration to check there is no sand or needle left in the cap." },
     ],
   },
   contact: {
