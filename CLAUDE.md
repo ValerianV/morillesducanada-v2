@@ -97,7 +97,7 @@ une tâche ponctuelle exécute l'envoi validé. Calendrier :
 | Lundi 8 h 30 | `/suivi-commercial` |
 | Mercredi 9 h | `/prospect-b2b` (zone du moment) |
 | Dimanche 18 h | `/sante-technique` |
-| 1er lundi du mois | `/revue-site` |
+| Le 2 de chaque mois | `/revue-site` |
 | 1er du mois | skill global `facture` (livre des recettes, URSSAF) |
 | 1er février | `/nouvelle-saison` |
 
