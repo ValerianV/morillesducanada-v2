@@ -25,7 +25,9 @@ depuis sa boîte mail, en deux minutes.
 - Une relance est une vraie réponse dans le fil : objet « Re: » + le message d'origine cité dessous,
   comme le fait Gmail (« Le jeu. 1 oct. 2026 à 09:00, Valérian <…> a écrit : » puis les lignes en « > »).
 - Ton parlé, phrases courtes, une ou deux phrases propres au prospect (un plat de sa carte, son rayon, son métier).
-- Signature courte : « Valérian » puis « 07 82 16 27 08 ». Pas de bloc marketing.
+- Signature des emails (décision du 2026-10-07), quatre lignes en texte simple, sans image ni bloc marketing :
+  « Valérian Vilane » / « Fondateur, Morilles du Canada » / « 07 82 16 27 08 » / « www.morillesducanada.com ».
+  WhatsApp, SMS et Instagram gardent la signature courte « Valérian, 07 82 16 27 08 ».
 - Laisser une porte de sortie humaine, qui vaut droit d'opposition (exigé en prospection B2B) :
   « Si ce n'est pas le bon moment ou pas pour vous, dites-le-moi, je ne vous relancerai pas. »
 - Étaler les envois sur une plage horaire de bureau (par exemple 8 à 12 par heure, minutes irrégulières).

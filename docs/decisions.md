@@ -4,6 +4,19 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-10-07 — Signature des emails
+
+- Décision du fondateur : les emails se terminent par « Valérian Vilane / Fondateur, Morilles du Canada /
+  07 82 16 27 08 / www.morillesducanada.com ». Appliquée aux 23 emails de la vague 4 encore programmés le 07/10
+  (annulés et reprogrammés aux mêmes heures) ; les 13 déjà partis gardent l'ancienne signature.
+
+## 2026-10-07 — Suppression du projet Vercel en double
+
+- Emails « Production deployment failed for morillesducanada-main » : un ancien projet Vercel, relié au même dépôt,
+  sans variable Supabase ni domaine public, échouait sur la protection du prérendu (aucune recette récupérée).
+- Décision du fondateur : projet `morillesducanada-main` supprimé. Seul `morillesducanada-v2` construit le site.
+  La protection du prérendu reste en place.
+
 ## 2026-10-07 — Fonctionnement en skills planifiés (tous les projets)
 
 - Décision du fondateur : le travail récurrent est écrit en skills markdown et lancé par des tâches planifiées de l'app
