@@ -4,6 +4,14 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-10-07 — Deuxième alerte Supabase « Disk IO Budget »
+
+- Cause : la tâche `process-email-queue` appelait la fonction d'envoi toutes les 5 minutes, même sans email en file
+  (2 497 appels en 8,5 jours, chacun écrivant dans `cron.job_run_details` et `net._http_response`). Les tables sont minuscules
+  (moins de 3 Mo) : le volume de données n'est pas en cause.
+- Correction : la tâche n'appelle plus la fonction que si `pgmq.q_auth_emails` ou `pgmq.q_transactional_emails` contient un message
+  (migration `20261007090000_email_queue_si_non_vide.sql`, appliquée en production).
+
 ## 2026-10-07 — Étiquette du pot de 30 g, date de durabilité, adresse, analyses
 
 - Nouvelle étiquette du pot de 30 g au style du site (fichiers hors dépôt : `~/Documents/Morilles/etiquettes-2026/`),
