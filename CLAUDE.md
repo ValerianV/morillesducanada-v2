@@ -79,6 +79,27 @@ envois de prospection et déploiements en production.
 | `/revue-site` | Audit mensuel QA + SEO + conversion, avec rapport dans `docs/audits/` |
 | `/nouvelle-saison` | Mise à jour annuelle : saison, stock, prix, précommande, récit |
 | `/qualite-traceabilite` | Fiches lot, checklists qualité |
+| `/courrier-du-matin` | Quotidien : réponses, rebonds, leads du site → carnet à jour + brouillons |
+| `/relances-dues` | Quotidien : relances et suivis dus → messages prêts à valider |
+| `/sante-technique` | Hebdomadaire : site, Supabase, emails, Stripe, DMARC |
+
+## Mode de travail : skills + tâches planifiées
+
+Chaque travail récurrent est un skill markdown de `.claude/skills/`, lancé par une tâche planifiée de l'app Claude
+(`~/.claude/scheduled-tasks/`, sur le Mac du fondateur, app ouverte). Les tâches **préparent** (rapports, carnet,
+brouillons) ; elles n'envoient rien, ne déploient rien et ne changent aucun prix. Après le feu vert du fondateur,
+une tâche ponctuelle exécute l'envoi validé. Calendrier :
+
+| Quand | Tâche |
+|---|---|
+| Lundi–samedi 8 h 45 | `/courrier-du-matin` |
+| Lundi–samedi 8 h 50 | `/relances-dues` |
+| Lundi 8 h 30 | `/suivi-commercial` |
+| Mercredi 9 h | `/prospect-b2b` (zone du moment) |
+| Dimanche 18 h | `/sante-technique` |
+| 1er lundi du mois | `/revue-site` |
+| 1er du mois | skill global `facture` (livre des recettes, URSSAF) |
+| 1er février | `/nouvelle-saison` |
 
 ## Économie de tokens (appliquée par tous les agents)
 

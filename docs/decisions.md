@@ -4,6 +4,12 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-10-07 — Fonctionnement en skills planifiés (tous les projets)
+
+- Décision du fondateur : le travail récurrent est écrit en skills markdown et lancé par des tâches planifiées de l'app
+  Claude. Les agents préparent, le fondateur valide les envois, la production et les prix. Calendrier dans `CLAUDE.md`.
+- Nouveaux skills : `courrier-du-matin`, `relances-dues`, `sante-technique`. Clé Resend pour les tâches : `docs/interne/secrets.env`.
+
 ## 2026-10-07 — Deuxième alerte Supabase « Disk IO Budget »
 
 - Cause : la tâche `process-email-queue` appelait la fonction d'envoi toutes les 5 minutes, même sans email en file
