@@ -24,7 +24,7 @@ envois de prospection et déploiements en production.
 | Mentions légales, CGV | `docs/business/offre.md` | `src/lib/legal.ts`, `src/pages/CGV.tsx`, `src/pages/MentionsLegales.tsx` |
 | Récit de marque, faits autorisés / interdits | `docs/business/recit.md` | textes i18n `src/i18n/*.ts` |
 | Marché et positionnement prix | `docs/business/marche.md` | — |
-| Cibles, prospection, suivi commercial | `docs/commercial/strategie.md` | table `pro_leads` |
+| Cibles, prospection, suivi commercial | `docs/commercial/strategie.md`, `docs/commercial/demande-rdv.md` | carnet de démarchage (https://claude.ai/artifact/R9M8EhDc4rVHk6GQ5UQFiT) ; leads du site : table `pro_leads` |
 | SEO et GEO (robots, llms.txt, pages de contenu, IndexNow, plan hors site) | `docs/marketing/seo-geo.md` | `src/lib/seo/` (articles, schema, robots, llms), `scripts/indexnow.mjs` |
 | Calendrier des passages (échantillon en main propre) | `docs/business/offre.md` | `supabase/functions/_shared/tasting.ts` |
 | Architecture technique | `docs/tech/architecture.md` | — |

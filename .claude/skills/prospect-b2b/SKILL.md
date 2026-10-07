@@ -1,11 +1,11 @@
 ---
 name: prospect-b2b
-description: Préparer une vague de prospection B2B Morilles du Canada (épiceries fines premium, traiteurs haut de gamme, tables gastronomiques) — sélection des prospects, emails personnalisés, relances — sans jamais envoyer sans validation du fondateur.
+description: Préparer une vague de prospection B2B Morilles du Canada (restaurants de qualité, traiteurs haut de gamme, chefs à domicile) pour obtenir des rendez-vous — sélection des prospects, emails personnalisés, relances — sans jamais envoyer sans validation du fondateur.
 ---
 
 # /prospect-b2b [segment] [nombre] [contexte]
 
-Exemples : `/prospect-b2b epiceries 20 "fêtes de fin d'année"`, `/prospect-b2b chefs 10 "carte d'hiver"`.
+Exemples : `/prospect-b2b traiteurs 20 "fêtes de fin d'année"`, `/prospect-b2b chefs 10 "carte d'hiver"`.
 
 ## Sources obligatoires (à lire avant d'écrire une ligne)
 
@@ -13,13 +13,15 @@ Exemples : `/prospect-b2b epiceries 20 "fêtes de fin d'année"`, `/prospect-b2b
 - `docs/business/recit.md` : faits autorisés et interdits. Aucun partenaire nommé.
 - `docs/commercial/strategie.md` : cibles, exclusions, processus, cadre légal.
 - `docs/commercial/emails-prospection.md` : séquences de référence par segment.
-- `docs/commercial/prospects.csv` : base de prospects (ne pas recontacter ceux qui ont dit STOP).
+- `docs/commercial/demande-rdv.md` : modèles de demande de rendez-vous (email, WhatsApp, téléphone).
+- Le carnet de démarchage (https://claude.ai/artifact/R9M8EhDc4rVHk6GQ5UQFiT) : seule base de prospects. Lire la collection `prospects` (ArtifactData) pour
+  éviter les doublons et ne jamais recontacter un prospect « STOP » ou « Pas intéressé ».
 
 ## Étapes
 
 1. **Sélection** : prospects du segment demandé, en priorité 1 d'abord, avec un email professionnel
    **public** vérifié sur leur propre site (jamais deviné). Exclure brasseries, bouchons, restauration à
-   prix moyen, grossistes de volume et prospects hors de France.
+   prix moyen, fromagers, épiceries, grossistes de volume et prospects hors de France.
 2. **Personnalisation** : un fait vérifiable et récent sur l'établissement (plat à la carte, rayon,
    produit fabriqué), vérifié le jour même avec WebFetch.
 3. **Email** : appliquer d'abord la **section 0 de `emails-prospection.md`** (un humain, pas un robot). En bref :
@@ -40,8 +42,8 @@ Exemples : `/prospect-b2b epiceries 20 "fêtes de fin d'année"`, `/prospect-b2b
    plus la liste à part des prospects qui ne sont joignables que par téléphone ou formulaire.
 5. **Validation** : présenter la vague au fondateur. **Aucun envoi sans son feu vert explicite.**
 6. **Après validation** : envoi via Resend depuis `Valérian <valerian@morillesducanada.com>` (sans en-tête List-Unsubscribe, envois étalés),
-   `reply_to: contact@morillesducanada.com`, 20 emails par jour au maximum, puis statut mis à jour
-   dans `prospects.csv`.
+   `reply_to: contact@morillesducanada.com`, 20 emails par jour au maximum, puis statut « RDV demandé » et texte envoyé
+   écrits dans le carnet le jour même. WhatsApp : règles de `strategie.md`.
 
 ## Ton
 

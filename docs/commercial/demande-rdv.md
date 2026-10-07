@@ -17,7 +17,10 @@ Avec le chef :
 Si « envoyez-moi un mail » : demander l'adresse directe du chef et un créneau, puis envoyer l'email n°3 le jour même.
 Si « pas intéressé » : remercier, noter « Pas intéressé » dans le carnet, ne plus relancer.
 
-## 2. SMS ou WhatsApp (si un mobile est publié pour l'établissement)
+## 2. WhatsApp (si un mobile est publié pour l'établissement)
+
+Règles : voir `strategie.md` (un message, aucune relance, 10 par jour au plus, liste validée par le fondateur).
+Envoi par WhatsApp Web dans le Chrome du fondateur (extension Claude), vers 15 h.
 
 > Bonjour, je suis Valérian. J'ai cueilli des morilles de feu au Canada pendant trois saisons et je les propose
 > aujourd'hui aux restaurants de la région. Le chef aurait-il dix minutes [jour] pour que je lui dépose un pot ?

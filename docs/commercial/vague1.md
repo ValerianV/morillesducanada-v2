@@ -1,5 +1,7 @@
 # Vague 1 — Premiers emails personnalisés (segments B et D, priorité 1)
 
+> Archive : le suivi de ces prospects se fait dans le carnet de démarchage (voir `strategie.md`).
+
 Statut : **prêt, NON envoyé.** Version révisée du 28/09/2026 : grille à partir de 1 kg, port inclus ; récit corrigé.
 
 - Expéditeur : `Valérian <valerian@pro.morillesducanada.com>`

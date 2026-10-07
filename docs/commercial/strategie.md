@@ -52,8 +52,24 @@ Prix : voir `docs/business/offre.md`. Ne jamais citer le prix plancher.
 
 ## Règle de démarchage (2026-10-07)
 
-**On démarche pour obtenir un rendez-vous ; on ne visite jamais sans rendez-vous.** Ordre des canaux pour un prospect :
-téléphone (après le service, 15 h – 17 h) → SMS ou WhatsApp si un mobile est publié → email court → Instagram.
-Le pot de 30 g est remis pendant le rendez-vous. Cibles : restaurants de qualité, traiteurs, chefs à domicile ;
-pas de fromagers ni d'épiceries. Suivi dans le carnet de démarchage (statuts « RDV demandé », « RDV pris »,
-« Visité, pot remis »).
+**On démarche pour obtenir un rendez-vous ; on ne visite jamais sans rendez-vous.** Le pot de 30 g est remis pendant
+le rendez-vous. Cibles : restaurants de qualité, traiteurs, chefs à domicile ; pas de fromagers ni d'épiceries.
+
+Ordre des canaux pour un prospect :
+1. **Email court** si une adresse professionnelle est publiée (modèle : `demande-rdv.md`, section 3).
+2. **WhatsApp** si un mobile est publié comme numéro de l'établissement : tout de suite s'il n'y a pas d'email,
+   sinon 4 jours après un email resté sans réponse (jamais le même jour).
+3. **Téléphone** (15 h – 17 h, par le fondateur) pour les numéros fixes et les priorités 1 sans réponse.
+4. **Instagram** en dernier recours.
+
+Règles WhatsApp (décision du 2026-10-07) : envoi par WhatsApp Web dans le Chrome du fondateur, uniquement des numéros
+publiés pour l'établissement, un seul message par prospect, jamais de relance WhatsApp sans réponse, 10 messages par jour
+au plus, chaque liste validée par le fondateur avant envoi. Le numéro personnel du fondateur est en jeu : un prospect
+qui signale le message peut faire bloquer le compte.
+
+## Suivi : le carnet de démarchage est la seule source de vérité
+
+- Carnet : https://claude.ai/artifact/R9M8EhDc4rVHk6GQ5UQFiT (base de l'artifact, collection `prospects`). Statuts : À contacter → RDV demandé → RDV pris →
+  Visité, pot remis → Client, ou Pas intéressé / STOP. Chaque envoi, réponse et visite y est noté le jour même.
+- Export de sauvegarde : `docs/interne/prospection/carnet-export-AAAA-MM-JJ.csv` (non versionné, données de contact).
+- `docs/commercial/prospects.csv` et `vagueN.md` sont des archives du 28/09 au 01/10 : ne plus les mettre à jour.

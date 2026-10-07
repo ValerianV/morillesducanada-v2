@@ -12,8 +12,11 @@ Contexte : `docs/commercial/strategie.md`, `docs/business/offre.md`.
 2. **Ventes** : `orders` payées de la semaine (kg, montant, format), et `pre_orders` saison 2027
    (kg engagés, acomptes encaissés, total précommandé par rapport au plafond).
    Recouper avec Stripe (MCP, lecture) si un écart apparaît.
-3. **Prospection** : dans `docs/commercial/prospects.csv`, lister les relances dues (J+5, J+12)
-   et les prospects qui ont répondu. Préparer les relances (sans les envoyer).
+3. **Prospection** : lire le carnet (https://claude.ai/artifact/R9M8EhDc4rVHk6GQ5UQFiT, collection `prospects`) : relances dues (J+5, J+12,
+   RDV demandé depuis plus de 4 jours), rendez-vous pris, visites sans SMS de suivi. Chercher les réponses dans
+   Gmail (contact@ y est transféré : `to:contact@morillesducanada.com newer_than:7d`) et les rebonds dans Resend.
+   Mettre à jour le carnet (statut, notes) pour chaque réponse. Préparer les relances, sans les envoyer.
+   Exporter le carnet en CSV dans `docs/interne/prospection/` (sauvegarde).
 4. **Stock** : kg vendus cumulés et kg restants (stock de départ : voir `offre.md`).
 5. **Rapport au fondateur** : 10 lignes maximum. Chiffres clés, 3 actions prioritaires de la semaine,
    décisions à prendre.
