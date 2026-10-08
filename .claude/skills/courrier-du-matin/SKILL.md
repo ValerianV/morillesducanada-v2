@@ -9,8 +9,11 @@ Contexte : `CLAUDE.md`, `docs/commercial/strategie.md` (règles, carnet = source
 `docs/commercial/emails-prospection.md` (section 0 : écrire comme une personne).
 Carnet : https://claude.ai/artifact/R9M8EhDc4rVHk6GQ5UQFiT (collection `prospects`, outil ArtifactData).
 
-1. **Réponses** : Gmail (contact@ y est transféré) — `newer_than:2d (to:contact@morillesducanada.com OR to:valerian@morillesducanada.com) -from:morillesducanada.com`,
-   en ignorant DMARC, Search Console et les notifications. Pour chaque réponse d'un prospect : retrouver sa fiche
+1. **Réponses** : Gmail (contact@ y est transféré), deux recherches dont on fusionne les résultats :
+   `newer_than:2d (to:contact@morillesducanada.com OR to:valerian@morillesducanada.com) -from:morillesducanada.com`
+   et `newer_than:2d subject:(morilles) -from:morillesducanada.com` (la première rate certaines réponses transférées),
+   en ignorant DMARC, Search Console et les notifications. WhatsApp : pas d'accès depuis une tâche planifiée ;
+   Valérian signale ses réponses WhatsApp dans la conversation. Pour chaque réponse d'un prospect : retrouver sa fiche
    (email ou nom), mettre à jour le statut (« repondu », « visite_prevue » si un rendez-vous est fixé avec sa date,
    « perdu » ou « stop » si refus) et résumer la réponse dans `notes` (date + une phrase).
 2. **Rebonds** : Resend, emails des 3 derniers jours en `bounced` ou `complained` (clé dans `docs/interne/secrets.env`,
