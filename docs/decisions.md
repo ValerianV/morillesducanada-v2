@@ -4,6 +4,16 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-10-08 — WhatsApp en premier, tri des relances, rendez-vous
+
+- WhatsApp devient le premier canal quand un mobile est publié pour l'établissement ; l'email vient ensuite (ou seul
+  s'il n'y a pas de mobile). Premier constat (07/10) : 2 réponses sur 3 WhatsApp, 3 sur 36 emails ; mais les 2
+  intéressés viennent de l'email. Bilan comparé (rendez-vous pour 10 contacts) vers le 22/10.
+- Relances J+12 : les épiceries, fromagers, caves et charcuteries (12 fiches) passent en « perdu », hors cible.
+  Seuls les restaurants, traiteurs et chefs sont relancés.
+- Disponibilités de Valérian pour les rendez-vous : pas le mardi ni le vendredi (8 h – 16 h, paysagisme).
+- Réponse aux tarifs : grille + coût par couvert (5 à 8 g par personne, chiffres du site) + lien vers la page prix.
+
 ## 2026-10-07 — Signature des emails
 
 - Décision du fondateur : les emails se terminent par « Valérian Vilane / Fondateur, Morilles du Canada /
