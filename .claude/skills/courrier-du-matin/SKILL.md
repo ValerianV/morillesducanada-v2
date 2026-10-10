@@ -1,6 +1,6 @@
 ---
 name: courrier-du-matin
-description: Tâche quotidienne (lundi–samedi matin) — relever les réponses des prospects et clients, les rebonds d'emails et les leads du site, mettre à jour le carnet de démarchage et préparer les réponses, sans rien envoyer.
+description: Tâche quotidienne (lundi–samedi matin) — relever les réponses des prospects et clients, les rebonds d'emails et les leads du site, mettre à jour le carnet de démarchage, préparer les réponses (sans les envoyer), répondre poliment aux refus explicites et ranger les emails automatiques.
 ---
 
 # /courrier-du-matin
