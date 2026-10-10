@@ -23,3 +23,9 @@ Contexte : `docs/commercial/strategie.md` (ordre des canaux, règles WhatsApp), 
 
 Interdit : envoyer quoi que ce soit. L'envoi se fait seulement après le feu vert explicite de Valérian, par une tâche
 ponctuelle ou dans la conversation.
+
+## Apprendre (dernière étape, décision du 2026-10-10)
+
+Comparer ce qui était attendu et ce qui s'est passé (erreurs, oublis, réponses, ce qui a pris du temps). S'il y a une
+leçon réutilisable, l'ajouter en une ligne datée au journal de `docs/commercial/apprentissages.md` (le créer s'il n'existe pas) et, si elle change
+une règle, la proposer à Valérian dans le rapport au lieu de l'appliquer.

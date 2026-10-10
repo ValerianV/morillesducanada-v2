@@ -123,6 +123,11 @@ et après une session. Règles, les plus rentables en premier :
 
 Ces règles ne touchent jamais aux garde-fous qualité : tests, build, vérification des faits, validations du fondateur.
 
+## Apprendre de son travail
+
+Chaque skill récurrent finit par une étape « Apprendre » (règle globale du 2026-10-10). Prospection :
+`docs/commercial/apprentissages.md`, mis à jour chaque lundi par `/suivi-commercial` et lu par `/prospect-b2b`.
+
 ## En fin de session significative
 
 1. Mettre à jour `docs/decisions.md` (décisions prises, avec date) et `docs/amelioration-continue.md`.

@@ -3,7 +3,10 @@ name: prospect-b2b
 description: Préparer une vague de prospection B2B Morilles du Canada (restaurants de qualité, traiteurs haut de gamme, chefs à domicile) pour obtenir des rendez-vous — sélection des prospects, emails personnalisés, relances — sans jamais envoyer sans validation du fondateur.
 ---
 
-# /prospect-b2b [segment] [nombre] [contexte]
+# /prospect-b2b
+
+Avant de choisir les prospects et d'écrire : lire `docs/commercial/apprentissages.md` (ce qui marche, tests en cours)
+et appliquer la variante du test en cours à la moitié de la vague, l'autre moitié gardant la variante de référence. [segment] [nombre] [contexte]
 
 Exemples : `/prospect-b2b traiteurs 20 "fêtes de fin d'année"`, `/prospect-b2b chefs 10 "carte d'hiver"`.
 
@@ -48,3 +51,9 @@ Exemples : `/prospect-b2b traiteurs 20 "fêtes de fin d'année"`, `/prospect-b2b
 ## Ton
 
 Vouvoiement, sobre, concret, sans superlatifs creux ni emojis. Un email se lit en 30 secondes.
+
+## Apprendre (dernière étape, décision du 2026-10-10)
+
+Comparer ce qui était attendu et ce qui s'est passé (erreurs, oublis, réponses, ce qui a pris du temps). S'il y a une
+leçon réutilisable, l'ajouter en une ligne datée au journal de `docs/commercial/apprentissages.md` (le créer s'il n'existe pas) et, si elle change
+une règle, la proposer à Valérian dans le rapport au lieu de l'appliquer.
