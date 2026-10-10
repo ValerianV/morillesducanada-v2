@@ -28,7 +28,7 @@ Carnet : https://claude.ai/artifact/R9M8EhDc4rVHk6GQ5UQFiT (collection `prospect
    Réponse ambiguë, conditionnelle ou contenant une question : pas d'envoi, brouillon à valider. « Stop » ou
    désinscription : statut `stop`, aucune réponse. Refus par WhatsApp : signalé par Valérian, fiche fermée de la même façon.
 6. **Emails automatiques** : rapports DMARC (`dmarcreport@microsoft.com`, `noreply-dmarc-support@google.com`,
-   `noreply@dmarc.yahoo.com`…) et autres expéditeurs no-reply arrivés à contact@ : ajouter une ligne par rapport dans
+   `noreply@dmarc.yahoo.com`…) et autres expéditeurs no-reply (les rapports DMARC arrivent dans Gmail adressés à dmarc@morillesducanada.com) : ajouter une ligne par rapport dans
    `docs/interne/sante/dmarc.md` (date, émetteur, période), puis mettre le fil à la corbeille Gmail (jamais de
    suppression définitive). Les notifications utiles (Vercel en échec, Supabase, Stripe, Search Console) sont
    résumées dans le rapport avant d'aller à la corbeille.

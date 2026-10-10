@@ -8,7 +8,8 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 
 - Une seule copie à contact@ par série d'envois (copie cachée du premier email), plus les réponses des prospects.
 - Emails automatiques (DMARC, no-reply) : relevés par la tâche du matin dans `docs/interne/sante/dmarc.md`, puis
-  mis à la corbeille Gmail. La copie gardée par IONOS reste dans la boîte contact@ tant que le DMARC y envoie ses rapports.
+  mis à la corbeille Gmail. Depuis le 10/10, le DMARC envoie ses rapports à dmarc@morillesducanada.com (redirection
+  IONOS vers Gmail seulement, sans boîte) : ils n'arrivent plus dans contact@.
 - Refus explicite par email : la tâche du matin envoie une réponse de clôture polie (exception à « les tâches
   n'envoient rien ») et ferme la fiche avec le motif. Jamais de réponse à un « stop ».
 - Modèles : Opus 5.5, Sonnet 5.5, Haiku 5.5 (alias `opus`, `sonnet`, `haiku`) ; travail mécanique des tâches confié à `haiku`.

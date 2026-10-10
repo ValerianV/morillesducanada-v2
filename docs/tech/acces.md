@@ -11,6 +11,7 @@ et vault), Vercel (variables d'environnement), et chez le fondateur.
 | Stripe | compte `acct_1TAZxpEQBCcpAKNI` (live) | MCP Stripe (lecture/écriture autorisées dans `.claude/settings.local.json`) |
 | Resend | domaines `morillesducanada.com` (transactionnel) et `pro.morillesducanada.com` (prospection) | API avec clé du fondateur |
 | DNS | IONOS, `morillesducanada.com` | navigateur intégré (compte du fondateur) — modification = validation du fondateur |
+| Rapports DMARC | `rua=mailto:dmarc@morillesducanada.com` (redirection IONOS vers Gmail, sans boîte, depuis le 2026-10-10) | — |
 | Email | `contact@morillesducanada.com` | boîte du fondateur |
 
 ## Secrets attendus (noms uniquement)
