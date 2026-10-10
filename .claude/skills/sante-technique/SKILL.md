@@ -14,7 +14,7 @@ Lecture seule partout : aucune correction en production sans le feu vert de Val�
    derniers `cron.job_run_details` en échec, nombre d'appels HTTP de la semaine (`net._http_response`), logs d'erreurs des
    edge functions. Alerte si `cron.job_run_details` > 5 000 lignes ou si une tâche échoue.
 3. **Emails** : Resend (clé dans `docs/interne/secrets.env`, en-tête `User-Agent`) — domaines vérifiés, taux de rebond
-   de la semaine. DMARC : rapports reçus dans Gmail cette semaine (`dmarc newer_than:7d`) ; signaler toute source qui échoue.
+   de la semaine. DMARC : rapports reçus dans Gmail cette semaine (`dmarc newer_than:7d`, corbeille comprise : la tâche du matin les y range) ; signaler toute source qui échoue.
 4. **Stripe** (lecture) : paiements de la semaine, litiges, échecs.
 5. **Rapport** dans `docs/interne/sante/AAAA-MM-JJ.md` : « tout va bien » en une ligne, ou la liste des problèmes avec
    la cause probable et la correction proposée.

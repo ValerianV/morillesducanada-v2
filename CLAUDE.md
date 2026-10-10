@@ -108,6 +108,10 @@ et après une session. Règles, les plus rentables en premier :
 
 1. **Modèle adapté** : `opus` pour l'architecture, la sécurité, les données et les arbitrages ; `sonnet` pour le
    développement bien spécifié, la rédaction, la recherche web et la QA ; `haiku` pour les tâches mécaniques.
+   Versions au 2026-10-10 : `opus` = Claude Opus 5.5, `sonnet` = Claude Sonnet 5.5, `haiku` = Claude Haiku 5.5
+   (les alias suivent la dernière version). Claude Fable 5.1 (plus cher qu'Opus) seulement pour un arbitrage
+   exceptionnellement difficile. Les tâches planifiées tournent avec le modèle de l'app : leur travail mécanique
+   (tri d'emails, mise à jour du carnet) est confié à un sous-agent `haiku`.
 2. **Contexte par référence** : les briefs pointent vers ce fichier et `docs/`, ils ne recopient pas l'offre ni l'historique.
 3. **Captures d'écran** : uniquement pour une question visuelle, en viewport, à échelle réduite, une par problème.
    Pour un texte, lire le HTML (`curl | grep`, `get_page_text`).
@@ -123,3 +127,7 @@ Ces règles ne touchent jamais aux garde-fous qualité : tests, build, vérifica
 
 1. Mettre à jour `docs/decisions.md` (décisions prises, avec date) et `docs/amelioration-continue.md`.
 2. Laisser la branche dans un état propre (build + tests verts) et dire clairement ce qui reste à faire.
+
+## Second cerveau
+
+En fin de session significative, déposer une note dans `~/second-cerveau/raw/notes/` (skill `capitaliser`). Contexte transversal : `~/second-cerveau/index.md`.

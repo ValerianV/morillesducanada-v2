@@ -4,6 +4,15 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-10-10 — Boîte contact@, réponses de clôture, modèles
+
+- Une seule copie à contact@ par série d'envois (copie cachée du premier email), plus les réponses des prospects.
+- Emails automatiques (DMARC, no-reply) : relevés par la tâche du matin dans `docs/interne/sante/dmarc.md`, puis
+  mis à la corbeille Gmail. La copie gardée par IONOS reste dans la boîte contact@ tant que le DMARC y envoie ses rapports.
+- Refus explicite par email : la tâche du matin envoie une réponse de clôture polie (exception à « les tâches
+  n'envoient rien ») et ferme la fiche avec le motif. Jamais de réponse à un « stop ».
+- Modèles : Opus 5.5, Sonnet 5.5, Haiku 5.5 (alias `opus`, `sonnet`, `haiku`) ; travail mécanique des tâches confié à `haiku`.
+
 ## 2026-10-08 — WhatsApp en premier, tri des relances, rendez-vous
 
 - WhatsApp devient le premier canal quand un mobile est publié pour l'établissement ; l'email vient ensuite (ou seul

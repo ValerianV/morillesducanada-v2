@@ -28,8 +28,14 @@ depuis sa boîte mail, en deux minutes.
 - Signature des emails (décision du 2026-10-07), quatre lignes en texte simple, sans image ni bloc marketing :
   « Valérian Vilane » / « Fondateur, Morilles du Canada » / « 07 82 16 27 08 » / « www.morillesducanada.com ».
   WhatsApp, SMS et Instagram gardent la signature courte « Valérian, 07 82 16 27 08 ».
+- Copie à contact@ (décision du 2026-10-10) : **une seule par série**, en copie cachée du premier email de la vague
+  ou du lot de réponses, pour que Valérian relise le contenu envoyé. Jamais une copie par destinataire.
 - Laisser une porte de sortie humaine, qui vaut droit d'opposition (exigé en prospection B2B) :
   « Si ce n'est pas le bon moment ou pas pour vous, dites-le-moi, je ne vous relancerai pas. »
+- Réponse de clôture à un refus (décision du 2026-10-10) : remercier en deux ou trois phrases, dans le fil
+  (« Re: » + citation), confirmer qu'il n'y aura pas de relance, sans relancer l'offre. Exemple :
+  « Merci d'avoir pris le temps de me répondre. C'est noté, je ne vous relancerai pas. Bonne continuation, » + signature.
+  Jamais de réponse à un « stop » ou à une demande de désinscription : on note et on ne recontacte plus.
 - Étaler les envois sur une plage horaire de bureau (par exemple 8 à 12 par heure, minutes irrégulières).
 - Expéditeur des nouvelles vagues : `valerian@morillesducanada.com` (redirigée vers contact@), pas le sous-domaine `pro.`.
   Une relance garde l'expéditeur du premier message pour rester dans le même fil.
