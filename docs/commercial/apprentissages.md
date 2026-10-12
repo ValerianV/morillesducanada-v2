@@ -40,3 +40,13 @@ Petits échantillons : une conclusion n'est solide qu'à partir d'environ 30 con
 
 - 2026-10-10 : première mesure. Recentrer la cible sur les chefs-patrons indépendants autour d'Avignon ;
   tables étoilées et hôtels 5* en dernier.
+- 2026-10-12 (courrier du matin) : la tâche planifiée n'a pas pu écrire dans le carnet (ArtifactData) ni mettre un fil DMARC à la corbeille — permission automatique refusée. Proposition : autoriser ces deux actions pour la tâche.
+- 2026-10-12 (relances dues) : 34 fiches à J+4 le même jour (31 demandées le 07/10) → 9 WhatsApp + 24 appels + 1 email. Le plafond de 10 WhatsApp/jour et le créneau d'appel 15 h – 17 h obligent à étaler : les demandes envoyées en un seul lot créent un pic d'appels à J+4. Proposition : limiter les demandes de rendez-vous à ~12 par jour à l'envoi.
+- 2026-10-12 : aucune nouvelle réponse depuis le 10/10 ; échantillons toujours < 30 par variante, pas de conclusion. 44 demandes de rendez-vous (07-09/10) : 2 intéressés, tous deux Avignon intra-muros. Proposition : relance courte limitée aux établissements à moins de 10 km, appels pour les fixes.
+- 2026-10-12 (relance WhatsApp à J+5 d'un email resté sans réponse, 6 traiteurs et chefs à domicile) : 3 réponses en
+  moins de 2 heures (1 intéressée, 1 « absent en octobre, recontacter en novembre », 1 refus « pas de champignons
+  séchés », arrivé par email juste après le WhatsApp). L'email seul n'avait rien donné en 5 jours. Conclusion
+  (confiance moyenne, 6 contacts) : pour les mobiles publiés, l'enchaînement email puis WhatsApp fait répondre ;
+  l'intéressée dit avoir « bien eu le mail » sans y avoir répondu. À refaire sur les prochains J+4.
+- 2026-10-12 : une réponse positive le jour même demande un pot disponible. Valérian était en déplacement sans
+  stock : rendez-vous reporté. Garder des pots avec soi les jours d'envoi, ou envoyer les jours où il est sur place.
