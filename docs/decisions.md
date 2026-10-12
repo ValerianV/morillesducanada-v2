@@ -4,6 +4,16 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-10-12 — Mise en ligne : date du ProfilePage, relances WhatsApp
+
+- Search Console (11/10) : « valeur de date et heure incorrecte pour dateModified » sur `/valerian-vilane` (non critique).
+  Corrigé (`toIsoDateTime` dans `src/lib/seo/schema.ts`, commit 0e53720), mis en ligne le 12/10 avec l'accord du fondateur ;
+  validation demandée dans la Search Console. Le premier aperçu Vercel a échoué sur « Git information retrieval failed »
+  (aucun build) : un redéploiement a suffi.
+- La fusion dans `main` est poussée par le fondateur lui-même (la session n'a pas le droit de déclencher la production).
+- 6 relances WhatsApp (J+5 après l'email du 07/10) envoyées aux traiteurs et chefs à domicile avec mobile publié.
+- La Chassagnette : refus, clôture envoyée par la tâche du matin.
+
 ## 2026-10-10 — Boîte contact@, réponses de clôture, modèles
 
 - Une seule copie à contact@ par série d'envois (copie cachée du premier email), plus les réponses des prospects.
