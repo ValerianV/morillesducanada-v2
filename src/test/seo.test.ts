@@ -170,9 +170,12 @@ describe("page fondateur", () => {
     expect(FOUNDER_PATH).toBe("/valerian-vilane");
     const page = profilePageSchema({ path: FOUNDER_PATH, name: "x", description: "y", dateModified: "2026-10-07" }) as {
       "@type": string;
+      dateModified: string;
       mainEntity: { "@type": string; "@id": string; name: string };
     };
     expect(page["@type"]).toBe("ProfilePage");
+    // Date et heure avec fuseau, exigées par Google pour un ProfilePage (Search Console, 2026-10-11).
+    expect(page.dateModified).toBe("2026-10-07T12:00:00+00:00");
     expect(page.mainEntity).toMatchObject({ "@type": "Person", "@id": `${SITE_URL}/#valerian-vilane`, name: "Valérian Vilane" });
   });
 });

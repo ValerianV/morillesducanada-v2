@@ -107,6 +107,12 @@ export interface ProfilePageInput {
   dateModified: string;
 }
 
+// Google attend une date et une heure avec fuseau pour un ProfilePage : une date seule (« 2026-10-07 ») est signalée
+// « valeur de date et heure incorrecte » dans la Search Console. Midi UTC garde le même jour à Paris.
+export function toIsoDateTime(date: string): string {
+  return /^\d{4}-\d{2}-\d{2}$/.test(date) ? `${date}T12:00:00+00:00` : date;
+}
+
 // Page « qui suis-je » : le fondateur (Person, même @id que l'auteur des articles) est l'entité principale.
 export function profilePageSchema(page: ProfilePageInput): JsonLd {
   const url = absoluteUrl(page.path);
@@ -118,7 +124,7 @@ export function profilePageSchema(page: ProfilePageInput): JsonLd {
     name: page.name,
     description: page.description,
     inLanguage: "fr-FR",
-    dateModified: page.dateModified,
+    dateModified: toIsoDateTime(page.dateModified),
     isPartOf: { "@id": WEBSITE_ID },
     publisher: orgRef,
     mainEntity: founderPerson(),
