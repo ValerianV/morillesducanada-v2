@@ -13,6 +13,8 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 - Pas d'échantillon par la poste (environ 8 € d'envoi plus le pot et le produit, pour une vente non garantie).
 - Pas d'épiceries fines : pas d'étiquette de vente au détail, seulement des sachets sous vide et des pots vides.
 - Le frère de Valérian n'est pas disponible pour les visites.
+- Jusqu'au 7 novembre : prospection autour d'Avignon (visites possibles). Si tout n'est pas vendu le 8 novembre :
+  démarchage de toute la France par email, avec lien d'achat (préparatifs des fêtes de fin d'année), sans visite ni échantillon.
 
 ## 2026-10-12 — Mise en ligne : date du ProfilePage, relances WhatsApp
 
