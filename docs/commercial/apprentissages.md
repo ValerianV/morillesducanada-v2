@@ -50,3 +50,12 @@ Petits échantillons : une conclusion n'est solide qu'à partir d'environ 30 con
   l'intéressée dit avoir « bien eu le mail » sans y avoir répondu. À refaire sur les prochains J+4.
 - 2026-10-12 : une réponse positive le jour même demande un pot disponible. Valérian était en déplacement sans
   stock : rendez-vous reporté. Garder des pots avec soi les jours d'envoi, ou envoyer les jours où il est sur place.
+- 2026-10-13 : /courrier-du-matin — recherche Gmail en timeout au 1er essai, OK au 2e ; réessayer une fois avant de conclure à « rien ».
+- 2026-10-13 (relances dues) : 27 relances J+12 le même jour, en majorité tables étoilées et hôtels 5* (Vague 2 et 3), cible que la mesure du 10/10 recommande de mettre en dernier ; 34 appels à étaler sur trois jours (J+4 du lot du 07/10 puis du 09/10). Pas de nouvelle mesure avant les réponses. Proposition : plafonner les envois initiaux à ~12 par jour pour lisser les J+5, J+12 et J+4.
+- 2026-10-14 · courrier-du-matin : outils Gmail et Supabase absents de la session planifiée → rapport partiel (Resend + carnet seulement). Si cela se répète, vérifier l'autorisation du connecteur Gmail (confiance : faible, 1 occurrence).
+- 2026-10-14 : premiers messages Instagram (relance J+7 d'un email, compte personnel de Valérian) : 6 envoyés, 1 refusé
+  (le compte n'accepte pas les messages d'inconnus : Auberge des Carrières). Les messages d'un compte non suivi arrivent
+  en « demandes » : à mesurer avant d'en faire un canal régulier. L'envoi en série a été bloqué par le contrôle de sécurité
+  de la session après le 7e : prévoir une validation explicite de Valérian pour chaque lot Instagram.
+- 2026-10-14 : les appels ne sont pas passés quand la liste est longue (47 à 71 numéros). Liste ramenée à 15 prioritaires
+  (moins de 15 km, ouverts le jour même) ; mesurer si une liste courte est réellement appelée.
