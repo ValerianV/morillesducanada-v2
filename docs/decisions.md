@@ -4,6 +4,16 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-10-14 — Objectif : vendre le stock avant le 8 novembre
+
+- Valérian entre en formation de moniteur de ski le 8 novembre : après cette date, plus de temps pour la vente.
+  La prospection passe en mode volume et à distance.
+- Vente en gros : on demande leurs prix à 9 distributeurs et grossistes (`docs/interne/prospection/gros-2026-10.md`),
+  pour un lot de 10 à 45 kg. Maison Plantin, écartée le 08/10, redevient une cible. Aucun prix donné en premier.
+- Pas d'échantillon par la poste (environ 8 € d'envoi plus le pot et le produit, pour une vente non garantie).
+- Pas d'épiceries fines : pas d'étiquette de vente au détail, seulement des sachets sous vide et des pots vides.
+- Le frère de Valérian n'est pas disponible pour les visites.
+
 ## 2026-10-12 — Mise en ligne : date du ProfilePage, relances WhatsApp
 
 - Search Console (11/10) : « valeur de date et heure incorrecte pour dateModified » sur `/valerian-vilane` (non critique).
