@@ -171,14 +171,15 @@ export const ARTICLES: readonly ArticleDef[] = [
 
   {
     path: "/prix-morilles-sechees-kilo-professionnels",
-    metaTitle: fitTitle("Prix des morilles séchées au kilo pour les professionnels"),
-    metaDescription: `Prix des morilles séchées au kilo pour les professionnels : ${formatTierPrice(PRO_TIERS[0])} (1 kg) à ${formatTierPrice(PRO_TIERS[PRO_TIERS.length - 1])} (10 kg et plus), net, port inclus. Grille et repères de marché.`,
+    // Prix dans le titre : la page a 869 impressions pour un CTR de 0,2 % (Search Console, 2026-11-21).
+    metaTitle: fitTitle(`Prix morilles séchées au kilo : ${eur(PRO_TIERS[PRO_TIERS.length - 1].priceCents)} à ${eur(PRO_TIERS[0].priceCents)}/kg`),
+    metaDescription: `Morille de feu séchée, prix au kilo pour les professionnels : ${formatTierPrice(PRO_TIERS[0])} (1 kg) à ${formatTierPrice(PRO_TIERS[PRO_TIERS.length - 1])} (10 kg et plus), net, port inclus. Grille et repères de marché.`,
     eyebrow: "Guide pour les professionnels",
     h1: "Prix des morilles séchées au kilo pour les professionnels",
     lead: `Chez Morilles du Canada, les morilles de feu sauvages séchées coûtent ${formatTierPrice(PRO_TIERS[0])} pour 1 kg et ${formatTierPrice(PRO_TIERS[PRO_TIERS.length - 1])} à partir de 10 kg. ${TAX}, port inclus en France. Le prix du palier atteint s'applique à toute la quantité commandée.`,
     datePublished: "2026-10-01",
-    dateModified: "2026-10-01",
-    keywords: ["prix morilles séchées au kilo", "prix morilles séchées professionnels", "tarif morilles séchées", "morilles séchées prix kg", "coût morilles par couvert"],
+    dateModified: "2026-11-21",
+    keywords: ["prix morilles séchées au kilo", "prix de la morille au kilo", "morille de feu prix", "prix morille déshydratée", "prix morilles séchées professionnels", "tarif morilles séchées", "morilles séchées prix kg", "coût morilles par couvert"],
     related: ["/acheter-morilles-sechees-restauration", "/morille-de-feu-ou-morille-de-culture", "/rehydrater-morilles-sechees-guide-pro", "/precommande-2027"],
     priority: 0.8,
     sections: [
@@ -236,7 +237,7 @@ export const ARTICLES: readonly ArticleDef[] = [
       },
       {
         id: "marche",
-        q: "Où se situe ce prix par rapport au marché ?",
+        q: "Quel est le prix de la morille séchée au kilo sur le marché ?",
         answer: `Les offres au kilo relevées en ligne vont de 155 à 260 € TTC le kilo pour des sachets de 1 à 5 kg dont l'origine est souvent non précisée, et de 267 à 320 € le kilo pour les conditionneurs de référence. La grille de Morilles du Canada (${eur(lowest)} à ${eur(highest)} net) concerne une morille de feu sauvage du Canada, entière et équeutée.`,
         blocks: [
           {
@@ -350,14 +351,14 @@ export const ARTICLES: readonly ArticleDef[] = [
 
   {
     path: "/rehydrater-morilles-sechees-guide-pro",
-    metaTitle: fitTitle("Comment réhydrater des morilles séchées (guide pro)"),
+    metaTitle: fitTitle("Réhydrater des morilles séchées : temps, eau et dosage"),
     metaDescription: `Réhydrater des morilles séchées en cuisine pro : eau tiède 30 à 40 °C, 20 à 30 minutes, jus filtré, ${DOSE_MIN_G} à ${DOSE_MAX_G} g par couvert, cuisson et conservation.`,
     eyebrow: "Guide pour les professionnels",
     h1: "Comment réhydrater des morilles séchées (guide pro)",
     lead: "Plongez les morilles séchées dans de l'eau tiède (30 à 40 °C, jamais bouillante) pendant 20 à 30 minutes, soulevez-les sans les presser, filtrez le jus de trempage et gardez-le pour vos sauces. Cuisez toujours bien les morilles : Tox Info Suisse recommande au moins 20 minutes.",
     datePublished: "2026-10-01",
-    dateModified: "2026-10-01",
-    keywords: ["réhydrater morilles séchées", "comment réhydrater des morilles", "dosage morilles séchées par personne", "jus de trempage morilles", "cuisson morilles séchées"],
+    dateModified: "2026-11-21",
+    keywords: ["réhydrater des morilles", "réhydrater morilles séchées", "comment réhydrater des morilles", "dosage morilles séchées par personne", "jus de trempage morilles", "cuisson morilles séchées"],
     related: ["/recettes", "/acheter-morilles-sechees-restauration", "/prix-morilles-sechees-kilo-professionnels", "/guide-morilles-de-feu"],
     priority: 0.7,
     sections: [
