@@ -4,6 +4,15 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-11-21 — SEO : rester réservé aux professionnels, pas de Merchant Center
+
+- Décision du fondateur : le site reste réservé aux professionnels, même si la majorité des requêtes Google
+  qui l'affichent viennent de particuliers (« morille de feu », « morille prix », « acheter morilles »).
+- Conséquence : pas de compte Google Merchant Center ni d'onglet Shopping (public de particuliers). Le SEO vise
+  les requêtes pros et le clic sur les pages à fortes impressions (prix au kilo, réhydratation, guide).
+- Search Console au 2026-11-21 : fiches marchand sans erreur (1 avertissement `transitTime`, non renseigné faute
+  de délai de transport validé) ; « produits absents de Shopping » = suggestion d'ouvrir Merchant Center, pas une erreur.
+
 ## 2026-10-07 — Fonctionnement en skills planifiés (tous les projets)
 
 - Décision du fondateur : le travail récurrent est écrit en skills markdown et lancé par des tâches planifiées de l'app
