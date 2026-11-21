@@ -14,7 +14,7 @@ const guideJsonLd = articleSchema({
   description:
     "Tout savoir sur les morilles de feu (fire morels) : origine, cueillette sauvage, différence avec les morilles de culture, préparation, conservation et cuisine.",
   datePublished: "2026-01-01",
-  dateModified: "2026-10-01",
+  dateModified: "2026-11-21",
   keywords: ["morille de feu", "fire morels", "morilles du Canada", "morille sauvage"],
 });
 
@@ -22,7 +22,7 @@ const GuideMorellesDeFeu = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Guide de la morille de feu du Canada | Morilles du Canada"
+        title="Morille de feu du Canada : origine, cueillette, cuisine"
         description="Morille de feu du Canada : cueillette sauvage après incendie, différence avec la morille de culture, conservation, préparation et recettes."
         path="/guide-morilles-de-feu"
         type="article"
