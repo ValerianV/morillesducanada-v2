@@ -179,7 +179,7 @@ export const ARTICLES: readonly ArticleDef[] = [
     lead: `Chez Morilles du Canada, les morilles de feu sauvages séchées coûtent ${formatTierPrice(PRO_TIERS[0])} pour 1 kg et ${formatTierPrice(PRO_TIERS[PRO_TIERS.length - 1])} à partir de 10 kg. ${TAX}, port inclus en France. Le prix du palier atteint s'applique à toute la quantité commandée.`,
     datePublished: "2026-10-01",
     dateModified: "2026-11-21",
-    keywords: ["prix morilles séchées au kilo", "prix morilles séchées professionnels", "tarif morilles séchées", "morilles séchées prix kg", "coût morilles par couvert"],
+    keywords: ["prix morilles séchées au kilo", "prix de la morille au kilo", "morille de feu prix", "prix morille déshydratée", "prix morilles séchées professionnels", "tarif morilles séchées", "morilles séchées prix kg", "coût morilles par couvert"],
     related: ["/acheter-morilles-sechees-restauration", "/morille-de-feu-ou-morille-de-culture", "/rehydrater-morilles-sechees-guide-pro", "/precommande-2027"],
     priority: 0.8,
     sections: [
@@ -237,7 +237,7 @@ export const ARTICLES: readonly ArticleDef[] = [
       },
       {
         id: "marche",
-        q: "Où se situe ce prix par rapport au marché ?",
+        q: "Quel est le prix de la morille séchée au kilo sur le marché ?",
         answer: `Les offres au kilo relevées en ligne vont de 155 à 260 € TTC le kilo pour des sachets de 1 à 5 kg dont l'origine est souvent non précisée, et de 267 à 320 € le kilo pour les conditionneurs de référence. La grille de Morilles du Canada (${eur(lowest)} à ${eur(highest)} net) concerne une morille de feu sauvage du Canada, entière et équeutée.`,
         blocks: [
           {

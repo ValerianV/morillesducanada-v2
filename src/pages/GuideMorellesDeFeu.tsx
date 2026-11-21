@@ -6,7 +6,8 @@ import ScrollReveal from "@/components/ScrollReveal";
 import WildVsCultivated from "@/components/WildVsCultivated";
 import { ARTICLES, CONTENT_LINK_LABELS } from "@/lib/seo/articles";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Flame, TreePine, ChefHat, AlertTriangle, Thermometer, Clock, Mountain } from "lucide-react";
+import { PRO_TAX_MENTION, PRO_TIERS, formatEurosLocale } from "@/lib/proPricing";
+import { ArrowLeft, Flame, TreePine, ChefHat, AlertTriangle, Thermometer, Clock, Mountain, Euro } from "lucide-react";
 
 const guideJsonLd = articleSchema({
   path: "/guide-morilles-de-feu",
@@ -112,6 +113,29 @@ const GuideMorellesDeFeu = () => {
             </section>
           </ScrollReveal>
 
+          {/* Prix : la requête « morille de feu prix » arrive sur ce guide (Search Console, 2026-11-21). */}
+          <ScrollReveal>
+            <section className="mb-16" id="prix">
+              <div className="flex items-center gap-3 mb-6">
+                <Euro className="w-6 h-6 text-primary" />
+                <h2 className="font-serif text-2xl md:text-3xl font-light">Quel est le prix de la morille de feu ?</h2>
+              </div>
+              <div className="prose prose-lg text-foreground/85 leading-relaxed space-y-4">
+                <p>
+                  Je vends la morille de feu séchée aux professionnels de{" "}
+                  <strong>{formatEurosLocale(PRO_TIERS[PRO_TIERS.length - 1].priceCents)} à {formatEurosLocale(PRO_TIERS[0].priceCents)} le kilo</strong>, selon la quantité, port inclus en France.
+                  {PRO_TAX_MENTION.fr}.
+                </p>
+                <p>
+                  Grille complète, coût par couvert et repères de marché :{" "}
+                  <Link to="/prix-morilles-sechees-kilo-professionnels" className="text-primary hover:text-primary/80 underline underline-offset-4">
+                    prix des morilles séchées au kilo
+                  </Link>.
+                </p>
+              </div>
+            </section>
+          </ScrollReveal>
+
           {/* Section 4: Conservation */}
           <ScrollReveal>
             <section className="mb-16" id="conservation">
@@ -153,7 +177,12 @@ const GuideMorellesDeFeu = () => {
                 <ul className="space-y-2">
                   <li><strong>5 à 8 g</strong> de morilles séchées par personne</li>
                   <li>Les morilles <strong>gonflent nettement</strong> à la réhydratation</li>
-                  <li>Comptez environ 5 à 8 g de morilles séchées par personne</li>
+                  <li>
+                    Méthode détaillée pour une cuisine professionnelle :{" "}
+                    <Link to="/rehydrater-morilles-sechees-guide-pro" className="text-primary hover:text-primary/80 underline underline-offset-4">
+                      réhydrater des morilles séchées
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </section>
