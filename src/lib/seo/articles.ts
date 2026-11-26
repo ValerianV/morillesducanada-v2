@@ -108,7 +108,7 @@ export const ARTICLES: readonly ArticleDef[] = [
               `**Téléphone ou email** : Valérian Vilane, fondateur, est votre interlocuteur unique.`,
             ],
           },
-          { type: "p", text: `Le stock, ${PRO_STOCK_KG} kg environ, est physiquement en France. [Commander ou demander un devis](/professionnels#commander).` },
+          { type: "p", text: `Il reste ${PRO_STOCK_KG} kg pour la saison. [Commander ou demander un devis](/professionnels#commander).` },
         ],
       },
       {

@@ -1,9 +1,12 @@
 // Commande professionnelle au kilo, avec ou sans pots en verre vides : session Stripe Checkout
 // calculée pour la commande du client. Le client n'envoie que kg, fixed et autoSize ; les montants
 // sont recalculés ici (grille _shared/proPricing.ts, pots _shared/potAllocation.ts).
-// Rien n'est écrit en base ici : stripe-webhook crée la ligne orders après paiement.
+// Le stock réel (table stock_morilles) est relu ici : une quantité supérieure est refusée (409).
+// Rien n'est écrit en base ici : stripe-webhook crée la ligne orders après paiement, et un trigger
+// SQL décompte alors le stock.
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
+import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import {
   POT_PRICE_CENTS,
   PRO_ORDER_TYPE,
@@ -15,7 +18,13 @@ import {
   quoteProOrder,
   serializePotCounts,
 } from "../_shared/potAllocation.ts";
-import { PRO_PACK_GRAMS, PRO_SHIPPING_BUSINESS_DAYS, PRO_TAX_MENTION } from "../_shared/proPricing.ts";
+import {
+  PRO_PACK_GRAMS,
+  PRO_SHIPPING_BUSINESS_DAYS,
+  PRO_TAX_MENTION,
+  formatKg,
+  stockStatus,
+} from "../_shared/proPricing.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -41,6 +50,21 @@ function jsonResponse(body: unknown, status: number) {
   });
 }
 
+// Stock réel restant (table stock_morilles). null si la lecture échoue : la commande n'est alors
+// pas bloquée (le stock reste vérifié à la préparation), mais l'incident est tracé.
+async function readStockKg(): Promise<number | null> {
+  const url = Deno.env.get("SUPABASE_URL");
+  const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!url || !key) return null;
+  const supabase = createClient(url, key, { auth: { persistSession: false } });
+  const { data, error } = await supabase.from("stock_morilles").select("remaining_kg").eq("id", 1).maybeSingle();
+  if (error || !data) {
+    console.error("Lecture du stock impossible", error);
+    return null;
+  }
+  return Number(data.remaining_kg);
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -59,6 +83,18 @@ serve(async (req) => {
 
     const request = parseProOrderRequest(body);
     const { locale } = request;
+    const stockKg = await readStockKg();
+    const stock = stockKg === null ? null : stockStatus(stockKg);
+    if (stock && request.kg > stock.maxKg) {
+      const message =
+        stock.level === "soldOut"
+          ? { fr: "Le stock est épuisé.", en: "Stock is sold out." }
+          : {
+              fr: `Stock insuffisant : ${formatKg(stock.kg, "fr")} disponibles.`,
+              en: `Not enough stock: ${formatKg(stock.kg, "en")} available.`,
+            };
+      return jsonResponse({ error: message[locale], code: "insufficient_stock", stockKg: stock.kg }, 409);
+    }
     const order = quoteProOrder({ kg: request.kg, pots: request.pots });
     if (order.ok === false) {
       return jsonResponse({ error: order.error.message[locale], code: order.error.code }, 400);

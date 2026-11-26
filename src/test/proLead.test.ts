@@ -48,8 +48,9 @@ describe("validateProLead", () => {
     }
   });
 
-  it("accepte 30 kg (plus de plafond à 20 kg)", () => {
-    expect(validateProLead({ ...base, kg: 30 }).ok).toBe(true);
+  it("accepte jusqu'au stock de référence (23 kg), refuse au-delà", () => {
+    expect(validateProLead({ ...base, kg: 23 }).ok).toBe(true);
+    expect(validateProLead({ ...base, kg: 30 }).ok).toBe(false);
   });
 
   it("dégustation : disponibilités obligatoires, ni quantité ni adresse conservées", () => {

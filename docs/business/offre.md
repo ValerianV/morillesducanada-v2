@@ -38,7 +38,7 @@ Factures : SIRET du vendeur, numéro, date, client (raison sociale et SIRET), d�
 | 5 kg et + | 310 €/kg | 5 kg : https://buy.stripe.com/28E5kDgkd8Sf0pFf04bQY04 |
 | 10 kg et + | 290 €/kg | 10 kg : https://buy.stripe.com/14A28rd814BZgoDaJObQY05 |
 
-- Minimum **1 kg**, par pas de **0,5 kg**, maximum **45 kg** (stock).
+- Minimum **1 kg**, par pas de **0,5 kg**, maximum **le stock restant** (23 kg au 2026-11-26, plafond technique 45 kg).
 - Le prix du palier atteint s'applique à toute la quantité.
 - **Port inclus, livraison en France uniquement.** Expédition **sous 5 jours ouvrés**. Jamais « 48 h ».
 - Chaque lien de paiement doit demander la société et le SIRET (champs personnalisés Stripe
@@ -52,7 +52,7 @@ Surtout pour les épiceries, qui remplissent et étiquettent elles-mêmes.
 - Pots en verre **vides, sans étiquette**, refermables, en **12, 30 et 45 g**.
 - **1,50 € net par pot, quelle que soit la taille** (TVA non applicable, art. 293 B). Morilles au prix de la grille.
 - Les morilles partent en sachets sous vide de 250 g ; les pots partent **vides, à part**.
-- Le client choisit sa quantité (1 à 45 kg, pas de 0,5 kg), puis le nombre de pots par format ;
+- Le client choisit sa quantité (de 1 kg au stock restant, pas de 0,5 kg), puis le nombre de pots par format ;
   un format « compléter » se remplit automatiquement : floor((grammes − pots saisis) / taille).
   Le reste de moins d'un pot est livré **en vrac**, dans les sachets. Exemple : 2 kg = 20 pots de 45 g
   + 36 pots de 30 g = 56 pots, 1 980 g en pots, 20 g en vrac, **700 € + 84 € = 784 €**.
@@ -114,3 +114,9 @@ Pots 12/30/45 g et sous vide 100 g à 1 kg : plus vendus. Les prix Stripe corres
 Informations internes (stock par propriétaire, coûts d'achat, marges, plancher) :
 `docs/interne/confidentiel.md`, **non versionné** (voir `.gitignore`). Demander au fondateur s'il est absent.
 Stock de départ communicable : ≈ 45 kg en France (septembre 2026).
+
+**Stock affiché sur le site (décision du 2026-11-26)** : 23 kg disponibles cette saison. Le site affiche le stock réel
+(« Plus que N kg disponibles cette saison » sous 25 kg, « Épuisé » à 0). Source en direct : table Supabase
+`stock_morilles`, modifiable dans /admin (onglet leads) ; décomptée seule à chaque commande pro payée en ligne.
+Valeur de repli et de prérendu : `PRO_STOCK_KG` dans `_shared/proPricing.ts`. Après une vente hors site,
+corriger le stock dans /admin le jour même.

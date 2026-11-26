@@ -157,7 +157,8 @@ export function validateProLead(body: unknown): ProLeadValidation {
   let leadQuote: ProQuote | null = null;
   if (kind === "devis") {
     const rawKg = typeof b.kg === "string" ? Number(b.kg.replace(",", ".")) : b.kg;
-    leadQuote = typeof rawKg === "number" ? quote(rawKg) : null;
+    // Devis plafonné au stock de référence (PRO_MAX_KG).
+    leadQuote = typeof rawKg === "number" ? quote(rawKg, PRO_MAX_KG) : null;
     if (!leadQuote) {
       errors.kg = `Quantité invalide : de ${PRO_MIN_KG} kg à ${PRO_MAX_KG} kg, par tranche de 500 g`;
     } else {

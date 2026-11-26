@@ -154,7 +154,7 @@ const PlaquettePro = () => (
               <Eyebrow>Sachets sous vide de {PRO_PACK_GRAMS} g</Eyebrow>
               <h2 className="font-serif text-3xl font-light leading-snug mb-4">Au kilo, en stock en France</h2>
               <p className="text-base leading-relaxed text-[#3a3a3a]">
-                {PRO_STOCK_KG} kg disponibles. Commandes de {formatKg(PRO_MIN_KG)} à {formatKg(PRO_MAX_KG)}, par tranche de 500 g,
+                Plus que {PRO_STOCK_KG} kg disponibles cette saison. Commandes de {formatKg(PRO_MIN_KG)} à {formatKg(PRO_MAX_KG)}, par tranche de 500 g,
                 livrées en sachets sous vide de {PRO_PACK_GRAMS} g (par exemple, 3 kg = 12 sachets), en France, port inclus,
                 sous {PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés.
               </p>
@@ -199,7 +199,7 @@ const PlaquettePro = () => (
                 t: "Épiceries fines",
                 d: `Morilles en sachets sous vide, à reconditionner sous votre marque. En option : pots en verre vides de ${POT_SIZES_G.join(", ").replace(/, (\d+)$/, " ou $1")} g, sans étiquette, à ${formatEurosLocale(POT_PRICE_CENTS)} le pot, livrés à part.`,
               },
-              { t: "Traiteurs et distributeurs", d: "Un prix net connu à l'avance pour chiffrer vos prestations, jusqu'à 45 kg." },
+              { t: "Traiteurs et distributeurs", d: `Un prix net connu à l'avance pour chiffrer vos prestations, jusqu'à ${formatKg(PRO_MAX_KG)}.` },
             ].map((c) => (
               <div key={c.t} className="bg-[#f5f2eb] border-l-2 border-[#c9a84c] px-4 py-3">
                 <p className="font-serif text-lg mb-1">{c.t}</p>

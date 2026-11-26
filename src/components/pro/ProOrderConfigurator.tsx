@@ -1,10 +1,12 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { CreditCard, Loader2, Minus, Plus } from "lucide-react";
 import { useI18n } from "@/i18n/context";
 import { loadSupabase } from "@/integrations/supabase/lazy";
+import { useStock } from "@/hooks/use-stock";
+import StockBadge from "@/components/pro/StockBadge";
 import {
   PRO_KG_STEP,
-  PRO_MAX_KG,
   PRO_MIN_KG,
   PRO_TAX_MENTION,
   cheaperQuoteAtNextTier,
@@ -30,12 +32,13 @@ import jarsPhoto from "@/assets/hero-jars.webp";
 // Position horizontale du pot de 45, 30 et 12 g, de gauche à droite sur la photo.
 const JAR_CROP_X: Record<PotSize, string> = { 45: "9.4%", 30: "47.2%", 12: "84.8%" };
 
-const parseKg = (value: string): number | null => {
+const parseKg = (value: string, maxKg: number): number | null => {
   const n = Number(value.replace(",", ".").replace(/\s|kg/gi, ""));
-  return isValidProQuantity(n) ? n : null;
+  return isValidProQuantity(n, maxKg) ? n : null;
 };
 
-const clampKg = (kg: number) => Math.min(PRO_MAX_KG, Math.max(PRO_MIN_KG, Math.round(kg / PRO_KG_STEP) * PRO_KG_STEP));
+const clampKg = (kg: number, maxKg: number) =>
+  Math.min(maxKg, Math.max(PRO_MIN_KG, Math.round(kg / PRO_KG_STEP) * PRO_KG_STEP));
 
 type Auto = PotSize | "none";
 
@@ -54,6 +57,14 @@ const ProOrderConfigurator = () => {
   const [loading, setLoading] = useState(false);
   const [payError, setPayError] = useState<string | null>(null);
 
+  // Stock réel : plafonne la quantité commandable ; à 0, le paiement en ligne est fermé.
+  const stock = useStock();
+  const soldOut = stock.level === "soldOut";
+  const maxKg = Math.max(PRO_MIN_KG, stock.maxKg);
+  useEffect(() => {
+    if (!soldOut) setKg((current) => clampKg(current, maxKg));
+  }, [maxKg, soldOut]);
+
   const autoSize = auto === "none" ? null : auto;
   const fixed = useMemo(() => {
     const out: Partial<Record<PotSize, number>> = {};
@@ -65,17 +76,17 @@ const ProOrderConfigurator = () => {
     return out;
   }, [counts, autoSize]);
 
-  const order = quoteProOrder({ kg, pots: withPots ? { fixed, autoSize } : null });
+  const order = quoteProOrder({ kg, pots: withPots ? { fixed, autoSize } : null, maxKg });
   const orderError = order.ok === false ? order.error : null;
   const cheaper = cheaperQuoteAtNextTier(kg);
 
   const step = (delta: number) => {
-    setKg((current) => clampKg(current + delta));
+    setKg((current) => clampKg(current + delta, maxKg));
     setKgDraft(null);
   };
 
   const handlePay = async () => {
-    if (!order.ok) return;
+    if (!order.ok || soldOut) return;
     setLoading(true);
     setPayError(null);
     try {
@@ -84,7 +95,17 @@ const ProOrderConfigurator = () => {
       const { data, error } = await supabase.functions.invoke("create-pro-checkout", {
         body: { kg, pots: withPots ? { fixed, autoSize } : null, locale },
       });
-      if (error) throw error;
+      if (error) {
+        // Stock insuffisant (409) : le serveur renvoie le message à afficher.
+        const context = (error as { context?: Response }).context;
+        const payload = context && typeof context.json === "function" ? await context.json().catch(() => null) : null;
+        if (payload?.code === "insufficient_stock" && typeof payload.error === "string") {
+          setPayError(payload.error);
+          setLoading(false);
+          return;
+        }
+        throw error;
+      }
       if (!data?.url) throw new Error("create-pro-checkout: URL de paiement absente");
       window.location.href = data.url;
     } catch (err) {
@@ -108,8 +129,9 @@ const ProOrderConfigurator = () => {
             {t("pro.order.quantity")}
           </label>
           <p id="order-kg-hint" className="mt-1 text-sm text-foreground/80">
-            {t("pro.order.quantityHint")}
+            {t("pro.order.quantityHint").replace("{max}", kgLabel(maxKg))}
           </p>
+          <StockBadge className="mt-3" />
           <div className="mt-4 flex items-center gap-3">
             <button
               type="button"
@@ -129,7 +151,7 @@ const ProOrderConfigurator = () => {
                 value={kgDraft ?? new Intl.NumberFormat(locale === "en" ? "en-IE" : "fr-FR").format(kg)}
                 onChange={(e) => {
                   setKgDraft(e.target.value);
-                  const parsed = parseKg(e.target.value);
+                  const parsed = parseKg(e.target.value, maxKg);
                   if (parsed !== null) setKg(parsed);
                 }}
                 onBlur={() => setKgDraft(null)}
@@ -140,7 +162,7 @@ const ProOrderConfigurator = () => {
             <button
               type="button"
               onClick={() => step(PRO_KG_STEP)}
-              disabled={kg >= PRO_MAX_KG}
+              disabled={kg >= maxKg}
               aria-label={t("pro.order.increase")}
               className="w-12 h-12 shrink-0 flex items-center justify-center border border-primary/50 rounded-sm text-foreground hover:border-primary hover:text-primary disabled:opacity-40 disabled:hover:border-primary/50 disabled:hover:text-foreground transition-colors"
             >
@@ -338,13 +360,21 @@ const ProOrderConfigurator = () => {
         <button
           type="button"
           onClick={handlePay}
-          disabled={!order.ok || loading}
+          disabled={!order.ok || loading || soldOut}
           className="mt-6 w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-primary text-primary-foreground font-medium tracking-wider uppercase text-sm rounded-sm hover:bg-gold-light disabled:opacity-50 disabled:hover:bg-primary transition-colors"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />}
           {loading ? t("pro.order.paying") : t("pro.order.pay")}
         </button>
         <p className="mt-2 text-xs text-foreground/70 text-center">{t("pro.order.secure")}</p>
+        {soldOut && (
+          <p role="status" className="mt-3 text-sm text-foreground bg-card/60 border border-gold/25 rounded-sm px-3 py-2">
+            {t("pro.order.soldOut")}{" "}
+            <Link to="/precommande-2027" className="text-primary hover:underline">
+              {t("pro.order.soldOutCta")}
+            </Link>
+          </p>
+        )}
         {payError && (
           <p role="alert" className="mt-3 text-sm text-foreground bg-destructive/20 border border-destructive/40 rounded-sm px-3 py-2">
             {payError}

@@ -3,6 +3,12 @@
 // le prix estimé affiché est donc exactement celui que le serveur recalcule.
 export {
   PRO_STOCK_KG,
+  PRO_STOCK_DATE,
+  PRO_ORDER_CAP_KG,
+  PRO_LOW_STOCK_KG,
+  maxOrderKg,
+  stockStatus,
+  formatStockLabel,
   PRO_MIN_KG,
   PRO_MAX_KG,
   PRO_KG_STEP,
@@ -21,4 +27,4 @@ export {
   formatKg,
   formatTierPrice,
 } from "../../supabase/functions/_shared/proPricing";
-export type { ProTier, ProTierId, ProQuote } from "../../supabase/functions/_shared/proPricing";
+export type { ProTier, ProTierId, ProQuote, StockLevel, StockStatus } from "../../supabase/functions/_shared/proPricing";

@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/i18n/context";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
+  PRO_MAX_KG,
   PRO_TAX_MENTION,
   cheaperQuoteAtNextTier,
   formatEurosLocale,
@@ -57,7 +58,7 @@ const ProLeadForm = ({ kind, onKindChange }: Props) => {
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState<{ kind: ProLeadKind; email: string; quote: ProQuote | null } | null>(null);
 
-  const liveQuote = useMemo(() => quote(parseKg(form.kg)), [form.kg]);
+  const liveQuote = useMemo(() => quote(parseKg(form.kg), PRO_MAX_KG), [form.kg]);
   const betterQuote = useMemo(() => cheaperQuoteAtNextTier(parseKg(form.kg)), [form.kg]);
 
   const update = (field: keyof FormState, value: string) => {

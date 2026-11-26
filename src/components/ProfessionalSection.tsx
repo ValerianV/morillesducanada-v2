@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import { Package, Phone, Gift, CalendarClock } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import ProPriceTable from "@/components/pro/ProPriceTable";
+import { useStock } from "@/hooks/use-stock";
 import { useI18n } from "@/i18n/context";
 import { EDITEUR } from "@/lib/legal";
-import { PRO_TIERS, formatEurosLocale } from "@/lib/proPricing";
+import { PRO_TIERS, formatEurosLocale, formatKg } from "@/lib/proPricing";
 
 // Fourchette de prix au kilo tirée de la grille.
 function perKgRange(locale: "fr" | "en"): string {
@@ -17,9 +18,16 @@ function perKgRange(locale: "fr" | "en"): string {
 // Accueil : l'offre au kilo (grille, conditionnement, dégustation, précommande), réservée aux professionnels.
 const ProfessionalSection = () => {
   const { t, locale } = useI18n();
+  const stock = useStock();
 
   const stats = [
-    { value: t("professional.stockValue"), label: t("professional.stockLabel") },
+    // Stock réel (table stock_morilles) ; « Épuisé » à 0.
+    stock.level === "soldOut"
+      ? { value: locale === "en" ? "Sold out" : "Épuisé", label: t("professional.stockLabel") }
+      : {
+          value: stock.level === "low" ? `${locale === "en" ? "Only" : "Plus que"} ${formatKg(stock.kg, locale)}` : formatKg(stock.kg, locale),
+          label: t("professional.stockLabel"),
+        },
     { value: perKgRange(locale), label: t("professional.priceLabel") },
     { value: t("professional.shippingValue"), label: t("professional.shippingLabel") },
   ];

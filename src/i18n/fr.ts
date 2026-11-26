@@ -1,3 +1,9 @@
+import { PRO_MAX_KG, PRO_STOCK_KG, formatKg } from "../../supabase/functions/_shared/proPricing";
+
+// Stock de référence et quantité maximale : source unique dans _shared/proPricing.ts.
+const MAX = formatKg(PRO_MAX_KG, "fr");
+const STOCK = formatKg(PRO_STOCK_KG, "fr");
+
 export const fr = {
   nav: {
     story: "La morille de feu",
@@ -74,9 +80,9 @@ export const fr = {
   professional: {
     label: "L'offre",
     title: "Morilles au kilo, en stock en France",
-    description: "Restaurants, épiceries fines, traiteurs, distributeurs : 45 kg de morilles sauvages du Canada, séchées, entières et équeutées, en variétés mélangées.",
-    stockValue: "45 kg",
-    stockLabel: "en stock en France",
+    description: `Restaurants, épiceries fines, traiteurs, distributeurs : ${STOCK} de morilles sauvages du Canada, séchées, entières et équeutées, en variétés mélangées.`,
+    stockValue: STOCK,
+    stockLabel: "disponibles cette saison",
     priceLabel: "prix nets au kilo, dès 1 kg",
     shippingValue: "5 jours ouvrés",
     shippingLabel: "expédition, port inclus en France",
@@ -145,7 +151,7 @@ export const fr = {
       label: "Restaurants · Épiceries fines · Traiteurs",
       title: "Morilles sauvages du Canada,",
       titleHighlight: "au kilo",
-      facts: ["45 kg en stock", "entières et équeutées", "prix nets"],
+      facts: [`${STOCK} disponibles`, "entières et équeutées", "prix nets"],
       description: "Morilles séchées, variétés mélangées, en stock en France. Sachets sous vide de 250 g, expédition sous 5 jours ouvrés, port inclus. Un pot de 30 g offert, remis en main propre lors de mon passage, pour juger sur pièce avant de commander.",
       ctaQuote: "Demander un devis",
       ctaSample: "Demander un échantillon",
@@ -158,10 +164,10 @@ export const fr = {
       colQuantity: "Quantité",
       colPrice: "Prix net",
       colExample: "Exemple",
-      minNote: "Commande de 1 kg à 45 kg, par tranche de 500 g, dans la limite du stock disponible.",
+      minNote: `Commande de 1 kg à ${MAX}, par tranche de 500 g, dans la limite du stock disponible.`,
       packaging: "Livraison en sachets sous vide de 250 g (par exemple, 3 kg = 12 sachets), en France, port inclus.",
       payTitle: "Commander en ligne",
-      payText: "Choisissez votre quantité, de 1 à 45 kg, ajoutez si vous le souhaitez des pots en verre vides, et réglez par carte sur une page de paiement sécurisée Stripe. Société et SIRET sont demandés au paiement.",
+      payText: `Choisissez votre quantité, de 1 kg à ${MAX}, ajoutez si vous le souhaitez des pots en verre vides, et réglez par carte sur une page de paiement sécurisée Stripe. Société et SIRET sont demandés au paiement.`,
       payCta: "Commander en ligne",
     },
     order: {
@@ -169,8 +175,10 @@ export const fr = {
       title: "Commander et payer en ligne",
       intro: "Choisissez votre quantité, ajoutez si vous le souhaitez des pots en verre vides, puis réglez par carte sur une page de paiement sécurisée Stripe. Société, SIRET, adresse de livraison et téléphone sont demandés à l'étape suivante.",
       quantity: "Quantité de morilles",
-      quantityHint: "De 1 à 45 kg, par pas de 0,5 kg.",
+      quantityHint: "De 1 kg à {max}, par pas de 0,5 kg.",
       decrease: "Retirer 0,5 kg",
+      soldOut: "Le stock de cette saison est épuisé : la commande en ligne est fermée.",
+      soldOutCta: "Précommander la saison 2027",
       increase: "Ajouter 0,5 kg",
       tier: "Palier {tier} · {price}",
       nextTierHint: "À {kg}, le total est de {total} : le palier suivant est plus avantageux.",
@@ -204,8 +212,8 @@ export const fr = {
       items: [
         { title: "Chefs et restaurants", text: "Des morilles entières et équeutées, prêtes à réhydrater : pas de pied à retirer en cuisine. Le prix au kilo baisse dès 3 kg." },
         { title: "Épiceries fines", text: "Pour les épiceries : morilles en sachets sous vide, au kilo selon la grille, à reconditionner sous votre marque. En option, des pots en verre vides de 12, 30 ou 45 g, sans étiquette, à 1,50 € le pot. Un pot de 30 g est offert pour juger le produit." },
-        { title: "Traiteurs", text: "Un prix net connu à l'avance pour chiffrer vos prestations, des sachets sous vide de 250 g, et un volume disponible jusqu'à 45 kg." },
-        { title: "Distributeurs", text: "Des morilles sauvages du Canada, entières et équeutées, en stock en France : au kilo selon la grille, jusqu'à 45 kg." },
+        { title: "Traiteurs", text: `Un prix net connu à l'avance pour chiffrer vos prestations, des sachets sous vide de 250 g, et un volume disponible jusqu'à ${MAX}.` },
+        { title: "Distributeurs", text: `Des morilles sauvages du Canada, entières et équeutées, en stock en France : au kilo selon la grille, jusqu'à ${MAX}.` },
       ],
     },
     story: {
@@ -258,7 +266,7 @@ export const fr = {
         { title: "Pots en option", text: "Pots en verre vides de 12, 30 ou 45 g, sans étiquette, à 1,50 € le pot, livrés à part." },
         { title: "Facture", text: "Facture avec numéro SIRET pour chaque commande." },
         { title: "Réponse au devis", text: "Sous 48 h ouvrées." },
-        { title: "Quantités", text: "De 1 kg à 45 kg, par tranche de 500 g, dans la limite du stock disponible." },
+        { title: "Quantités", text: `De 1 kg à ${MAX}, par tranche de 500 g, dans la limite du stock disponible.` },
       ],
     },
     form: {
@@ -286,7 +294,7 @@ export const fr = {
       availability: "Vos disponibilités",
       availabilityPlaceholder: "Jours et horaires qui vous conviennent",
       quantity: "Quantité souhaitée (kg)",
-      quantityHint: "De 1 kg à 45 kg, par tranche de 500 g.",
+      quantityHint: `De 1 kg à ${MAX}, par tranche de 500 g.`,
       estimate: "Estimation",
       tier: "Palier",
       total: "Total estimé",
@@ -308,7 +316,7 @@ export const fr = {
         generic: "L'envoi n'a pas abouti. Réessayez, ou contactez-moi au 07 82 16 27 08 ou à contact@morillesducanada.com.",
         validation: "Vérifiez les champs signalés.",
         rateLimited: "Trop de demandes envoyées depuis une heure. Réessayez plus tard ou appelez-moi au 07 82 16 27 08.",
-        quantity: "Indiquez une quantité de 1 kg à 45 kg, par tranche de 500 g.",
+        quantity: `Indiquez une quantité de 1 kg à ${MAX}, par tranche de 500 g.`,
         required: "Champ obligatoire",
         email: "Adresse email invalide",
         siret: "SIRET invalide : indiquez les 14 chiffres de votre établissement.",
@@ -324,11 +332,11 @@ export const fr = {
         { q: "Comment le tarif dégressif est-il calculé ?", a: "Le prix au kilo dépend de la quantité totale commandée. Le palier atteint s'applique à toute la commande (voir le tableau des tarifs)." },
         { q: "Quel est le délai d'expédition ?", a: "Sous 5 jours ouvrés après confirmation de la commande, en colis suivi." },
         { q: "Comment avoir un échantillon avant de commander ?", a: "Le pot de 30 g offert est remis en main propre : je passe dans votre zone à des dates précises (calendrier sur cette page). Remplissez l'onglet « Échantillon en main propre » avec votre ville et vos disponibilités. Hors de ces zones, contactez-moi : un envoi est possible au cas par cas, après un échange téléphonique avec moi." },
-        { q: "Quelle quantité puis-je commander ?", a: "De 1 kg à 45 kg, par tranche de 500 g, dans la limite du stock disponible en France." },
+        { q: "Quelle quantité puis-je commander ?", a: `De 1 kg à ${MAX}, par tranche de 500 g, dans la limite du stock disponible en France.` },
         { q: "Sous quelle forme les morilles sont-elles livrées ?", a: "En sachets sous vide de 250 g : par exemple, 3 kg = 12 sachets de 250 g. Les épiceries fines peuvent les reconditionner sous leur marque." },
-        { q: "Comment payer ?", a: "À la commande : par carte en ligne, pour la quantité de votre choix (de 1 à 45 kg, pots en option), sur une page de paiement sécurisée Stripe ; ou par virement sur facture après devis. Le devis est confirmé sous 48 h ouvrées." },
+        { q: "Comment payer ?", a: `À la commande : par carte en ligne, pour la quantité de votre choix (de 1 kg à ${MAX}, pots en option), sur une page de paiement sécurisée Stripe ; ou par virement sur facture après devis. Le devis est confirmé sous 48 h ouvrées.` },
         { q: "Proposez-vous des pots ?", a: "Oui, en option : des pots en verre vides de 12, 30 et 45 g, refermables et sans étiquette, à 1,50 € le pot (prix net). Ils sont livrés à part des sachets sous vide de 250 g ; vous les remplissez et les étiquetez vous-même. À la commande en ligne, indiquez les formats voulus : le calcul complète un format avec la quantité restante, et le reste de moins d'un pot est livré en vrac." },
-        { q: "Où acheter des morilles séchées pour mon restaurant ?", a: "Morilles du Canada vend des morilles de feu sauvages du Canada, séchées, entières et équeutées, aux restaurants, épiceries fines, traiteurs et distributeurs, de 1 à 45 kg, en ligne ou sur devis (SIRET demandé). Le stock est en France, expédition sous 5 jours ouvrés, port inclus." },
+        { q: "Où acheter des morilles séchées pour mon restaurant ?", a: `Morilles du Canada vend des morilles de feu sauvages du Canada, séchées, entières et équeutées, aux restaurants, épiceries fines, traiteurs et distributeurs, de 1 kg à ${MAX}, en ligne ou sur devis (SIRET demandé). Le stock est en France, expédition sous 5 jours ouvrés, port inclus.` },
         { q: "Quel est le prix des morilles séchées au kilo pour un professionnel ?", a: "Prix nets, TVA non applicable (art. 293 B du CGI) : 350 €/kg pour 1 kg, 330 €/kg à partir de 3 kg, 310 €/kg à partir de 5 kg et 290 €/kg à partir de 10 kg, port inclus en France. Le prix du palier atteint s'applique à toute la quantité." },
         { q: "D'où viennent les morilles ?", a: "Du Canada (Colombie-Britannique et Yukon) : elles sont cueillies à la main au printemps sur des forêts brûlées l'année précédente, puis séchées sur place par un réseau de cueilleurs. Valérian, le fondateur, y a cueilli lui-même pendant trois saisons (2022, 2023 et 2024). Le stock est en France." },
         { q: "Livrez-vous hors de France ?", a: "Non. La livraison se fait en France uniquement, port inclus." },

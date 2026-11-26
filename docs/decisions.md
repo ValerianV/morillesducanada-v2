@@ -4,6 +4,19 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-11-26 — Stock réel affiché sur le site
+
+- Décision du fondateur : le site affiche le stock restant pour créer de l'urgence (« Plus que 23 kg disponibles
+  cette saison »), en kilos (vente aux professionnels uniquement). Le chiffre doit toujours être le stock réel :
+  une rareté inventée serait une pratique commerciale trompeuse.
+- Stock déclaré le 2026-11-26 : 23 kg (9 kg + 4 kg en France, plus 10 kg cédables par un partenaire). Détail par
+  propriétaire : `docs/interne/` (non versionné).
+- Mise en œuvre : table `stock_morilles` (lecture publique, correction dans /admin), décomptée par un trigger SQL à
+  chaque commande pro payée en ligne ; `create-pro-checkout` refuse une quantité supérieure au stock. Sous 25 kg :
+  « Plus que N kg disponibles cette saison » ; à 0 : « Épuisé », commande en ligne fermée, lien vers la précommande 2027.
+- La quantité maximale (commande en ligne et devis) suit le stock de référence `PRO_STOCK_KG` (23 kg) ; les ventes hors
+  site (virement, main propre, liens de paiement) se corrigent à la main dans /admin.
+
 ## 2026-11-21 — SEO : rester réservé aux professionnels, pas de Merchant Center
 
 - Décision du fondateur : le site reste réservé aux professionnels, même si la majorité des requêtes Google

@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import ProPriceTable from "@/components/pro/ProPriceTable";
 import ProLeadForm from "@/components/pro/ProLeadForm";
 import ProOrderConfigurator from "@/components/pro/ProOrderConfigurator";
+import StockBadge from "@/components/pro/StockBadge";
 import WildVsCultivated from "@/components/WildVsCultivated";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useI18n } from "@/i18n/context";
@@ -94,6 +95,7 @@ const Professionnels = () => {
                 ))}
               </ul>
               <p className="text-lg text-foreground/90 leading-relaxed mb-4 max-w-2xl">{pro.hero.description}</p>
+              <StockBadge className="mb-4" />
               <p className="text-base font-medium text-primary mb-8">{PRO_ONLY_MENTION[locale]}</p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <button
