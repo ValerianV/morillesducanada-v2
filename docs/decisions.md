@@ -4,6 +4,17 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-11-26 — Prospection des Alpes à distance, fichier d'état, tâches revues
+
+- Stock communicable : 23 kg (détail par propriétaire dans `docs/interne/confidentiel.md`). Jumbos jamais vendus à part.
+- Valérian est dans les Alpes (Maurienne en décembre) : prospection de toutes les Alpes françaises, un secteur par semaine,
+  par écrit d'abord, appel seulement après une réponse, aucune visite ni échantillon par la poste.
+- Ton : chaleureux et personnel, vouvoiement sauf si le client tutoie en premier.
+- Nouveau fichier `docs/etat-courant.md` : état du moment, lu en premier par les tâches planifiées, mis à jour par toute
+  session qui apprend un fait (règle demandée par Valérian : « fais-en un automatisme »).
+- Tâches planifiées : démarrent en mode automatique (`permissions.defaultMode: auto` dans `~/.claude/settings.json`) ;
+  « Nouveaux prospects » réécrite pour les Alpes.
+
 ## 2026-10-14 — Objectif : vendre le stock avant le 8 novembre
 
 - Valérian entre en formation de moniteur de ski le 8 novembre : après cette date, plus de temps pour la vente.

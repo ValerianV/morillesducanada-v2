@@ -3,6 +3,8 @@
 Depuis le 2026-09-28, **le site est réservé aux professionnels** (SIRET demandé à la commande) :
 aucune vente aux particuliers. Voir `docs/business/offre.md`.
 
+**Situation actuelle (zone, stock, canaux, ton) : `docs/etat-courant.md`, prioritaire sur ce document.**
+
 ## Cibles (par priorité)
 
 | Segment | Qui | Pourquoi | Volume typique |

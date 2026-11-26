@@ -1,6 +1,8 @@
 # CLAUDE.md — Morilles du Canada
 
 Lu automatiquement par chaque agent. Court par design : le détail est dans `docs/`.
+**État du moment** (stock, zone, canaux, ton, envois en cours) : `docs/etat-courant.md`, à lire en premier et à mettre à jour
+par toute session qui apprend un fait nouveau.
 Toute décision nouvelle du fondateur → `docs/decisions.md` d'abord, puis le doc concerné.
 
 ## Mission
@@ -10,7 +12,7 @@ Vendre des morilles de feu **sauvages** du Canada, séchées, **aux professionne
 à la commande), via https://www.morillesducanada.com. Aucune vente aux particuliers depuis le
 2026-09-28 (pas de médiateur de la consommation). Deux objectifs :
 
-1. Écouler le stock actuel (≈ 45 kg séchés, en France).
+1. Écouler le stock actuel (23 kg séchés au 2026-11-26, en France).
 2. Vendre la saison suivante en **précommande** (saison 2027, livraison octobre 2027).
 
 Fondateur : Valérian Vilane (auto-entrepreneur). Il valide prix, promesses commerciales,
