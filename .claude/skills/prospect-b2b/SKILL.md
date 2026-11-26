@@ -34,8 +34,8 @@ Exemples : `/prospect-b2b traiteurs 20 "fêtes de fin d'année"`, `/prospect-b2b
    - prix seulement dans le premier email et sans tableau (« à partir de 290 €/kg selon la quantité, port inclus »),
      toujours avec « prix nets, TVA non applicable, art. 293 B du CGI » ;
    - aucun lien suivi : au plus `morillesducanada.com/professionnels`, en clair ;
-   - échantillon en main propre (pot de 30 g sec) si le prospect est dans une zone du calendrier
-     (`supabase/functions/_shared/tasting.ts`) ; hors zone, envoi postal seulement après un échange téléphonique ;
+   - échantillon : pot de 30 g vendu 20 € + port, déduit si le client commande ensuite 1 kg ou plus (depuis le
+     2026-11-26, voir `docs/etat-courant.md`) ; ne jamais le présenter comme offert ;
    - signature « Valérian » + téléphone ; porte de sortie humaine (« dites-le-moi, je ne vous relancerai pas »),
      jamais de ligne STOP ni de pied de page automatique.
 

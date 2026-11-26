@@ -6,7 +6,7 @@ dans la même session, en remplaçant la ligne périmée et en datant le changem
 dans `docs/decisions.md`. Chiffres confidentiels (stock par propriétaire, prix d'achat, plancher) :
 `docs/interne/confidentiel.md`, jamais ici.
 
-Dernière mise à jour : 2026-11-26.
+Dernière mise à jour : 2026-11-26 (soir).
 
 ## Où écrire quoi
 
@@ -25,7 +25,9 @@ Dernière mise à jour : 2026-11-26.
 - Stock communicable : **23 kg** de morilles de feu séchées (2026-11-26). Vérifier ce fichier avant de citer un chiffre.
   Les « jumbos » ne sont jamais vendus à part (lot non trié).
 - Valérian est en formation de moniteur de ski et se déplace entre stations des Alpes : **Maurienne en décembre 2026**.
-  Aucune visite, aucun rendez-vous sur place, aucun échantillon par la poste.
+  Aucune visite, aucun rendez-vous sur place.
+- **Échantillon** (2026-11-26) : plus aucun pot offert. Le pot de 30 g est vendu 20 € + frais de port ; si le client
+  commande ensuite 1 kg ou plus, les 20 € sont déduits de la commande. Montant du port de l'échantillon : non fixé, ne pas l'annoncer.
 - Expédition depuis la Provence (Aubignan), sous 5 jours ouvrés.
 
 ## Prospection

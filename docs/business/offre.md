@@ -76,7 +76,15 @@ Paiement **à la commande** (carte ou virement). Pénalités de retard : 3 fois 
 indemnité forfaitaire de recouvrement : 40 €. Pas de droit de rétractation (ventes entre professionnels).
 Réclamation transport : sous 48 h à réception.
 
-## Échantillon : remis en main propre (décisions du 2026-10-01)
+## Échantillon payant (décision du 2026-11-26, remplace l'échantillon offert)
+
+**Le pot de 30 g n'est plus offert.** Il est vendu **20 € plus les frais de port** (prix nets — TVA non applicable,
+art. 293 B du CGI). Si le client commande ensuite **1 kg ou plus**, le montant du pot (20 €) est déduit de cette commande
+en geste commercial. Montant des frais de port de l'échantillon : à fixer par Valérian (non validé, ne pas l'annoncer).
+Le site n'est pas encore à jour (onglet « Échantillon en main propre », `/livraison`, `llms.txt`) : à corriger sur une branche,
+mise en ligne après validation.
+
+## Ancien régime : échantillon remis en main propre (décisions du 2026-10-01, caduc depuis le 2026-11-26)
 
 Un **pot en verre de 30 g**, refermable, offert, **remis en main propre** lors d'un passage, quand le fondateur
 est dans la zone du prospect. **Envoi possible au cas par cas, après un échange téléphonique avec Valérian**, uniquement à un

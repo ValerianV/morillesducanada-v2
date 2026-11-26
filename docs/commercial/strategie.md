@@ -48,7 +48,7 @@ identifie clairement l'expéditeur et propose une désinscription simple.
 
 ## Offre à mettre en avant
 
-Stock disponible (argument fêtes) + remise en main propre d'un pot de 30 g (zones et dates du calendrier ; envoi possible au cas par cas après échange, jamais sur simple demande) + sachets sous vide de 250 g
+Stock disponible (argument fêtes) + pot de 30 g vendu 20 € + port, déduit d'une commande de 1 kg ou plus (depuis le 2026-11-26, voir `docs/business/offre.md`) + sachets sous vide de 250 g
 + devis sous 48 h ouvrées + précommande 2027 (réservée aux pros) dans les relances.
 Prix : voir `docs/business/offre.md`. Ne jamais citer le prix plancher.
 

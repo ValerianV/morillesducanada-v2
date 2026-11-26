@@ -4,6 +4,12 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-11-26 — Fin de l'échantillon offert
+
+- Le pot de 30 g n'est plus offert : il est vendu 20 € + frais de port. Si le client commande ensuite 1 kg ou plus,
+  les 20 € sont déduits de la commande (geste commercial). Raison : plus de passages en main propre, et l'envoi
+  postal gratuit coûte sans garantir de vente. Détail : `docs/business/offre.md`. Site à mettre à jour après validation.
+
 ## 2026-11-26 — Prospection des Alpes à distance, fichier d'état, tâches revues
 
 - Stock communicable : 23 kg (détail par propriétaire dans `docs/interne/confidentiel.md`). Jumbos jamais vendus à part.
