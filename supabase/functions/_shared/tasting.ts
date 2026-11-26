@@ -18,9 +18,16 @@ export interface TastingStop {
   to: string | null;
 }
 
-// 2026-11-26 : Valérian a quitté Chamonix et circule entre les stations des Alpes cet hiver, sans dates fixes ;
-// les expéditions partent de Provence. Ne plus afficher de dates ni de stations précises sans accord du fondateur.
+// 2026-11-26 : Valérian a quitté Chamonix. Il est en Maurienne en décembre, puis circule entre les stations
+// des Alpes sans dates fixes ; les expéditions partent de Provence. Pas d'autre date ni station sans son accord.
 export const TASTING_TOUR: readonly TastingStop[] = [
+  {
+    id: "maurienne",
+    zone: { fr: "Maurienne", en: "Maurienne" },
+    period: { fr: "en décembre 2026", en: "in December 2026" },
+    from: "2026-12-01",
+    to: "2026-12-31",
+  },
   {
     id: "alpes",
     zone: { fr: "Stations des Alpes", en: "Alpine resorts" },
@@ -28,7 +35,7 @@ export const TASTING_TOUR: readonly TastingStop[] = [
       fr: "cet hiver, sans dates fixes : je vous préviens quand je passe près de chez vous",
       en: "this winter, no fixed dates: I let you know when I am near you",
     },
-    from: null,
+    from: "2027-01-01",
     to: null,
   },
 ];

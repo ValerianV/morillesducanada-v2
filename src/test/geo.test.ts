@@ -63,8 +63,9 @@ describe("llms.txt et llms-full.txt", () => {
 
   it("indiquent les zones de dégustation, sans dates fixes", () => {
     for (const text of [short, full]) {
+      expect(text).toContain("Maurienne : en décembre 2026");
       expect(text).toContain("Stations des Alpes : cet hiver, sans dates fixes");
-      expect(text).not.toMatch(/Chamonix|Maurienne/);
+      expect(text).not.toMatch(/Chamonix/);
       expect(text).toContain("au cas par cas");
     }
   });

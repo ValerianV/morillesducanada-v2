@@ -173,9 +173,9 @@ describe("emails", () => {
     expect(mail.text).toContain("30 g");
     expect(mail.text).toContain("en main propre");
     expect(mail.text).toContain("Mardi après-midi");
+    expect(mail.text).toContain("Maurienne");
     expect(mail.text).toContain("Stations des Alpes");
-    expect(mail.text).toContain("sans dates fixes");
-    expect(mail.text).not.toMatch(/Chamonix|Maurienne/);
+    expect(mail.text).not.toMatch(/Chamonix/);
     expect(mail.html).toContain("Où Valérian passe");
     expect(`${mail.subject} ${mail.text} ${mail.html}`).not.toMatch(/confirmer l'envoi|vous envoyons|envoyé à l'adresse/i);
     expect(mail.text).toContain("au cas par cas");

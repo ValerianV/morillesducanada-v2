@@ -87,8 +87,8 @@ l'identité de plusieurs établissements pour obtenir plusieurs échantillons pa
 - Demande : onglet « Échantillon en main propre » de `/professionnels` (SIRET, ville, code postal, disponibilités ;
   plus d'adresse de livraison). Valérian recontacte le prospect pour convenir d'un rendez-vous.
 - Zones de passage (constante `TASTING_TOUR` dans `supabase/functions/_shared/tasting.ts`, à modifier à cet endroit) :
-  depuis le 2026-11-26, **stations des Alpes cet hiver, sans dates fixes** (le fondateur prévient le prospect quand il
-  passe près de chez lui). Plus de dates ni de stations précises. Expéditions depuis la Provence. Hors de ces zones : « contactez-nous, nous étudions chaque demande ».
+  depuis le 2026-11-26, **Maurienne en décembre 2026**, puis **stations des Alpes sans dates fixes** (le fondateur
+  prévient le prospect quand il passe près de chez lui). Plus de Chamonix. Expéditions depuis la Provence. Hors de ces zones : « contactez-nous, nous étudions chaque demande ».
 - Après modification du calendrier : `llms.txt` et `llms-full.txt` (générés au build) suivent automatiquement ; reporter à la main dans la plaquette pro si besoin.
 - Les pots de 12, 30 et 45 g (en verre, refermables) servent aussi à l'option pots (livrés vides, voir plus haut).
 
