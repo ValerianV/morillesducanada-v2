@@ -12,8 +12,8 @@ import { TASTING_TOUR } from "@/lib/tasting";
 // TASTING_TOUR (supabase/functions/_shared/tasting.ts) : une seule source pour le site, les emails et llms.txt.
 const PATH = "/zones-de-passage";
 const TITLE = "Zones de passage et échantillon de morilles séchées";
-const DESCRIPTION = `Où et quand je remets en main propre un échantillon de ${PRO_SAMPLE_GRAMS} g de morilles aux professionnels : ${TASTING_TOUR.map((stop) => stop.zone.fr).join(", ")}.`;
-const DATE_MODIFIED = "2026-10-07";
+const DESCRIPTION = `Où je remets en main propre un échantillon de ${PRO_SAMPLE_GRAMS} g de morilles aux professionnels : ${TASTING_TOUR.map((stop) => stop.zone.fr).join(", ")}.`;
+const DATE_MODIFIED = "2026-11-26";
 const LINK = "text-primary hover:text-gold-light underline underline-offset-4";
 
 const ZonesDePassage = () => (
@@ -37,7 +37,7 @@ const ZonesDePassage = () => (
 
         <header className="mb-12">
           <p className="text-sm tracking-[0.25em] uppercase text-primary mb-4">Échantillon en main propre</p>
-          <h1 className="font-serif text-4xl md:text-5xl font-light leading-tight mb-6">Zones et dates de passage pour l'échantillon de {PRO_SAMPLE_GRAMS} g</h1>
+          <h1 className="font-serif text-4xl md:text-5xl font-light leading-tight mb-6">Zones de passage pour l'échantillon de {PRO_SAMPLE_GRAMS} g</h1>
           <p className="text-xl text-foreground leading-relaxed">
             Quand je passe dans votre zone, je vous remets en main propre un pot en verre refermable de {PRO_SAMPLE_GRAMS} g de mes morilles, offert,
             pour juger sur pièce avant de commander. C'est réservé aux professionnels, et il faut convenir d'un rendez-vous.
@@ -45,10 +45,10 @@ const ZonesDePassage = () => (
         </header>
 
         <section id="calendrier" className="mb-12 scroll-mt-28">
-          <h2 className="font-serif text-2xl md:text-3xl font-light mb-4">Où et quand je passe ?</h2>
+          <h2 className="font-serif text-2xl md:text-3xl font-light mb-4">Où je passe ?</h2>
           <div className="overflow-x-auto">
             <table className="w-full text-base border-collapse">
-              <caption className="text-left text-sm text-foreground/75 mb-2">Calendrier des passages, saison 2026</caption>
+              <caption className="text-left text-sm text-foreground/75 mb-2">Passages, hiver 2026-2027</caption>
               <thead>
                 <tr className="border-b border-gold/30">
                   <th scope="col" className="text-left font-medium text-foreground py-2 pr-4">Zone</th>

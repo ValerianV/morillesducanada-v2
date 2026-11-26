@@ -3,11 +3,52 @@
 // par l'edge function submit-pro-lead, et testé avec vitest (src/test/proPricing.test.ts).
 // Prix nets validés par le fondateur. Le plancher de négociation n'apparaît jamais ici.
 
-export const PRO_STOCK_KG = 45;
+// Stock de référence, déclaré par le fondateur le 2026-11-26 : 23 kg (9 kg + 4 kg en France,
+// plus 10 kg qu'un partenaire peut lui céder).
+// Sert au prérendu et de repli si la base ne répond pas. Le stock affiché en direct vient de
+// la table public.stock_morilles (décomptée à chaque commande pro payée, modifiable dans /admin).
+// Mettre à jour cette valeur quand le stock change beaucoup (achat, vente hors site).
+export const PRO_STOCK_KG = 23;
+export const PRO_STOCK_DATE = "2026-11-26";
+// Plafond d'une commande, même avec plus de stock (contrainte SQL orders_kg_range).
+export const PRO_ORDER_CAP_KG = 45;
 // L'offre pro commence à 1 kg ; le sous vide 500 g reste un format grand public (catalogue).
 export const PRO_MIN_KG = 1;
-export const PRO_MAX_KG = PRO_STOCK_KG;
 export const PRO_KG_STEP = 0.5;
+// Quantité maximale commandable pour un stock donné : arrondie au pas de 0,5 kg inférieur.
+export function maxOrderKg(stockKg: number): number {
+  if (!Number.isFinite(stockKg) || stockKg <= 0) return 0;
+  return Math.min(PRO_ORDER_CAP_KG, Math.floor(stockKg / PRO_KG_STEP + 1e-9) * PRO_KG_STEP);
+}
+export const PRO_MAX_KG = maxOrderKg(PRO_STOCK_KG);
+// Indicateur de stock (décision du fondateur, 2026-11-26) : le chiffre affiché est toujours le stock
+// réel. Sous ce seuil, le site affiche « Plus que N kg disponibles » ; à 0, « Épuisé ».
+export const PRO_LOW_STOCK_KG = 25;
+
+export type StockLevel = "available" | "low" | "soldOut";
+
+export interface StockStatus {
+  level: StockLevel;
+  // Stock affiché, arrondi au pas de 0,5 kg inférieur (jamais plus que le stock réel).
+  kg: number;
+  // Quantité maximale commandable en ligne.
+  maxKg: number;
+}
+
+export function stockStatus(stockKg: number): StockStatus {
+  const maxKg = maxOrderKg(stockKg);
+  const kg = !Number.isFinite(stockKg) || stockKg <= 0 ? 0 : Math.floor(stockKg / PRO_KG_STEP + 1e-9) * PRO_KG_STEP;
+  // Moins que la commande minimale : plus rien à vendre en ligne.
+  if (kg < PRO_MIN_KG) return { level: "soldOut", kg: 0, maxKg: 0 };
+  return { level: kg <= PRO_LOW_STOCK_KG ? "low" : "available", kg, maxKg };
+}
+
+export function formatStockLabel(status: StockStatus, locale: "fr" | "en" = "fr"): string {
+  if (status.level === "soldOut") return locale === "en" ? "Sold out" : "Épuisé";
+  const kg = formatKg(status.kg, locale);
+  if (status.level === "low") return locale === "en" ? `Only ${kg} left this season` : `Plus que ${kg} disponibles cette saison`;
+  return locale === "en" ? `${kg} in stock` : `${kg} en stock`;
+}
 export const PRO_SAMPLE_GRAMS = 30;
 export const PRO_SHIPPING_BUSINESS_DAYS = 5;
 // Réponse aux devis : sous 48 h ouvrées (validé par le fondateur le 2026-09-28).
@@ -58,17 +99,18 @@ export interface ProQuote {
   totalCents: number;
 }
 
-export function isValidProQuantity(kg: unknown): kg is number {
+// maxKg : plafond structurel par défaut (45 kg) ; le stock est contrôlé à part (create-pro-checkout).
+export function isValidProQuantity(kg: unknown, maxKg: number = PRO_ORDER_CAP_KG): kg is number {
   if (typeof kg !== "number" || !Number.isFinite(kg)) return false;
-  if (kg < PRO_MIN_KG || kg > PRO_MAX_KG) return false;
+  if (kg < PRO_MIN_KG || kg > maxKg) return false;
   const steps = kg / PRO_KG_STEP;
   return Math.abs(steps - Math.round(steps)) < 1e-9;
 }
 
-// Devis indicatif pour une quantité en kg (de 1 à 45 kg, par pas de 500 g).
+// Devis indicatif pour une quantité en kg (de 1 à 45 kg par défaut, par pas de 500 g).
 // Renvoie null si la quantité est invalide.
-export function quote(kg: number): ProQuote | null {
-  if (!isValidProQuantity(kg)) return null;
+export function quote(kg: number, maxKg: number = PRO_ORDER_CAP_KG): ProQuote | null {
+  if (!isValidProQuantity(kg, maxKg)) return null;
   const normalized = Math.round(kg / PRO_KG_STEP) * PRO_KG_STEP;
   let tier = PRO_TIERS[0];
   for (const candidate of PRO_TIERS) {

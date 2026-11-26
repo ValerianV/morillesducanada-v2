@@ -2,6 +2,9 @@ import { describe, it, expect } from "vitest";
 import {
   PRO_TIERS,
   PRO_STOCK_KG,
+  maxOrderKg,
+  stockStatus,
+  formatStockLabel,
   PRO_MIN_KG,
   PRO_MAX_KG,
   PRO_KG_STEP,
@@ -24,7 +27,7 @@ describe("grille pro validée", () => {
       ["10kg", 10, 29000],
     ]);
     expect(PRO_MIN_KG).toBe(1);
-    expect(PRO_MAX_KG).toBe(45);
+    expect(PRO_MAX_KG).toBe(23);
     expect(PRO_KG_STEP).toBe(0.5);
   });
 
@@ -32,8 +35,32 @@ describe("grille pro validée", () => {
     for (const t of PRO_TIERS) expect(t.priceCents).toBeGreaterThanOrEqual(29000);
   });
 
-  it("stock de 45 kg", () => {
-    expect(PRO_STOCK_KG).toBe(45);
+  it("stock de référence de 23 kg (déclaré le 2026-11-26)", () => {
+    expect(PRO_STOCK_KG).toBe(23);
+  });
+});
+
+describe("stock réel", () => {
+  it("quantité maximale : arrondie au pas inférieur, plafonnée à 45 kg", () => {
+    expect(maxOrderKg(23)).toBe(23);
+    expect(maxOrderKg(12.7)).toBe(12.5);
+    expect(maxOrderKg(80)).toBe(45);
+    expect(maxOrderKg(0)).toBe(0);
+    expect(maxOrderKg(-2)).toBe(0);
+  });
+
+  it("niveaux : disponible, plus que N kg, épuisé", () => {
+    expect(stockStatus(40)).toEqual({ level: "available", kg: 40, maxKg: 40 });
+    expect(stockStatus(23)).toEqual({ level: "low", kg: 23, maxKg: 23 });
+    expect(stockStatus(0.8)).toEqual({ level: "soldOut", kg: 0, maxKg: 0 });
+    expect(stockStatus(0)).toEqual({ level: "soldOut", kg: 0, maxKg: 0 });
+  });
+
+  it("libellés : jamais plus que le stock réel", () => {
+    expect(formatStockLabel(stockStatus(23))).toBe("Plus que 23 kg disponibles cette saison");
+    expect(formatStockLabel(stockStatus(12.7))).toBe("Plus que 12,5 kg disponibles cette saison");
+    expect(formatStockLabel(stockStatus(40))).toBe("40 kg en stock");
+    expect(formatStockLabel(stockStatus(0), "en")).toBe("Sold out");
   });
 });
 
