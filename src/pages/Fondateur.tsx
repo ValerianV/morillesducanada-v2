@@ -7,7 +7,8 @@ import { CONTENT_LINK_LABELS } from "@/lib/seo/articles";
 import { breadcrumbSchema, profilePageSchema } from "@/lib/seo/schema";
 import { FOUNDER_NAME, FOUNDER_PATH } from "@/lib/seo/site";
 import { EDITEUR } from "@/lib/legal";
-import { PRO_QUOTE_REPLY_HOURS, PRO_SHIPPING_BUSINESS_DAYS } from "@/lib/proPricing";
+import { PRO_QUOTE_REPLY_HOURS, PRO_SHIPPING_BUSINESS_DAYS, formatEurosLocale } from "@/lib/proPricing";
+import { PRO_SAMPLE_PRICE_CENTS } from "@/lib/sample";
 
 // Page d'identité du fondateur (audit SEO d'octobre 2026, contenu C3). Faits de docs/business/recit.md uniquement :
 // trois saisons de cueillette (2022, 2023, 2024), jamais de nom de cueilleur ou d'acheteur partenaire.
@@ -143,7 +144,7 @@ const Fondateur = () => (
               <Link to="/professionnels#devis" className={LINK}>
                 Professionnels
               </Link>
-              . Pour voir le produit avant de commander, je passe sur rendez-vous vous remettre un pot : voir les{" "}
+              . Pour voir le produit avant de commander, commandez le pot de 30 g en ligne ({formatEurosLocale(PRO_SAMPLE_PRICE_CENTS)}, déduits dès 1 kg commandé), ou je vous le remets sur rendez-vous : voir les{" "}
               <Link to="/zones-de-passage" className={LINK}>
                 zones de passage
               </Link>

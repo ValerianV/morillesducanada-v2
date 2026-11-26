@@ -76,15 +76,21 @@ Paiement **à la commande** (carte ou virement). Pénalités de retard : 3 fois 
 indemnité forfaitaire de recouvrement : 40 €. Pas de droit de rétractation (ventes entre professionnels).
 Réclamation transport : sous 48 h à réception.
 
-## Échantillon : remis en main propre (décisions du 2026-10-01)
+## Échantillon : 20 € + port, déduit dès 1 kg (décision du 2026-11-26)
 
-Un **pot en verre de 30 g**, refermable, offert, **remis en main propre** lors d'un passage, quand le fondateur
-est dans la zone du prospect. **Envoi possible au cas par cas, après un échange téléphonique avec Valérian**, uniquement à un
-établissement que nous avons démarché et qui répond. Le formulaire du site ne déclenche **jamais** d'envoi, et
-« envoi gratuit sur simple demande » ne doit apparaître nulle part. Raison : on peut trop facilement usurper
-l'identité de plusieurs établissements pour obtenir plusieurs échantillons par la poste.
+Un **pot en verre de 30 g**, refermable, **vendu 20 €** plus **les frais de port** (montant dans
+`supabase/functions/_shared/sample.ts`, constante `PRO_SAMPLE_SHIPPING_CENTS`). Il n'est **plus offert**.
+Pour une commande d'**au moins 1 kg**, le prix de l'échantillon (20 €) est **déduit** (geste commercial) :
 
-- Demande : onglet « Échantillon en main propre » de `/professionnels` (SIRET, ville, code postal, disponibilités ;
+- **Commande en ligne** : bouton « Commander l'échantillon » sur `/professionnels` (Stripe, société et SIRET obligatoires,
+  France uniquement, expédition sous 5 jours ouvrés). Après paiement, le client reçoit par email un **code à usage unique**
+  (format `ECH-XXXXXX`) de 20 €, valable 365 jours, utilisable sur une commande en ligne d'au moins 1 kg.
+- **Commande sur devis ou par virement** : déduire 20 € de la facture si le client a acheté l'échantillon.
+- **En main propre** lors d'un passage : 20 €, sans frais de port, déduits de la même façon.
+
+L'ancien interdit d'envoi postal (risque d'usurpation pour obtenir des échantillons gratuits) tombe, puisque l'échantillon est payé.
+
+- Remise en main propre : onglet « Échantillon en main propre » de `/professionnels` (SIRET, ville, code postal, disponibilités ;
   plus d'adresse de livraison). Valérian recontacte le prospect pour convenir d'un rendez-vous.
 - Zones de passage (constante `TASTING_TOUR` dans `supabase/functions/_shared/tasting.ts`, à modifier à cet endroit) :
   depuis le 2026-11-26, **Maurienne en décembre 2026**, puis **stations des Alpes sans dates fixes** (le fondateur

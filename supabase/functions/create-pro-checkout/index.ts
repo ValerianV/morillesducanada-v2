@@ -2,6 +2,7 @@
 // calculée pour la commande du client. Le client n'envoie que kg, fixed et autoSize ; les montants
 // sont recalculés ici (grille _shared/proPricing.ts, pots _shared/potAllocation.ts).
 // Le stock réel (table stock_morilles) est relu ici : une quantité supérieure est refusée (409).
+// Le client peut saisir un code échantillon sur la page Stripe (prix du pot déduit dès 1 kg).
 // Rien n'est écrit en base ici : stripe-webhook crée la ligne orders après paiement, et un trigger
 // SQL décompte alors le stock.
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
@@ -182,6 +183,8 @@ serve(async (req) => {
         },
       ],
       custom_text: { submit: { message: terms } },
+      // Code échantillon (geste commercial, à usage unique, dès 1 kg) : créé par stripe-webhook.
+      allow_promotion_codes: true,
       metadata,
       payment_intent_data: {
         description: `Commande pro — ${metadata.preparation}`,

@@ -17,6 +17,7 @@ import {
   formatKg,
   formatTierPrice,
 } from "@/lib/proPricing";
+import { PRO_SAMPLE_CREDIT_DAYS, PRO_SAMPLE_CREDIT_MIN_KG, PRO_SAMPLE_PRICE_CENTS, PRO_SAMPLE_SHIPPING_CENTS } from "@/lib/sample";
 
 const eur = (cents: number) => formatEurosLocale(cents, "fr");
 
@@ -165,10 +166,11 @@ const CGV = () => (
     <section>
       <h2>Article 11 — Échantillons</h2>
       <p>
-        Un pot en verre de {PRO_SAMPLE_GRAMS} g est offert, sans obligation d'achat et dans la limite des stocks. Il est remis
-        en main propre lors d'une dégustation organisée par le vendeur dans la zone de l'acheteur, sur demande depuis la page
-        Professionnels (zones de passage indiquées sur cette page). Un envoi est possible au cas par cas, après échange téléphonique
-        avec le vendeur ; la demande en ligne ne déclenche jamais d'envoi.
+        Un pot en verre de {PRO_SAMPLE_GRAMS} g est vendu {formatEurosLocale(PRO_SAMPLE_PRICE_CENTS)}, plus {formatEurosLocale(PRO_SAMPLE_SHIPPING_CENTS)} de
+        frais de port en cas d'envoi, dans la limite des stocks. Il se commande en ligne depuis la page Professionnels ou se remet
+        en main propre lors d'un passage du vendeur dans la zone de l'acheteur. Après le paiement, l'acheteur reçoit un code à
+        usage unique qui déduit {formatEurosLocale(PRO_SAMPLE_PRICE_CENTS)} de sa première commande d'au moins {PRO_SAMPLE_CREDIT_MIN_KG} kg passée en
+        ligne, valable {PRO_SAMPLE_CREDIT_DAYS} jours ; pour une commande sur devis, le vendeur déduit le même montant de la facture.
       </p>
     </section>
 

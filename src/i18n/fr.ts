@@ -1,8 +1,13 @@
-import { PRO_MAX_KG, PRO_STOCK_KG, formatKg } from "../../supabase/functions/_shared/proPricing";
+import { PRO_MAX_KG, PRO_STOCK_KG, formatEurosLocale, formatKg } from "../../supabase/functions/_shared/proPricing";
+import { PRO_SAMPLE_PRICE_CENTS, PRO_SAMPLE_SHIPPING_CENTS } from "../../supabase/functions/_shared/sample";
 
 // Stock de référence et quantité maximale : source unique dans _shared/proPricing.ts.
 const MAX = formatKg(PRO_MAX_KG, "fr");
 const STOCK = formatKg(PRO_STOCK_KG, "fr");
+// Échantillon payant : source unique dans _shared/sample.ts.
+const SAMPLE_PRICE = formatEurosLocale(PRO_SAMPLE_PRICE_CENTS, "fr");
+const SAMPLE_SHIPPING = formatEurosLocale(PRO_SAMPLE_SHIPPING_CENTS, "fr");
+const SAMPLE_OFFER = `pot de 30 g à ${SAMPLE_PRICE} + ${SAMPLE_SHIPPING} de port, déduits de votre première commande d'au moins 1 kg`;
 
 export const fr = {
   nav: {
@@ -88,14 +93,14 @@ export const fr = {
     shippingLabel: "expédition, port inclus en France",
     packTitle: "Conditionnement",
     packText: "Sachets sous vide de 250 g : par exemple, 3 kg = 12 sachets. Les épiceries fines les reconditionnent sous leur marque.",
-    sampleTitle: "Échantillon en main propre",
-    sampleText: "Un pot de 30 g offert, remis en main propre lors de mon passage dans votre zone, pour juger sur pièce avant de commander.",
+    sampleTitle: "Échantillon de 30 g",
+    sampleText: `Un ${SAMPLE_OFFER}, pour juger sur pièce avant de commander.`,
     preorderTitle: "Saison 2027",
     preorderText: "Précommande réservée aux professionnels : 300 €/kg, acompte de 50 %, livraison garantie en octobre 2027, port inclus en France.",
     preorderCta: "Précommander",
     ctaQuote: "Demander un devis",
     ctaPrices: "Toutes les conditions",
-    ctaSample: "Demander un échantillon",
+    ctaSample: "Commander un échantillon",
     phoneCta: "Ou appelez Valérian",
   },
   faq: {
@@ -119,7 +124,7 @@ export const fr = {
     titleSuffix: "-moi",
     description: "Restaurant, épicerie fine, traiteur : écrivez-moi ou appelez-moi. Je vous réponds personnellement.",
     proTitle: "Devis et échantillon",
-    proDesc: "Pour une commande au kilo ou un échantillon remis en main propre (pot de 30 g), le formulaire de la page professionnels est le plus rapide.",
+    proDesc: "Pour une commande au kilo ou un échantillon (pot de 30 g), la page professionnels est la plus rapide.",
     proLink: "Tarifs et devis",
     phoneLabel: "Appeler Valérian",
     address: "Valérian Vilane, EI · Aubignan (Vaucluse), France — stock et expédition depuis la France",
@@ -152,7 +157,7 @@ export const fr = {
       title: "Morilles sauvages du Canada,",
       titleHighlight: "au kilo",
       facts: [`${STOCK} disponibles`, "entières et équeutées", "prix nets"],
-      description: "Morilles séchées, variétés mélangées, en stock en France. Sachets sous vide de 250 g, expédition sous 5 jours ouvrés, port inclus. Un pot de 30 g offert, remis en main propre lors de mon passage, pour juger sur pièce avant de commander.",
+      description: "Morilles séchées, variétés mélangées, en stock en France. Sachets sous vide de 250 g, expédition sous 5 jours ouvrés, port inclus. Échantillon : ${SAMPLE_OFFER}.",
       ctaQuote: "Demander un devis",
       ctaSample: "Demander un échantillon",
       contact: "Votre interlocuteur : Valérian, fondateur",
@@ -211,7 +216,7 @@ export const fr = {
       title: "Pour les professionnels de bouche",
       items: [
         { title: "Chefs et restaurants", text: "Des morilles entières et équeutées, prêtes à réhydrater : pas de pied à retirer en cuisine. Le prix au kilo baisse dès 3 kg." },
-        { title: "Épiceries fines", text: "Pour les épiceries : morilles en sachets sous vide, au kilo selon la grille, à reconditionner sous votre marque. En option, des pots en verre vides de 12, 30 ou 45 g, sans étiquette, à 1,50 € le pot. Un pot de 30 g est offert pour juger le produit." },
+        { title: "Épiceries fines", text: "Pour les épiceries : morilles en sachets sous vide, au kilo selon la grille, à reconditionner sous votre marque. En option, des pots en verre vides de 12, 30 ou 45 g, sans étiquette, à 1,50 € le pot. Un pot de 30 g est proposé en échantillon pour juger le produit, à ${SAMPLE_PRICE}, déduits dès 1 kg commandé." },
         { title: "Traiteurs", text: `Un prix net connu à l'avance pour chiffrer vos prestations, des sachets sous vide de 250 g, et un volume disponible jusqu'à ${MAX}.` },
         { title: "Distributeurs", text: `Des morilles sauvages du Canada, entières et équeutées, en stock en France : au kilo selon la grille, jusqu'à ${MAX}.` },
       ],
@@ -243,10 +248,14 @@ export const fr = {
     sample: {
       label: "Échantillon",
       title: "Jugez sur pièce avant de commander",
-      text: "Le pot de 30 g offert est remis en main propre lors de mon passage dans votre zone, aux dates ci-dessous. Un envoi est possible au cas par cas, après un échange téléphonique avec moi.",
+      text: `Un ${SAMPLE_OFFER}. Je l'expédie depuis la Provence sous 5 jours ouvrés. Si je passe dans votre zone, je peux aussi vous le remettre en main propre (${SAMPLE_PRICE}, sans frais de port).`,
       tourTitle: "Où je passe",
       tourNote: "Hors de ces zones, contactez-moi : j'étudie chaque demande.",
-      cta: "Demander un échantillon",
+      cta: "Commander l'échantillon",
+      ctaInPerson: "Le recevoir en main propre",
+      paying: "Redirection vers le paiement…",
+      error: "Le paiement n'a pas pu démarrer. Réessayez, ou contactez-moi au 07 82 16 27 08.",
+      tax: "Prix nets — TVA non applicable, art. 293 B du CGI",
     },
     preorder: {
       label: "Saison 2027",
@@ -299,7 +308,7 @@ export const fr = {
       tier: "Palier",
       total: "Total estimé",
       nextTierHint: "Pour {kg}, le total est de {total} : le palier suivant est plus avantageux.",
-      tastingInfo: "Je vous remets un pot de 30 g offert, en main propre, lors de mon passage dans votre zone. Indiquez votre ville et vos disponibilités.",
+      tastingInfo: `Je vous remets le pot de 30 g en main propre lors de mon passage dans votre zone (${SAMPLE_PRICE}, sans frais de port, déduits de votre première commande d'au moins 1 kg). Indiquez votre ville et vos disponibilités.`,
       message: "Message (facultatif)",
       messageQuotePlaceholder: "Fréquence, date souhaitée, questions…",
       messageTastingPlaceholder: "Usage prévu, questions…",
@@ -331,7 +340,7 @@ export const fr = {
         { q: "Quelles variétés vais-je recevoir ?", a: "Des morilles sauvages du Canada, variétés mélangées, séchées, entières et équeutées. L'offre professionnelle ne propose pas de tri par variété." },
         { q: "Comment le tarif dégressif est-il calculé ?", a: "Le prix au kilo dépend de la quantité totale commandée. Le palier atteint s'applique à toute la commande (voir le tableau des tarifs)." },
         { q: "Quel est le délai d'expédition ?", a: "Sous 5 jours ouvrés après confirmation de la commande, en colis suivi." },
-        { q: "Comment avoir un échantillon avant de commander ?", a: "Le pot de 30 g offert est remis en main propre : je passe dans votre zone, sans dates fixes (zones sur cette page). Remplissez l'onglet « Échantillon en main propre » avec votre ville et vos disponibilités. Hors de ces zones, contactez-moi : un envoi est possible au cas par cas, après un échange téléphonique avec moi." },
+        { q: "Comment avoir un échantillon avant de commander ?", a: `Commandez le pot de 30 g en ligne : ${SAMPLE_PRICE} + ${SAMPLE_SHIPPING} de port, expédié sous 5 jours ouvrés. Après le paiement, vous recevez par email un code qui déduit ${SAMPLE_PRICE} de votre première commande d'au moins 1 kg. Si je passe dans votre zone, je peux aussi vous le remettre en main propre (${SAMPLE_PRICE}, sans frais de port).` },
         { q: "Quelle quantité puis-je commander ?", a: `De 1 kg à ${MAX}, par tranche de 500 g, dans la limite du stock disponible en France.` },
         { q: "Sous quelle forme les morilles sont-elles livrées ?", a: "En sachets sous vide de 250 g : par exemple, 3 kg = 12 sachets de 250 g. Les épiceries fines peuvent les reconditionner sous leur marque." },
         { q: "Comment payer ?", a: `À la commande : par carte en ligne, pour la quantité de votre choix (de 1 kg à ${MAX}, pots en option), sur une page de paiement sécurisée Stripe ; ou par virement sur facture après devis. Le devis est confirmé sous 48 h ouvrées.` },

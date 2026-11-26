@@ -23,6 +23,9 @@ import { PREORDER_2027 } from "@/lib/preorder";
 import { POT_PRICE_CENTS, POT_SIZES_G } from "@/lib/potAllocation";
 import { tastingTourLines } from "@/lib/tasting";
 import { fitTitle } from "./site";
+import { PRO_SAMPLE_PRICE_CENTS, PRO_SAMPLE_SHIPPING_CENTS } from "@/lib/sample";
+const SAMPLE_PRICE = formatEurosLocale(PRO_SAMPLE_PRICE_CENTS, "fr");
+const SAMPLE_SHIPPING = formatEurosLocale(PRO_SAMPLE_SHIPPING_CENTS, "fr");
 
 export type ArticleBlock =
   | { type: "p"; text: string }
@@ -154,10 +157,10 @@ export const ARTICLES: readonly ArticleDef[] = [
       {
         id: "gouter",
         q: "Puis-je avoir un échantillon avant de commander ?",
-        answer: `Oui : un pot en verre de ${PRO_SAMPLE_GRAMS} g est offert et remis en main propre, quand Valérian passe dans votre zone. Hors de ces zones, contactez Valérian : il étudie chaque demande.`,
+        answer: `Oui : un pot en verre de ${PRO_SAMPLE_GRAMS} g, vendu ${SAMPLE_PRICE} plus ${SAMPLE_SHIPPING} de port, se commande en ligne sur la page Professionnels et part sous 5 jours ouvrés. Son prix est déduit de la première commande d'au moins 1 kg. Valérian peut aussi le remettre en main propre quand il passe dans votre zone (${SAMPLE_PRICE}, sans port).`,
         blocks: [
           { type: "ul", items: tastingLines },
-          { type: "p", text: "La demande se fait depuis l'onglet « Échantillon en main propre » de la page [Professionnels](/professionnels#degustation)." },
+          { type: "p", text: "Commande en ligne ou remise en main propre : tout se fait depuis la page [Professionnels](/professionnels#degustation)." },
         ],
       },
       {
@@ -472,7 +475,7 @@ export const ARTICLES: readonly ArticleDef[] = [
       {
         id: "gouter",
         q: "Peut-on avoir un échantillon avant de commander ?",
-        answer: `Oui : un pot en verre de ${PRO_SAMPLE_GRAMS} g est offert et remis en main propre, quand Valérian passe dans votre zone. Hors de ces zones, contactez Valérian : il étudie chaque demande.`,
+        answer: `Oui : un pot en verre de ${PRO_SAMPLE_GRAMS} g, vendu ${SAMPLE_PRICE} plus ${SAMPLE_SHIPPING} de port, se commande en ligne sur la page Professionnels et part sous 5 jours ouvrés. Son prix est déduit de la première commande d'au moins 1 kg. Valérian peut aussi le remettre en main propre quand il passe dans votre zone (${SAMPLE_PRICE}, sans port).`,
         blocks: [{ type: "ul", items: tastingLines }],
       },
       {
@@ -548,7 +551,7 @@ export const ARTICLES: readonly ArticleDef[] = [
       {
         id: "echantillon",
         q: "Puis-je avoir un échantillon avant de commander ?",
-        answer: `Oui : un pot en verre de ${PRO_SAMPLE_GRAMS} g est offert et remis en main propre, sur rendez-vous, quand Valérian passe dans votre zone. Hors de ces zones, contactez-le : il étudie chaque demande.`,
+        answer: `Oui : un pot en verre de ${PRO_SAMPLE_GRAMS} g, vendu ${SAMPLE_PRICE} plus ${SAMPLE_SHIPPING} de port, se commande en ligne sur la page Professionnels et part sous 5 jours ouvrés. Son prix est déduit de la première commande d'au moins 1 kg. Valérian peut aussi le remettre en main propre quand il passe dans votre zone (${SAMPLE_PRICE}, sans port).`,
         blocks: [
           { type: "ul", items: tastingLines },
           { type: "p", text: "Zones et conditions : [zones de passage](/zones-de-passage). Demande depuis la page [Professionnels](/professionnels#degustation)." },

@@ -15,3 +15,5 @@ project_id = "oeweykyazadobobjncfg"
     verify_jwt = false
   [functions.create-pro-checkout]
     verify_jwt = false
+  [functions.create-sample-checkout]
+    verify_jwt = false

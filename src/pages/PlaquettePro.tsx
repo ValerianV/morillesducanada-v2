@@ -27,6 +27,7 @@ import {
   formatTierPrice,
   quote,
 } from "@/lib/proPricing";
+import { sampleOfferText } from "@/lib/sample";
 
 // Plaquette professionnelle : lisible sur téléphone (une colonne), imprimable en A4 (une page par bloc).
 // Toutes les valeurs chiffrées viennent de proPricing, preorder et legal.
@@ -210,9 +211,9 @@ const PlaquettePro = () => (
 
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="bg-[#1a1612] text-[#f4efe4] rounded-sm p-5">
-              <Eyebrow light>Dégustation en main propre</Eyebrow>
+              <Eyebrow light>Échantillon de {PRO_SAMPLE_GRAMS} g</Eyebrow>
               <p className="text-base leading-relaxed">
-                Un pot en verre de {PRO_SAMPLE_GRAMS} g offert, remis en main propre lors de mon passage dans votre zone, pour juger sur pièce avant de commander. Envoi possible au cas par cas, après un échange téléphonique avec moi.
+                {sampleOfferText("fr")}. À commander en ligne sur la page Professionnels, expédié sous 5 jours ouvrés, ou remis en main propre lors de mon passage dans votre zone.
               </p>
             </div>
             <div className="bg-[#1a1612] text-[#f4efe4] rounded-sm p-5">
@@ -295,11 +296,11 @@ const PlaquettePro = () => (
     <nav aria-label="Pour aller plus loin" className="mx-auto max-w-[210mm] px-5 pb-10 text-base text-[#1a1612] print:hidden">
       <p className="font-medium mb-2">Pour aller plus loin</p>
       <ul className="space-y-1.5">
-        <li><Link to="/professionnels#devis" className="underline underline-offset-4 hover:text-[#8a6a1c]">Demander un devis ou un échantillon</Link></li>
+        <li><Link to="/professionnels#devis" className="underline underline-offset-4 hover:text-[#8a6a1c]">Demander un devis ou commander un échantillon</Link></li>
         <li><Link to="/fiche-technique" className="underline underline-offset-4 hover:text-[#8a6a1c]">Fiche technique du produit</Link></li>
         <li><Link to="/prix-morilles-sechees-kilo-professionnels" className="underline underline-offset-4 hover:text-[#8a6a1c]">Prix des morilles séchées au kilo</Link></li>
         <li><Link to="/morilles-sechees-traiteurs" className="underline underline-offset-4 hover:text-[#8a6a1c]">Morilles séchées pour traiteurs</Link></li>
-        <li><Link to="/zones-de-passage" className="underline underline-offset-4 hover:text-[#8a6a1c]">Zones de passage pour l'échantillon</Link></li>
+        <li><Link to="/zones-de-passage" className="underline underline-offset-4 hover:text-[#8a6a1c]">Zones de passage</Link></li>
         <li><Link to="/valerian-vilane" className="underline underline-offset-4 hover:text-[#8a6a1c]">Valérian Vilane, fondateur</Link></li>
       </ul>
     </nav>

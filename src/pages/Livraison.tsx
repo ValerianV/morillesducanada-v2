@@ -3,6 +3,7 @@ import LegalPage from "@/components/LegalPage";
 import { EDITEUR } from "@/lib/legal";
 import { PREORDER_2027 } from "@/lib/preorder";
 import { PRO_PACK_GRAMS, PRO_SHIPPING_BUSINESS_DAYS } from "@/lib/proPricing";
+import { sampleOfferText } from "@/lib/sample";
 
 // Livraison des commandes professionnelles : France uniquement, port inclus.
 const Livraison = () => (
@@ -35,7 +36,7 @@ const Livraison = () => (
       <p>
         Les morilles sont livrées en <strong>sachets sous vide de {PRO_PACK_GRAMS} g</strong> : par exemple, 3 kg = 12
         sachets. Produit sec, sans chaîne du froid.
-        L'échantillon offert (pot en verre de 30 g) est remis en main propre lors d'une dégustation ; un envoi est possible au cas par cas, après un échange téléphonique avec moi.
+        L'échantillon (pot en verre de 30 g) se commande en ligne : {sampleOfferText("fr").replace(/^Pot de 30 g à /, "")}.
       </p>
     </section>
 

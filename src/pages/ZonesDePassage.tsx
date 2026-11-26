@@ -5,14 +5,15 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { breadcrumbSchema, webPageSchema } from "@/lib/seo/schema";
 import { EDITEUR } from "@/lib/legal";
-import { PRO_SAMPLE_GRAMS } from "@/lib/proPricing";
+import { PRO_SAMPLE_GRAMS, formatEurosLocale } from "@/lib/proPricing";
 import { TASTING_TOUR } from "@/lib/tasting";
+import { PRO_SAMPLE_PRICE_CENTS, sampleOfferText } from "@/lib/sample";
 
 // Zones et dates de passage (audit SEO d'octobre 2026, contenu C5). Les zones et les périodes viennent de
 // TASTING_TOUR (supabase/functions/_shared/tasting.ts) : une seule source pour le site, les emails et llms.txt.
 const PATH = "/zones-de-passage";
 const TITLE = "Zones de passage et échantillon de morilles séchées";
-const DESCRIPTION = `Où je remets en main propre un échantillon de ${PRO_SAMPLE_GRAMS} g de morilles aux professionnels : ${TASTING_TOUR.map((stop) => stop.zone.fr).join(", ")}.`;
+const DESCRIPTION = `Où je remets en main propre l'échantillon de ${PRO_SAMPLE_GRAMS} g de morilles aux professionnels (${formatEurosLocale(PRO_SAMPLE_PRICE_CENTS)}, déduits dès 1 kg commandé) : ${TASTING_TOUR.map((stop) => stop.zone.fr).join(", ")}.`;
 const DATE_MODIFIED = "2026-11-26";
 const LINK = "text-primary hover:text-gold-light underline underline-offset-4";
 
@@ -39,8 +40,9 @@ const ZonesDePassage = () => (
           <p className="text-sm tracking-[0.25em] uppercase text-primary mb-4">Échantillon en main propre</p>
           <h1 className="font-serif text-4xl md:text-5xl font-light leading-tight mb-6">Zones de passage pour l'échantillon de {PRO_SAMPLE_GRAMS} g</h1>
           <p className="text-xl text-foreground leading-relaxed">
-            Quand je passe dans votre zone, je vous remets en main propre un pot en verre refermable de {PRO_SAMPLE_GRAMS} g de mes morilles, offert,
-            pour juger sur pièce avant de commander. C'est réservé aux professionnels, et il faut convenir d'un rendez-vous.
+            Quand je passe dans votre zone, je vous remets en main propre un pot en verre refermable de {PRO_SAMPLE_GRAMS} g de mes morilles,
+            à {formatEurosLocale(PRO_SAMPLE_PRICE_CENTS)} sans frais de port, déduits de votre première commande d'au moins 1 kg. C'est réservé aux
+            professionnels, et il faut convenir d'un rendez-vous.
           </p>
         </header>
 
@@ -68,7 +70,7 @@ const ZonesDePassage = () => (
             </table>
           </div>
           <p className="mt-4 text-lg text-foreground/85 leading-relaxed">
-            Hors de ces zones, contactez-moi : j'étudie chaque demande. Un envoi reste possible au cas par cas, après un échange téléphonique avec moi.
+            Hors de ces zones, commandez l'échantillon en ligne ({sampleOfferText("fr").replace(/^Pot/, "pot")}), expédié sous 5 jours ouvrés.
           </p>
         </section>
 
@@ -83,7 +85,10 @@ const ZonesDePassage = () => (
               : SIRET, ville, code postal et vos disponibilités.
             </li>
             <li>Je vous recontacte pour convenir d'un rendez-vous, avant toute visite.</li>
-            <li>Je vous remets le pot de {PRO_SAMPLE_GRAMS} g en main propre, lors de mon passage.</li>
+            <li>
+              Je vous remets le pot de {PRO_SAMPLE_GRAMS} g en main propre, lors de mon passage. Vous le réglez{" "}
+              {formatEurosLocale(PRO_SAMPLE_PRICE_CENTS)}, et ce montant est déduit de votre première commande d'au moins 1 kg.
+            </li>
           </ol>
         </section>
 
