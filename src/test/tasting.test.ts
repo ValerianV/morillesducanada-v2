@@ -2,18 +2,17 @@ import { describe, it, expect } from "vitest";
 import { TASTING_TOUR, tastingTourLines } from "@/lib/tasting";
 
 describe("calendrier des dégustations en main propre", () => {
-  it("couvre Avignon et Provence, Chamonix et Mont-Blanc, puis la Maurienne", () => {
-    expect(TASTING_TOUR.map((s) => s.id)).toEqual(["provence", "mont-blanc", "maurienne"]);
-    expect(TASTING_TOUR[0].period.fr).toContain("7 novembre 2026");
-    expect(TASTING_TOUR[1].period.fr).toContain("8 novembre 2026");
-    expect(TASTING_TOUR[2].places?.fr).toBe("Val Cenis, Valloire");
-    expect(TASTING_TOUR[2].period.fr).toContain("décembre");
+  it("stations des Alpes cet hiver, sans dates fixes ni stations précises (2026-11-26)", () => {
+    expect(TASTING_TOUR.map((s) => s.id)).toEqual(["alpes"]);
+    expect(TASTING_TOUR[0].period.fr).toContain("sans dates fixes");
+    expect(TASTING_TOUR[0].places).toBeUndefined();
+    expect(TASTING_TOUR[0].from).toBeNull();
+    expect(TASTING_TOUR[0].to).toBeNull();
   });
 
-  it("les périodes se suivent sans chevauchement", () => {
-    expect(TASTING_TOUR[0].to).toBe("2026-11-07");
-    expect(TASTING_TOUR[1].from).toBe("2026-11-08");
-    expect(TASTING_TOUR[2].from! > TASTING_TOUR[1].from!).toBe(true);
+  it("ne promet plus Chamonix ni la Maurienne", () => {
+    const all = [...tastingTourLines("fr"), ...tastingTourLines("en")].join(" ");
+    expect(all).not.toMatch(/Chamonix|Mont-Blanc|Maurienne|Val Cenis|Valloire|novembre|décembre|November|December/);
   });
 
   it("chaque zone a un libellé FR et EN", () => {

@@ -173,9 +173,9 @@ describe("emails", () => {
     expect(mail.text).toContain("30 g");
     expect(mail.text).toContain("en main propre");
     expect(mail.text).toContain("Mardi après-midi");
-    expect(mail.text).toContain("Avignon et Provence");
-    expect(mail.text).toContain("Chamonix et Mont-Blanc");
-    expect(mail.text).toContain("Maurienne");
+    expect(mail.text).toContain("Stations des Alpes");
+    expect(mail.text).toContain("sans dates fixes");
+    expect(mail.text).not.toMatch(/Chamonix|Maurienne/);
     expect(mail.html).toContain("Où Valérian passe");
     expect(`${mail.subject} ${mail.text} ${mail.html}`).not.toMatch(/confirmer l'envoi|vous envoyons|envoyé à l'adresse/i);
     expect(mail.text).toContain("au cas par cas");
@@ -188,7 +188,7 @@ describe("emails", () => {
     expect(mail.subject).toBe("Your sample request — Morilles du Canada");
     expect(mail.text).toContain("30 g");
     expect(mail.text).toContain("in person");
-    expect(mail.text).toContain("Chamonix and Mont-Blanc");
+    expect(mail.text).toContain("Alpine resorts");
   });
 
   it("alerte admin de la dégustation : disponibilités, pas d'adresse de livraison", () => {

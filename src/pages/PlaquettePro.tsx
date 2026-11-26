@@ -299,7 +299,7 @@ const PlaquettePro = () => (
         <li><Link to="/fiche-technique" className="underline underline-offset-4 hover:text-[#8a6a1c]">Fiche technique du produit</Link></li>
         <li><Link to="/prix-morilles-sechees-kilo-professionnels" className="underline underline-offset-4 hover:text-[#8a6a1c]">Prix des morilles séchées au kilo</Link></li>
         <li><Link to="/morilles-sechees-traiteurs" className="underline underline-offset-4 hover:text-[#8a6a1c]">Morilles séchées pour traiteurs</Link></li>
-        <li><Link to="/zones-de-passage" className="underline underline-offset-4 hover:text-[#8a6a1c]">Zones et dates de passage pour l'échantillon</Link></li>
+        <li><Link to="/zones-de-passage" className="underline underline-offset-4 hover:text-[#8a6a1c]">Zones de passage pour l'échantillon</Link></li>
         <li><Link to="/valerian-vilane" className="underline underline-offset-4 hover:text-[#8a6a1c]">Valérian Vilane, fondateur</Link></li>
       </ul>
     </nav>

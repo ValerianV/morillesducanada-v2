@@ -18,28 +18,18 @@ export interface TastingStop {
   to: string | null;
 }
 
+// 2026-11-26 : Valérian a quitté Chamonix et circule entre les stations des Alpes cet hiver, sans dates fixes ;
+// les expéditions partent de Provence. Ne plus afficher de dates ni de stations précises sans accord du fondateur.
 export const TASTING_TOUR: readonly TastingStop[] = [
   {
-    id: "provence",
-    zone: { fr: "Avignon et Provence", en: "Avignon and Provence" },
-    period: { fr: "jusqu'au 7 novembre 2026", en: "until 7 November 2026" },
+    id: "alpes",
+    zone: { fr: "Stations des Alpes", en: "Alpine resorts" },
+    period: {
+      fr: "cet hiver, sans dates fixes : je vous préviens quand je passe près de chez vous",
+      en: "this winter, no fixed dates: I let you know when I am near you",
+    },
     from: null,
-    to: "2026-11-07",
-  },
-  {
-    id: "mont-blanc",
-    zone: { fr: "Chamonix et Mont-Blanc", en: "Chamonix and Mont-Blanc" },
-    period: { fr: "à partir du 8 novembre 2026", en: "from 8 November 2026" },
-    from: "2026-11-08",
     to: null,
-  },
-  {
-    id: "maurienne",
-    zone: { fr: "Maurienne", en: "Maurienne" },
-    places: { fr: "Val Cenis, Valloire", en: "Val Cenis, Valloire" },
-    period: { fr: "en décembre 2026", en: "in December 2026" },
-    from: "2026-12-01",
-    to: "2026-12-31",
   },
 ];
 

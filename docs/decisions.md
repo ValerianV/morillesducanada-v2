@@ -4,6 +4,14 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-11-26 — Dégustation : plus de dates ni de stations fixes
+
+- Le fondateur a quitté Chamonix ; cet hiver, il circule entre les stations des Alpes sans dates fixes et expédie
+  depuis la Provence. Le site n'annonce plus « Chamonix à partir du 8 novembre » ni « Maurienne en décembre ».
+- Nouveau texte (`TASTING_TOUR`) : « Stations des Alpes : cet hiver, sans dates fixes : je vous préviens quand je passe
+  près de chez vous ». Repris par la page pros, /zones-de-passage, les emails d'accusé de réception et llms.txt.
+- Les 10 kg de Mika sont confirmés : le stock affiché reste 23 kg.
+
 ## 2026-11-26 — Stock réel affiché sur le site
 
 - Décision du fondateur : le site affiche le stock restant pour créer de l'urgence (« Plus que 23 kg disponibles

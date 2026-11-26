@@ -145,7 +145,7 @@ const Fondateur = () => (
               </Link>
               . Pour voir le produit avant de commander, je passe sur rendez-vous vous remettre un pot : voir les{" "}
               <Link to="/zones-de-passage" className={LINK}>
-                zones et dates de passage
+                zones de passage
               </Link>
               , où je remets un pot de 30 g en main propre.
             </p>

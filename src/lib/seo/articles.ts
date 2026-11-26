@@ -551,7 +551,7 @@ export const ARTICLES: readonly ArticleDef[] = [
         answer: `Oui : un pot en verre de ${PRO_SAMPLE_GRAMS} g est offert et remis en main propre, sur rendez-vous, quand Valérian passe dans votre zone. Hors de ces zones, contactez-le : il étudie chaque demande.`,
         blocks: [
           { type: "ul", items: tastingLines },
-          { type: "p", text: "Calendrier et conditions : [zones et dates de passage](/zones-de-passage). Demande depuis la page [Professionnels](/professionnels#degustation)." },
+          { type: "p", text: "Zones et conditions : [zones de passage](/zones-de-passage). Demande depuis la page [Professionnels](/professionnels#degustation)." },
         ],
       },
       {
@@ -586,7 +586,7 @@ export const CONTENT_LINK_LABELS: Record<string, string> = {
   "/morilles-sechees-epicerie-fine": "Morilles séchées pour épiceries fines",
   "/morilles-sechees-traiteurs": "Morilles séchées pour traiteurs",
   "/valerian-vilane": "Valérian Vilane, fondateur",
-  "/zones-de-passage": "Zones et dates de passage",
+  "/zones-de-passage": "Zones de passage",
   "/guide-morilles-de-feu": "Guide de la morille de feu",
   "/recettes": "Recettes aux morilles",
   "/professionnels": "Tarifs et devis",

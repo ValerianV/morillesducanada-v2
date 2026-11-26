@@ -311,8 +311,8 @@ describe("page /professionnels", () => {
     fireEvent.click(tab);
     await waitFor(() => expect(screen.getByLabelText(/Vos disponibilités/)).toBeInTheDocument());
     expect(screen.queryByLabelText(/Adresse de livraison/)).not.toBeInTheDocument();
-    expect(screen.getAllByText("Avignon et Provence").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Chamonix et Mont-Blanc").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Stations des Alpes").length).toBeGreaterThan(0);
+    expect(screen.queryByText(/Chamonix/)).not.toBeInTheDocument();
     fillCommon();
     fireEvent.click(submitButton("Demander mon échantillon"));
     expect(invoke).not.toHaveBeenCalled();

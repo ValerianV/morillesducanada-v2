@@ -86,9 +86,9 @@ l'identité de plusieurs établissements pour obtenir plusieurs échantillons pa
 
 - Demande : onglet « Échantillon en main propre » de `/professionnels` (SIRET, ville, code postal, disponibilités ;
   plus d'adresse de livraison). Valérian recontacte le prospect pour convenir d'un rendez-vous.
-- Calendrier 2026 (constante `TASTING_TOUR` dans `supabase/functions/_shared/tasting.ts`, à modifier à cet endroit) :
-  **Avignon et Provence jusqu'au 7 novembre** ; **Chamonix et Mont-Blanc à partir du 8 novembre** ;
-  **Maurienne (Val Cenis, Valloire) en décembre**. Hors de ces zones : « contactez-nous, nous étudions chaque demande ».
+- Zones de passage (constante `TASTING_TOUR` dans `supabase/functions/_shared/tasting.ts`, à modifier à cet endroit) :
+  depuis le 2026-11-26, **stations des Alpes cet hiver, sans dates fixes** (le fondateur prévient le prospect quand il
+  passe près de chez lui). Plus de dates ni de stations précises. Expéditions depuis la Provence. Hors de ces zones : « contactez-nous, nous étudions chaque demande ».
 - Après modification du calendrier : `llms.txt` et `llms-full.txt` (générés au build) suivent automatiquement ; reporter à la main dans la plaquette pro si besoin.
 - Les pots de 12, 30 et 45 g (en verre, refermables) servent aussi à l'option pots (livrés vides, voir plus haut).
 

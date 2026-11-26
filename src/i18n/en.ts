@@ -244,7 +244,7 @@ export const en = {
       label: "Sample",
       title: "Judge for yourself before you order",
       text: "The free 30 g jar is handed over in person when I visit your area, on the dates below. Shipping is possible case by case, after a phone call with me.",
-      tourTitle: "Where and when I visit",
+      tourTitle: "Where I visit",
       tourNote: "Outside these areas, contact me: I look at each request.",
       cta: "Request a sample",
     },
