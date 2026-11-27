@@ -14,7 +14,8 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
   et l'envoie par email. `create-pro-checkout` accepte les codes. Sur devis : déduire les 20 € de la facture.
 - La remise en main propre reste possible lors d'un passage (20 €, sans port). L'envoi postal, autrefois interdit à cause
   du risque d'usurpation d'identité pour obtenir des échantillons gratuits, est ouvert puisque l'échantillon est payé.
-- Montant du port : 6,90 €, tarif France déjà créé dans Stripe (le fondateur dit que le port figure sur la fiche Stripe de l'échantillon ; à confirmer, constante `PRO_SAMPLE_SHIPPING_CENTS` dans `_shared/sample.ts`).
+- Montant du port : 6,90 €, le tarif déjà facturé dans Stripe pour le pot de 30 g (vérifié le 2026-11-27 sur une session payée).
+- Lien de paiement Stripe créé le 2026-11-27 pour l'envoi direct : https://buy.stripe.com/14A4gzc3X7Oba0f3hmbQY06 (aucun ancien lien d'échantillon n'existait).
 - 2026-11-27 : deux moyens de paiement proposés partout, Stripe (simple et rapide) et virement sur facture (sans commission).
 
 ## 2026-11-26 — Dégustation : plus de Chamonix, Maurienne en décembre

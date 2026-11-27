@@ -79,7 +79,7 @@ Réclamation transport : sous 48 h à réception.
 ## Échantillon : 20 € + port, déduit dès 1 kg (décision du 2026-11-26)
 
 Un **pot en verre de 30 g**, refermable, **vendu 20 €** plus **les frais de port** (montant dans
-`supabase/functions/_shared/sample.ts`, constante `PRO_SAMPLE_SHIPPING_CENTS`). Il n'est **plus offert**.
+`supabase/functions/_shared/sample.ts`, constante `PRO_SAMPLE_SHIPPING_CENTS` : **6,90 €**, tarif Stripe existant). Il n'est **plus offert**.
 Pour une commande d'**au moins 1 kg**, le prix de l'échantillon (20 €) est **déduit** (geste commercial) :
 
 - **Commande en ligne** : bouton « Commander l'échantillon » sur `/professionnels` (Stripe, société et SIRET obligatoires,
@@ -87,6 +87,7 @@ Pour une commande d'**au moins 1 kg**, le prix de l'échantillon (20 €) est **
   (format `ECH-XXXXXX`) de 20 €, valable 365 jours, utilisable sur une commande en ligne d'au moins 1 kg.
 - **Par virement** (pas de commission Stripe, décision du 2026-11-27) : l'échantillon comme les commandes au kilo peuvent être réglés sur facture. Le site propose les deux : Stripe pour la simplicité, le virement pour la rentabilité.
 - **Commande sur devis ou par virement** : déduire 20 € de la facture si le client a acheté l'échantillon.
+- **Lien de paiement Stripe** à envoyer directement (email, WhatsApp) : https://buy.stripe.com/14A4gzc3X7Oba0f3hmbQY06 (20 € + 6,90 €, société et SIRET obligatoires ; même code de déduction envoyé automatiquement).
 - **En main propre** lors d'un passage : 20 €, sans frais de port, déduits de la même façon.
 
 L'ancien interdit d'envoi postal (risque d'usurpation pour obtenir des échantillons gratuits) tombe, puisque l'échantillon est payé.

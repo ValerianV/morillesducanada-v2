@@ -6,9 +6,12 @@ import { PRO_SAMPLE_GRAMS, PRO_TIERS, formatEurosLocale } from "./proPricing.ts"
 
 export const SAMPLE_ORDER_TYPE = "pro_sample";
 export const PRO_SAMPLE_PRICE_CENTS = 2000;
-// Frais de port de l'échantillon (France) : tarif France déjà créé dans Stripe (6,90 €), à confirmer par le fondateur.
+// Frais de port de l'échantillon (France) : 6,90 €, le tarif déjà utilisé dans Stripe pour le pot de 30 g.
 export const PRO_SAMPLE_SHIPPING_CENTS = 690;
 export const PRO_SAMPLE_TOTAL_CENTS = PRO_SAMPLE_PRICE_CENTS + PRO_SAMPLE_SHIPPING_CENTS;
+// Lien de paiement Stripe (20 € + 6,90 €, société et SIRET), pour un envoi direct par email ou WhatsApp.
+// Ses métadonnées (type pro_sample) passent à la session : stripe-webhook crée aussi le code de déduction.
+export const PRO_SAMPLE_PAYMENT_LINK = "https://buy.stripe.com/14A4gzc3X7Oba0f3hmbQY06";
 // Le prix de l'échantillon est déduit d'une commande d'au moins 1 kg.
 export const PRO_SAMPLE_CREDIT_MIN_KG = 1;
 // Montant minimum de commande pour le code (Stripe) : le prix de 1 kg au premier palier.
