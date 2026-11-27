@@ -225,7 +225,7 @@ export const fr = {
       label: "Mon histoire",
       title: "Une morille sauvage, cueillie après le feu",
       p1: "Fondateur de Morilles du Canada, j'ai cueilli moi-même des morilles de feu pendant trois saisons, en 2022, 2023 et 2024, en Colombie-Britannique et au Yukon, sur des forêts brûlées l'année précédente.",
-      p2: "Il travaille aujourd'hui avec un réseau de cueilleurs sur les feux de forêt canadiens, qui sèchent les morilles sur place. Le stock est en France. C'est cette histoire que vous pouvez raconter à vos clients : une morille sauvage, cueillie à la main, qui n'a rien à voir avec la morille de culture.",
+      p2: "Je travaille aujourd'hui avec un réseau de cueilleurs sur les feux de forêt canadiens, qui sèchent les morilles sur place. Le stock est en France. C'est cette histoire que vous pouvez raconter à vos clients : une morille sauvage, cueillie à la main, qui n'a rien à voir avec la morille de culture.",
     },
     stemless: {
       label: "Équeutées",
@@ -348,7 +348,7 @@ export const fr = {
         { q: "Proposez-vous des pots ?", a: "Oui, en option : des pots en verre vides de 12, 30 et 45 g, refermables et sans étiquette, à 1,50 € le pot (prix net). Ils sont livrés à part des sachets sous vide de 250 g ; vous les remplissez et les étiquetez vous-même. À la commande en ligne, indiquez les formats voulus : le calcul complète un format avec la quantité restante, et le reste de moins d'un pot est livré en vrac." },
         { q: "Où acheter des morilles séchées pour mon restaurant ?", a: `Morilles du Canada vend des morilles de feu sauvages du Canada, séchées, entières et équeutées, aux restaurants, épiceries fines, traiteurs et distributeurs, de 1 kg à ${MAX}, en ligne ou sur devis (SIRET demandé). Le stock est en France, expédition sous 5 jours ouvrés, port inclus.` },
         { q: "Quel est le prix des morilles séchées au kilo pour un professionnel ?", a: "Prix nets, TVA non applicable (art. 293 B du CGI) : 350 €/kg pour 1 kg, 330 €/kg à partir de 3 kg, 310 €/kg à partir de 5 kg et 290 €/kg à partir de 10 kg, port inclus en France. Le prix du palier atteint s'applique à toute la quantité." },
-        { q: "D'où viennent les morilles ?", a: "Du Canada (Colombie-Britannique et Yukon) : elles sont cueillies à la main au printemps sur des forêts brûlées l'année précédente, puis séchées sur place par un réseau de cueilleurs. Valérian, le fondateur, y a cueilli lui-même pendant trois saisons (2022, 2023 et 2024). Le stock est en France." },
+        { q: "D'où viennent les morilles ?", a: "Du Canada (Colombie-Britannique et Yukon) : elles sont cueillies à la main au printemps sur des forêts brûlées l'année précédente, puis séchées sur place par un réseau de cueilleurs. J'y ai cueilli moi-même pendant trois saisons (2022, 2023 et 2024). Le stock est en France." },
         { q: "Livrez-vous hors de France ?", a: "Non. La livraison se fait en France uniquement, port inclus." },
         { q: "Peut-on précommander la saison 2027 ?", a: "Oui, pour les professionnels : 300 €/kg, acompte de 50 % à la commande, de 1 à 15 kg. Livraison garantie en octobre 2027, en France, port inclus ; l'acompte est intégralement remboursé s'il m'est impossible de fournir." },
         { q: "Vendez-vous aux particuliers ?", a: "Non. La vente est réservée aux professionnels (restaurants, épiceries fines, traiteurs, distributeurs), et le SIRET est demandé à la commande." },

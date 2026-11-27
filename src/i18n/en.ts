@@ -225,7 +225,7 @@ export const en = {
       label: "My story",
       title: "A wild morel, picked after the fire",
       p1: "As the founder of Morilles du Canada, I picked fire morels myself for three seasons, in 2022, 2023 and 2024, in British Columbia and the Yukon, in forests burned the year before.",
-      p2: "Today he works with a network of pickers on Canadian wildfires, who dry the morels on site. The stock is in France. This is the story you can tell your customers: a wild morel, picked by hand, nothing like a cultivated one.",
+      p2: "Today I work with a network of pickers on Canadian wildfires, who dry the morels on site. The stock is in France. This is the story you can tell your customers: a wild morel, picked by hand, nothing like a cultivated one.",
     },
     stemless: {
       label: "Stemless",
@@ -348,7 +348,7 @@ export const en = {
         { q: "Do you offer jars?", a: "Yes, as an option: empty 12, 30 and 45 g glass jars, resealable and unlabelled, at €1.50 per jar (net price). They are shipped separately from the 250 g vacuum bags; you fill and label them yourself. When ordering online, choose the sizes you want: one size is filled automatically with the remaining quantity, and anything less than one jar is delivered loose." },
         { q: "Where can I buy dried morels for my restaurant?", a: `Morilles du Canada sells wild fire morels from Canada, dried, whole and destemmed, to restaurants, delicatessens, caterers and distributors, from 1 kg to ${MAX}, online or on quote (SIRET number required). Stock is in France, shipped within 5 business days, shipping included.` },
         { q: "What is the price of dried morels per kilo for professionals?", a: "Net prices, VAT not applicable (art. 293 B of the French Tax Code): €350/kg for 1 kg, €330/kg from 3 kg, €310/kg from 5 kg and €290/kg from 10 kg, shipping included in France. The price tier reached applies to the whole quantity." },
-        { q: "Where do the morels come from?", a: "From Canada (British Columbia and Yukon): they are hand-picked in spring in forests burned the year before, then dried on site by a network of pickers. Valérian, the founder, picked there himself for three seasons (2022, 2023 and 2024). Stock is in France." },
+        { q: "Where do the morels come from?", a: "From Canada (British Columbia and Yukon): they are hand-picked in spring in forests burned the year before, then dried on site by a network of pickers. I picked there myself for three seasons (2022, 2023 and 2024). Stock is in France." },
         { q: "Do you deliver outside France?", a: "No. Delivery is within France only, shipping included." },
         { q: "Can I pre-order the 2027 season?", a: "Yes, for professionals: €300/kg, 50% deposit when you order, 1 to 15 kg. Delivery guaranteed in October 2027, within France, shipping included; the deposit is refunded in full if I am unable to supply." },
         { q: "Do you sell to private customers?", a: "No. Sales are reserved for professionals (restaurants, delicatessens, caterers, distributors), and the SIRET number is required when ordering." },

@@ -104,10 +104,10 @@ const GuideMorellesDeFeu = () => {
               </div>
               <div className="prose prose-lg text-foreground/85 leading-relaxed space-y-4">
                 <p>
-                  Valérian, fondateur de Morilles du Canada, a cueilli lui-même des morilles de feu pendant <strong>trois saisons</strong>, en 2022, 2023 et 2024, en Colombie-Britannique et au Yukon, sur des forêts brûlées l'année précédente.
+                  Fondateur de Morilles du Canada, j'ai cueilli moi-même des morilles de feu pendant <strong>trois saisons</strong>, en 2022, 2023 et 2024, en Colombie-Britannique et au Yukon, sur des forêts brûlées l'année précédente.
                 </p>
                 <p>
-                  Il travaille aujourd'hui avec un <strong>réseau de cueilleurs</strong> sur les feux de forêt canadiens, qui sèchent les morilles sur place. Le stock est en France, d'où les commandes sont expédiées sous 5 jours ouvrés.
+                  Je travaille aujourd'hui avec un <strong>réseau de cueilleurs</strong> sur les feux de forêt canadiens, qui sèchent les morilles sur place. Le stock est en France, d'où les commandes sont expédiées sous 5 jours ouvrés.
                 </p>
               </div>
             </section>
