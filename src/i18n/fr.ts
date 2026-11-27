@@ -1,5 +1,6 @@
 import { PRO_MAX_KG, PRO_STOCK_KG, formatEurosLocale, formatKg } from "../../supabase/functions/_shared/proPricing";
 import { PRO_SAMPLE_PRICE_CENTS, PRO_SAMPLE_SHIPPING_CENTS } from "../../supabase/functions/_shared/sample";
+import { preorderPriceSummary } from "../../supabase/functions/_shared/catalog";
 
 // Stock de référence et quantité maximale : source unique dans _shared/proPricing.ts.
 const MAX = formatKg(PRO_MAX_KG, "fr");
@@ -7,6 +8,8 @@ const STOCK = formatKg(PRO_STOCK_KG, "fr");
 // Échantillon payant : source unique dans _shared/sample.ts.
 const SAMPLE_PRICE = formatEurosLocale(PRO_SAMPLE_PRICE_CENTS, "fr");
 const SAMPLE_SHIPPING = formatEurosLocale(PRO_SAMPLE_SHIPPING_CENTS, "fr");
+// Précommande : même grille que la vente au kilo (source unique dans _shared/catalog.ts).
+const PREORDER_PRICES = preorderPriceSummary("fr");
 const SAMPLE_OFFER = `pot de 30 g à ${SAMPLE_PRICE} + ${SAMPLE_SHIPPING} de port, déduits de votre première commande d'au moins 1 kg`;
 
 export const fr = {
@@ -96,7 +99,7 @@ export const fr = {
     sampleTitle: "Échantillon de 30 g",
     sampleText: `Un ${SAMPLE_OFFER}, pour juger sur pièce avant de commander.`,
     preorderTitle: "Saison 2027",
-    preorderText: "Précommande réservée aux professionnels : 300 €/kg, acompte de 50 %, livraison garantie en octobre 2027, port inclus en France.",
+    preorderText: `Précommande réservée aux professionnels, à la grille au kilo (${PREORDER_PRICES}), acompte de 50 %, livraison garantie en octobre 2027, port inclus en France.`,
     preorderCta: "Précommander",
     ctaQuote: "Demander un devis",
     ctaPrices: "Toutes les conditions",
@@ -261,7 +264,7 @@ export const fr = {
     preorder: {
       label: "Saison 2027",
       title: "Précommandez la saison 2027",
-      text: "Réservée aux professionnels : 300 €/kg, acompte de 50 % à la commande, de 1 à 15 kg. Livraison garantie en octobre 2027, en France, port inclus ; acompte intégralement remboursé s'il m'est impossible de fournir.",
+      text: `Réservée aux professionnels, à la grille au kilo (${PREORDER_PRICES}), acompte de 50 % à la commande, de 1 à 15 kg. Livraison garantie en octobre 2027, en France, port inclus ; acompte intégralement remboursé s'il m'est impossible de fournir.`,
       cta: "Précommander",
     },
     conditions: {
@@ -350,7 +353,7 @@ export const fr = {
         { q: "Quel est le prix des morilles séchées au kilo pour un professionnel ?", a: "Prix nets, TVA non applicable (art. 293 B du CGI) : 350 €/kg pour 1 kg, 330 €/kg à partir de 3 kg, 310 €/kg à partir de 5 kg et 290 €/kg à partir de 10 kg, port inclus en France. Le prix du palier atteint s'applique à toute la quantité." },
         { q: "D'où viennent les morilles ?", a: "Du Canada (Colombie-Britannique et Yukon) : elles sont cueillies à la main au printemps sur des forêts brûlées l'année précédente, puis séchées sur place par un réseau de cueilleurs. J'y ai cueilli moi-même pendant trois saisons (2022, 2023 et 2024). Le stock est en France." },
         { q: "Livrez-vous hors de France ?", a: "Non. La livraison se fait en France uniquement, port inclus." },
-        { q: "Peut-on précommander la saison 2027 ?", a: "Oui, pour les professionnels : 300 €/kg, acompte de 50 % à la commande, de 1 à 15 kg. Livraison garantie en octobre 2027, en France, port inclus ; l'acompte est intégralement remboursé s'il m'est impossible de fournir." },
+        { q: "Peut-on précommander la saison 2027 ?", a: `Oui, pour les professionnels, à la même grille que la vente au kilo (${PREORDER_PRICES}), acompte de 50 % à la commande, de 1 à 15 kg. Livraison garantie en octobre 2027, en France, port inclus ; l'acompte est intégralement remboursé s'il m'est impossible de fournir.` },
         { q: "Vendez-vous aux particuliers ?", a: "Non. La vente est réservée aux professionnels (restaurants, épiceries fines, traiteurs, distributeurs), et le SIRET est demandé à la commande." },
       ],
     },
@@ -391,15 +394,15 @@ export const fr = {
   },
   preorder: {
     metaTitle: "Précommande de morilles, saison 2027 | Morilles du Canada",
-    metaDescription: "Professionnels : précommandez des morilles sauvages du Canada, saison 2027. 300 €/kg net, acompte de 50 %, de 1 à 15 kg, livraison en octobre 2027.",
+    metaDescription: "Professionnels : précommandez des morilles sauvages du Canada, saison 2027. Dès 290 €/kg, acompte de 50 %, de 1 à 15 kg, livraison en octobre 2027.",
     label: "Saison 2027",
     title: "Précommande",
     titleHighlight: "saison 2027",
     intro: "Réservez dès maintenant vos morilles sauvages du Canada de la prochaine saison. Elles seront cueillies au printemps 2027 sur des forêts brûlées l'année précédente, séchées sur place, puis livrées en octobre 2027. Précommande réservée aux professionnels : société et SIRET sont demandés au paiement.",
     termsTitle: "Conditions de la précommande",
     terms: [
-      { title: "Prix", text: "300 €/kg, prix net." },
-      { title: "Acompte", text: "50 % à la commande, soit 150 € par kilo, payé en ligne." },
+      { title: "Prix", text: `La grille de la vente au kilo, prix nets appliqués à toute la quantité : ${PREORDER_PRICES}.` },
+      { title: "Acompte", text: "50 % du montant à la commande, payé en ligne." },
       { title: "Solde", text: "Les 50 % restants sont facturés avant l'expédition." },
       { title: "Livraison", text: "Garantie en octobre 2027, en France, port inclus, en sachets sous vide de 250 g." },
       { title: "Clients", text: "Réservée aux professionnels, SIRET obligatoire." },

@@ -9,7 +9,7 @@ import productVacuumBag from "@/assets/product-vacuum-bag.webp";
 import valerianPortrait from "@/assets/valerian-vilane-fondateur.webp";
 import terrainPhoto from "@/assets/morels/morilles-groupe-foret-brulee.webp";
 import { EDITEUR } from "@/lib/legal";
-import { PREORDER_2027 } from "@/lib/preorder";
+import { PREORDER_2027, preorderPriceSummary } from "@/lib/preorder";
 import { POT_PRICE_CENTS, POT_SIZES_G } from "@/lib/potAllocation";
 import {
   PRO_MAX_KG,
@@ -219,7 +219,7 @@ const PlaquettePro = () => (
             <div className="bg-[#1a1612] text-[#f4efe4] rounded-sm p-5">
               <Eyebrow light>Précommande saison {PREORDER_2027.season}</Eyebrow>
               <p className="text-base leading-relaxed">
-                {formatEurosLocale(PREORDER_2027.pricePerKgCents)}/kg, acompte de 50 %, de {PREORDER_2027.minKg} à {PREORDER_2027.maxKg} kg,
+                Grille au kilo ({preorderPriceSummary("fr")}), acompte de 50 %, de {PREORDER_2027.minKg} à {PREORDER_2027.maxKg} kg,
                 livraison garantie en {PREORDER_2027.delivery.fr}, port inclus en France.
               </p>
             </div>

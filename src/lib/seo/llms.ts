@@ -16,7 +16,7 @@ import {
   formatEurosLocale,
   formatTierPrice,
 } from "@/lib/proPricing";
-import { PREORDER_2027 } from "@/lib/preorder";
+import { PREORDER_2027, preorderPriceSummary } from "@/lib/preorder";
 import { POT_PRICE_CENTS, POT_SIZES_G } from "@/lib/potAllocation";
 import { tastingTourLines } from "@/lib/tasting";
 import { ARTICLES, CONTENT_LINK_LABELS, type ArticleBlock } from "@/lib/seo/articles";
@@ -65,7 +65,7 @@ const facts = (): string[] => [
   `- **Livraison** : France uniquement, port inclus, expédition sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés, colis suivi.`,
   `- **Commande** : en ligne (carte, page Stripe sécurisée) ou sur devis (réponse sous ${PRO_QUOTE_REPLY_HOURS} h ouvrées, virement sur facture possible) : ${url("/professionnels")}`,
   `- **Échantillon** : un pot en verre de ${PRO_SAMPLE_GRAMS} g à ${eur(PRO_SAMPLE_PRICE_CENTS)} plus ${eur(PRO_SAMPLE_SHIPPING_CENTS)} de port, commandé en ligne (expédié sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés) ; son prix est déduit de la première commande d'au moins 1 kg (code à usage unique envoyé par email). Remise en main propre possible quand Valérian passe dans la zone (${eur(PRO_SAMPLE_PRICE_CENTS)}, sans port). Zones : ${tastingTourLines("fr").join(" ; ")}.`,
-  `- **Précommande saison ${PREORDER_2027.season}** : professionnels uniquement, ${eur(PREORDER_2027.pricePerKgCents)}/kg, acompte de 50 %, de ${PREORDER_2027.minKg} à ${PREORDER_2027.maxKg} kg ; livraison garantie en ${PREORDER_2027.delivery.fr}, en France, port inclus ; acompte intégralement remboursé s'il est impossible de fournir : ${url("/precommande-2027")}`,
+  `- **Précommande saison ${PREORDER_2027.season}** : professionnels uniquement, même grille que la vente au kilo (${preorderPriceSummary("fr")}), acompte de 50 %, de ${PREORDER_2027.minKg} à ${PREORDER_2027.maxKg} kg ; livraison garantie en ${PREORDER_2027.delivery.fr}, en France, port inclus ; acompte intégralement remboursé s'il est impossible de fournir : ${url("/precommande-2027")}`,
   `- **Contact** : ${CONTACT_EMAIL} · ${PHONE} · ${FOUNDER_NAME}, interlocuteur unique. Éditeur : ${FOUNDER_NAME}, EI, SIRET 802 861 948 00023, Aubignan (Vaucluse), France.`,
 ];
 
@@ -83,7 +83,7 @@ export function buildLlmsTxt(): string {
     "## Offre et commande",
     "",
     `- [Tarifs, devis et commande en ligne](${url("/professionnels")}): grille au kilo, configurateur de commande, pots en option, demande de devis, dégustation en main propre, FAQ des professionnels`,
-    `- [Précommande saison ${PREORDER_2027.season}](${url("/precommande-2027")}): ${eur(PREORDER_2027.pricePerKgCents)}/kg, acompte de 50 %, livraison en ${PREORDER_2027.delivery.fr}`,
+    `- [Précommande saison ${PREORDER_2027.season}](${url("/precommande-2027")}): grille au kilo (${preorderPriceSummary("fr")}), acompte de 50 %, livraison en ${PREORDER_2027.delivery.fr}`,
     `- [Conditions générales de vente](${url("/cgv")}): conditions professionnelles`,
     `- [Livraison](${url("/livraison")}): France uniquement, port inclus`,
     "",

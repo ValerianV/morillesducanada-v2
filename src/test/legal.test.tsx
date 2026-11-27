@@ -59,8 +59,9 @@ describe("CGV", () => {
   });
 
   it("décrit la précommande 2027 : acompte, solde, livraison, remboursement", () => {
-    expect(text).toContain("300 € le kilo, de 1 à 15 kg");
-    expect(text).toContain("150 € par kilo");
+    expect(text).toContain("350 €/kg dès 1 kg, 330 €/kg dès 3 kg, 310 €/kg dès 5 kg, 290 €/kg dès 10 kg");
+    expect(text).toContain("de 1 à 15 kg par précommande");
+    expect(text).toContain("acompte de 50 % du montant");
     expect(text).toContain("octobre 2027, en France, port inclus");
     expect(text).toContain("intégralement remboursé");
   });
