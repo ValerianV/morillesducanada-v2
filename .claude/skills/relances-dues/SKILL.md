@@ -15,7 +15,8 @@ Contexte : `docs/commercial/strategie.md` (ordre des canaux, règles WhatsApp), 
    - statut `visite` et `date_visite` + 3 jours ≤ aujourd'hui → SMS de suivi « avez-vous pu les essayer ? ».
    Ignorer `stop`, `perdu`, `client` et les fiches dont la note signale une fermeture en cours.
 2. Rédiger chaque message au ton validé : relance email = vraie réponse dans le fil (« Re: » + message d'origine cité,
-   repris de `email_texte`), sans lien suivi, sans précommande, sans formule STOP. WhatsApp : un message court, jamais
+   repris de `email_texte`), sans lien suivi, sans précommande, sans formule STOP. Envoi (après validation) : Resend depuis
+   `valerian@morillesducanada.com`, jamais le Gmail personnel ni un brouillon Gmail. WhatsApp : un message court, jamais
    le même jour qu'un email.
 3. Écrire la liste dans `docs/interne/relances/AAAA-MM-JJ.md` : pour chaque prospect, canal, destinataire, texte, et
    la liste des appels à passer (numéro, meilleur créneau 15 h – 17 h, accroche de la fiche).

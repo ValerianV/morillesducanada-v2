@@ -45,7 +45,7 @@ Exemples : `/prospect-b2b traiteurs 20 "fêtes de fin d'année"`, `/prospect-b2b
    plus la liste à part des prospects qui ne sont joignables que par téléphone ou formulaire.
 5. **Validation** : présenter la vague au fondateur. **Aucun envoi sans son feu vert explicite.**
 6. **Après validation** : envoi via Resend depuis `Valérian <valerian@morillesducanada.com>` (sans en-tête List-Unsubscribe, envois étalés),
-   `reply_to: contact@morillesducanada.com`, 20 emails par jour au maximum, puis statut « RDV demandé » et texte envoyé
+   `reply_to: contact@morillesducanada.com`, jamais depuis le Gmail personnel ni un brouillon Gmail, 20 emails par jour au maximum, puis statut « RDV demandé » et texte envoyé
    écrits dans le carnet le jour même. WhatsApp : règles de `strategie.md`.
 
 ## Ton

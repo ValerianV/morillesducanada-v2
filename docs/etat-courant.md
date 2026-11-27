@@ -6,7 +6,7 @@ dans la même session, en remplaçant la ligne périmée et en datant le changem
 dans `docs/decisions.md`. Chiffres confidentiels (stock par propriétaire, prix d'achat, plancher) :
 `docs/interne/confidentiel.md`, jamais ici.
 
-Dernière mise à jour : 2026-11-26 (soir).
+Dernière mise à jour : 2026-11-27 (matin).
 
 ## Où écrire quoi
 
@@ -44,3 +44,10 @@ Dernière mise à jour : 2026-11-26 (soir).
   Le Chabichou, L'Atelier, La Chamade, L'Auberge du Choucas) : **relance le 2026-12-01** (champ `relance_j5` du carnet).
 - 2026-11-26 : Barbara (Gaudineto) a répondu, Valérian lui a répondu ; Sven (Simple Simon) relancé sur WhatsApp.
 - 2026-11-21 : 9 grossistes écrits pour le lot ; relances le 26/11 et routine cloud de contrôle le 28/11.
+- 2026-11-27 : aucune réponse humaine aux 7 emails des Alpes ; Auberge du Bois Prin fermée jusqu'au 04/12 (réponse automatique). Maison Masse silencieuse depuis le 22/11 (brouillon dans le courrier du 27/11, à valider).
+- 2026-11-27 : 5 relances par email (Le Delas, Thiercelin, Le Goût du Sud, Maison Masse, Le Goût du Jour) et 1 WhatsApp (Sourcé / Yume) envoyés vers 18 h après validation de Valérian ; relances J+12 des 3 grossistes sans réponse le 03/12.
+- 2026-11-27 : Prospection : toujours depuis valerian@morillesducanada.com via Resend, jamais le Gmail perso. Échantillon : pot 30 g à 20 € + 6,90 € de port, déduit dès 1 kg.
+- 2026-11-27 : Précommande 2027 : mêmes prix que la vente directe. 350 €/kg dès 1 kg, 330 € dès 3 kg, 310 € dès 5 kg, 290 € dès 10 kg. Acompte de 50 %.
+- 2026-11-27 : Le site parle toujours au « je ».
+- 2026-11-27 : Positionnement : du premium pour des passionnés de cuisine et de champignons.
+- 2026-11-27 : Toujours proposer deux moyens de paiement : Stripe et virement.

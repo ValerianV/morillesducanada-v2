@@ -4,6 +4,12 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-11-27 — Prospection uniquement depuis l'adresse pro
+
+- Tout email de prospection, relance ou réponse à un prospect part de `valerian@morillesducanada.com` via Resend
+  (`reply_to: contact@morillesducanada.com`), jamais du Gmail personnel du fondateur. Raison : demande de Valérian ;
+  13 emails des 23–27/11 (Alpes, grossistes, relances) étaient partis de son Gmail perso. Gmail reste l'outil de lecture.
+
 ## 2026-11-26 — Fin de l'échantillon offert
 
 - Le pot de 30 g n'est plus offert : il est vendu 20 € + frais de port. Si le client commande ensuite 1 kg ou plus,

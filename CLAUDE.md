@@ -47,6 +47,8 @@ envois de prospection et déploiements en production.
 - **Expédition : sous 5 jours ouvrés.** Jamais « 48 h » (seule la réponse aux devis est « sous 48 h ouvrées »).
 - **Professionnels uniquement** : pas de panier, pas de prix de détail, pas de médiateur ni de rétractation dans les CGV.
 - **Aucun email de prospection envoyé sans feu vert explicite du fondateur, vague par vague.**
+- **Prospection et relances : toujours depuis `valerian@morillesducanada.com` via Resend**, jamais depuis le Gmail
+  personnel du fondateur ni par un brouillon Gmail (décision du 2026-11-27). Gmail sert seulement à lire les réponses.
 - **Production** (déploiement Supabase/Vercel, Stripe live, DNS) : suivre `docs/tech/deploiement.md`
   et obtenir la validation du fondateur.
 - Prix côté serveur uniquement : le client n'envoie jamais de montant. La grille n'existe qu'une
