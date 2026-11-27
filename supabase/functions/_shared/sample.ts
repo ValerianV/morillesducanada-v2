@@ -6,8 +6,8 @@ import { PRO_SAMPLE_GRAMS, PRO_TIERS, formatEurosLocale } from "./proPricing.ts"
 
 export const SAMPLE_ORDER_TYPE = "pro_sample";
 export const PRO_SAMPLE_PRICE_CENTS = 2000;
-// Frais de port de l'échantillon (France). Montant à valider par le fondateur.
-export const PRO_SAMPLE_SHIPPING_CENTS = 500;
+// Frais de port de l'échantillon (France) : tarif France déjà créé dans Stripe (6,90 €), à confirmer par le fondateur.
+export const PRO_SAMPLE_SHIPPING_CENTS = 690;
 export const PRO_SAMPLE_TOTAL_CENTS = PRO_SAMPLE_PRICE_CENTS + PRO_SAMPLE_SHIPPING_CENTS;
 // Le prix de l'échantillon est déduit d'une commande d'au moins 1 kg.
 export const PRO_SAMPLE_CREDIT_MIN_KG = 1;

@@ -253,6 +253,7 @@ export const fr = {
       tourNote: "Hors de ces zones, contactez-moi : j'étudie chaque demande.",
       cta: "Commander l'échantillon",
       ctaInPerson: "Le recevoir en main propre",
+      transfer: "Vous préférez le virement ? Écrivez-moi à contact@morillesducanada.com : je vous envoie la facture.",
       paying: "Redirection vers le paiement…",
       error: "Le paiement n'a pas pu démarrer. Réessayez, ou contactez-moi au 07 82 16 27 08.",
       tax: "Prix nets — TVA non applicable, art. 293 B du CGI",

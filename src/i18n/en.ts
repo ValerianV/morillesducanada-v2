@@ -253,6 +253,7 @@ export const en = {
       tourNote: "Outside these areas, contact me: I look at each request.",
       cta: "Order the sample",
       ctaInPerson: "Get it in person",
+      transfer: "Prefer a bank transfer? Email me at contact@morillesducanada.com and I will send you the invoice.",
       paying: "Redirecting to payment…",
       error: "The payment could not start. Try again, or call me on +33 7 82 16 27 08.",
       tax: "Net prices — VAT not applicable, art. 293 B of the French Tax Code (CGI)",

@@ -85,6 +85,7 @@ Pour une commande d'**au moins 1 kg**, le prix de l'échantillon (20 €) est **
 - **Commande en ligne** : bouton « Commander l'échantillon » sur `/professionnels` (Stripe, société et SIRET obligatoires,
   France uniquement, expédition sous 5 jours ouvrés). Après paiement, le client reçoit par email un **code à usage unique**
   (format `ECH-XXXXXX`) de 20 €, valable 365 jours, utilisable sur une commande en ligne d'au moins 1 kg.
+- **Par virement** (pas de commission Stripe, décision du 2026-11-27) : l'échantillon comme les commandes au kilo peuvent être réglés sur facture. Le site propose les deux : Stripe pour la simplicité, le virement pour la rentabilité.
 - **Commande sur devis ou par virement** : déduire 20 € de la facture si le client a acheté l'échantillon.
 - **En main propre** lors d'un passage : 20 €, sans frais de port, déduits de la même façon.
 

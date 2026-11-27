@@ -271,6 +271,7 @@ const Professionnels = () => {
                 >
                   {pro.sample.ctaInPerson}
                 </button>
+                <p className="text-sm text-foreground/80 max-w-xs">{pro.sample.transfer}</p>
                 <p className="text-sm text-foreground/70">{pro.sample.tax}</p>
               </div>
             </div>
