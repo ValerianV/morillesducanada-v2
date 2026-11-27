@@ -1,8 +1,13 @@
-import { PRO_MAX_KG, PRO_STOCK_KG, formatKg } from "../../supabase/functions/_shared/proPricing";
+import { PRO_MAX_KG, PRO_STOCK_KG, formatEurosLocale, formatKg } from "../../supabase/functions/_shared/proPricing";
+import { PRO_SAMPLE_PRICE_CENTS, PRO_SAMPLE_SHIPPING_CENTS } from "../../supabase/functions/_shared/sample";
 
 // Stock de référence et quantité maximale : source unique dans _shared/proPricing.ts.
 const MAX = formatKg(PRO_MAX_KG, "en");
 const STOCK = formatKg(PRO_STOCK_KG, "en");
+// Paid sample: single source in _shared/sample.ts.
+const SAMPLE_PRICE = formatEurosLocale(PRO_SAMPLE_PRICE_CENTS, "en");
+const SAMPLE_SHIPPING = formatEurosLocale(PRO_SAMPLE_SHIPPING_CENTS, "en");
+const SAMPLE_OFFER = `30 g jar at ${SAMPLE_PRICE} + ${SAMPLE_SHIPPING} shipping, deducted from your first order of 1 kg or more`;
 
 export const en = {
   nav: {
@@ -88,14 +93,14 @@ export const en = {
     shippingLabel: "shipping, included within France",
     packTitle: "Packaging",
     packText: "250 g vacuum packs: for example, 3 kg = 12 packs. Delicatessens repack them under their own brand.",
-    sampleTitle: "Sample in person",
-    sampleText: "A free 30 g jar, handed over in person when I visit your area, to judge for yourself before you order.",
+    sampleTitle: "30 g sample",
+    sampleText: `A ${SAMPLE_OFFER}, to judge for yourself before you order.`,
     preorderTitle: "2027 season",
     preorderText: "Trade-only pre-order: €300/kg, 50% deposit, delivery guaranteed in October 2027, shipping included within France.",
     preorderCta: "Pre-order",
     ctaQuote: "Request a quote",
     ctaPrices: "All the terms",
-    ctaSample: "Request a sample",
+    ctaSample: "Order a sample",
     phoneCta: "Or call Valérian",
   },
   faq: {
@@ -119,7 +124,7 @@ export const en = {
     titleSuffix: " touch",
     description: "Restaurant, delicatessen, caterer: write or call me. I reply personally.",
     proTitle: "Quote and sample",
-    proDesc: "For an order by the kilo or a sample handed over in person (30 g jar), the form on the trade page is the quickest way.",
+    proDesc: "For an order by the kilo or a sample (30 g jar), the trade page is the quickest way.",
     proLink: "Prices & quotes",
     phoneLabel: "Call Valérian",
     address: "Valérian Vilane, sole trader (EI) · Aubignan (Vaucluse), France — stock and shipping from France",
@@ -152,7 +157,7 @@ export const en = {
       title: "Wild Canadian morels,",
       titleHighlight: "by the kilo",
       facts: [`${STOCK} available`, "whole and stemless", "net prices"],
-      description: "Dried morels, mixed varieties, in stock in France. 250 g vacuum packs, shipped within 5 business days, shipping included. A free 30 g jar, handed over in person when I visit, to judge for yourself before ordering.",
+      description: "Dried morels, mixed varieties, in stock in France. 250 g vacuum packs, shipped within 5 business days, shipping included. Sample: ${SAMPLE_OFFER}.",
       ctaQuote: "Request a quote",
       ctaSample: "Request a sample",
       contact: "Your contact: Valérian, founder",
@@ -211,7 +216,7 @@ export const en = {
       title: "For food professionals",
       items: [
         { title: "Chefs and restaurants", text: "Whole, stemless morels, ready to rehydrate: no stems to trim in the kitchen. The price per kilo drops from 3 kg." },
-        { title: "Delicatessens", text: "For delicatessens: morels in vacuum packs, by the kilo on the price list, to repack under your own brand. Optional empty 12, 30 or 45 g glass jars, unlabelled, at €1.50 per jar. A free 30 g jar lets you judge the product." },
+        { title: "Delicatessens", text: "For delicatessens: morels in vacuum packs, by the kilo on the price list, to repack under your own brand. Optional empty 12, 30 or 45 g glass jars, unlabelled, at €1.50 per jar. A 30 g sample jar lets you judge the product, at ${SAMPLE_PRICE}, deducted once you order 1 kg." },
         { title: "Caterers", text: `A net price known in advance to cost your events, 250 g vacuum packs, and up to ${MAX} available.` },
         { title: "Distributors", text: `Wild Canadian morels, whole and destemmed, in stock in France: by the kilo on the price list, up to ${MAX}.` },
       ],
@@ -243,10 +248,15 @@ export const en = {
     sample: {
       label: "Sample",
       title: "Judge for yourself before you order",
-      text: "The free 30 g jar is handed over in person when I visit your area, on the dates below. Shipping is possible case by case, after a phone call with me.",
+      text: `A ${SAMPLE_OFFER}. I ship it from Provence within 5 business days. If I visit your area, I can also hand it over in person (${SAMPLE_PRICE}, no shipping).`,
       tourTitle: "Where I visit",
       tourNote: "Outside these areas, contact me: I look at each request.",
-      cta: "Request a sample",
+      cta: "Order the sample",
+      ctaInPerson: "Get it in person",
+      transfer: "Prefer a bank transfer? Email me at contact@morillesducanada.com and I will send you the invoice.",
+      paying: "Redirecting to payment…",
+      error: "The payment could not start. Try again, or call me on +33 7 82 16 27 08.",
+      tax: "Net prices — VAT not applicable, art. 293 B of the French Tax Code (CGI)",
     },
     preorder: {
       label: "2027 season",
@@ -299,7 +309,7 @@ export const en = {
       tier: "Tier",
       total: "Estimated total",
       nextTierHint: "For {kg}, the total is {total}: the next tier works out cheaper.",
-      tastingInfo: "I hand you a free 30 g jar in person when I visit your area. Tell me your town and when you are available.",
+      tastingInfo: `I hand you the 30 g jar in person when I visit your area (${SAMPLE_PRICE}, no shipping, deducted from your first order of 1 kg or more). Tell me your town and when you are available.`,
       message: "Message (optional)",
       messageQuotePlaceholder: "Frequency, preferred date, questions…",
       messageTastingPlaceholder: "Intended use, questions…",
@@ -331,7 +341,7 @@ export const en = {
         { q: "Which varieties will I receive?", a: "Wild Canadian morels, mixed varieties, dried, whole and stemless. The trade offer does not include sorting by variety." },
         { q: "How does volume pricing work?", a: "The price per kilo depends on the total quantity ordered. The tier you reach applies to the whole order (see the price table)." },
         { q: "How fast do you ship?", a: "Within 5 business days of order confirmation, by tracked parcel." },
-        { q: "How can I get a sample before ordering?", a: "The free 30 g jar is handed over in person: I visit your area on specific dates (calendar on this page). Fill in the \"Sample in person\" tab with your town and availability. Outside these areas, contact me: shipping is possible case by case, after a phone call with me." },
+        { q: "How can I get a sample before ordering?", a: `Order the 30 g jar online: ${SAMPLE_PRICE} + ${SAMPLE_SHIPPING} shipping, shipped within 5 business days. After payment, you receive a code by email that deducts ${SAMPLE_PRICE} from your first order of 1 kg or more. If I visit your area, I can also hand it over in person (${SAMPLE_PRICE}, no shipping).` },
         { q: "How much can I order?", a: `From 1 kg to ${MAX}, in 500 g steps, subject to the stock available in France.` },
         { q: "How are the morels packed?", a: "In 250 g vacuum packs: for example, 3 kg = 12 packs of 250 g. Delicatessens can repack them under their own brand." },
         { q: "How do I pay?", a: `When you order: by card online, for the quantity of your choice (1 kg to ${MAX}, jars optional), on a secure Stripe payment page; or by bank transfer on invoice after a quote. Quotes are confirmed within 48 business hours.` },

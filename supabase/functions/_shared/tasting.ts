@@ -1,6 +1,6 @@
-// Dégustation en main propre (décision du fondateur, 2026-10-01) : le pot de 30 g offert est remis en main propre
-// lors d'un passage de Valérian dans la zone du prospect. Le site ne déclenche jamais d'envoi postal ; un envoi
-// reste possible au cas par cas, après échange avec Valérian (prospect démarché qui répond).
+// Échantillon en main propre : le pot de 30 g est remis lors d'un passage de Valérian dans la zone du prospect.
+// Depuis le 2026-11-26, il n'est plus offert : 20 € (prix dans _shared/sample.ts), déduits dès 1 kg commandé.
+// Il peut aussi être commandé en ligne avec le port (create-sample-checkout).
 // Module pur, partagé par le site (src/lib/tasting.ts), l'edge function submit-pro-lead et les emails.
 //
 // POUR METTRE À JOUR LE CALENDRIER : modifier TASTING_TOUR ci-dessous, puis lancer les tests

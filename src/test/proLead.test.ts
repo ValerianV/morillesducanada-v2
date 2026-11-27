@@ -178,7 +178,8 @@ describe("emails", () => {
     expect(mail.text).not.toMatch(/Chamonix/);
     expect(mail.html).toContain("Où Valérian passe");
     expect(`${mail.subject} ${mail.text} ${mail.html}`).not.toMatch(/confirmer l'envoi|vous envoyons|envoyé à l'adresse/i);
-    expect(mail.text).toContain("au cas par cas");
+    expect(mail.text).toMatch(/20\s€/);
+    expect(mail.text).not.toContain("offert");
   });
 
   it("accusé de réception EN de la dégustation", () => {

@@ -4,6 +4,20 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-11-26 — Échantillon payant, déduit dès 1 kg
+
+- Décision du fondateur : le pot de 30 g n'est plus offert. Il est vendu 20 € plus les frais de port. Pour une commande
+  d'au moins 1 kg, le prix de l'échantillon est déduit (geste commercial).
+- Mise en œuvre : bouton « Commander l'échantillon » sur /professionnels (edge function `create-sample-checkout`, société
+  et SIRET obligatoires, livraison en France). Après paiement, `stripe-webhook` enregistre la commande
+  (`order_type = 'pro_sample'`), crée un code Stripe à usage unique de 20 € (commande d'au moins 350 €, valable 365 jours)
+  et l'envoie par email. `create-pro-checkout` accepte les codes. Sur devis : déduire les 20 € de la facture.
+- La remise en main propre reste possible lors d'un passage (20 €, sans port). L'envoi postal, autrefois interdit à cause
+  du risque d'usurpation d'identité pour obtenir des échantillons gratuits, est ouvert puisque l'échantillon est payé.
+- Montant du port : 6,90 €, le tarif déjà facturé dans Stripe pour le pot de 30 g (vérifié le 2026-11-27 sur une session payée).
+- Lien de paiement Stripe créé le 2026-11-27 pour l'envoi direct : https://buy.stripe.com/14A4gzc3X7Oba0f3hmbQY06 (aucun ancien lien d'échantillon n'existait).
+- 2026-11-27 : deux moyens de paiement proposés partout, Stripe (simple et rapide) et virement sur facture (sans commission).
+
 ## 2026-11-26 — Dégustation : plus de Chamonix, Maurienne en décembre
 
 - Le fondateur a quitté Chamonix ; il est en Maurienne en décembre, puis circule entre les stations des Alpes sans

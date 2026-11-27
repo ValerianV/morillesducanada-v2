@@ -22,6 +22,7 @@ import { tastingTourLines } from "@/lib/tasting";
 import { ARTICLES, CONTENT_LINK_LABELS, type ArticleBlock } from "@/lib/seo/articles";
 import { fr } from "@/i18n/fr";
 import { absoluteUrl, CONTACT_EMAIL, FOUNDER_NAME, OFFER_LAST_REVIEWED, SITE_NAME, SITE_URL } from "@/lib/seo/site";
+import { PRO_SAMPLE_PRICE_CENTS, PRO_SAMPLE_SHIPPING_CENTS } from "@/lib/sample";
 
 const eur = (cents: number) => formatEurosLocale(cents);
 const grid = PRO_TIERS.map((t) => `${t.label.fr} = ${formatTierPrice(t)}`).join(" ; ");
@@ -63,7 +64,7 @@ const facts = (): string[] => [
   `- **Conditionnement** : sachets sous vide de ${PRO_PACK_GRAMS} g (par exemple, 3 kg = 12 sachets). Option pots : pots en verre vides de ${POT_SIZES_G.join(", ")} g, sans étiquette, ${eur(POT_PRICE_CENTS)} net le pot, livrés à part (l'épicerie les remplit et les étiquette).`,
   `- **Livraison** : France uniquement, port inclus, expédition sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés, colis suivi.`,
   `- **Commande** : en ligne (carte, page Stripe sécurisée) ou sur devis (réponse sous ${PRO_QUOTE_REPLY_HOURS} h ouvrées, virement sur facture possible) : ${url("/professionnels")}`,
-  `- **Échantillon** : un pot en verre de ${PRO_SAMPLE_GRAMS} g offert, remis en main propre quand Valérian passe dans la zone du professionnel ; envoi possible au cas par cas, après échange téléphonique. Zones : ${tastingTourLines("fr").join(" ; ")}.`,
+  `- **Échantillon** : un pot en verre de ${PRO_SAMPLE_GRAMS} g à ${eur(PRO_SAMPLE_PRICE_CENTS)} plus ${eur(PRO_SAMPLE_SHIPPING_CENTS)} de port, commandé en ligne (expédié sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés) ; son prix est déduit de la première commande d'au moins 1 kg (code à usage unique envoyé par email). Remise en main propre possible quand Valérian passe dans la zone (${eur(PRO_SAMPLE_PRICE_CENTS)}, sans port). Zones : ${tastingTourLines("fr").join(" ; ")}.`,
   `- **Précommande saison ${PREORDER_2027.season}** : professionnels uniquement, ${eur(PREORDER_2027.pricePerKgCents)}/kg, acompte de 50 %, de ${PREORDER_2027.minKg} à ${PREORDER_2027.maxKg} kg ; livraison garantie en ${PREORDER_2027.delivery.fr}, en France, port inclus ; acompte intégralement remboursé s'il est impossible de fournir : ${url("/precommande-2027")}`,
   `- **Contact** : ${CONTACT_EMAIL} · ${PHONE} · ${FOUNDER_NAME}, interlocuteur unique. Éditeur : ${FOUNDER_NAME}, EI, SIRET 802 861 948 00023, Aubignan (Vaucluse), France.`,
 ];
@@ -94,7 +95,7 @@ export function buildLlmsTxt(): string {
     "## Qui et où",
     "",
     `- [${CONTENT_LINK_LABELS["/valerian-vilane"]}](${url("/valerian-vilane")}): qui est ${FOUNDER_NAME}, ses trois saisons de cueillette (2022 à 2024) en Colombie-Britannique et au Yukon, pourquoi il vend aux professionnels, comment le joindre`,
-    `- [${CONTENT_LINK_LABELS["/zones-de-passage"]}](${url("/zones-de-passage")}): où l'échantillon de ${PRO_SAMPLE_GRAMS} g est remis en main propre, sur rendez-vous (${tastingTourLines("fr").join(" ; ")})`,
+    `- [${CONTENT_LINK_LABELS["/zones-de-passage"]}](${url("/zones-de-passage")}): où l'échantillon de ${PRO_SAMPLE_GRAMS} g (${eur(PRO_SAMPLE_PRICE_CENTS)}, déduit dès 1 kg) est remis en main propre, sur rendez-vous (${tastingTourLines("fr").join(" ; ")})`,
     "",
     "## Produit",
     "",

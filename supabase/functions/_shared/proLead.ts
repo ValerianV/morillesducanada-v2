@@ -26,6 +26,7 @@ import {
   type ProQuote,
 } from "./proPricing.ts";
 import { TASTING_TOUR, tastingTourLines } from "./tasting.ts";
+import { PRO_SAMPLE_PRICE_CENTS } from "./sample.ts";
 
 // Demandes acceptées depuis le 2026-10-01 : devis au kilo ou échantillon en main propre.
 export const PRO_LEAD_KINDS = ["devis", "degustation"] as const;
@@ -331,8 +332,8 @@ export function buildProspectEmail(lead: ProLeadInput, q: ProQuote | null): Emai
       ? `I have received your quote request for ${formatKg(q!.kg, "en")} of wild Canadian morels, dried, whole and stemless.`
       : `J'ai bien reçu votre demande de devis pour ${formatKg(q!.kg)} de morilles sauvages du Canada, séchées, entières et équeutées.`
     : en
-      ? `I have received your sample request. The free ${PRO_SAMPLE_GRAMS} g jar is handed over in person when I visit your area. Shipping is possible case by case, after a phone call with me.`
-      : `J'ai bien reçu votre demande d'échantillon. Le pot de ${PRO_SAMPLE_GRAMS} g offert est remis en main propre lors de mon passage dans votre zone. Un envoi est possible au cas par cas, après un échange téléphonique avec moi.`;
+      ? `I have received your sample request. I hand over the ${PRO_SAMPLE_GRAMS} g jar in person when I visit your area, at ${formatEurosLocale(PRO_SAMPLE_PRICE_CENTS, "en")} with no shipping. This amount is deducted from your first order of 1 kg or more.`
+      : `J'ai bien reçu votre demande d'échantillon. Je vous remets le pot de ${PRO_SAMPLE_GRAMS} g en main propre lors de mon passage dans votre zone, à ${formatEurosLocale(PRO_SAMPLE_PRICE_CENTS)} sans frais de port. Ce montant est déduit de votre première commande d'au moins 1 kg.`;
 
   const next = isQuote
     ? en

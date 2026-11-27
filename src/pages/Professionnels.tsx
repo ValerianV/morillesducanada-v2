@@ -7,6 +7,7 @@ import ProPriceTable from "@/components/pro/ProPriceTable";
 import ProLeadForm from "@/components/pro/ProLeadForm";
 import ProOrderConfigurator from "@/components/pro/ProOrderConfigurator";
 import StockBadge from "@/components/pro/StockBadge";
+import SampleCheckoutButton from "@/components/pro/SampleCheckoutButton";
 import WildVsCultivated from "@/components/WildVsCultivated";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useI18n } from "@/i18n/context";
@@ -107,7 +108,7 @@ const Professionnels = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => goToForm("degustation")}
+                  onClick={() => document.getElementById("degustation")?.scrollIntoView({ behavior: "smooth" })}
                   className="px-8 py-4 border border-primary/60 text-foreground font-medium tracking-wider uppercase text-sm rounded-sm hover:border-primary hover:text-primary transition-colors"
                 >
                   {pro.hero.ctaSample}
@@ -261,13 +262,18 @@ const Professionnels = () => {
                 </ul>
                 <p className="mt-3 text-base text-foreground/80 max-w-xl">{pro.sample.tourNote}</p>
               </div>
-              <button
-                type="button"
-                onClick={() => goToForm("degustation")}
-                className="mt-6 md:mt-0 shrink-0 px-8 py-4 bg-primary text-primary-foreground font-medium tracking-wider uppercase text-sm rounded-sm hover:bg-gold-light transition-colors"
-              >
-                {pro.sample.cta}
-              </button>
+              <div className="mt-6 md:mt-0 shrink-0 flex flex-col items-start gap-3">
+                <SampleCheckoutButton className="px-8 py-4 bg-primary text-primary-foreground font-medium tracking-wider uppercase text-sm rounded-sm hover:bg-gold-light transition-colors disabled:opacity-60" />
+                <button
+                  type="button"
+                  onClick={() => goToForm("degustation")}
+                  className="text-base text-primary hover:text-gold-light underline underline-offset-4"
+                >
+                  {pro.sample.ctaInPerson}
+                </button>
+                <p className="text-sm text-foreground/80 max-w-xs">{pro.sample.transfer}</p>
+                <p className="text-sm text-foreground/70">{pro.sample.tax}</p>
+              </div>
             </div>
           </section>
 

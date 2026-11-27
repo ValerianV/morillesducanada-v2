@@ -12,6 +12,15 @@ import {
   type ShippingAddressLike,
 } from "../_shared/orderEmails.ts";
 import { PRO_ORDER_TYPE, parsePotCounts, quoteProOrder } from "../_shared/potAllocation.ts";
+import {
+  PRO_SAMPLE_CREDIT_DAYS,
+  PRO_SAMPLE_CREDIT_MIN_CENTS,
+  PRO_SAMPLE_PRICE_CENTS,
+  PRO_SAMPLE_TOTAL_CENTS,
+  SAMPLE_ORDER_TYPE,
+  sampleCreditCode,
+} from "../_shared/sample.ts";
+import { buildSampleCreditEmail } from "../_shared/sampleEmail.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
   apiVersion: "2025-08-27.basil",
@@ -100,11 +109,14 @@ function proOrderFromSession(session: Stripe.Checkout.Session): ProOrderDetails 
       ? { kg, pots, bulkGrams: Math.max(0, Math.round(Number(session.metadata?.bulk_grams) || 0)) }
       : null;
   }
-  if (session.amount_total !== order.totalCents) {
+  // Un code échantillon (geste commercial) réduit le montant payé : on compare avant remise.
+  const discountCents = session.total_details?.amount_discount ?? 0;
+  if ((session.amount_total ?? 0) + discountCents !== order.totalCents) {
     console.error("Commande pro : montant payé différent du montant recalculé", {
       sessionId: session.id,
       expectedCents: order.totalCents,
       stripeTotalCents: session.amount_total,
+      discountCents,
     });
   }
   return { kg: order.kg, pots: order.pots?.pots ?? null, bulkGrams: order.pots?.bulkGrams ?? 0 };
@@ -251,6 +263,49 @@ async function handlePreorderSession(session: Stripe.Checkout.Session): Promise<
   return ok();
 }
 
+// Échantillon payé : crée un code Stripe à usage unique (montant du pot, commande d'au moins 1 kg),
+// puis l'envoie au client. Appelée une seule fois par session : un rejeu s'arrête avant (commande déjà enregistrée).
+async function issueSampleCredit(session: Stripe.Checkout.Session, customerEmail: string, customerName: string) {
+  if (session.amount_total !== PRO_SAMPLE_TOTAL_CENTS) {
+    console.error("Échantillon : montant payé inattendu", { sessionId: session.id, stripeTotalCents: session.amount_total });
+  }
+  const expiresAt = new Date(Date.now() + PRO_SAMPLE_CREDIT_DAYS * 24 * 3600 * 1000);
+  const coupon = await stripe.coupons.create({
+    amount_off: PRO_SAMPLE_PRICE_CENTS,
+    currency: "eur",
+    duration: "once",
+    max_redemptions: 1,
+    name: "Échantillon déduit",
+    metadata: { sample_session: session.id },
+  });
+  let promo: Stripe.PromotionCode | null = null;
+  for (let attempt = 0; attempt < 3 && !promo; attempt++) {
+    try {
+      promo = await stripe.promotionCodes.create({
+        coupon: coupon.id,
+        code: sampleCreditCode(),
+        max_redemptions: 1,
+        expires_at: Math.floor(expiresAt.getTime() / 1000),
+        restrictions: { minimum_amount: PRO_SAMPLE_CREDIT_MIN_CENTS, minimum_amount_currency: "eur" },
+        metadata: { sample_session: session.id },
+      } as Stripe.PromotionCodeCreateParams);
+    } catch (err) {
+      // Code déjà pris (collision rare) : on retente avec un autre.
+      console.warn("Code échantillon refusé, nouvel essai", String(err));
+    }
+  }
+  if (!promo) {
+    console.error("Échantillon : impossible de créer le code", { sessionId: session.id });
+    return;
+  }
+  console.log("Sample credit code created", { sessionId: session.id, code: promo.code });
+  if (customerEmail) {
+    const locale = session.metadata?.locale === "en" ? "en" : "fr";
+    const email = buildSampleCreditEmail({ customerName, code: promo.code, expiresAt, locale });
+    await enqueueTransactional(customerEmail, "sample-credit", `sample-credit-${session.id}`, email);
+  }
+}
+
 serve(async (req) => {
   const signature = req.headers.get("stripe-signature");
   if (!signature) {
@@ -336,6 +391,7 @@ serve(async (req) => {
     // Generate order ID to use for both insert and email
     const orderId = crypto.randomUUID();
     const isProOrder = session.metadata?.type === PRO_ORDER_TYPE;
+    const isSample = session.metadata?.type === SAMPLE_ORDER_TYPE;
     const proOrder = isProOrder ? proOrderFromSession(session) : null;
     const { company, siret } = sessionBusiness(session);
     const phone = session.customer_details?.phone ?? null;
@@ -355,7 +411,7 @@ serve(async (req) => {
           : session.payment_intent?.id || null,
       status: "paid",
       user_id: userId,
-      order_type: isProOrder ? PRO_ORDER_TYPE : "payment_link",
+      order_type: isProOrder ? PRO_ORDER_TYPE : isSample ? SAMPLE_ORDER_TYPE : "payment_link",
       company_name: company,
       // Contrainte orders_siret_format : 14 chiffres, sinon rien (le SIRET brut reste dans Stripe).
       siret: siret && /^\d{14}$/.test(siret) ? siret : null,
@@ -388,6 +444,14 @@ serve(async (req) => {
       );
     } catch (emailErr) {
       console.error("Failed to send confirmation email (non-blocking):", emailErr);
+    }
+
+    if (isSample) {
+      try {
+        await issueSampleCredit(session, customerEmail, customerName);
+      } catch (creditErr) {
+        console.error("Failed to issue sample credit (non-blocking):", creditErr);
+      }
     }
   }
 

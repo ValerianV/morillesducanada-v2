@@ -66,7 +66,8 @@ describe("llms.txt et llms-full.txt", () => {
       expect(text).toContain("Maurienne : en décembre 2026");
       expect(text).toContain("Stations des Alpes : cet hiver, sans dates fixes");
       expect(text).not.toMatch(/Chamonix/);
-      expect(text).toContain("au cas par cas");
+      expect(text).toContain("déduit de la première commande d'au moins 1 kg");
+      expect(text).not.toContain("offert");
     }
   });
 
@@ -267,7 +268,8 @@ describe("données structurées GEO", () => {
     for (const tier of PRO_TIERS) expect(text).toContain(`${tier.priceCents / 100} €/kg`);
     expect(text).toContain("Où acheter des morilles séchées");
     expect(text).toContain("Livrez-vous hors de France");
-    expect(text).toContain("au cas par cas");
+    expect(text).toMatch(/déduit 20\s€/);
+    expect(text).not.toMatch(/offert|gratuit/);
   });
 });
 
