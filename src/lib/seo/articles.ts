@@ -19,7 +19,7 @@ import {
   formatTierPrice,
   quote,
 } from "@/lib/proPricing";
-import { PREORDER_2027 } from "@/lib/preorder";
+import { PREORDER_2027, preorderPriceSummary } from "@/lib/preorder";
 import { POT_PRICE_CENTS, POT_SIZES_G } from "@/lib/potAllocation";
 import { tastingTourLines } from "@/lib/tasting";
 import { fitTitle } from "./site";
@@ -166,7 +166,7 @@ export const ARTICLES: readonly ArticleDef[] = [
       {
         id: "saison-2027",
         q: "Peut-on réserver la saison suivante ?",
-        answer: `Oui, en précommande réservée aux professionnels : ${eur(PREORDER_2027.pricePerKgCents)} le kilo, acompte de 50 % à la commande, de ${PREORDER_2027.minKg} à ${PREORDER_2027.maxKg} kg. Livraison garantie en ${PREORDER_2027.delivery.fr}, en France, port inclus ; l'acompte est intégralement remboursé s'il est impossible de fournir.`,
+        answer: `Oui, en précommande réservée aux professionnels, à la même grille que la vente au kilo (${preorderPriceSummary("fr")}), acompte de 50 % à la commande, de ${PREORDER_2027.minKg} à ${PREORDER_2027.maxKg} kg. Livraison garantie en ${PREORDER_2027.delivery.fr}, en France, port inclus ; l'acompte est intégralement remboursé s'il est impossible de fournir.`,
         blocks: [{ type: "p", text: "Détails et paiement de l'acompte : [précommande saison 2027](/precommande-2027)." }],
       },
     ],
@@ -266,7 +266,7 @@ export const ARTICLES: readonly ArticleDef[] = [
       {
         id: "precommande",
         q: "Quel est le prix de la saison suivante en précommande ?",
-        answer: `${eur(PREORDER_2027.pricePerKgCents)} le kilo en précommande saison ${PREORDER_2027.season}, avec un acompte de 50 % (${eur(PREORDER_2027.pricePerKgCents / 2)} le kilo) à la commande, de ${PREORDER_2027.minKg} à ${PREORDER_2027.maxKg} kg. Livraison garantie en ${PREORDER_2027.delivery.fr}, port inclus en France.`,
+        answer: `En précommande saison ${PREORDER_2027.season}, la même grille que la vente au kilo : ${preorderPriceSummary("fr")}, avec un acompte de 50 % à la commande, de ${PREORDER_2027.minKg} à ${PREORDER_2027.maxKg} kg. Livraison garantie en ${PREORDER_2027.delivery.fr}, port inclus en France.`,
         blocks: [{ type: "p", text: "[Précommander la saison 2027](/precommande-2027)." }],
       },
     ],

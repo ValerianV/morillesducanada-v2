@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import LegalPage from "@/components/LegalPage";
 import { EDITEUR } from "@/lib/legal";
-import { PREORDER_2027 } from "@/lib/preorder";
+import { PREORDER_2027, preorderPriceSummary } from "@/lib/preorder";
 import { POT_PRICE_CENTS, POT_SIZES_G } from "@/lib/potAllocation";
 import {
   PRO_KG_STEP,
@@ -155,9 +155,9 @@ const CGV = () => (
       <h2>Article 10 — Précommande saison {PREORDER_2027.season}</h2>
       <p>
         La précommande, réservée aux professionnels (SIRET obligatoire), porte sur des morilles de la saison{" "}
-        {PREORDER_2027.season}, au prix de {eur(PREORDER_2027.pricePerKgCents)} le kilo, de {PREORDER_2027.minKg} à{" "}
-        {PREORDER_2027.maxKg} kg par précommande, par kilo entier. Un acompte de 50 %, soit{" "}
-        {eur(PREORDER_2027.depositPerKgCents)} par kilo, est payé en ligne à la commande ; le solde est facturé avant
+        {PREORDER_2027.season}, aux prix de la grille au kilo ({preorderPriceSummary("fr")}, prix appliqué à toute la
+        quantité), de {PREORDER_2027.minKg} à {PREORDER_2027.maxKg} kg par précommande, par kilo entier. Un acompte de 50 %
+        du montant est payé en ligne à la commande ; le solde est facturé avant
         l'expédition. La livraison est garantie en {PREORDER_2027.delivery.fr}, en France, port inclus. S'il est impossible
         de fournir les morilles, l'acompte est intégralement remboursé.
       </p>

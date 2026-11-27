@@ -4,6 +4,17 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-11-27 — Précommande 2027 à la grille au kilo
+
+- Décision du fondateur : la précommande saison 2027 suit les mêmes tarifs que la vente directe, c'est-à-dire la grille
+  au kilo (350 €/kg dès 1 kg, 330 € dès 3 kg, 310 € dès 5 kg, 290 € dès 10 kg), au lieu de 300 €/kg fixe.
+  Raison : cohérence entre la vente directe et la précommande.
+- Inchangé : acompte de 50 % du montant à la commande, solde avant expédition, 1 à 15 kg par kilo entier, livraison
+  garantie en octobre 2027, acompte remboursé s'il est impossible de fournir.
+- Mise en œuvre : `_shared/catalog.ts` calcule le palier avec `_shared/proPricing.ts` (grille unique) ;
+  `create-preorder-checkout` crée une ligne d'acompte à prix calculé sur le produit Stripe `prod_VLJz63xzroGcDj`
+  (l'ancien prix fixe `price_1UKdLnEQBCcpAKNIOZmNqQ3A` à 150 € n'est plus utilisé).
+
 ## 2026-11-26 — Échantillon payant, déduit dès 1 kg
 
 - Décision du fondateur : le pot de 30 g n'est plus offert. Il est vendu 20 € plus les frais de port. Pour une commande

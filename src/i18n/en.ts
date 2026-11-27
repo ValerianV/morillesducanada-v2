@@ -1,5 +1,6 @@
 import { PRO_MAX_KG, PRO_STOCK_KG, formatEurosLocale, formatKg } from "../../supabase/functions/_shared/proPricing";
 import { PRO_SAMPLE_PRICE_CENTS, PRO_SAMPLE_SHIPPING_CENTS } from "../../supabase/functions/_shared/sample";
+import { preorderPriceSummary } from "../../supabase/functions/_shared/catalog";
 
 // Stock de référence et quantité maximale : source unique dans _shared/proPricing.ts.
 const MAX = formatKg(PRO_MAX_KG, "en");
@@ -7,6 +8,8 @@ const STOCK = formatKg(PRO_STOCK_KG, "en");
 // Paid sample: single source in _shared/sample.ts.
 const SAMPLE_PRICE = formatEurosLocale(PRO_SAMPLE_PRICE_CENTS, "en");
 const SAMPLE_SHIPPING = formatEurosLocale(PRO_SAMPLE_SHIPPING_CENTS, "en");
+// Pre-order: same per-kilo price list as direct sales (single source in _shared/catalog.ts).
+const PREORDER_PRICES = preorderPriceSummary("en");
 const SAMPLE_OFFER = `30 g jar at ${SAMPLE_PRICE} + ${SAMPLE_SHIPPING} shipping, deducted from your first order of 1 kg or more`;
 
 export const en = {
@@ -96,7 +99,7 @@ export const en = {
     sampleTitle: "30 g sample",
     sampleText: `A ${SAMPLE_OFFER}, to judge for yourself before you order.`,
     preorderTitle: "2027 season",
-    preorderText: "Trade-only pre-order: €300/kg, 50% deposit, delivery guaranteed in October 2027, shipping included within France.",
+    preorderText: `Trade-only pre-order at the per-kilo price list (${PREORDER_PRICES}), 50% deposit, delivery guaranteed in October 2027, shipping included within France.`,
     preorderCta: "Pre-order",
     ctaQuote: "Request a quote",
     ctaPrices: "All the terms",
@@ -225,7 +228,7 @@ export const en = {
       label: "My story",
       title: "A wild morel, picked after the fire",
       p1: "As the founder of Morilles du Canada, I picked fire morels myself for three seasons, in 2022, 2023 and 2024, in British Columbia and the Yukon, in forests burned the year before.",
-      p2: "Today he works with a network of pickers on Canadian wildfires, who dry the morels on site. The stock is in France. This is the story you can tell your customers: a wild morel, picked by hand, nothing like a cultivated one.",
+      p2: "Today I work with a network of pickers on Canadian wildfires, who dry the morels on site. The stock is in France. This is the story you can tell your customers: a wild morel, picked by hand, nothing like a cultivated one.",
     },
     stemless: {
       label: "Stemless",
@@ -261,7 +264,7 @@ export const en = {
     preorder: {
       label: "2027 season",
       title: "Pre-order the 2027 season",
-      text: "Trade only: €300/kg, 50% deposit when you order, 1 to 15 kg. Delivery guaranteed in October 2027, within France, shipping included; deposit refunded in full if I am unable to supply.",
+      text: `Trade only, at the per-kilo price list (${PREORDER_PRICES}), 50% deposit when you order, 1 to 15 kg. Delivery guaranteed in October 2027, within France, shipping included; deposit refunded in full if I am unable to supply.`,
       cta: "Pre-order",
     },
     conditions: {
@@ -348,9 +351,9 @@ export const en = {
         { q: "Do you offer jars?", a: "Yes, as an option: empty 12, 30 and 45 g glass jars, resealable and unlabelled, at €1.50 per jar (net price). They are shipped separately from the 250 g vacuum bags; you fill and label them yourself. When ordering online, choose the sizes you want: one size is filled automatically with the remaining quantity, and anything less than one jar is delivered loose." },
         { q: "Where can I buy dried morels for my restaurant?", a: `Morilles du Canada sells wild fire morels from Canada, dried, whole and destemmed, to restaurants, delicatessens, caterers and distributors, from 1 kg to ${MAX}, online or on quote (SIRET number required). Stock is in France, shipped within 5 business days, shipping included.` },
         { q: "What is the price of dried morels per kilo for professionals?", a: "Net prices, VAT not applicable (art. 293 B of the French Tax Code): €350/kg for 1 kg, €330/kg from 3 kg, €310/kg from 5 kg and €290/kg from 10 kg, shipping included in France. The price tier reached applies to the whole quantity." },
-        { q: "Where do the morels come from?", a: "From Canada (British Columbia and Yukon): they are hand-picked in spring in forests burned the year before, then dried on site by a network of pickers. Valérian, the founder, picked there himself for three seasons (2022, 2023 and 2024). Stock is in France." },
+        { q: "Where do the morels come from?", a: "From Canada (British Columbia and Yukon): they are hand-picked in spring in forests burned the year before, then dried on site by a network of pickers. I picked there myself for three seasons (2022, 2023 and 2024). Stock is in France." },
         { q: "Do you deliver outside France?", a: "No. Delivery is within France only, shipping included." },
-        { q: "Can I pre-order the 2027 season?", a: "Yes, for professionals: €300/kg, 50% deposit when you order, 1 to 15 kg. Delivery guaranteed in October 2027, within France, shipping included; the deposit is refunded in full if I am unable to supply." },
+        { q: "Can I pre-order the 2027 season?", a: `Yes, for professionals, at the same per-kilo price list as direct sales (${PREORDER_PRICES}), 50% deposit when you order, 1 to 15 kg. Delivery guaranteed in October 2027, within France, shipping included; the deposit is refunded in full if I am unable to supply.` },
         { q: "Do you sell to private customers?", a: "No. Sales are reserved for professionals (restaurants, delicatessens, caterers, distributors), and the SIRET number is required when ordering." },
       ],
     },
@@ -391,15 +394,15 @@ export const en = {
   },
   preorder: {
     metaTitle: "Pre-order wild morels, 2027 season | Morilles du Canada",
-    metaDescription: "Professionals: pre-order wild Canadian morels from the 2027 season. €300/kg, 50% deposit, 1 to 15 kg, delivery guaranteed in October 2027, shipping included within France.",
+    metaDescription: "Professionals: pre-order wild Canadian morels from the 2027 season. Per-kilo price list from €290/kg, 50% deposit, 1 to 15 kg, delivery guaranteed in October 2027, shipping included within France.",
     label: "2027 season",
     title: "Pre-order,",
     titleHighlight: "2027 season",
     intro: "Reserve your wild Canadian morels from next season now. They will be picked in spring 2027 in forests burned the year before, dried on site, then delivered in October 2027. Trade-only pre-order: company name and SIRET number are requested at payment.",
     termsTitle: "Pre-order terms",
     terms: [
-      { title: "Price", text: "€300/kg, net price." },
-      { title: "Deposit", text: "50% when you order, i.e. €150 per kilo, paid online." },
+      { title: "Price", text: `The per-kilo price list, net prices applied to the whole quantity: ${PREORDER_PRICES}.` },
+      { title: "Deposit", text: "50% of the amount when you order, paid online." },
       { title: "Balance", text: "The remaining 50% is invoiced before shipping." },
       { title: "Delivery", text: "Guaranteed in October 2027, within France, shipping included, in 250 g vacuum packs." },
       { title: "Customers", text: "Trade only, SIRET number required." },

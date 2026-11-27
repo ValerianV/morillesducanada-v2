@@ -193,9 +193,12 @@ async function handlePreorderSession(session: Stripe.Checkout.Session): Promise<
     return ok();
   }
 
-  // La quantité fait foi côté Stripe (ligne unique au prix d'acompte) ; les métadonnées ne servent qu'au contrôle.
+  // La quantité fait foi côté Stripe (ligne unique d'acompte, quantité = kg) ; les métadonnées servent de repli.
   const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 5 });
-  const depositLine = lineItems.data.find((item: Stripe.LineItem) => item.price?.id === PREORDER_2027.priceId);
+  const depositLine = lineItems.data.find((item: Stripe.LineItem) => {
+    const product = item.price?.product;
+    return (typeof product === "string" ? product : product?.id) === PREORDER_2027.productId;
+  });
   const kg = depositLine?.quantity ?? Number(session.metadata?.kg);
   let amounts;
   try {

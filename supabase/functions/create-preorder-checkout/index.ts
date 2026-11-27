@@ -3,6 +3,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { PREORDER_2027, PreorderValidationError, resolvePreorder } from "../_shared/catalog.ts";
+import { formatEurosLocale } from "../_shared/proPricing.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -57,6 +58,7 @@ serve(async (req) => {
       type: PREORDER_2027.type,
       season: PREORDER_2027.season,
       kg: String(amounts.kg),
+      unit_price_cents: String(amounts.unitPriceCents),
       total_cents: String(amounts.totalCents),
       deposit_cents: String(amounts.depositCents),
       balance_cents: String(amounts.balanceCents),
@@ -65,13 +67,23 @@ serve(async (req) => {
 
     const terms =
       locale === "en"
-        ? `Professionals only. 50% deposit paid today. Balance of €${amounts.balanceCents / 100} invoiced before shipping. Delivery in France, shipping included, guaranteed in ${PREORDER_2027.delivery.en}. Full refund of the deposit if we cannot supply.`
-        : `Réservé aux professionnels. Acompte de 50 % payé aujourd'hui. Solde de ${amounts.balanceCents / 100} € facturé avant expédition. Livraison en France, port inclus, garantie en ${PREORDER_2027.delivery.fr}. Acompte intégralement remboursé s'il m'est impossible de fournir.`;
+        ? `Professionals only. ${formatEurosLocale(amounts.unitPriceCents, "en")}/kg (per-kilo price list). 50% deposit paid today. Balance of ${formatEurosLocale(amounts.balanceCents, "en")} invoiced before shipping. Delivery in France, shipping included, guaranteed in ${PREORDER_2027.delivery.en}. Full refund of the deposit if we cannot supply.`
+        : `Réservé aux professionnels. ${formatEurosLocale(amounts.unitPriceCents, "fr")}/kg (grille au kilo). Acompte de 50 % payé aujourd'hui. Solde de ${formatEurosLocale(amounts.balanceCents, "fr")} facturé avant expédition. Livraison en France, port inclus, garantie en ${PREORDER_2027.delivery.fr}. Acompte intégralement remboursé s'il m'est impossible de fournir.`;
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       locale,
-      line_items: [{ price: PREORDER_2027.priceId, quantity: amounts.kg }],
+      // Acompte par kilo calculé sur la grille au kilo (palier atteint), quantité = kg.
+      line_items: [
+        {
+          quantity: amounts.kg,
+          price_data: {
+            currency: "eur",
+            product: PREORDER_2027.productId,
+            unit_amount: amounts.depositPerKgCents,
+          },
+        },
+      ],
       shipping_address_collection: {
         allowed_countries: [...PREORDER_2027.countries] as Stripe.Checkout.SessionCreateParams.ShippingAddressCollection.AllowedCountry[],
       },
@@ -104,7 +116,7 @@ serve(async (req) => {
       cancel_url: `${siteUrl}/precommande-2027`,
     });
 
-    // Le montant facturé vient du prix Stripe : on signale tout écart avec le catalogue serveur.
+    // Contrôle : le montant de la session doit être l'acompte calculé par le catalogue serveur.
     if (session.amount_total !== null && session.amount_total !== amounts.depositCents) {
       console.error("Preorder deposit mismatch", {
         sessionId: session.id,

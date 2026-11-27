@@ -102,11 +102,13 @@ L'ancien interdit d'envoi postal (risque d'usurpation pour obtenir des échantil
 
 ## Précommande saison 2027 (professionnels uniquement)
 
-- 300 €/kg, **acompte 50 %** à la commande (150 €/kg), solde facturé avant expédition.
+- **Même grille que la vente au kilo** (décision du 2026-11-27) : 350 €/kg dès 1 kg, 330 € dès 3 kg, 310 € dès 5 kg,
+  290 € dès 10 kg, prix du palier appliqué à toute la quantité.
+- **Acompte 50 %** du montant à la commande (par exemple 3 kg : 990 €, acompte 495 €), solde facturé avant expédition.
 - 1 à 15 kg par précommande, par kg entier. **Société et SIRET obligatoires** au paiement (Stripe).
 - **Livraison garantie en octobre 2027, en France, port inclus.**
 - **Remboursement intégral de l'acompte** s'il est impossible de fournir.
-- Stripe : produit `prod_VLJz63xzroGcDj`, prix acompte `price_1UKdLnEQBCcpAKNIOZmNqQ3A` (150 € × kg).
+- Stripe : produit `prod_VLJz63xzroGcDj`, ligne d'acompte à prix calculé par `create-preorder-checkout` (acompte par kg × kg). L'ancien prix fixe `price_1UKdLnEQBCcpAKNIOZmNqQ3A` (150 €) n'est plus utilisé.
 - L'acompte finance la cueillette au printemps : c'est la raison d'être du 50 %.
 
 ## Anciens prix de détail (archivés)

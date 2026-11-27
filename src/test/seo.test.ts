@@ -32,9 +32,9 @@ describe("URLs canoniques", () => {
 describe("site réservé aux professionnels", () => {
   it("n'a plus d'offre de détail : seulement l'offre au kilo et la précommande, pour les entreprises", () => {
     const pro = proOfferSchema() as { offers: Offer[]; description: string };
-    const pre = preorderSchema() as { offers: Offer; description: string };
+    const pre = preorderSchema() as { offers: Offer[]; description: string };
     pro.offers.forEach((o) => expect(o.eligibleCustomerType).toContain("Business"));
-    expect(pre.offers.eligibleCustomerType).toContain("Business");
+    pre.offers.forEach((o) => expect(o.eligibleCustomerType).toContain("Business"));
     expect(pro.description).toContain("réservée aux professionnels");
     expect(pre.description).toContain("Réservée aux professionnels");
     expect(JSON.stringify(organizationSchema())).toContain("réservée aux professionnels");

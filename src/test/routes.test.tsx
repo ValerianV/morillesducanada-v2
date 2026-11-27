@@ -199,11 +199,11 @@ describe("page /precommande-2027", () => {
     await renderAt("/precommande-2027", "fr");
     const select = await screen.findByLabelText("Quantité (kg)");
     expect(select).toHaveValue("1");
-    expect(screen.getByRole("button", { name: /Payer l'acompte de 150/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Payer l'acompte de 175/ })).toBeInTheDocument();
     fireEvent.change(select, { target: { value: "4" } });
-    expect(screen.getByRole("button", { name: /Payer l'acompte de 600/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Payer l'acompte de 660/ })).toBeInTheDocument();
     const text = (document.body.textContent ?? "").replace(/\s/g, " ");
-    expect(text).toContain("1 200 €");
+    expect(text).toContain("1 320 €");
     expect(text).toContain("octobre 2027");
     expect(screen.getByRole("button", { name: "Retirer un kilo" })).not.toBeDisabled();
     fireEvent.change(select, { target: { value: "15" } });
