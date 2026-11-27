@@ -59,7 +59,7 @@ Formulation à reprendre telle quelle :
 
 **Précommande saison 2027 (une phrase, dans les relances)**
 
-> Pour la saison 2027, vous pouvez aussi précommander de 1 à 15 kg à 300 €/kg avec un acompte de 50 % : livraison garantie en octobre 2027, remboursement intégral si nous ne pouvons pas fournir. Détails : https://www.morillesducanada.com/precommande-2027?utm_source=prospection&utm_medium=email&utm_campaign=vague1-[segment]
+> Pour la saison 2027, vous pouvez aussi précommander de 1 à 15 kg aux prix de la grille au kilo (dès 290 €/kg) avec un acompte de 50 % : livraison garantie en octobre 2027, remboursement intégral si nous ne pouvons pas fournir. Détails : https://www.morillesducanada.com/precommande-2027?utm_source=prospection&utm_medium=email&utm_campaign=vague1-[segment]
 
 **Autres conditions**
 - Commande minimum : 1 kg.
@@ -143,7 +143,7 @@ Bonjour,
 
 Je reviens vers vous au sujet des morilles de feu sauvages du Canada, entières et équeutées, stockées en France. Pour un rayon de Noël, les commandes se décident en ce moment : si une dégustation vous intéresse, je peux passer vous remettre un pot de 30 g en main propre lors de mon passage à [ZONE] ([PÉRIODE]). Indiquez-moi vos disponibilités et le nom de la personne qui s'occupe des achats.
 
-Pour la saison 2027, vous pouvez aussi précommander de 1 à 15 kg à 300 €/kg avec un acompte de 50 % : livraison garantie en octobre 2027, remboursement intégral si nous ne pouvons pas fournir ([LIEN PRÉCOMMANDE]).
+Pour la saison 2027, vous pouvez aussi précommander de 1 à 15 kg aux prix de la grille au kilo (dès 290 €/kg) avec un acompte de 50 % : livraison garantie en octobre 2027, remboursement intégral si nous ne pouvons pas fournir ([LIEN PRÉCOMMANDE]).
 
 Valérian — Morilles du Canada — contact@morillesducanada.com
 [pied de message obligatoire]
@@ -156,7 +156,7 @@ Bonjour,
 
 Je ne reviendrai pas vers vous après ce message. Le stock actuel reste disponible dès 1 kg, port inclus, expédié sous 5 jours ouvrés : [LIEN PRO]
 
-Si vous préférez anticiper, la précommande saison 2027 est ouverte de 1 à 15 kg à 300 €/kg (acompte de 50 %, livraison garantie en octobre 2027 ou remboursement intégral) : [LIEN PRÉCOMMANDE]
+Si vous préférez anticiper, la précommande saison 2027 est ouverte de 1 à 15 kg aux prix de la grille au kilo, dès 290 €/kg (acompte de 50 %, livraison garantie en octobre 2027 ou remboursement intégral) : [LIEN PRÉCOMMANDE]
 
 Si quelqu'un d'autre gère les achats chez [Établissement], merci de m'indiquer son nom.
 
@@ -196,7 +196,7 @@ Bonjour,
 
 Je reviens vers vous au sujet de l'essai de morilles de feu entières et équeutées. Un pot de 30 g suffit pour vérifier la réhydratation et le rendement dans votre recette ; indiquez-moi simplement l'adresse de l'atelier.
 
-Pour sécuriser vos volumes de l'an prochain, la précommande saison 2027 est ouverte de 1 à 15 kg à 300 €/kg avec un acompte de 50 %, livraison garantie en octobre 2027 ou remboursement intégral ([LIEN PRÉCOMMANDE]).
+Pour sécuriser vos volumes de l'an prochain, la précommande saison 2027 est ouverte de 1 à 15 kg aux prix de la grille au kilo (dès 290 €/kg) avec un acompte de 50 %, livraison garantie en octobre 2027 ou remboursement intégral ([LIEN PRÉCOMMANDE]).
 
 Valérian — Morilles du Canada — contact@morillesducanada.com
 [pied de message obligatoire]
@@ -209,7 +209,7 @@ Bonjour,
 
 C'est mon dernier message sur ce sujet. Si vos besoins pour les fêtes sont couverts, le stock actuel reste disponible dès 1 kg pour un complément d'hiver : [LIEN PRO]
 
-Et pour l'automne prochain, la précommande 2027 (1 à 15 kg, 300 €/kg, acompte de 50 %, livraison garantie en octobre 2027 ou remboursement intégral) est ici : [LIEN PRÉCOMMANDE]
+Et pour l'automne prochain, la précommande 2027 (1 à 15 kg, grille au kilo dès 290 €/kg, acompte de 50 %, livraison garantie en octobre 2027 ou remboursement intégral) est ici : [LIEN PRÉCOMMANDE]
 
 Si la personne en charge des achats est une autre, je vous remercie de me donner son nom.
 
@@ -249,7 +249,7 @@ Bonjour,
 
 Je reviens vers vous au sujet d'une dégustation de morilles de feu sauvages. Un pot de 30 g, remis en main propre lors de mon passage à [ZONE] ([PÉRIODE]), permet de juger la tenue à la réhydratation et le goût en sauce ; il me suffit de vos disponibilités et du nom de la personne en cuisine.
 
-Pour la carte du printemps et de l'automne prochains, la précommande saison 2027 est ouverte de 1 à 15 kg à 300 €/kg avec un acompte de 50 %, livraison garantie en octobre 2027 ou remboursement intégral ([LIEN PRÉCOMMANDE]).
+Pour la carte du printemps et de l'automne prochains, la précommande saison 2027 est ouverte de 1 à 15 kg aux prix de la grille au kilo (dès 290 €/kg) avec un acompte de 50 %, livraison garantie en octobre 2027 ou remboursement intégral ([LIEN PRÉCOMMANDE]).
 
 Valérian — Morilles du Canada — contact@morillesducanada.com
 [pied de message obligatoire]
@@ -262,7 +262,7 @@ Bonjour,
 
 Je ne vous relancerai plus après ce message. Le stock actuel reste disponible dès 1 kg, port inclus : [LIEN PRO]
 
-La précommande 2027 (1 à 15 kg, 300 €/kg, acompte de 50 %, livraison garantie en octobre 2027 ou remboursement intégral) reste ouverte ici : [LIEN PRÉCOMMANDE]
+La précommande 2027 (1 à 15 kg, grille au kilo dès 290 €/kg, acompte de 50 %, livraison garantie en octobre 2027 ou remboursement intégral) reste ouverte ici : [LIEN PRÉCOMMANDE]
 
 Merci pour votre attention.
 
@@ -304,7 +304,7 @@ Bonjour,
 
 Je reviens vers vous au sujet des morilles de feu sauvages stockées en France. Si vous souhaitez évaluer le produit, je vous envoie un pot de 30 g : pouvez-vous me donner le nom de l'acheteur concerné ?
 
-Pour planifier l'an prochain, la précommande saison 2027 est ouverte de 1 à 15 kg à 300 €/kg avec un acompte de 50 %, livraison garantie en octobre 2027 ou remboursement intégral ([LIEN PRÉCOMMANDE]).
+Pour planifier l'an prochain, la précommande saison 2027 est ouverte de 1 à 15 kg aux prix de la grille au kilo (dès 290 €/kg) avec un acompte de 50 %, livraison garantie en octobre 2027 ou remboursement intégral ([LIEN PRÉCOMMANDE]).
 
 Valérian — Morilles du Canada — contact@morillesducanada.com
 [pied de message obligatoire]
@@ -315,7 +315,7 @@ Valérian — Morilles du Canada — contact@morillesducanada.com
 
 Bonjour,
 
-C'est mon dernier message à ce sujet. Le stock actuel reste disponible dès 1 kg, expédié sous 5 jours ouvrés ([LIEN PRO]), et la précommande 2027 (1 à 15 kg, 300 €/kg, acompte de 50 %, livraison garantie en octobre 2027 ou remboursement intégral) est ouverte ici : [LIEN PRÉCOMMANDE]
+C'est mon dernier message à ce sujet. Le stock actuel reste disponible dès 1 kg, expédié sous 5 jours ouvrés ([LIEN PRO]), et la précommande 2027 (1 à 15 kg, grille au kilo dès 290 €/kg, acompte de 50 %, livraison garantie en octobre 2027 ou remboursement intégral) est ouverte ici : [LIEN PRÉCOMMANDE]
 
 Valérian — Morilles du Canada — contact@morillesducanada.com
 [pied de message obligatoire]
