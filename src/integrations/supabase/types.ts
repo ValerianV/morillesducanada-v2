@@ -473,6 +473,27 @@ export type Database = {
         }
         Relationships: []
       }
+      stock_morilles: {
+        Row: {
+          id: number
+          note: string | null
+          remaining_kg: number
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          note?: string | null
+          remaining_kg: number
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          note?: string | null
+          remaining_kg?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       suppressed_emails: {
         Row: {
           created_at: string

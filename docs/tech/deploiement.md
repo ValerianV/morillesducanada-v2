@@ -45,9 +45,10 @@ non appliquées** : elles contiennent l'URL de l'ancien projet. Appliquer à la 
 | 9 | `20260929090000_orders_pro_pots.sql` | colonnes `orders` (type, société, SIRET, téléphone, kg, pots, vrac). **Avant** stripe-webhook : sinon toute commande échoue à l'insertion |
 | 10 | `20261001090000_pro_leads_degustation.sql` | dégustation en main propre : colonne `availability`, type `degustation`, nouveaux statuts. **Avant** submit-pro-lead |
 | 11 | `20261007090000_email_queue_si_non_vide.sql` | budget d'E/S disque : `process-email-queue` n'appelle la fonction que si une file contient un email. Appliquée le 07/10/2026 |
+| 12 | `20261126090000_stock_morilles.sql` | stock réel affiché sur le site (table `stock_morilles`, 23 kg au départ) + trigger de décompte sur `orders`. **Avant** create-pro-checkout et le site : sinon le site garde le stock de référence et le paiement n'est pas plafonné |
 
 ```bash
-supabase migration repair --status applied 20260928090000 20260928090100 20260928090200 20260928100000 20260928110000 20260928120000 20260928130000 20260928130100 20260929090000 20261001090000 20261007090000 --project-ref oeweykyazadobobjncfg
+supabase migration repair --status applied 20260928090000 20260928090100 20260928090200 20260928100000 20260928110000 20260928120000 20260928130000 20260928130100 20260929090000 20261001090000 20261007090000 20261126090000 --project-ref oeweykyazadobobjncfg
 ```
 Toutes les migrations sont idempotentes (rejouables sans effet de bord).
 

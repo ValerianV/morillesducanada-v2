@@ -6,6 +6,7 @@ import { Download } from "lucide-react";
 import logo from "@/assets/logo.webp";
 import { EDITEUR } from "@/lib/legal";
 import { PRO_PACK_GRAMS, PRO_SAMPLE_GRAMS } from "@/lib/proPricing";
+import { sampleOfferText } from "@/lib/sample";
 
 // Fiche technique : uniquement les faits validés par le fondateur (docs/business/recit.md).
 // Rien d'autre : ni allergènes, ni analyses, ni rendement ou date chiffrés tant qu'ils ne sont pas fournis.
@@ -62,7 +63,7 @@ const FicheTechnique = () => (
 
         <Section title="Conditionnement">
           <Row label="Commandes au kilo" value={`Sachets sous vide de ${PRO_PACK_GRAMS} g (par exemple, 3 kg = 12 sachets)`} />
-          <Row label="Échantillon" value={`Pot en verre refermable de ${PRO_SAMPLE_GRAMS} g, remis en main propre lors d'une dégustation`} />
+          <Row label="Échantillon" value={`Pot en verre refermable de ${PRO_SAMPLE_GRAMS} g, ${sampleOfferText("fr").replace(/^Pot de \d+ g /, "")}`} />
           <Row label="Stock" value="En France" />
         </Section>
 
@@ -102,7 +103,7 @@ const FicheTechnique = () => (
     <nav aria-label="Pour aller plus loin" className="mx-auto max-w-[210mm] px-5 pb-10 text-base text-[#1a1612] print:hidden">
       <p className="font-medium mb-2">Pour aller plus loin</p>
       <ul className="space-y-1.5">
-        <li><Link to="/professionnels#devis" className="underline underline-offset-4 hover:text-[#8a6a1c]">Demander un devis ou un échantillon</Link></li>
+        <li><Link to="/professionnels#devis" className="underline underline-offset-4 hover:text-[#8a6a1c]">Demander un devis ou commander un échantillon</Link></li>
         <li><Link to="/plaquette-pro" className="underline underline-offset-4 hover:text-[#8a6a1c]">Plaquette professionnelle et tarifs au kilo</Link></li>
         <li><Link to="/rehydrater-morilles-sechees-guide-pro" className="underline underline-offset-4 hover:text-[#8a6a1c]">Réhydrater des morilles séchées</Link></li>
         <li><Link to="/acheter-morilles-sechees-restauration" className="underline underline-offset-4 hover:text-[#8a6a1c]">Acheter des morilles séchées pour la restauration</Link></li>

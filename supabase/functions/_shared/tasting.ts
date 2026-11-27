@@ -1,6 +1,6 @@
-// Dégustation en main propre (décision du fondateur, 2026-10-01) : le pot de 30 g offert est remis en main propre
-// lors d'un passage de Valérian dans la zone du prospect. Le site ne déclenche jamais d'envoi postal ; un envoi
-// reste possible au cas par cas, après échange avec Valérian (prospect démarché qui répond).
+// Échantillon en main propre : le pot de 30 g est remis lors d'un passage de Valérian dans la zone du prospect.
+// Depuis le 2026-11-26, il n'est plus offert : 20 € (prix dans _shared/sample.ts), déduits dès 1 kg commandé.
+// Il peut aussi être commandé en ligne avec le port (create-sample-checkout).
 // Module pur, partagé par le site (src/lib/tasting.ts), l'edge function submit-pro-lead et les emails.
 //
 // POUR METTRE À JOUR LE CALENDRIER : modifier TASTING_TOUR ci-dessous, puis lancer les tests
@@ -18,28 +18,25 @@ export interface TastingStop {
   to: string | null;
 }
 
+// 2026-11-26 : Valérian a quitté Chamonix. Il est en Maurienne en décembre, puis circule entre les stations
+// des Alpes sans dates fixes ; les expéditions partent de Provence. Pas d'autre date ni station sans son accord.
 export const TASTING_TOUR: readonly TastingStop[] = [
-  {
-    id: "provence",
-    zone: { fr: "Avignon et Provence", en: "Avignon and Provence" },
-    period: { fr: "jusqu'au 7 novembre 2026", en: "until 7 November 2026" },
-    from: null,
-    to: "2026-11-07",
-  },
-  {
-    id: "mont-blanc",
-    zone: { fr: "Chamonix et Mont-Blanc", en: "Chamonix and Mont-Blanc" },
-    period: { fr: "à partir du 8 novembre 2026", en: "from 8 November 2026" },
-    from: "2026-11-08",
-    to: null,
-  },
   {
     id: "maurienne",
     zone: { fr: "Maurienne", en: "Maurienne" },
-    places: { fr: "Val Cenis, Valloire", en: "Val Cenis, Valloire" },
     period: { fr: "en décembre 2026", en: "in December 2026" },
     from: "2026-12-01",
     to: "2026-12-31",
+  },
+  {
+    id: "alpes",
+    zone: { fr: "Stations des Alpes", en: "Alpine resorts" },
+    period: {
+      fr: "cet hiver, sans dates fixes : je vous préviens quand je passe près de chez vous",
+      en: "this winter, no fixed dates: I let you know when I am near you",
+    },
+    from: "2027-01-01",
+    to: null,
   },
 ];
 

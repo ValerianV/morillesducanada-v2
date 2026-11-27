@@ -47,6 +47,9 @@
 - [ ] Vrais PDF pour la plaquette pro et la fiche technique.
 - [ ] Traçabilité 2027 : envois commerciaux déclarés, preuve de provenance présentable.
 
+- [ ] Stock : décompter aussi les ventes par lien de paiement (1, 3, 5, 10 kg) dans `stock_morilles`
+      (aujourd'hui corrigées à la main dans /admin) ; mettre `PRO_STOCK_KG` à jour quand le stock change beaucoup.
+
 ### P3
 - [ ] URLs `/en/…` + hreflang pour indexer l'anglais.
 - [ ] Nettoyer les images inutilisées de `public/images` (≈ 1 Mo), `react-query` et double système de toasts.

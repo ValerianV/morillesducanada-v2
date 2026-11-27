@@ -33,7 +33,7 @@ export function buildPreorderConfirmationEmail({ preorderId, customerName, amoun
     ? [
         ["Reference", ref],
         ["Quantity", `${amounts.kg} kg of dried wild morels from Canada (${PREORDER_2027.season} season)`],
-        ["Price", `${eur(PREORDER_2027.pricePerKgCents)}/kg, i.e. ${eur(amounts.totalCents)}`],
+        ["Price", `${eur(amounts.unitPriceCents)}/kg (per-kilo price list), i.e. ${eur(amounts.totalCents)}`],
         ["Deposit paid", eur(amounts.depositCents)],
         ["Balance due", `${eur(amounts.balanceCents)}, invoiced before shipping`],
         ["Delivery", `Guaranteed in ${delivery}`],
@@ -41,7 +41,7 @@ export function buildPreorderConfirmationEmail({ preorderId, customerName, amoun
     : [
         ["Référence", ref],
         ["Quantité", `${amounts.kg} kg de morilles sauvages du Canada séchées (saison ${PREORDER_2027.season})`],
-        ["Prix", `${eur(PREORDER_2027.pricePerKgCents)}/kg, soit ${eur(amounts.totalCents)}`],
+        ["Prix", `${eur(amounts.unitPriceCents)}/kg (grille au kilo), soit ${eur(amounts.totalCents)}`],
         ["Acompte payé", eur(amounts.depositCents)],
         ["Solde restant", `${eur(amounts.balanceCents)}, facturé avant l'expédition`],
         ["Livraison", `Garantie en ${delivery}`],

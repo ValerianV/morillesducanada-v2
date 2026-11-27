@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import LegalPage from "@/components/LegalPage";
 import { EDITEUR } from "@/lib/legal";
-import { PREORDER_2027 } from "@/lib/preorder";
+import { PREORDER_2027, preorderPriceSummary } from "@/lib/preorder";
 import { POT_PRICE_CENTS, POT_SIZES_G } from "@/lib/potAllocation";
 import {
   PRO_KG_STEP,
@@ -17,6 +17,7 @@ import {
   formatKg,
   formatTierPrice,
 } from "@/lib/proPricing";
+import { PRO_SAMPLE_CREDIT_DAYS, PRO_SAMPLE_CREDIT_MIN_KG, PRO_SAMPLE_PRICE_CENTS, PRO_SAMPLE_SHIPPING_CENTS } from "@/lib/sample";
 
 const eur = (cents: number) => formatEurosLocale(cents, "fr");
 
@@ -154,9 +155,9 @@ const CGV = () => (
       <h2>Article 10 — Précommande saison {PREORDER_2027.season}</h2>
       <p>
         La précommande, réservée aux professionnels (SIRET obligatoire), porte sur des morilles de la saison{" "}
-        {PREORDER_2027.season}, au prix de {eur(PREORDER_2027.pricePerKgCents)} le kilo, de {PREORDER_2027.minKg} à{" "}
-        {PREORDER_2027.maxKg} kg par précommande, par kilo entier. Un acompte de 50 %, soit{" "}
-        {eur(PREORDER_2027.depositPerKgCents)} par kilo, est payé en ligne à la commande ; le solde est facturé avant
+        {PREORDER_2027.season}, aux prix de la grille au kilo ({preorderPriceSummary("fr")}, prix appliqué à toute la
+        quantité), de {PREORDER_2027.minKg} à {PREORDER_2027.maxKg} kg par précommande, par kilo entier. Un acompte de 50 %
+        du montant est payé en ligne à la commande ; le solde est facturé avant
         l'expédition. La livraison est garantie en {PREORDER_2027.delivery.fr}, en France, port inclus. S'il est impossible
         de fournir les morilles, l'acompte est intégralement remboursé.
       </p>
@@ -165,10 +166,11 @@ const CGV = () => (
     <section>
       <h2>Article 11 — Échantillons</h2>
       <p>
-        Un pot en verre de {PRO_SAMPLE_GRAMS} g est offert, sans obligation d'achat et dans la limite des stocks. Il est remis
-        en main propre lors d'une dégustation organisée par le vendeur dans la zone de l'acheteur, sur demande depuis la page
-        Professionnels (calendrier des passages indiqué sur cette page). Un envoi est possible au cas par cas, après échange téléphonique
-        avec le vendeur ; la demande en ligne ne déclenche jamais d'envoi.
+        Un pot en verre de {PRO_SAMPLE_GRAMS} g est vendu {formatEurosLocale(PRO_SAMPLE_PRICE_CENTS)}, plus {formatEurosLocale(PRO_SAMPLE_SHIPPING_CENTS)} de
+        frais de port en cas d'envoi, dans la limite des stocks. Il se commande en ligne depuis la page Professionnels ou se remet
+        en main propre lors d'un passage du vendeur dans la zone de l'acheteur. Après le paiement, l'acheteur reçoit un code à
+        usage unique qui déduit {formatEurosLocale(PRO_SAMPLE_PRICE_CENTS)} de sa première commande d'au moins {PRO_SAMPLE_CREDIT_MIN_KG} kg passée en
+        ligne, valable {PRO_SAMPLE_CREDIT_DAYS} jours ; pour une commande sur devis, le vendeur déduit le même montant de la facture.
       </p>
     </section>
 

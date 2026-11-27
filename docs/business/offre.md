@@ -38,7 +38,7 @@ Factures : SIRET du vendeur, numéro, date, client (raison sociale et SIRET), d�
 | 5 kg et + | 310 €/kg | 5 kg : https://buy.stripe.com/28E5kDgkd8Sf0pFf04bQY04 |
 | 10 kg et + | 290 €/kg | 10 kg : https://buy.stripe.com/14A28rd814BZgoDaJObQY05 |
 
-- Minimum **1 kg**, par pas de **0,5 kg**, maximum **45 kg** (stock).
+- Minimum **1 kg**, par pas de **0,5 kg**, maximum **le stock restant** (23 kg au 2026-11-26, plafond technique 45 kg).
 - Le prix du palier atteint s'applique à toute la quantité.
 - **Port inclus, livraison en France uniquement.** Expédition **sous 5 jours ouvrés**. Jamais « 48 h ».
 - Chaque lien de paiement doit demander la société et le SIRET (champs personnalisés Stripe
@@ -52,7 +52,7 @@ Surtout pour les épiceries, qui remplissent et étiquettent elles-mêmes.
 - Pots en verre **vides, sans étiquette**, refermables, en **12, 30 et 45 g**.
 - **1,50 € net par pot, quelle que soit la taille** (TVA non applicable, art. 293 B). Morilles au prix de la grille.
 - Les morilles partent en sachets sous vide de 250 g ; les pots partent **vides, à part**.
-- Le client choisit sa quantité (1 à 45 kg, pas de 0,5 kg), puis le nombre de pots par format ;
+- Le client choisit sa quantité (de 1 kg au stock restant, pas de 0,5 kg), puis le nombre de pots par format ;
   un format « compléter » se remplit automatiquement : floor((grammes − pots saisis) / taille).
   Le reste de moins d'un pot est livré **en vrac**, dans les sachets. Exemple : 2 kg = 20 pots de 45 g
   + 36 pots de 30 g = 56 pots, 1 980 g en pots, 20 g en vrac, **700 € + 84 € = 784 €**.
@@ -76,37 +76,39 @@ Paiement **à la commande** (carte ou virement). Pénalités de retard : 3 fois 
 indemnité forfaitaire de recouvrement : 40 €. Pas de droit de rétractation (ventes entre professionnels).
 Réclamation transport : sous 48 h à réception.
 
-## Échantillon payant (décision du 2026-11-26, remplace l'échantillon offert)
+## Échantillon : 20 € + port, déduit dès 1 kg (décision du 2026-11-26)
 
-**Le pot de 30 g n'est plus offert.** Il est vendu **20 € plus les frais de port** (prix nets — TVA non applicable,
-art. 293 B du CGI). Si le client commande ensuite **1 kg ou plus**, le montant du pot (20 €) est déduit de cette commande
-en geste commercial. Montant des frais de port de l'échantillon : à fixer par Valérian (non validé, ne pas l'annoncer).
-Le site n'est pas encore à jour (onglet « Échantillon en main propre », `/livraison`, `llms.txt`) : à corriger sur une branche,
-mise en ligne après validation.
+Un **pot en verre de 30 g**, refermable, **vendu 20 €** plus **les frais de port** (montant dans
+`supabase/functions/_shared/sample.ts`, constante `PRO_SAMPLE_SHIPPING_CENTS` : **6,90 €**, tarif Stripe existant). Il n'est **plus offert**.
+Pour une commande d'**au moins 1 kg**, le prix de l'échantillon (20 €) est **déduit** (geste commercial) :
 
-## Ancien régime : échantillon remis en main propre (décisions du 2026-10-01, caduc depuis le 2026-11-26)
+- **Commande en ligne** : bouton « Commander l'échantillon » sur `/professionnels` (Stripe, société et SIRET obligatoires,
+  France uniquement, expédition sous 5 jours ouvrés). Après paiement, le client reçoit par email un **code à usage unique**
+  (format `ECH-XXXXXX`) de 20 €, valable 365 jours, utilisable sur une commande en ligne d'au moins 1 kg.
+- **Par virement** (pas de commission Stripe, décision du 2026-11-27) : l'échantillon comme les commandes au kilo peuvent être réglés sur facture. Le site propose les deux : Stripe pour la simplicité, le virement pour la rentabilité.
+- **Commande sur devis ou par virement** : déduire 20 € de la facture si le client a acheté l'échantillon.
+- **Lien de paiement Stripe** à envoyer directement (email, WhatsApp) : https://buy.stripe.com/14A4gzc3X7Oba0f3hmbQY06 (20 € + 6,90 €, société et SIRET obligatoires ; même code de déduction envoyé automatiquement).
+- **En main propre** lors d'un passage : 20 €, sans frais de port, déduits de la même façon.
 
-Un **pot en verre de 30 g**, refermable, offert, **remis en main propre** lors d'un passage, quand le fondateur
-est dans la zone du prospect. **Envoi possible au cas par cas, après un échange téléphonique avec Valérian**, uniquement à un
-établissement que nous avons démarché et qui répond. Le formulaire du site ne déclenche **jamais** d'envoi, et
-« envoi gratuit sur simple demande » ne doit apparaître nulle part. Raison : on peut trop facilement usurper
-l'identité de plusieurs établissements pour obtenir plusieurs échantillons par la poste.
+L'ancien interdit d'envoi postal (risque d'usurpation pour obtenir des échantillons gratuits) tombe, puisque l'échantillon est payé.
 
-- Demande : onglet « Échantillon en main propre » de `/professionnels` (SIRET, ville, code postal, disponibilités ;
+- Remise en main propre : onglet « Échantillon en main propre » de `/professionnels` (SIRET, ville, code postal, disponibilités ;
   plus d'adresse de livraison). Valérian recontacte le prospect pour convenir d'un rendez-vous.
-- Calendrier 2026 (constante `TASTING_TOUR` dans `supabase/functions/_shared/tasting.ts`, à modifier à cet endroit) :
-  **Avignon et Provence jusqu'au 7 novembre** ; **Chamonix et Mont-Blanc à partir du 8 novembre** ;
-  **Maurienne (Val Cenis, Valloire) en décembre**. Hors de ces zones : « contactez-nous, nous étudions chaque demande ».
+- Zones de passage (constante `TASTING_TOUR` dans `supabase/functions/_shared/tasting.ts`, à modifier à cet endroit) :
+  depuis le 2026-11-26, **Maurienne en décembre 2026**, puis **stations des Alpes sans dates fixes** (le fondateur
+  prévient le prospect quand il passe près de chez lui). Plus de Chamonix. Expéditions depuis la Provence. Hors de ces zones : « contactez-nous, nous étudions chaque demande ».
 - Après modification du calendrier : `llms.txt` et `llms-full.txt` (générés au build) suivent automatiquement ; reporter à la main dans la plaquette pro si besoin.
 - Les pots de 12, 30 et 45 g (en verre, refermables) servent aussi à l'option pots (livrés vides, voir plus haut).
 
 ## Précommande saison 2027 (professionnels uniquement)
 
-- 300 €/kg, **acompte 50 %** à la commande (150 €/kg), solde facturé avant expédition.
+- **Même grille que la vente au kilo** (décision du 2026-11-27) : 350 €/kg dès 1 kg, 330 € dès 3 kg, 310 € dès 5 kg,
+  290 € dès 10 kg, prix du palier appliqué à toute la quantité.
+- **Acompte 50 %** du montant à la commande (par exemple 3 kg : 990 €, acompte 495 €), solde facturé avant expédition.
 - 1 à 15 kg par précommande, par kg entier. **Société et SIRET obligatoires** au paiement (Stripe).
 - **Livraison garantie en octobre 2027, en France, port inclus.**
 - **Remboursement intégral de l'acompte** s'il est impossible de fournir.
-- Stripe : produit `prod_VLJz63xzroGcDj`, prix acompte `price_1UKdLnEQBCcpAKNIOZmNqQ3A` (150 € × kg).
+- Stripe : produit `prod_VLJz63xzroGcDj`, ligne d'acompte à prix calculé par `create-preorder-checkout` (acompte par kg × kg). L'ancien prix fixe `price_1UKdLnEQBCcpAKNIOZmNqQ3A` (150 €) n'est plus utilisé.
 - L'acompte finance la cueillette au printemps : c'est la raison d'être du 50 %.
 
 ## Anciens prix de détail (archivés)
@@ -122,3 +124,9 @@ Pots 12/30/45 g et sous vide 100 g à 1 kg : plus vendus. Les prix Stripe corres
 Informations internes (stock par propriétaire, coûts d'achat, marges, plancher) :
 `docs/interne/confidentiel.md`, **non versionné** (voir `.gitignore`). Demander au fondateur s'il est absent.
 Stock de départ communicable : ≈ 45 kg en France (septembre 2026). Stock du moment : `docs/etat-courant.md`.
+
+**Stock affiché sur le site (décision du 2026-11-26)** : 23 kg disponibles cette saison. Le site affiche le stock réel
+(« Plus que N kg disponibles cette saison » sous 25 kg, « Épuisé » à 0). Source en direct : table Supabase
+`stock_morilles`, modifiable dans /admin (onglet leads) ; décomptée seule à chaque commande pro payée en ligne.
+Valeur de repli et de prérendu : `PRO_STOCK_KG` dans `_shared/proPricing.ts`. Après une vente hors site,
+corriger le stock dans /admin le jour même.

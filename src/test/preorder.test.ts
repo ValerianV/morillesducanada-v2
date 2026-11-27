@@ -3,9 +3,12 @@ import {
   PREORDER_2027,
   PreorderValidationError,
   isValidPreorderKg,
+  PREORDER_TIERS,
   preorderAmounts,
+  preorderPriceSummary,
   resolvePreorder,
 } from "../../supabase/functions/_shared/catalog";
+import { PRO_TIERS } from "../../supabase/functions/_shared/proPricing";
 import {
   buildPreorderAdminEmail,
   buildPreorderConfirmationEmail,
@@ -17,25 +20,36 @@ import { preorderSchema } from "@/lib/seo/schema";
 const plain = (s: string) => s.replace(/\s/g, " ");
 
 describe("précommande 2027 : catalogue serveur", () => {
-  it("utilise le prix Stripe d'acompte à 150 € l'unité (quantité = kg)", () => {
+  it("suit la grille au kilo de la vente directe, acompte de 50 % (décision du 2026-11-27)", () => {
     expect(PREORDER_2027).toMatchObject({
       type: "preorder_2027",
       season: "2027",
-      priceId: "price_1UKdLnEQBCcpAKNIOZmNqQ3A",
-      pricePerKgCents: 30000,
-      depositPerKgCents: 15000,
+      productId: "prod_VLJz63xzroGcDj",
+      depositPercent: 50,
       minKg: 1,
       maxKg: 15,
     });
-    expect(PREORDER_2027.depositPerKgCents * 2).toBe(PREORDER_2027.pricePerKgCents);
+    expect(PREORDER_TIERS.map((t) => t.priceCents)).toEqual(PRO_TIERS.map((t) => t.priceCents));
+    expect(plain(preorderPriceSummary("fr"))).toBe("350 €/kg dès 1 kg, 330 €/kg dès 3 kg, 310 €/kg dès 5 kg, 290 €/kg dès 10 kg");
   });
 
   it.each([
-    [1, 30000, 15000, 15000],
-    [4, 120000, 60000, 60000],
-    [15, 450000, 225000, 225000],
-  ])("%i kg : total %i c, acompte %i c, solde %i c", (kg, total, deposit, balance) => {
-    expect(preorderAmounts(kg)).toEqual({ kg, totalCents: total, depositCents: deposit, balanceCents: balance });
+    [1, 35000, 35000, 17500, 17500],
+    [2, 35000, 70000, 35000, 35000],
+    [3, 33000, 99000, 49500, 49500],
+    [4, 33000, 132000, 66000, 66000],
+    [5, 31000, 155000, 77500, 77500],
+    [10, 29000, 290000, 145000, 145000],
+    [15, 29000, 435000, 217500, 217500],
+  ])("%i kg : %i c/kg, total %i c, acompte %i c, solde %i c", (kg, unit, total, deposit, balance) => {
+    expect(preorderAmounts(kg)).toEqual({
+      kg,
+      unitPriceCents: unit,
+      depositPerKgCents: unit / 2,
+      totalCents: total,
+      depositCents: deposit,
+      balanceCents: balance,
+    });
   });
 
   it("accepte uniquement de 1 à 15 kg par kilo entier", () => {
@@ -68,8 +82,9 @@ describe("précommande 2027 : email de confirmation", () => {
     expect(mail.subject).toContain("3 kg");
     expect(mail.subject).toContain("PRE27-ABCDEF12");
     expect(text).toContain("3 kg");
-    expect(text).toContain("Acompte payé : 450 €");
-    expect(text).toContain("Solde restant : 450 €, facturé avant l'expédition");
+    expect(text).toContain("Prix : 330 €/kg (grille au kilo), soit 990 €");
+    expect(text).toContain("Acompte payé : 495 €");
+    expect(text).toContain("Solde restant : 495 €, facturé avant l'expédition");
     expect(text).toContain("octobre 2027");
     expect(text).toContain("intégralement remboursé");
     expect(text).toContain("TVA non applicable, art. 293 B du CGI");
@@ -79,7 +94,7 @@ describe("précommande 2027 : email de confirmation", () => {
 
   it("existe en anglais", () => {
     const mail = buildPreorderConfirmationEmail({ ...input, locale: "en" });
-    expect(mail.text).toContain("Deposit paid : €450");
+    expect(mail.text).toContain("Deposit paid : €495");
     expect(mail.text).toContain("October 2027");
     expect(mail.text).toContain("refunded in full");
   });
@@ -105,10 +120,11 @@ describe("précommande 2027 : compteur admin et JSON-LD", () => {
     expect(totals).toEqual({ count: 3, kg: 10, depositCents: 150000, balanceCents: 75000 });
   });
 
-  it("annonce une offre en précommande à 300 €/kg, de 1 à 15 kg", () => {
-    const offer = preorderSchema().offers as Record<string, unknown>;
-    expect(offer.price).toBe("300.00");
-    expect(offer.availability).toBe("https://schema.org/PreOrder");
-    expect(offer.eligibleQuantity).toMatchObject({ minValue: 1, maxValue: 15 });
+  it("annonce une offre par palier de la grille au kilo, de 1 à 15 kg", () => {
+    const offers = preorderSchema().offers as Array<Record<string, unknown>>;
+    expect(offers.map((o) => o.price)).toEqual(["350.00", "330.00", "310.00", "290.00"]);
+    expect(offers.every((o) => o.availability === "https://schema.org/PreOrder")).toBe(true);
+    expect(offers[0].eligibleQuantity).toMatchObject({ minValue: 1, maxValue: 2 });
+    expect(offers[3].eligibleQuantity).toMatchObject({ minValue: 10, maxValue: 15 });
   });
 });

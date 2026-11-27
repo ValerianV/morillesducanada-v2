@@ -48,8 +48,9 @@ describe("validateProLead", () => {
     }
   });
 
-  it("accepte 30 kg (plus de plafond à 20 kg)", () => {
-    expect(validateProLead({ ...base, kg: 30 }).ok).toBe(true);
+  it("accepte jusqu'au stock de référence (23 kg), refuse au-delà", () => {
+    expect(validateProLead({ ...base, kg: 23 }).ok).toBe(true);
+    expect(validateProLead({ ...base, kg: 30 }).ok).toBe(false);
   });
 
   it("dégustation : disponibilités obligatoires, ni quantité ni adresse conservées", () => {
@@ -172,12 +173,13 @@ describe("emails", () => {
     expect(mail.text).toContain("30 g");
     expect(mail.text).toContain("en main propre");
     expect(mail.text).toContain("Mardi après-midi");
-    expect(mail.text).toContain("Avignon et Provence");
-    expect(mail.text).toContain("Chamonix et Mont-Blanc");
     expect(mail.text).toContain("Maurienne");
+    expect(mail.text).toContain("Stations des Alpes");
+    expect(mail.text).not.toMatch(/Chamonix/);
     expect(mail.html).toContain("Où Valérian passe");
     expect(`${mail.subject} ${mail.text} ${mail.html}`).not.toMatch(/confirmer l'envoi|vous envoyons|envoyé à l'adresse/i);
-    expect(mail.text).toContain("au cas par cas");
+    expect(mail.text).toMatch(/20\s€/);
+    expect(mail.text).not.toContain("offert");
   });
 
   it("accusé de réception EN de la dégustation", () => {
@@ -187,7 +189,7 @@ describe("emails", () => {
     expect(mail.subject).toBe("Your sample request — Morilles du Canada");
     expect(mail.text).toContain("30 g");
     expect(mail.text).toContain("in person");
-    expect(mail.text).toContain("Chamonix and Mont-Blanc");
+    expect(mail.text).toContain("Alpine resorts");
   });
 
   it("alerte admin de la dégustation : disponibilités, pas d'adresse de livraison", () => {

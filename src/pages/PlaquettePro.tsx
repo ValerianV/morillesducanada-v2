@@ -9,7 +9,7 @@ import productVacuumBag from "@/assets/product-vacuum-bag.webp";
 import valerianPortrait from "@/assets/valerian-vilane-fondateur.webp";
 import terrainPhoto from "@/assets/morels/morilles-groupe-foret-brulee.webp";
 import { EDITEUR } from "@/lib/legal";
-import { PREORDER_2027 } from "@/lib/preorder";
+import { PREORDER_2027, preorderPriceSummary } from "@/lib/preorder";
 import { POT_PRICE_CENTS, POT_SIZES_G } from "@/lib/potAllocation";
 import {
   PRO_MAX_KG,
@@ -27,6 +27,7 @@ import {
   formatTierPrice,
   quote,
 } from "@/lib/proPricing";
+import { sampleOfferText } from "@/lib/sample";
 
 // Plaquette professionnelle : lisible sur téléphone (une colonne), imprimable en A4 (une page par bloc).
 // Toutes les valeurs chiffrées viennent de proPricing, preorder et legal.
@@ -154,7 +155,7 @@ const PlaquettePro = () => (
               <Eyebrow>Sachets sous vide de {PRO_PACK_GRAMS} g</Eyebrow>
               <h2 className="font-serif text-3xl font-light leading-snug mb-4">Au kilo, en stock en France</h2>
               <p className="text-base leading-relaxed text-[#3a3a3a]">
-                {PRO_STOCK_KG} kg disponibles. Commandes de {formatKg(PRO_MIN_KG)} à {formatKg(PRO_MAX_KG)}, par tranche de 500 g,
+                Plus que {PRO_STOCK_KG} kg disponibles cette saison. Commandes de {formatKg(PRO_MIN_KG)} à {formatKg(PRO_MAX_KG)}, par tranche de 500 g,
                 livrées en sachets sous vide de {PRO_PACK_GRAMS} g (par exemple, 3 kg = 12 sachets), en France, port inclus,
                 sous {PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés.
               </p>
@@ -199,7 +200,7 @@ const PlaquettePro = () => (
                 t: "Épiceries fines",
                 d: `Morilles en sachets sous vide, à reconditionner sous votre marque. En option : pots en verre vides de ${POT_SIZES_G.join(", ").replace(/, (\d+)$/, " ou $1")} g, sans étiquette, à ${formatEurosLocale(POT_PRICE_CENTS)} le pot, livrés à part.`,
               },
-              { t: "Traiteurs et distributeurs", d: "Un prix net connu à l'avance pour chiffrer vos prestations, jusqu'à 45 kg." },
+              { t: "Traiteurs et distributeurs", d: `Un prix net connu à l'avance pour chiffrer vos prestations, jusqu'à ${formatKg(PRO_MAX_KG)}.` },
             ].map((c) => (
               <div key={c.t} className="bg-[#f5f2eb] border-l-2 border-[#c9a84c] px-4 py-3">
                 <p className="font-serif text-lg mb-1">{c.t}</p>
@@ -210,15 +211,15 @@ const PlaquettePro = () => (
 
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="bg-[#1a1612] text-[#f4efe4] rounded-sm p-5">
-              <Eyebrow light>Dégustation en main propre</Eyebrow>
+              <Eyebrow light>Échantillon de {PRO_SAMPLE_GRAMS} g</Eyebrow>
               <p className="text-base leading-relaxed">
-                Un pot en verre de {PRO_SAMPLE_GRAMS} g offert, remis en main propre lors de mon passage dans votre zone, pour juger sur pièce avant de commander. Envoi possible au cas par cas, après un échange téléphonique avec moi.
+                {sampleOfferText("fr")}. À commander en ligne sur la page Professionnels, expédié sous 5 jours ouvrés, ou remis en main propre lors de mon passage dans votre zone.
               </p>
             </div>
             <div className="bg-[#1a1612] text-[#f4efe4] rounded-sm p-5">
               <Eyebrow light>Précommande saison {PREORDER_2027.season}</Eyebrow>
               <p className="text-base leading-relaxed">
-                {formatEurosLocale(PREORDER_2027.pricePerKgCents)}/kg, acompte de 50 %, de {PREORDER_2027.minKg} à {PREORDER_2027.maxKg} kg,
+                Grille au kilo ({preorderPriceSummary("fr")}), acompte de 50 %, de {PREORDER_2027.minKg} à {PREORDER_2027.maxKg} kg,
                 livraison garantie en {PREORDER_2027.delivery.fr}, port inclus en France.
               </p>
             </div>
@@ -295,11 +296,11 @@ const PlaquettePro = () => (
     <nav aria-label="Pour aller plus loin" className="mx-auto max-w-[210mm] px-5 pb-10 text-base text-[#1a1612] print:hidden">
       <p className="font-medium mb-2">Pour aller plus loin</p>
       <ul className="space-y-1.5">
-        <li><Link to="/professionnels#devis" className="underline underline-offset-4 hover:text-[#8a6a1c]">Demander un devis ou un échantillon</Link></li>
+        <li><Link to="/professionnels#devis" className="underline underline-offset-4 hover:text-[#8a6a1c]">Demander un devis ou commander un échantillon</Link></li>
         <li><Link to="/fiche-technique" className="underline underline-offset-4 hover:text-[#8a6a1c]">Fiche technique du produit</Link></li>
         <li><Link to="/prix-morilles-sechees-kilo-professionnels" className="underline underline-offset-4 hover:text-[#8a6a1c]">Prix des morilles séchées au kilo</Link></li>
         <li><Link to="/morilles-sechees-traiteurs" className="underline underline-offset-4 hover:text-[#8a6a1c]">Morilles séchées pour traiteurs</Link></li>
-        <li><Link to="/zones-de-passage" className="underline underline-offset-4 hover:text-[#8a6a1c]">Zones et dates de passage pour l'échantillon</Link></li>
+        <li><Link to="/zones-de-passage" className="underline underline-offset-4 hover:text-[#8a6a1c]">Zones de passage</Link></li>
         <li><Link to="/valerian-vilane" className="underline underline-offset-4 hover:text-[#8a6a1c]">Valérian Vilane, fondateur</Link></li>
       </ul>
     </nav>

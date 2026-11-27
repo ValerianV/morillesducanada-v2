@@ -6,7 +6,15 @@
 // Les morilles partent en sachets sous vide de 250 g ; les pots partent vides, sans étiquette,
 // à part. Le client les remplit et les étiquette lui-même. Le calcul indique combien de pots
 // de chaque format sa quantité permet de remplir, et le reste (moins d'un pot) en vrac.
-import { PRO_PACK_GRAMS, formatEurosLocale, isValidProQuantity, quote, type ProQuote } from "./proPricing.ts";
+import {
+  PRO_ORDER_CAP_KG,
+  PRO_PACK_GRAMS,
+  formatEurosLocale,
+  formatKg,
+  isValidProQuantity,
+  quote,
+  type ProQuote,
+} from "./proPricing.ts";
 
 export const POT_SIZES_G = [12, 30, 45] as const;
 export type PotSize = (typeof POT_SIZES_G)[number];
@@ -175,16 +183,20 @@ export function quoteProOrder(input: {
   kg: number;
   pots?: PotRequest | null;
   stock?: Record<PotSize, number | null>;
+  // Quantité maximale commandable (stock de morilles en direct) ; 45 kg par défaut.
+  maxKg?: number;
 }): ProOrderQuoteResult {
-  const morels = isValidProQuantity(input.kg) ? quote(input.kg) : null;
+  const maxKg = input.maxKg ?? PRO_ORDER_CAP_KG;
+  const morels = isValidProQuantity(input.kg, maxKg) ? quote(input.kg, maxKg) : null;
   if (!morels) {
+    const max = formatKg(maxKg, "fr");
     return {
       ok: false,
       error: {
         code: "invalid_quantity",
         message: {
-          fr: "Quantité invalide : de 1 à 45 kg, par pas de 0,5 kg.",
-          en: "Invalid quantity: 1 to 45 kg, in 0.5 kg steps.",
+          fr: `Quantité invalide : de 1 kg à ${max}, par pas de 0,5 kg.`,
+          en: `Invalid quantity: 1 kg to ${formatKg(maxKg, "en")}, in 0.5 kg steps.`,
         },
       },
     };

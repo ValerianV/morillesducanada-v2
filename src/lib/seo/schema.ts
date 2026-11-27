@@ -10,7 +10,7 @@ import {
   PRO_TAX_MENTION,
   PRO_TIERS,
 } from "@/lib/proPricing";
-import { PREORDER_2027 } from "@/lib/preorder";
+import { PREORDER_2027, PREORDER_TIERS, preorderPriceSummary } from "@/lib/preorder";
 import { POT_PRICE_CENTS, POT_SIZES_G } from "@/lib/potAllocation";
 import {
   absoluteUrl,
@@ -107,6 +107,12 @@ export interface ProfilePageInput {
   dateModified: string;
 }
 
+// Google attend une date et une heure avec fuseau pour un ProfilePage : une date seule (« 2026-10-07 ») est signalée
+// « valeur de date et heure incorrecte » dans la Search Console. Midi UTC garde le même jour à Paris.
+export function toIsoDateTime(date: string): string {
+  return /^\d{4}-\d{2}-\d{2}$/.test(date) ? `${date}T12:00:00+00:00` : date;
+}
+
 // Page « qui suis-je » : le fondateur (Person, même @id que l'auteur des articles) est l'entité principale.
 export function profilePageSchema(page: ProfilePageInput): JsonLd {
   const url = absoluteUrl(page.path);
@@ -118,7 +124,7 @@ export function profilePageSchema(page: ProfilePageInput): JsonLd {
     name: page.name,
     description: page.description,
     inLanguage: "fr-FR",
-    dateModified: page.dateModified,
+    dateModified: toIsoDateTime(page.dateModified),
     isPartOf: { "@id": WEBSITE_ID },
     publisher: orgRef,
     mainEntity: founderPerson(),
@@ -287,22 +293,15 @@ export function proOfferSchema(): JsonLd {
   };
 }
 
-// Précommande saison 2027 : prix au kilo, disponibilité « PreOrder », livraison en octobre 2027.
+// Précommande saison 2027 : même grille au kilo que la vente directe (une offre par palier),
+// disponibilité « PreOrder », livraison en octobre 2027.
 export function preorderSchema(): JsonLd {
-  const price = euros(PREORDER_2027.pricePerKgCents / 100);
-  return {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "@id": `${absoluteUrl("/precommande-2027")}#precommande`,
-    name: `Morilles sauvages du Canada séchées — précommande saison ${PREORDER_2027.season}`,
-    description: `Morilles sauvages du Canada, séchées, saison ${PREORDER_2027.season}. ${PREORDER_2027.pricePerKgCents / 100} €/kg, acompte de 50 % à la commande, de ${PREORDER_2027.minKg} à ${PREORDER_2027.maxKg} kg, livraison garantie en ${PREORDER_2027.delivery.fr}, port inclus en France. Réservée aux professionnels. ${PRO_TAX_MENTION.fr}.`,
-    brand: { "@type": "Brand", name: SITE_NAME },
-    category: "Champignons séchés",
-    countryOfOrigin: { "@type": "Country", name: "Canada" },
-    image: PRODUCT_IMAGES,
-    url: absoluteUrl("/precommande-2027"),
-    offers: {
+  const offers = PREORDER_TIERS.map((tier, i) => {
+    const price = euros(tier.priceCents / 100);
+    const next = PREORDER_TIERS[i + 1];
+    return {
       "@type": "Offer",
+      name: `Palier ${tier.label.fr}`,
       price,
       priceCurrency: "EUR",
       priceSpecification: {
@@ -316,8 +315,8 @@ export function preorderSchema(): JsonLd {
       },
       eligibleQuantity: {
         "@type": "QuantitativeValue",
-        minValue: PREORDER_2027.minKg,
-        maxValue: PREORDER_2027.maxKg,
+        minValue: tier.minKg,
+        maxValue: next ? next.minKg - 1 : PREORDER_2027.maxKg,
         unitCode: "KGM",
       },
       availability: "https://schema.org/PreOrder",
@@ -329,7 +328,20 @@ export function preorderSchema(): JsonLd {
       hasMerchantReturnPolicy: RETURN_POLICY,
       url: absoluteUrl("/precommande-2027"),
       seller: orgRef,
-    },
+    };
+  });
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "@id": `${absoluteUrl("/precommande-2027")}#precommande`,
+    name: `Morilles sauvages du Canada séchées — précommande saison ${PREORDER_2027.season}`,
+    description: `Morilles sauvages du Canada, séchées, saison ${PREORDER_2027.season}. Grille au kilo : ${preorderPriceSummary("fr")}. Acompte de 50 % à la commande, de ${PREORDER_2027.minKg} à ${PREORDER_2027.maxKg} kg, livraison garantie en ${PREORDER_2027.delivery.fr}, port inclus en France. Réservée aux professionnels. ${PRO_TAX_MENTION.fr}.`,
+    brand: { "@type": "Brand", name: SITE_NAME },
+    category: "Champignons séchés",
+    countryOfOrigin: { "@type": "Country", name: "Canada" },
+    image: PRODUCT_IMAGES,
+    url: absoluteUrl("/precommande-2027"),
+    offers,
   };
 }
 

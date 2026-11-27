@@ -2,7 +2,11 @@
 // supabase/functions/_shared/catalog.ts (create-preorder-checkout et stripe-webhook les importent aussi).
 export {
   PREORDER_2027,
+  PREORDER_MAX_PRICE_CENTS,
+  PREORDER_MIN_PRICE_CENTS,
+  PREORDER_TIERS,
   PreorderValidationError,
+  preorderPriceSummary,
   isValidPreorderKg,
   preorderAmounts,
 } from "../../supabase/functions/_shared/catalog";

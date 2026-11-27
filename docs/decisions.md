@@ -10,11 +10,57 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
   (`reply_to: contact@morillesducanada.com`), jamais du Gmail personnel du fondateur. Raison : demande de Valérian ;
   13 emails des 23–27/11 (Alpes, grossistes, relances) étaient partis de son Gmail perso. Gmail reste l'outil de lecture.
 
+## 2026-11-27 — Précommande 2027 à la grille au kilo
+
+- Décision du fondateur : la précommande saison 2027 suit les mêmes tarifs que la vente directe, c'est-à-dire la grille
+  au kilo (350 €/kg dès 1 kg, 330 € dès 3 kg, 310 € dès 5 kg, 290 € dès 10 kg), au lieu de 300 €/kg fixe.
+  Raison : cohérence entre la vente directe et la précommande.
+- Inchangé : acompte de 50 % du montant à la commande, solde avant expédition, 1 à 15 kg par kilo entier, livraison
+  garantie en octobre 2027, acompte remboursé s'il est impossible de fournir.
+- Mise en œuvre : `_shared/catalog.ts` calcule le palier avec `_shared/proPricing.ts` (grille unique) ;
+  `create-preorder-checkout` crée une ligne d'acompte à prix calculé sur le produit Stripe `prod_VLJz63xzroGcDj`
+  (l'ancien prix fixe `price_1UKdLnEQBCcpAKNIOZmNqQ3A` à 150 € n'est plus utilisé).
+
+## 2026-11-26 — Échantillon payant, déduit dès 1 kg
+
+- Décision du fondateur : le pot de 30 g n'est plus offert. Il est vendu 20 € plus les frais de port. Pour une commande
+  d'au moins 1 kg, le prix de l'échantillon est déduit (geste commercial).
+- Mise en œuvre : bouton « Commander l'échantillon » sur /professionnels (edge function `create-sample-checkout`, société
+  et SIRET obligatoires, livraison en France). Après paiement, `stripe-webhook` enregistre la commande
+  (`order_type = 'pro_sample'`), crée un code Stripe à usage unique de 20 € (commande d'au moins 350 €, valable 365 jours)
+  et l'envoie par email. `create-pro-checkout` accepte les codes. Sur devis : déduire les 20 € de la facture.
+- La remise en main propre reste possible lors d'un passage (20 €, sans port). L'envoi postal, autrefois interdit à cause
+  du risque d'usurpation d'identité pour obtenir des échantillons gratuits, est ouvert puisque l'échantillon est payé.
+- Montant du port : 6,90 €, le tarif déjà facturé dans Stripe pour le pot de 30 g (vérifié le 2026-11-27 sur une session payée).
+- Lien de paiement Stripe créé le 2026-11-27 pour l'envoi direct : https://buy.stripe.com/14A4gzc3X7Oba0f3hmbQY06 (aucun ancien lien d'échantillon n'existait).
+- 2026-11-27 : deux moyens de paiement proposés partout, Stripe (simple et rapide) et virement sur facture (sans commission).
+
 ## 2026-11-26 — Fin de l'échantillon offert
 
 - Le pot de 30 g n'est plus offert : il est vendu 20 € + frais de port. Si le client commande ensuite 1 kg ou plus,
   les 20 € sont déduits de la commande (geste commercial). Raison : plus de passages en main propre, et l'envoi
   postal gratuit coûte sans garantir de vente. Détail : `docs/business/offre.md`. Site à mettre à jour après validation.
+
+## 2026-11-26 — Dégustation : plus de Chamonix, Maurienne en décembre
+
+- Le fondateur a quitté Chamonix ; il est en Maurienne en décembre, puis circule entre les stations des Alpes sans
+  dates fixes, et expédie depuis la Provence. Le site n'annonce plus « Chamonix à partir du 8 novembre ».
+- Nouveau calendrier (`TASTING_TOUR`) : « Maurienne : en décembre 2026 » ; « Stations des Alpes : cet hiver, sans dates
+  fixes : je vous préviens quand je passe près de chez vous ». Repris par la page pros, /zones-de-passage, les emails d'accusé de réception et llms.txt.
+- Les 10 kg de Mika sont confirmés : le stock affiché reste 23 kg.
+
+## 2026-11-26 — Stock réel affiché sur le site
+
+- Décision du fondateur : le site affiche le stock restant pour créer de l'urgence (« Plus que 23 kg disponibles
+  cette saison »), en kilos (vente aux professionnels uniquement). Le chiffre doit toujours être le stock réel :
+  une rareté inventée serait une pratique commerciale trompeuse.
+- Stock déclaré le 2026-11-26 : 23 kg (9 kg + 4 kg en France, plus 10 kg cédables par un partenaire). Détail par
+  propriétaire : `docs/interne/` (non versionné).
+- Mise en œuvre : table `stock_morilles` (lecture publique, correction dans /admin), décomptée par un trigger SQL à
+  chaque commande pro payée en ligne ; `create-pro-checkout` refuse une quantité supérieure au stock. Sous 25 kg :
+  « Plus que N kg disponibles cette saison » ; à 0 : « Épuisé », commande en ligne fermée, lien vers la précommande 2027.
+- La quantité maximale (commande en ligne et devis) suit le stock de référence `PRO_STOCK_KG` (23 kg) ; les ventes hors
+  site (virement, main propre, liens de paiement) se corrigent à la main dans /admin.
 
 ## 2026-11-26 — Prospection des Alpes à distance, fichier d'état, tâches revues
 
@@ -26,6 +72,15 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
   session qui apprend un fait (règle demandée par Valérian : « fais-en un automatisme »).
 - Tâches planifiées : démarrent en mode automatique (`permissions.defaultMode: auto` dans `~/.claude/settings.json`) ;
   « Nouveaux prospects » réécrite pour les Alpes.
+
+## 2026-11-21 — SEO : rester réservé aux professionnels, pas de Merchant Center
+
+- Décision du fondateur : le site reste réservé aux professionnels, même si la majorité des requêtes Google
+  qui l'affichent viennent de particuliers (« morille de feu », « morille prix », « acheter morilles »).
+- Conséquence : pas de compte Google Merchant Center ni d'onglet Shopping (public de particuliers). Le SEO vise
+  les requêtes pros et le clic sur les pages à fortes impressions (prix au kilo, réhydratation, guide).
+- Search Console au 2026-11-21 : fiches marchand sans erreur (1 avertissement `transitTime`, non renseigné faute
+  de délai de transport validé) ; « produits absents de Shopping » = suggestion d'ouvrir Merchant Center, pas une erreur.
 
 ## 2026-10-14 — Objectif : vendre le stock avant le 8 novembre
 

@@ -32,9 +32,9 @@ describe("URLs canoniques", () => {
 describe("site réservé aux professionnels", () => {
   it("n'a plus d'offre de détail : seulement l'offre au kilo et la précommande, pour les entreprises", () => {
     const pro = proOfferSchema() as { offers: Offer[]; description: string };
-    const pre = preorderSchema() as { offers: Offer; description: string };
+    const pre = preorderSchema() as { offers: Offer[]; description: string };
     pro.offers.forEach((o) => expect(o.eligibleCustomerType).toContain("Business"));
-    expect(pre.offers.eligibleCustomerType).toContain("Business");
+    pre.offers.forEach((o) => expect(o.eligibleCustomerType).toContain("Business"));
     expect(pro.description).toContain("réservée aux professionnels");
     expect(pre.description).toContain("Réservée aux professionnels");
     expect(JSON.stringify(organizationSchema())).toContain("réservée aux professionnels");
@@ -67,7 +67,7 @@ describe("JSON-LD offre pro au kilo", () => {
       [1, 2.5],
       [3, 4.5],
       [5, 9.5],
-      [10, 45],
+      [10, 23],
     ]);
     expect(offers.map((o) => Number(o.price))).toEqual([350, 330, 310, 290]);
   });
@@ -170,9 +170,12 @@ describe("page fondateur", () => {
     expect(FOUNDER_PATH).toBe("/valerian-vilane");
     const page = profilePageSchema({ path: FOUNDER_PATH, name: "x", description: "y", dateModified: "2026-10-07" }) as {
       "@type": string;
+      dateModified: string;
       mainEntity: { "@type": string; "@id": string; name: string };
     };
     expect(page["@type"]).toBe("ProfilePage");
+    // Date et heure avec fuseau, exigées par Google pour un ProfilePage (Search Console, 2026-10-11).
+    expect(page.dateModified).toBe("2026-10-07T12:00:00+00:00");
     expect(page.mainEntity).toMatchObject({ "@type": "Person", "@id": `${SITE_URL}/#valerian-vilane`, name: "Valérian Vilane" });
   });
 });

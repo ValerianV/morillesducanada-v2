@@ -10,17 +10,19 @@ import {
   PRO_SAMPLE_GRAMS,
   PRO_SHIPPING_BUSINESS_DAYS,
   PRO_STOCK_KG,
+  PRO_STOCK_DATE,
   PRO_TAX_MENTION,
   PRO_TIERS,
   formatEurosLocale,
   formatTierPrice,
 } from "@/lib/proPricing";
-import { PREORDER_2027 } from "@/lib/preorder";
+import { PREORDER_2027, preorderPriceSummary } from "@/lib/preorder";
 import { POT_PRICE_CENTS, POT_SIZES_G } from "@/lib/potAllocation";
 import { tastingTourLines } from "@/lib/tasting";
 import { ARTICLES, CONTENT_LINK_LABELS, type ArticleBlock } from "@/lib/seo/articles";
 import { fr } from "@/i18n/fr";
 import { absoluteUrl, CONTACT_EMAIL, FOUNDER_NAME, OFFER_LAST_REVIEWED, SITE_NAME, SITE_URL } from "@/lib/seo/site";
+import { PRO_SAMPLE_PRICE_CENTS, PRO_SAMPLE_SHIPPING_CENTS } from "@/lib/sample";
 
 const eur = (cents: number) => formatEurosLocale(cents);
 const grid = PRO_TIERS.map((t) => `${t.label.fr} = ${formatTierPrice(t)}`).join(" ; ");
@@ -56,14 +58,14 @@ const facts = (): string[] => [
   `- **Qui** : ${SITE_NAME}, micro-entreprise française (entrepreneur individuel) fondée par ${FOUNDER_NAME}, ancien cueilleur : trois saisons de cueillette de morilles de feu (2022, 2023 et 2024) en Colombie-Britannique et au Yukon.`,
   `- **Quoi** : morilles de feu sauvages du Canada, séchées, entières et équeutées (pied retiré), variétés sauvages mélangées (brune, blonde, grise), sans tri par variété.`,
   `- **Origine** : Canada (Colombie-Britannique et Yukon), forêts brûlées l'année précédente ; cueillette à la main au printemps ; séchage sur place par un réseau de cueilleurs.`,
-  `- **Stock** : environ ${PRO_STOCK_KG} kg, en France (septembre 2026).`,
+  `- **Stock** : ${PRO_STOCK_KG} kg disponibles pour la saison (${PRO_STOCK_DATE}).`,
   `- **Clients** : professionnels uniquement (restaurants, épiceries fines, traiteurs, distributeurs) ; SIRET demandé à la commande ; aucune vente aux particuliers.`,
   `- **Prix au kilo** (${PRO_TAX_MENTION.fr}) : ${grid}. Le prix du palier atteint s'applique à toute la quantité. De ${PRO_MIN_KG} à ${PRO_MAX_KG} kg, par pas de 500 g.`,
   `- **Conditionnement** : sachets sous vide de ${PRO_PACK_GRAMS} g (par exemple, 3 kg = 12 sachets). Option pots : pots en verre vides de ${POT_SIZES_G.join(", ")} g, sans étiquette, ${eur(POT_PRICE_CENTS)} net le pot, livrés à part (l'épicerie les remplit et les étiquette).`,
   `- **Livraison** : France uniquement, port inclus, expédition sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés, colis suivi.`,
   `- **Commande** : en ligne (carte, page Stripe sécurisée) ou sur devis (réponse sous ${PRO_QUOTE_REPLY_HOURS} h ouvrées, virement sur facture possible) : ${url("/professionnels")}`,
-  `- **Échantillon** : un pot en verre de ${PRO_SAMPLE_GRAMS} g offert, remis en main propre quand Valérian passe dans la zone du professionnel ; envoi possible au cas par cas, après échange téléphonique. Zones et dates : ${tastingTourLines("fr").join(" ; ")}.`,
-  `- **Précommande saison ${PREORDER_2027.season}** : professionnels uniquement, ${eur(PREORDER_2027.pricePerKgCents)}/kg, acompte de 50 %, de ${PREORDER_2027.minKg} à ${PREORDER_2027.maxKg} kg ; livraison garantie en ${PREORDER_2027.delivery.fr}, en France, port inclus ; acompte intégralement remboursé s'il est impossible de fournir : ${url("/precommande-2027")}`,
+  `- **Échantillon** : un pot en verre de ${PRO_SAMPLE_GRAMS} g à ${eur(PRO_SAMPLE_PRICE_CENTS)} plus ${eur(PRO_SAMPLE_SHIPPING_CENTS)} de port, commandé en ligne (expédié sous ${PRO_SHIPPING_BUSINESS_DAYS} jours ouvrés) ; son prix est déduit de la première commande d'au moins 1 kg (code à usage unique envoyé par email). Remise en main propre possible quand Valérian passe dans la zone (${eur(PRO_SAMPLE_PRICE_CENTS)}, sans port). Zones : ${tastingTourLines("fr").join(" ; ")}.`,
+  `- **Précommande saison ${PREORDER_2027.season}** : professionnels uniquement, même grille que la vente au kilo (${preorderPriceSummary("fr")}), acompte de 50 %, de ${PREORDER_2027.minKg} à ${PREORDER_2027.maxKg} kg ; livraison garantie en ${PREORDER_2027.delivery.fr}, en France, port inclus ; acompte intégralement remboursé s'il est impossible de fournir : ${url("/precommande-2027")}`,
   `- **Contact** : ${CONTACT_EMAIL} · ${PHONE} · ${FOUNDER_NAME}, interlocuteur unique. Éditeur : ${FOUNDER_NAME}, EI, SIRET 802 861 948 00023, Aubignan (Vaucluse), France.`,
 ];
 
@@ -81,7 +83,7 @@ export function buildLlmsTxt(): string {
     "## Offre et commande",
     "",
     `- [Tarifs, devis et commande en ligne](${url("/professionnels")}): grille au kilo, configurateur de commande, pots en option, demande de devis, dégustation en main propre, FAQ des professionnels`,
-    `- [Précommande saison ${PREORDER_2027.season}](${url("/precommande-2027")}): ${eur(PREORDER_2027.pricePerKgCents)}/kg, acompte de 50 %, livraison en ${PREORDER_2027.delivery.fr}`,
+    `- [Précommande saison ${PREORDER_2027.season}](${url("/precommande-2027")}): grille au kilo (${preorderPriceSummary("fr")}), acompte de 50 %, livraison en ${PREORDER_2027.delivery.fr}`,
     `- [Conditions générales de vente](${url("/cgv")}): conditions professionnelles`,
     `- [Livraison](${url("/livraison")}): France uniquement, port inclus`,
     "",
@@ -93,7 +95,7 @@ export function buildLlmsTxt(): string {
     "## Qui et où",
     "",
     `- [${CONTENT_LINK_LABELS["/valerian-vilane"]}](${url("/valerian-vilane")}): qui est ${FOUNDER_NAME}, ses trois saisons de cueillette (2022 à 2024) en Colombie-Britannique et au Yukon, pourquoi il vend aux professionnels, comment le joindre`,
-    `- [${CONTENT_LINK_LABELS["/zones-de-passage"]}](${url("/zones-de-passage")}): où et quand l'échantillon de ${PRO_SAMPLE_GRAMS} g est remis en main propre, sur rendez-vous (${tastingTourLines("fr").join(" ; ")})`,
+    `- [${CONTENT_LINK_LABELS["/zones-de-passage"]}](${url("/zones-de-passage")}): où l'échantillon de ${PRO_SAMPLE_GRAMS} g (${eur(PRO_SAMPLE_PRICE_CENTS)}, déduit dès 1 kg) est remis en main propre, sur rendez-vous (${tastingTourLines("fr").join(" ; ")})`,
     "",
     "## Produit",
     "",

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Download, Loader2, Phone } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import StockEditor from "@/components/admin/StockEditor";
 import { PRO_STOCK_KG, formatEurosLocale, formatKg } from "@/lib/proPricing";
 import { LEGACY_SAMPLE_KIND, PRO_LEAD_STATUSES, type ProLeadStatus } from "@/lib/proLead";
 import { exportCsv } from "@/lib/csv";
@@ -150,6 +151,7 @@ const ProLeadsTab = ({ refreshToken }: { refreshToken: number }) => {
 
   return (
     <div>
+      <StockEditor />
       {/* Compteur de stock */}
       <div className="grid md:grid-cols-3 gap-4 mb-6">
         <div className="md:col-span-2 border border-gold/20 rounded-sm p-5 bg-background/50">
