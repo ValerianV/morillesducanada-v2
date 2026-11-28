@@ -37,6 +37,7 @@ Pour la mission décrite par le directeur, recommande :
 | Développement courant bien spécifié, corrections d'un audit, rédaction d'emails | sonnet | Qualité suffisante, beaucoup moins cher |
 | Recherche web de prospects, relevés de prix, vérification de faits simples | sonnet | Volume élevé, raisonnement modéré |
 | Recherche mécanique (grep, liste de fichiers, renommages, format) | haiku | Tâche déterministe |
+| Tri d'emails automatiques, mise à jour du carnet à partir d'un rapport, extraction de champs | haiku | Claude Haiku 5.5 : 0,10 $ en entrée et 0,50 $ en sortie par million de tokens (40 fois moins cher qu'Opus 5.5) |
 | QA visuelle | sonnet, avec budget de captures | Les images sont le poste le plus coûteux |
 
 ## Règles d'économie à appliquer et à faire appliquer

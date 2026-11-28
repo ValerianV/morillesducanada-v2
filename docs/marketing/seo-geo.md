@@ -54,6 +54,11 @@ ChatGPT Search s'appuie sur l'index de Bing.
 
 ### 3. Fiche Google Business Profile (1 h + vérification)
 
+**État au 2026-10-08** : fiche créée (ID 02243562890381445534), catégorie « Fournisseur de produits alimentaires »,
+zone de service autour d'Avignon et de la Provence, adresse d'Aubignan masquée, site et lien WhatsApp renseignés.
+**Validation requise** : seule méthode proposée, une vidéo en une prise (adresse, stock et matériel, document à
+son nom), à tourner par Valérian à Aubignan. Ensuite : description, photos, `SAME_AS_URLS`.
+
 L'activité est à domicile : déclarer une **entreprise sans local client** (zone de service), adresse masquée.
 
 1. business.google.com : créer la fiche « Morilles du Canada ».

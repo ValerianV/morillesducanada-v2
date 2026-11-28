@@ -20,7 +20,10 @@ Contexte : `docs/commercial/strategie.md`, `docs/business/offre.md`.
 4. **Stock** : kg vendus cumulés et kg restants (stock de départ : voir `offre.md`).
 5. **Rapport au fondateur** : 10 lignes maximum. Chiffres clés, 3 actions prioritaires de la semaine,
    décisions à prendre.
-6. Consigner les nouveaux apprentissages (objections fréquentes, segments qui répondent)
-   dans `docs/commercial/strategie.md`.
+6. **Apprendre** (décision du 2026-10-10) : recalculer depuis le carnet le tableau de `docs/commercial/apprentissages.md`
+   (contactés, réponses, intéressés, refus, par variante de message, canal, type d'établissement, zone) ; lire les
+   motifs de refus ; faire le point sur les tests en cours (une variante gagne quand l'écart tient sur au moins
+   30 contacts). Écrire la date et la conclusion dans son journal, et proposer au fondateur, dans le rapport,
+   au plus deux changements de règle (cible, message, canal). Une règle ne change qu'après sa validation.
 
 Aucun email n'est envoyé sans validation explicite du fondateur.

@@ -3,7 +3,10 @@ name: prospect-b2b
 description: Préparer une vague de prospection B2B Morilles du Canada (restaurants de qualité, traiteurs haut de gamme, chefs à domicile) pour obtenir des rendez-vous — sélection des prospects, emails personnalisés, relances — sans jamais envoyer sans validation du fondateur.
 ---
 
-# /prospect-b2b [segment] [nombre] [contexte]
+# /prospect-b2b
+
+Avant de choisir les prospects et d'écrire : lire `docs/commercial/apprentissages.md` (ce qui marche, tests en cours)
+et appliquer la variante du test en cours à la moitié de la vague, l'autre moitié gardant la variante de référence. [segment] [nombre] [contexte]
 
 Exemples : `/prospect-b2b traiteurs 20 "fêtes de fin d'année"`, `/prospect-b2b chefs 10 "carte d'hiver"`.
 
@@ -31,8 +34,8 @@ Exemples : `/prospect-b2b traiteurs 20 "fêtes de fin d'année"`, `/prospect-b2b
    - prix seulement dans le premier email et sans tableau (« à partir de 290 €/kg selon la quantité, port inclus »),
      toujours avec « prix nets, TVA non applicable, art. 293 B du CGI » ;
    - aucun lien suivi : au plus `morillesducanada.com/professionnels`, en clair ;
-   - échantillon en main propre (pot de 30 g sec) si le prospect est dans une zone du calendrier
-     (`supabase/functions/_shared/tasting.ts`) ; hors zone, envoi postal seulement après un échange téléphonique ;
+   - échantillon : pot de 30 g vendu 20 € + port, déduit si le client commande ensuite 1 kg ou plus (depuis le
+     2026-11-26, voir `docs/etat-courant.md`) ; ne jamais le présenter comme offert ;
    - signature « Valérian » + téléphone ; porte de sortie humaine (« dites-le-moi, je ne vous relancerai pas »),
      jamais de ligne STOP ni de pied de page automatique.
 
@@ -42,9 +45,15 @@ Exemples : `/prospect-b2b traiteurs 20 "fêtes de fin d'année"`, `/prospect-b2b
    plus la liste à part des prospects qui ne sont joignables que par téléphone ou formulaire.
 5. **Validation** : présenter la vague au fondateur. **Aucun envoi sans son feu vert explicite.**
 6. **Après validation** : envoi via Resend depuis `Valérian <valerian@morillesducanada.com>` (sans en-tête List-Unsubscribe, envois étalés),
-   `reply_to: contact@morillesducanada.com`, 20 emails par jour au maximum, puis statut « RDV demandé » et texte envoyé
+   `reply_to: contact@morillesducanada.com`, jamais depuis le Gmail personnel ni un brouillon Gmail, 20 emails par jour au maximum, puis statut « RDV demandé » et texte envoyé
    écrits dans le carnet le jour même. WhatsApp : règles de `strategie.md`.
 
 ## Ton
 
 Vouvoiement, sobre, concret, sans superlatifs creux ni emojis. Un email se lit en 30 secondes.
+
+## Apprendre (dernière étape, décision du 2026-10-10)
+
+Comparer ce qui était attendu et ce qui s'est passé (erreurs, oublis, réponses, ce qui a pris du temps). S'il y a une
+leçon réutilisable, l'ajouter en une ligne datée au journal de `docs/commercial/apprentissages.md` (le créer s'il n'existe pas) et, si elle change
+une règle, la proposer à Valérian dans le rapport au lieu de l'appliquer.

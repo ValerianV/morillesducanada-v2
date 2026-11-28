@@ -15,7 +15,8 @@ Contexte : `docs/commercial/strategie.md` (ordre des canaux, règles WhatsApp), 
    - statut `visite` et `date_visite` + 3 jours ≤ aujourd'hui → SMS de suivi « avez-vous pu les essayer ? ».
    Ignorer `stop`, `perdu`, `client` et les fiches dont la note signale une fermeture en cours.
 2. Rédiger chaque message au ton validé : relance email = vraie réponse dans le fil (« Re: » + message d'origine cité,
-   repris de `email_texte`), sans lien suivi, sans précommande, sans formule STOP. WhatsApp : un message court, jamais
+   repris de `email_texte`), sans lien suivi, sans précommande, sans formule STOP. Envoi (après validation) : Resend depuis
+   `valerian@morillesducanada.com`, jamais le Gmail personnel ni un brouillon Gmail. WhatsApp : un message court, jamais
    le même jour qu'un email.
 3. Écrire la liste dans `docs/interne/relances/AAAA-MM-JJ.md` : pour chaque prospect, canal, destinataire, texte, et
    la liste des appels à passer (numéro, meilleur créneau 15 h – 17 h, accroche de la fiche).
@@ -23,3 +24,9 @@ Contexte : `docs/commercial/strategie.md` (ordre des canaux, règles WhatsApp), 
 
 Interdit : envoyer quoi que ce soit. L'envoi se fait seulement après le feu vert explicite de Valérian, par une tâche
 ponctuelle ou dans la conversation.
+
+## Apprendre (dernière étape, décision du 2026-10-10)
+
+Comparer ce qui était attendu et ce qui s'est passé (erreurs, oublis, réponses, ce qui a pris du temps). S'il y a une
+leçon réutilisable, l'ajouter en une ligne datée au journal de `docs/commercial/apprentissages.md` (le créer s'il n'existe pas) et, si elle change
+une règle, la proposer à Valérian dans le rapport au lieu de l'appliquer.

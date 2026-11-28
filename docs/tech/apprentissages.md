@@ -1,0 +1,4 @@
+# Apprentissages techniques
+
+- 2026-10-12 : le connecteur Gmail ne télécharge pas les pièces jointes ; les rapports DMARC (XML zippé) ne peuvent donc pas être analysés par /sante-technique. Proposition : lecture XML par un autre moyen (confiance : élevée).
+- 2026-11-22 : /sante-technique n'a pas d'accès Stripe ni de requête de logs edge fonctionnelle ; à outiller (confiance : élevée).

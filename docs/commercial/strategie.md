@@ -3,6 +3,8 @@
 Depuis le 2026-09-28, **le site est réservé aux professionnels** (SIRET demandé à la commande) :
 aucune vente aux particuliers. Voir `docs/business/offre.md`.
 
+**Situation actuelle (zone, stock, canaux, ton) : `docs/etat-courant.md`, prioritaire sur ce document.**
+
 ## Cibles (par priorité)
 
 | Segment | Qui | Pourquoi | Volume typique |
@@ -46,7 +48,7 @@ identifie clairement l'expéditeur et propose une désinscription simple.
 
 ## Offre à mettre en avant
 
-Stock disponible (argument fêtes) + remise en main propre d'un pot de 30 g (zones et dates du calendrier ; envoi possible au cas par cas après échange, jamais sur simple demande) + sachets sous vide de 250 g
+Stock disponible (argument fêtes) + pot de 30 g vendu 20 € + port, déduit d'une commande de 1 kg ou plus (depuis le 2026-11-26, voir `docs/business/offre.md`) + sachets sous vide de 250 g
 + devis sous 48 h ouvrées + précommande 2027 (réservée aux pros) dans les relances.
 Prix : voir `docs/business/offre.md`. Ne jamais citer le prix plancher.
 
@@ -55,10 +57,10 @@ Prix : voir `docs/business/offre.md`. Ne jamais citer le prix plancher.
 **On démarche pour obtenir un rendez-vous ; on ne visite jamais sans rendez-vous.** Le pot de 30 g est remis pendant
 le rendez-vous. Cibles : restaurants de qualité, traiteurs, chefs à domicile ; pas de fromagers ni d'épiceries.
 
-Ordre des canaux pour un prospect :
-1. **Email court** si une adresse professionnelle est publiée (modèle : `demande-rdv.md`, section 3).
-2. **WhatsApp** si un mobile est publié comme numéro de l'établissement : tout de suite s'il n'y a pas d'email,
-   sinon 4 jours après un email resté sans réponse (jamais le même jour).
+Ordre des canaux pour un prospect (décision du 2026-10-08 : WhatsApp en premier) :
+1. **WhatsApp** si un mobile est publié comme numéro de l'établissement (modèle : `demande-rdv.md`, section 2).
+2. **Email court** si une adresse professionnelle est publiée et qu'il n'y a pas de mobile (modèle : section 3),
+   ou 4 jours après un WhatsApp resté sans réponse (jamais le même jour).
 3. **Téléphone** (15 h – 17 h, par le fondateur) pour les numéros fixes et les priorités 1 sans réponse.
 4. **Instagram** en dernier recours.
 
@@ -66,6 +68,9 @@ Règles WhatsApp (décision du 2026-10-07) : envoi par WhatsApp Web dans le Chro
 publiés pour l'établissement, un seul message par prospect, jamais de relance WhatsApp sans réponse, 10 messages par jour
 au plus, chaque liste validée par le fondateur avant envoi. Le numéro personnel du fondateur est en jeu : un prospect
 qui signale le message peut faire bloquer le compte.
+
+Créneaux de rendez-vous à proposer : jamais le mardi ni le vendredi entre 8 h et 16 h (Valérian travaille en
+paysagisme). Proposer deux créneaux précis, en tenant compte des jours de fermeture du prospect.
 
 ## Suivi : le carnet de démarchage est la seule source de vérité
 

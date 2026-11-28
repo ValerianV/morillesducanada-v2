@@ -40,8 +40,10 @@ Objet : Un pot de morilles pour [prénom du chef ou nom du restaurant]
 >
 > Si ce n'est pas pour vous, dites-le-moi simplement, je ne vous relancerai pas.
 >
-> Valérian
+> Valérian Vilane
+> Fondateur, Morilles du Canada
 > 07 82 16 27 08
+> www.morillesducanada.com
 
 ## 4. Instagram (message privé, si c'est le canal le plus actif de l'établissement)
 

@@ -31,3 +31,9 @@ description: Audit mensuel du site morillesducanada.com — bugs, SEO, performan
 8. **Rapport** dans `docs/audits/AAAA-MM-revue-site.md` : problèmes classés P0/P1/P2, avec fichier:ligne
    et correctif proposé. Faire les corrections sur une branche `fix/revue-AAAA-MM`, sans déployer.
    Mettre à jour le backlog de `docs/amelioration-continue.md`.
+
+## Apprendre (dernière étape, décision du 2026-10-10)
+
+Comparer ce qui était attendu et ce qui s'est passé (erreurs, oublis, réponses, ce qui a pris du temps). S'il y a une
+leçon réutilisable, l'ajouter en une ligne datée au journal de `docs/marketing/apprentissages.md` (le créer s'il n'existe pas) et, si elle change
+une règle, la proposer à Valérian dans le rapport au lieu de l'appliquer.

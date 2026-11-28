@@ -123,7 +123,7 @@ Pots 12/30/45 g et sous vide 100 g à 1 kg : plus vendus. Les prix Stripe corres
 
 Informations internes (stock par propriétaire, coûts d'achat, marges, plancher) :
 `docs/interne/confidentiel.md`, **non versionné** (voir `.gitignore`). Demander au fondateur s'il est absent.
-Stock de départ communicable : ≈ 45 kg en France (septembre 2026).
+Stock de départ communicable : ≈ 45 kg en France (septembre 2026). Stock du moment : `docs/etat-courant.md`.
 
 **Stock affiché sur le site (décision du 2026-11-26)** : 23 kg disponibles cette saison. Le site affiche le stock réel
 (« Plus que N kg disponibles cette saison » sous 25 kg, « Épuisé » à 0). Source en direct : table Supabase

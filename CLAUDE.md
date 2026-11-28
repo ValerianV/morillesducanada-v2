@@ -1,6 +1,8 @@
 # CLAUDE.md — Morilles du Canada
 
 Lu automatiquement par chaque agent. Court par design : le détail est dans `docs/`.
+**État du moment** (stock, zone, canaux, ton, envois en cours) : `docs/etat-courant.md`, à lire en premier et à mettre à jour
+par toute session qui apprend un fait nouveau.
 Toute décision nouvelle du fondateur → `docs/decisions.md` d'abord, puis le doc concerné.
 
 ## Mission
@@ -10,7 +12,7 @@ Vendre des morilles de feu **sauvages** du Canada, séchées, **aux professionne
 à la commande), via https://www.morillesducanada.com. Aucune vente aux particuliers depuis le
 2026-09-28 (pas de médiateur de la consommation). Deux objectifs :
 
-1. Écouler le stock actuel (≈ 45 kg séchés, en France).
+1. Écouler le stock actuel (23 kg séchés au 2026-11-26, en France).
 2. Vendre la saison suivante en **précommande** (saison 2027, livraison octobre 2027).
 
 Fondateur : Valérian Vilane (auto-entrepreneur). Il valide prix, promesses commerciales,
@@ -24,7 +26,7 @@ envois de prospection et déploiements en production.
 | Mentions légales, CGV | `docs/business/offre.md` | `src/lib/legal.ts`, `src/pages/CGV.tsx`, `src/pages/MentionsLegales.tsx` |
 | Récit de marque, faits autorisés / interdits | `docs/business/recit.md` | textes i18n `src/i18n/*.ts` |
 | Marché et positionnement prix | `docs/business/marche.md` | — |
-| Cibles, prospection, suivi commercial | `docs/commercial/strategie.md`, `docs/commercial/demande-rdv.md` | carnet de démarchage (https://claude.ai/artifact/R9M8EhDc4rVHk6GQ5UQFiT) ; leads du site : table `pro_leads` |
+| Cibles, prospection, suivi commercial | `docs/commercial/strategie.md`, `docs/commercial/demande-rdv.md`, `docs/commercial/argumentaire.md` | carnet de démarchage (https://claude.ai/artifact/R9M8EhDc4rVHk6GQ5UQFiT) ; leads du site : table `pro_leads` |
 | SEO et GEO (robots, llms.txt, pages de contenu, IndexNow, plan hors site) | `docs/marketing/seo-geo.md` | `src/lib/seo/` (articles, schema, robots, llms), `scripts/indexnow.mjs` |
 | Calendrier des passages (échantillon en main propre) | `docs/business/offre.md` | `supabase/functions/_shared/tasting.ts` |
 | Architecture technique | `docs/tech/architecture.md` | — |
@@ -45,6 +47,8 @@ envois de prospection et déploiements en production.
 - **Expédition : sous 5 jours ouvrés.** Jamais « 48 h » (seule la réponse aux devis est « sous 48 h ouvrées »).
 - **Professionnels uniquement** : pas de panier, pas de prix de détail, pas de médiateur ni de rétractation dans les CGV.
 - **Aucun email de prospection envoyé sans feu vert explicite du fondateur, vague par vague.**
+- **Prospection et relances : toujours depuis `valerian@morillesducanada.com` via Resend**, jamais depuis le Gmail
+  personnel du fondateur ni par un brouillon Gmail (décision du 2026-11-27). Gmail sert seulement à lire les réponses.
 - **Production** (déploiement Supabase/Vercel, Stripe live, DNS) : suivre `docs/tech/deploiement.md`
   et obtenir la validation du fondateur.
 - Prix côté serveur uniquement : le client n'envoie jamais de montant. La grille n'existe qu'une
@@ -108,6 +112,10 @@ et après une session. Règles, les plus rentables en premier :
 
 1. **Modèle adapté** : `opus` pour l'architecture, la sécurité, les données et les arbitrages ; `sonnet` pour le
    développement bien spécifié, la rédaction, la recherche web et la QA ; `haiku` pour les tâches mécaniques.
+   Versions au 2026-10-10 : `opus` = Claude Opus 5.5, `sonnet` = Claude Sonnet 5.5, `haiku` = Claude Haiku 5.5
+   (les alias suivent la dernière version). Claude Fable 5.1 (plus cher qu'Opus) seulement pour un arbitrage
+   exceptionnellement difficile. Les tâches planifiées tournent avec le modèle de l'app : leur travail mécanique
+   (tri d'emails, mise à jour du carnet) est confié à un sous-agent `haiku`.
 2. **Contexte par référence** : les briefs pointent vers ce fichier et `docs/`, ils ne recopient pas l'offre ni l'historique.
 3. **Captures d'écran** : uniquement pour une question visuelle, en viewport, à échelle réduite, une par problème.
    Pour un texte, lire le HTML (`curl | grep`, `get_page_text`).
@@ -119,7 +127,16 @@ et après une session. Règles, les plus rentables en premier :
 
 Ces règles ne touchent jamais aux garde-fous qualité : tests, build, vérification des faits, validations du fondateur.
 
+## Apprendre de son travail
+
+Chaque skill récurrent finit par une étape « Apprendre » (règle globale du 2026-10-10). Prospection :
+`docs/commercial/apprentissages.md`, mis à jour chaque lundi par `/suivi-commercial` et lu par `/prospect-b2b`.
+
 ## En fin de session significative
 
 1. Mettre à jour `docs/decisions.md` (décisions prises, avec date) et `docs/amelioration-continue.md`.
 2. Laisser la branche dans un état propre (build + tests verts) et dire clairement ce qui reste à faire.
+
+## Second cerveau
+
+En fin de session significative, déposer une note dans `~/second-cerveau/raw/notes/` (skill `capitaliser`). Contexte transversal : `~/second-cerveau/index.md`.

@@ -4,6 +4,12 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 à une nouvelle entrée ; on ne réécrit pas l'historique. Aucune donnée confidentielle ici
 (coûts, plancher, fournisseurs) : elles vont dans `docs/interne/` (non versionné).
 
+## 2026-11-27 — Prospection uniquement depuis l'adresse pro
+
+- Tout email de prospection, relance ou réponse à un prospect part de `valerian@morillesducanada.com` via Resend
+  (`reply_to: contact@morillesducanada.com`), jamais du Gmail personnel du fondateur. Raison : demande de Valérian ;
+  13 emails des 23–27/11 (Alpes, grossistes, relances) étaient partis de son Gmail perso. Gmail reste l'outil de lecture.
+
 ## 2026-11-27 — Précommande 2027 à la grille au kilo
 
 - Décision du fondateur : la précommande saison 2027 suit les mêmes tarifs que la vente directe, c'est-à-dire la grille
@@ -29,13 +35,19 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 - Lien de paiement Stripe créé le 2026-11-27 pour l'envoi direct : https://buy.stripe.com/14A4gzc3X7Oba0f3hmbQY06 (aucun ancien lien d'échantillon n'existait).
 - 2026-11-27 : deux moyens de paiement proposés partout, Stripe (simple et rapide) et virement sur facture (sans commission).
 
+## 2026-11-26 — Fin de l'échantillon offert
+
+- Le pot de 30 g n'est plus offert : il est vendu 20 € + frais de port. Si le client commande ensuite 1 kg ou plus,
+  les 20 € sont déduits de la commande (geste commercial). Raison : plus de passages en main propre, et l'envoi
+  postal gratuit coûte sans garantir de vente. Détail : `docs/business/offre.md`. Site à mettre à jour après validation.
+
 ## 2026-11-26 — Dégustation : plus de Chamonix, Maurienne en décembre
 
 - Le fondateur a quitté Chamonix ; il est en Maurienne en décembre, puis circule entre les stations des Alpes sans
   dates fixes, et expédie depuis la Provence. Le site n'annonce plus « Chamonix à partir du 8 novembre ».
 - Nouveau calendrier (`TASTING_TOUR`) : « Maurienne : en décembre 2026 » ; « Stations des Alpes : cet hiver, sans dates
   fixes : je vous préviens quand je passe près de chez vous ». Repris par la page pros, /zones-de-passage, les emails d'accusé de réception et llms.txt.
-- Les 10 kg de Mika sont confirmés : le stock affiché reste 23 kg.
+- Les 10 kg du partenaire sont confirmés : le stock affiché reste 23 kg.
 
 ## 2026-11-26 — Stock réel affiché sur le site
 
@@ -50,6 +62,17 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 - La quantité maximale (commande en ligne et devis) suit le stock de référence `PRO_STOCK_KG` (23 kg) ; les ventes hors
   site (virement, main propre, liens de paiement) se corrigent à la main dans /admin.
 
+## 2026-11-26 — Prospection des Alpes à distance, fichier d'état, tâches revues
+
+- Stock communicable : 23 kg (détail par propriétaire dans `docs/interne/confidentiel.md`). Jumbos jamais vendus à part.
+- Valérian est dans les Alpes (Maurienne en décembre) : prospection de toutes les Alpes françaises, un secteur par semaine,
+  par écrit d'abord, appel seulement après une réponse, aucune visite ni échantillon par la poste.
+- Ton : chaleureux et personnel, vouvoiement sauf si le client tutoie en premier.
+- Nouveau fichier `docs/etat-courant.md` : état du moment, lu en premier par les tâches planifiées, mis à jour par toute
+  session qui apprend un fait (règle demandée par Valérian : « fais-en un automatisme »).
+- Tâches planifiées : démarrent en mode automatique (`permissions.defaultMode: auto` dans `~/.claude/settings.json`) ;
+  « Nouveaux prospects » réécrite pour les Alpes.
+
 ## 2026-11-21 — SEO : rester réservé aux professionnels, pas de Merchant Center
 
 - Décision du fondateur : le site reste réservé aux professionnels, même si la majorité des requêtes Google
@@ -58,6 +81,61 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
   les requêtes pros et le clic sur les pages à fortes impressions (prix au kilo, réhydratation, guide).
 - Search Console au 2026-11-21 : fiches marchand sans erreur (1 avertissement `transitTime`, non renseigné faute
   de délai de transport validé) ; « produits absents de Shopping » = suggestion d'ouvrir Merchant Center, pas une erreur.
+
+## 2026-10-14 — Objectif : vendre le stock avant le 8 novembre
+
+- Valérian entre en formation de moniteur de ski le 8 novembre : après cette date, plus de temps pour la vente.
+  La prospection passe en mode volume et à distance.
+- Vente en gros : on demande leurs prix à 9 distributeurs et grossistes (`docs/interne/prospection/gros-2026-10.md`),
+  pour un lot de 10 à 45 kg. Un grossiste écarté le 08/10 redevient une cible. Aucun prix donné en premier.
+- Pas d'échantillon par la poste (environ 8 € d'envoi plus le pot et le produit, pour une vente non garantie).
+- Pas d'épiceries fines : pas d'étiquette de vente au détail, seulement des sachets sous vide et des pots vides.
+- Le frère de Valérian n'est pas disponible pour les visites.
+- Jusqu'au 7 novembre : prospection autour d'Avignon (visites possibles). Si tout n'est pas vendu le 8 novembre :
+  démarchage de toute la France par email, avec lien d'achat (préparatifs des fêtes de fin d'année), sans visite ni échantillon.
+
+## 2026-10-12 — Mise en ligne : date du ProfilePage, relances WhatsApp
+
+- Search Console (11/10) : « valeur de date et heure incorrecte pour dateModified » sur `/valerian-vilane` (non critique).
+  Corrigé (`toIsoDateTime` dans `src/lib/seo/schema.ts`, commit 0e53720), mis en ligne le 12/10 avec l'accord du fondateur ;
+  validation demandée dans la Search Console. Le premier aperçu Vercel a échoué sur « Git information retrieval failed »
+  (aucun build) : un redéploiement a suffi.
+- La fusion dans `main` est poussée par le fondateur lui-même (la session n'a pas le droit de déclencher la production).
+- 6 relances WhatsApp (J+5 après l'email du 07/10) envoyées aux traiteurs et chefs à domicile avec mobile publié.
+- La Chassagnette : refus, clôture envoyée par la tâche du matin.
+
+## 2026-10-10 — Boîte contact@, réponses de clôture, modèles
+
+- Une seule copie à contact@ par série d'envois (copie cachée du premier email), plus les réponses des prospects.
+- Emails automatiques (DMARC, no-reply) : relevés par la tâche du matin dans `docs/interne/sante/dmarc.md`, puis
+  mis à la corbeille Gmail. Depuis le 10/10, le DMARC envoie ses rapports à dmarc@morillesducanada.com (redirection
+  IONOS vers Gmail seulement, sans boîte) : ils n'arrivent plus dans contact@.
+- Refus explicite par email : la tâche du matin envoie une réponse de clôture polie (exception à « les tâches
+  n'envoient rien ») et ferme la fiche avec le motif. Jamais de réponse à un « stop ».
+- Modèles : Opus 5.5, Sonnet 5.5, Haiku 5.5 (alias `opus`, `sonnet`, `haiku`) ; travail mécanique des tâches confié à `haiku`.
+
+## 2026-10-08 — WhatsApp en premier, tri des relances, rendez-vous
+
+- WhatsApp devient le premier canal quand un mobile est publié pour l'établissement ; l'email vient ensuite (ou seul
+  s'il n'y a pas de mobile). Premier constat (07/10) : 2 réponses sur 3 WhatsApp, 3 sur 36 emails ; mais les 2
+  intéressés viennent de l'email. Bilan comparé (rendez-vous pour 10 contacts) vers le 22/10.
+- Relances J+12 : les épiceries, fromagers, caves et charcuteries (12 fiches) passent en « perdu », hors cible.
+  Seuls les restaurants, traiteurs et chefs sont relancés.
+- Disponibilités de Valérian pour les rendez-vous : pas le mardi ni le vendredi (8 h – 16 h, paysagisme).
+- Réponse aux tarifs : grille + coût par couvert (5 à 8 g par personne, chiffres du site) + lien vers la page prix.
+
+## 2026-10-07 — Signature des emails
+
+- Décision du fondateur : les emails se terminent par « Valérian Vilane / Fondateur, Morilles du Canada /
+  07 82 16 27 08 / www.morillesducanada.com ». Appliquée aux 23 emails de la vague 4 encore programmés le 07/10
+  (annulés et reprogrammés aux mêmes heures) ; les 13 déjà partis gardent l'ancienne signature.
+
+## 2026-10-07 — Suppression du projet Vercel en double
+
+- Emails « Production deployment failed for morillesducanada-main » : un ancien projet Vercel, relié au même dépôt,
+  sans variable Supabase ni domaine public, échouait sur la protection du prérendu (aucune recette récupérée).
+- Décision du fondateur : projet `morillesducanada-main` supprimé. Seul `morillesducanada-v2` construit le site.
+  La protection du prérendu reste en place.
 
 ## 2026-10-07 — Fonctionnement en skills planifiés (tous les projets)
 
