@@ -6,7 +6,7 @@ dans la même session, en remplaçant la ligne périmée et en datant le changem
 dans `docs/decisions.md`. Chiffres confidentiels (stock par propriétaire, prix d'achat, plancher) :
 `docs/interne/confidentiel.md`, jamais ici.
 
-Dernière mise à jour : 2026-11-27 (matin).
+Dernière mise à jour : 2026-11-28 (matin).
 
 ## Où écrire quoi
 
@@ -27,7 +27,7 @@ Dernière mise à jour : 2026-11-27 (matin).
 - Valérian est en formation de moniteur de ski et se déplace entre stations des Alpes : **Maurienne en décembre 2026**.
   Aucune visite, aucun rendez-vous sur place.
 - **Échantillon** (2026-11-26) : plus aucun pot offert. Le pot de 30 g est vendu 20 € + frais de port ; si le client
-  commande ensuite 1 kg ou plus, les 20 € sont déduits de la commande. Montant du port de l'échantillon : non fixé, ne pas l'annoncer.
+  commande ensuite 1 kg ou plus, les 20 € sont déduits de la commande. Port de l'échantillon : 6,90 €.
 - Expédition depuis la Provence (Aubignan), sous 5 jours ouvrés.
 
 ## Prospection
@@ -40,14 +40,17 @@ Dernière mise à jour : 2026-11-27 (matin).
 
 ## En cours
 
-- 2026-11-26 : 7 restaurants des Alpes écrits par email (Hameau Albert 1er, Auberge du Bois Prin, Le Saint-Nicolas,
-  Le Chabichou, L'Atelier, La Chamade, L'Auberge du Choucas) : **relance le 2026-12-01** (champ `relance_j5` du carnet).
-- 2026-11-26 : Barbara (Gaudineto) a répondu, Valérian lui a répondu ; Sven (Simple Simon) relancé sur WhatsApp.
+Noms des prospects et détail : carnet de démarchage et `docs/interne/etat-courant-detail.md` (non versionné).
+
+- 2026-11-26 : 7 restaurants des Alpes écrits par email (voir le carnet) : **relance le 2026-12-01** (champ `relance_j5` du carnet).
+- 2026-11-26 : une restauratrice d'Avignon a répondu, Valérian lui a répondu ; un client d'Avignon relancé sur WhatsApp.
 - 2026-11-21 : 9 grossistes écrits pour le lot ; relances le 26/11 et routine cloud de contrôle le 28/11.
-- 2026-11-27 : aucune réponse humaine aux 7 emails des Alpes ; Auberge du Bois Prin fermée jusqu'au 04/12 (réponse automatique). Maison Masse silencieuse depuis le 22/11 (brouillon dans le courrier du 27/11, à valider).
-- 2026-11-27 : 5 relances par email (Le Delas, Thiercelin, Le Goût du Sud, Maison Masse, Le Goût du Jour) et 1 WhatsApp (Sourcé / Yume) envoyés vers 18 h après validation de Valérian ; relances J+12 des 3 grossistes sans réponse le 03/12.
-- 2026-11-27 : Prospection : toujours depuis valerian@morillesducanada.com via Resend, jamais le Gmail perso. Échantillon : pot 30 g à 20 € + 6,90 € de port, déduit dès 1 kg.
+- 2026-11-27 : aucune réponse humaine aux 7 emails des Alpes ; un restaurant fermé jusqu'au 04/12 (réponse automatique). Un grossiste silencieux depuis le 22/11 (brouillon dans le courrier du 27/11, à valider).
+- 2026-11-27 : 5 relances par email et 1 WhatsApp envoyés vers 18 h après validation de Valérian ; relances J+12 des 3 grossistes sans réponse le 03/12.
+- 2026-11-27 : Prospection : toujours depuis valerian@morillesducanada.com via Resend, jamais l'adresse Gmail personnelle. Échantillon : pot 30 g à 20 € + 6,90 € de port, déduit dès 1 kg.
 - 2026-11-27 : Précommande 2027 : mêmes prix que la vente directe. 350 €/kg dès 1 kg, 330 € dès 3 kg, 310 € dès 5 kg, 290 € dès 10 kg. Acompte de 50 %.
 - 2026-11-27 : Le site parle toujours au « je ».
 - 2026-11-27 : Positionnement : du premium pour des passionnés de cuisine et de champignons.
 - 2026-11-27 : Toujours proposer deux moyens de paiement : Stripe et virement.
+- 2026-11-27 : 5 emails de prospection envoyés via Resend depuis valerian@morillesducanada.com après validation de Valérian (19 h 02–19 h 40), à 5 prospects des Alpes (Megève, Courchevel, Morzine, Alpe d'Huez). Relance J+5 le 2026-12-02. Carnet à jour (vérifié le 28/11).
+- 2026-11-28 : 1 des 5 prospects du 27/11 (Megève) en rebond (domaine inexistant), pas de relance par email ; les 4 autres envois du 27/11 sont distribués. Aucune nouvelle réponse humaine, aucun lead du site.

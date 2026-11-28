@@ -47,7 +47,7 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
   dates fixes, et expédie depuis la Provence. Le site n'annonce plus « Chamonix à partir du 8 novembre ».
 - Nouveau calendrier (`TASTING_TOUR`) : « Maurienne : en décembre 2026 » ; « Stations des Alpes : cet hiver, sans dates
   fixes : je vous préviens quand je passe près de chez vous ». Repris par la page pros, /zones-de-passage, les emails d'accusé de réception et llms.txt.
-- Les 10 kg de Mika sont confirmés : le stock affiché reste 23 kg.
+- Les 10 kg du partenaire sont confirmés : le stock affiché reste 23 kg.
 
 ## 2026-11-26 — Stock réel affiché sur le site
 
@@ -87,7 +87,7 @@ Le plus récent en haut. Chaque entrée : date, décision, raison. Une décision
 - Valérian entre en formation de moniteur de ski le 8 novembre : après cette date, plus de temps pour la vente.
   La prospection passe en mode volume et à distance.
 - Vente en gros : on demande leurs prix à 9 distributeurs et grossistes (`docs/interne/prospection/gros-2026-10.md`),
-  pour un lot de 10 à 45 kg. Maison Plantin, écartée le 08/10, redevient une cible. Aucun prix donné en premier.
+  pour un lot de 10 à 45 kg. Un grossiste écarté le 08/10 redevient une cible. Aucun prix donné en premier.
 - Pas d'échantillon par la poste (environ 8 € d'envoi plus le pot et le produit, pour une vente non garantie).
 - Pas d'épiceries fines : pas d'étiquette de vente au détail, seulement des sachets sous vide et des pots vides.
 - Le frère de Valérian n'est pas disponible pour les visites.
